@@ -119,50 +119,49 @@
 
 
 <div class="w3-hide-small w3-hide-large">
- <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
 
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
     
-  <!-- <meta name="viewport" content="width=500px"> -->
+   <meta name="viewport" content="width=768">
   
       <meta name="format-detection" content="telephone=no"/>
 
 
+<video autoplay muted id="myVideo">
+  <source src="plsworkvid.mp4" type="video/mp4">
+</video>
     
-  <!--   <iframe muted id="myVideo" src="https://drive.google.com/file/d/1x756KOpdSc0Q5OKm9D6zmCtvEmBeD9cY/preview" allow="autoplay"></iframe>
--->
+      
+
     
         
-<style>
-body{position:relative}
+        <style>
+            body{position:relative}
+		#myVideo {
+  position: fixed;
+  width: 99%; 
+left: 50%;
+top: 50%;
+    transform: translate(-50%, -50%);
+}
 
-	#myVideo {
-  position: absolute;
-  right: 0;
-  top: 6%;
-  width: 100%; 
-  height: auto;
-}  
+        </style>
 
- </style>
+
         
         <link href="/static/js/front/app.89f4df82.css" rel="stylesheet">
     
 </head>
 
-	
-<video autoplay muted id="myVideo">
-	<source src="plsworkvid.mp4" type="video/mp4">
-	Your browser does not support HTML5 video.
-</video>
+
 
 	
 <body class="isNotDesktop isNotMobile isTablet ">
 
 
-<a class="myname" style="position:absolute; font-size: 120px;  line-height: 80%;   left: 50%;
-  transform: translate(-50%, -50%);  color: #000000; font-family: Kommissar; top: 15%">ZACHARY<br>STEPHENS</a>
+<a class="myname" style="font-size: 120px;  line-height: 80%; text-align: center ;  color: #000000; font-family: Kommissar; Margin-top: 2%">ZACHARY<br>STEPHENS</a>
 
         
 
@@ -253,7 +252,7 @@ body{position:relative}
 
 
 	
-	a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, embed, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, output, p, pre, q, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var {
+	a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, embed, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, output, p, pre, q, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video {
     margin: 0;
     padding: 0;
     border: 0;
@@ -3021,13 +3020,29 @@ body.isDesktop .InfoPublicWorksMapProjectLink:hover, body.isNotDesktop .InfoPubl
     padding-bottom:5px
 }
 
+.NewsItemContent .NewsItemVideo {
+    padding-bottom: 10px;
+    font-size:0
+}
 
+.isMobile .NewsItemContent .NewsItemVideo {
+    padding-bottom:5px
+}
 
+.NewsItemContent .NewsItemVideoWrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1440px;
+    height:0
+}
 
-
-
-
-	
+.NewsItemContent .NewsItemVideoWrapper iframe {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height:100%
+}
 
 .NewsItemNext {
     position: relative;
@@ -4597,7 +4612,28 @@ body.isDesktop .NewsSection .NewsListItem:hover .NewsListItemImage, body.isNotDe
     background-position:50% 50%
 }
 
+.ProjectItem .ProjectItemVideo {
+    padding: 5px 5px 0;
+    font-size:0
+}
 
+.ProjectItem .ProjectItemVideo.LastItem {
+    padding:5px
+}
+
+.ProjectItem .ProjectItemVideoWrapper {
+    position: relative;
+    width: 100%;
+    height:0
+}
+
+.ProjectItem .ProjectItemVideoWrapper iframe {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height:100%
+}
 
 .ProjectItemNext {
     position: relative;
