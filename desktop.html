@@ -163,7 +163,13 @@ top: 50%;
 <body class="isNotDesktop isNotMobile isTablet ">
 
 
-<a class="myname" style="font-size: 150px; padding: 30px; background-color:rgba(255, 255, 255, 0.7); position:absolute; line-height: 80%; left: 50%;  transform: translate(-50%) ;  color: #000000; font-family: Kommissar; Margin-top: 2%">ZACHARY<br>STEPHENS</a>
+<a class="myname" style="font-size: 150px; border: 5px solid transparent; /* Make the border initially transparent */
+  border-image: linear-gradient(
+    rgba(255, 255, 255, 0), 
+    rgba(255, 255, 255, 0.5), /* 50% opacity */
+    rgba(255, 255, 255, 0.8) /* Fully opaque */
+  ) 1; 
+  border-radius: 5px; /* Rounded corners */padding: 40px; background-color:rgba(255, 255, 255, 0.7); position:absolute; line-height: 80%; left: 50%;  transform: translate(-50%) ;  color: #000000; font-family: Kommissar; Margin-top: 2%">ZACHARY<br>STEPHENS</a>
 
         
 
