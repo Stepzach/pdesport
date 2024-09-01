@@ -163,13 +163,19 @@ top: 50%;
 <body class="isNotDesktop isNotMobile isTablet ">
 
 
-<a class="myname" style="font-size: 150px; background-color:rgba(255, 255, 255, 0.7); border: 5px solid transparent; /* Make the border initially transparent */
-  border-image: linear-gradient(
-    rgba(255, 255, 255, 0), 
-    rgba(255, 255, 255, 0.5), /* 50% opacity */
-    rgba(255, 255, 255, 0.8) /* Fully opaque */
-  ) 1; 
-  border-radius: 5px; /* Rounded corners */padding: 40px; position:absolute; line-height: 80%; left: 50%;  transform: translate(-50%) ;  color: #000000; font-family: Kommissar; Margin-top: 2%">ZACHARY<br>STEPHENS</a>
+<a class="myname" 
+	
+	style="
+	 display: inline-block; /* Fit the oval to the content size */
+       background: radial-gradient(
+        ellipse at center, /* Oval shape gradient */
+        rgba(255, 255, 255, 0.2), /* Less opaque (20%) at the edges */
+        rgba(255, 255, 255, 0.8) /* More opaque (80%) towards the center */
+      );
+      padding: 30px 50px; /* Padding to create space inside the oval */
+      border-radius: 50% / 30%; /* Oval shape */
+	font-size: 150px;
+	padding: 40px; position:absolute; line-height: 80%; left: 50%;  transform: translate(-50%) ;  color: #000000; font-family: Kommissar; Margin-top: 2%">ZACHARY<br>STEPHENS</a>
 
         
 
