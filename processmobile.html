@@ -32,6 +32,62 @@
 
 <a class="myname" href="/pdesport/mobile.html" style=" z-index: 1; font-size: 40px; position:absolute; line-height: 80%; margin-left: 8%; margin-top: 5%;  color: #000000; font-family: Kommissar;">ZACHARY<br>STEPHENS</a>
 
+
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
+
+<style>
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+	</style>
+
+		<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="#">About</a>
+  <a href="#">Services</a>
+  <a href="#">Clients</a>
+  <a href="#">Contact</a>
+</div>
 		
 		<div class="Content">
     
@@ -42,7 +98,7 @@
 
             
             <div class="ProjectsQuickJump">
-                <div class="ProjectsQuickJumpPoints"><div class="p1"></div><div class="p2"></div><div class="p3"></div></div>
+                <div class="ProjectsQuickJumpPoints" style="onclick="openNav()"><div class="p1"></div><div class="p2"></div><div class="p3"></div></div>
                 <div class="ProjectsQuickJumpPanel">
                     <div class="ProjectsQuickJumpPanelClose"><div class="l1"></div><div class="l2"></div></div>
                     <div class="ProjectsQuickJumpPanelScroll">
