@@ -17,7 +17,22 @@
     
 
     
-      
+    <div id="msg" style="font-size:largest;">
+ 	      <div class="ImageLoader">
+                                          <div class="ImageLoaderWhiteCircle"></div>
+                                          <div class="ImageLoaderBlackCircle"></div>
+                                  </div>
+ </div>
+
+
+ <script type="text/javascript">
+ setTimeout(function() {
+     document.getElementById('everything').style.display = 'block';
+     document.getElementById('msg').style.display = 'none';
+ }, 1000); // 3000 milliseconds = 3 seconds
+ </script>
+
+ <div id="everything" style="display:none;">  
 
     
         
@@ -270,7 +285,7 @@
         $('html').addClass('noPointerEvents');
     }
 </script>
-
+	</div<
 </body>
 </html>
 
