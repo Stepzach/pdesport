@@ -28,11 +28,10 @@
 
 
 <script type="text/javascript">
-$(document).ready(function() {
-    $('#everything').show();
-    $('#msg').hide();
-	 }, 3000);
-});
+setTimeout(function() {
+    document.getElementById('everything').style.display = 'block';
+    document.getElementById('msg').style.display = 'none';
+}, 3000); // 3000 milliseconds = 3 seconds
 </script>
         
 <div id="everything" style="display:none;">
