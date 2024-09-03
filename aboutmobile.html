@@ -19,7 +19,21 @@
     
       
 
-    
+    <div id="msg" style="font-size:largest;">
+	      <div class="ImageLoader">
+                                         <div class="ImageLoaderWhiteCircle"></div>
+                                         <div class="ImageLoaderBlackCircle"></div>
+                                 </div>
+</div>
+<div id="body" style="display:none;">
+<!-- everything else -->
+</div>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#body').show();
+    $('#msg').hide();
+});
+</script>
         
 
 
@@ -40,7 +54,7 @@
         <div class="Section-main">
             <div class="InfoSectionWrapper">
                 <div class="InfoSectionHeader">
-                    <h1><span class="dummy">Info</span><span class="animate">Info</span></h1>
+                    <h1><span class="dummy">About</span><span class="animate">About</span></h1>
 
                     <div class="space"></div>
                     <div><a class="InfoBtn InfoBtn--black visible" href="mailto:management@shantellmartin.com">Contact</a></div>
@@ -747,7 +761,27 @@ input::-ms-clear {
 .isDesktop .u-Link--hoverUnderline:hover, .isNotDesktop .u-Link--hoverUnderline:active {
     border-color:currentColor
 }
+.ImageLoader .ImageLoaderBlackCircle, .ImageLoader .ImageLoaderWhiteCircle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius:50%
+}
 
+.ImageLoader.ImageLoader--OnDarkBackground .ImageLoaderWhiteCircle {
+    background:#fff
+}
+
+.ImageLoader.ImageLoader--OnDarkBackground .ImageLoaderBlackCircle {
+    background:#404040
+}
+
+.ImageLoader .ImageLoaderWhiteCircle {
+    background: #e6e6e6;
+    animation:LoaderAnimation1 1.4s linear infinite
+
+}
+	    
 .u-LinkBtn {
     font-weight: 700;
     font-family: inherit;
