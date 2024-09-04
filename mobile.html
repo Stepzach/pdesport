@@ -80,10 +80,13 @@ transform: translate(-50%);
         <div class="FooterLinksInner">
             <a data-label="index" href="/pdesport/mobile.html" class="FooterLink u-Route" style="letter-spacing: 0.09em;">HOME</a>
             <a data-label="projects" href="/pdesport/workmobile.html" class="FooterLink u-Route"  style="letter-spacing: 0.055em;">WORK</a>
-            <a data-label="news" href="/pdesport/aboutmobile.html" class="FooterLink u-Route" >ABOUT</a>
+        
+        </div>
+ <div class="FooterLinksInner1">
+	    <a data-label="news" href="/pdesport/aboutmobile.html" class="FooterLink u-Route" >ABOUT</a>
             <a data-label="more" href="/pdesport/moremobile.html" class="FooterLink"  style="letter-spacing: 0.09em;">MORE</a>
         </div>
-        <div class="FooterLinksSocial" >
+	 <div class="FooterLinksSocial" >
             <span class="FooterLinksBlock--sep s1"><svg>
         
         <use xlink:href="#footer-sep"></use>
@@ -91,22 +94,15 @@ transform: translate(-50%);
             
             <span class="FooterLinksBlock">
                 
-                    <a href="/pdesport/processmobile.html" >Process</a><br>
-                
-                    <a href="/" target="_blank" style=" letter-spacing: 0.05em" >Résumé</a><br>
-                
-            </span>
-            
-            <span class="FooterLinksBlock">
-                
-                    <a href="mailto:zachstep05@gmail.com" target="_blank" >Contact</a><br>
-                
+                    <a data-label="news" href="https://www.linkedin.com/in/zachary-stephens-a48b51232?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" class="FooterLink u-Route" >LINKEDIN</a>
+		    
                 
             </span>
             
+            
             <span class="FooterLinksBlock">
                 
-                    <a href="https://www.linkedin.com/in/zachary-stephens-a48b51232?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" >LinkedIn</a><br>
+
                 
                     <a href="https://www.instagram.com/zachstepsdesigns?igsh=bTg3b2FqYWZsbW9w&utm_source=qr" style="font-size: 30px; letter-spacing: 0.01em" target="_blank" >Instagram</a>
                 
@@ -5737,6 +5733,11 @@ body.isDesktop .FooterBlock:hover i svg, body.isNotDesktop .FooterBlock.active i
     width: 49%;
     text-align:left
 }
+	.isMobile .FooterLinksInner1 {
+    float: right;
+    width: 49%;
+    text-align:left
+}
 
 .isMobile .FooterLinksInner a.FooterLink {
     display: inline-block;
@@ -5744,8 +5745,18 @@ body.isDesktop .FooterBlock:hover i svg, body.isNotDesktop .FooterBlock.active i
     line-height: 53px;
     margin-left:17px
 }
+	.isMobile .FooterLinksInner1 a.FooterLink {
+    display: inline-block;
+    font-size: 53px;
+    line-height: 53px;
+    margin-right:17px
+}
 
 .isMobile .FooterLinksInner a.FooterLink:after {
+    bottom: -.03773585em;
+    height:.11320755em
+}
+	.isMobile .FooterLinksInner1 a.FooterLink:after {
     bottom: -.03773585em;
     height:.11320755em
 }
