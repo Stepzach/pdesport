@@ -72,7 +72,66 @@
 <a class="myname" href="/pdesport/mobile.html" style=" z-index: 1; font-size: 40px; position:absolute; line-height: 80%; margin-left: 8%; margin-top: 5%;  color: #000000; font-family: Kommissar;">ZACHARY<br>STEPHENS</a>
 
 
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "50%";
+}
 
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
+}
+</script>
+
+<style>
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 100000;
+  top: 0;
+  right: 0;
+  background-color: #000000;
+  overflow-x: hidden;
+  transition: 0.2s;
+  padding-top: 32px;
+}
+
+.sidenav a {
+  padding: 8px 4px 4px 15px;
+  text-decoration: none;
+	line-height: 43px;
+  font-size: 22px;
+  color: #FFFFFF;
+  display: block;
+  transition: 0.2s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 13px;
+  right: 15px;
+  font-size: 53px;
+  margin-left: 45px;
+}
+ html {
+            scroll-behavior: smooth; /* Enables smooth scrolling */
+        }
+	</style>
+
+		
+
+		<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="#C1" onclick="closeNav()">User Research</a>
+  <a href="#C2" onclick="closeNav()">Concept Development</a>
+  <a href="#C3" onclick="closeNav()">CAD Work</a>
+  <a href="#C4" onclick="closeNav()">Physical Prototyping</a>
+</div>
 
 <div class="Content">
     
