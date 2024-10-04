@@ -4,277 +4,212 @@
     <meta charset="UTF-8">
     <title>Zach Stephens</title>
     
-        
-            <meta name="viewport" content="width=320">
-        
-
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     
     <meta name="format-detection" content="telephone=no"/>
-
     <meta name="keywords" content=""/>
     <meta name="description" content=""/>
-    
- <meta property="og:title" content="Zachary Stephens">
-    <meta property="og:description" content="Zach's Product Design Portfolio with worked examples showcasing the research, ideation and design process.">
-    <meta property="og:image" content="IMG_4030.jpeg"> <!-- Replace with your image URL -->
-    <meta property="og:url" content="https://zacharystephens.info/home"> <!-- Replace with your page URL -->
-    <meta property="og:type" content="Portfolio"> <!-- Could be 'article' if it's a blog post -->
-    
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image"> <!-- Type of Twitter card -->
-    <meta name="twitter:title" content="Zachary Stephens">
-    <meta name="twitter:description" content="Zach's Product Design Portfolio with worked examples showcasing the research, ideation and design process.">
-    <meta name="twitter:image" content="IMG_4030.jpeg"> <!-- Replace with your image URL -->
-    <meta name="twitter:url" content="https://zacharystephens.info/home"> <!-- Replace with your page URL -->
- 
-     <link rel="icon" href="Image 5.png" type="image/x-icon">
 
-    <!-- Favicon for high-resolution displays (Retina) -->
+    <meta property="og:title" content="Zachary Stephens">
+    <meta property="og:description" content="Zach's Product Design Portfolio showcasing the research, ideation, and design process.">
+    <meta property="og:image" content="IMG_4030.jpeg">
+    <meta property="og:url" content="https://zacharystephens.info/home">
+    <meta property="og:type" content="Portfolio">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Zachary Stephens">
+    <meta name="twitter:description" content="Zach's Product Design Portfolio showcasing the research, ideation, and design process.">
+    <meta name="twitter:image" content="IMG_4030.jpeg">
+    <meta name="twitter:url" content="https://zacharystephens.info/home">
+ 
+    <link rel="icon" href="Image 5.png" type="image/x-icon">
     <link rel="icon" href="Image 5.png" type="image/png" sizes="32x32">
-    
-    <!-- Favicon for Apple devices -->
     <link rel="apple-touch-icon" href="Image 5.png">
-    
-    <!-- Favicon for Windows tiles -->
     <meta name="msapplication-TileImage" content="Image 5.png">
     <meta name="msapplication-TileColor" content="#FFFFFF">
-    
-    
-      
 
-    <div id="msg" style="font-size:largest;">
-	      <div class="ImageLoader">
-                                         <div class="ImageLoaderWhiteCircle"></div>
-                                         <div class="ImageLoaderBlackCircle"></div>
-                                 </div>
+    <link href="/static/js/front/app.89f4df82.css" rel="stylesheet">
+    
+    <style>
+        /* Responsive font size for the main name link */
+        .myname {
+            z-index: 10000 !important;
+            font-size: 6vw !important; /* Responsive font size based on viewport width */
+            position: absolute !important;
+            line-height: 80% !important;
+            margin-left: 8% !important;
+            margin-top: 5% !important;
+            color: #000000 !important;
+            font-family: Kommissar !important;
+        }
+
+        /* Ensure that the content wrapper remains responsive */
+        .Content {
+            max-width: 100% !important;
+            padding: 0 10px !important; /* Adds padding for smaller screens */
+        }
+
+        /* Responsive adjustments for text and images */
+        .InfoSectionTextLeft p {
+            font-size: 5vw !important; /* Adjust font size based on viewport width */
+        }
+
+        .InfoOriginalArtTitle {
+            font-size: 10vw !important;
+            line-height: 1.2 !important;
+        }
+
+        .InfoOriginalArtImg {
+            width: 90% !important; /* Ensure the image doesn't overflow */
+            height: auto !important;
+        }
+
+        /* Media queries for better responsiveness on mobile and tablet */
+        @media (max-width: 768px) {
+            .InfoSectionTextLeft p, .InfoOriginalArtText p {
+                font-size: 4vw !important; /* Smaller font for mobile */
+            }
+
+            .FooterLinks {
+                bottom: 10px !important;
+            }
+            
+            /* Make the footer links more accessible on smaller screens */
+            .FooterLinksBlock {
+                font-size: 4vw !important;
+            }
+
+            /* Make the menu icon more accessible */
+            .FooterLink {
+                font-size: 4vw !important;
+            }
+
+            /* Adjust image size */
+            .InfoMediaPartnerImage {
+                width: 100px !important;
+                height: auto !important;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .myname {
+                font-size: 5vw !important; /* Slightly larger font for tablet */
+            }
+
+            .InfoOriginalArtTitle {
+                font-size: 7vw !important;
+            }
+
+            .InfoOriginalArtImg {
+                width: 80% !important; /* Less width for tablet */
+            }
+        }
+
+        /* Ensure the image loader remains large */
+        .ImageLoaderWhiteCircle, .ImageLoaderBlackCircle {
+            width: 150px !important;
+            height: 150px !important;
+        }
+
+        /* General footer styling */
+        .FooterLinks {
+            font-size: 20px !important;
+            text-align: center !important;
+        }
+    </style>
+
+</head>
+<body class="isNotMobile isNotTablet isDesktop">
+
+<div id="msg" style="font-size:largest;">
+    <div class="ImageLoader">
+        <div class="ImageLoaderWhiteCircle"></div>
+        <div class="ImageLoaderBlackCircle"></div>
+    </div>
 </div>
-
 
 <script type="text/javascript">
 setTimeout(function() {
     document.getElementById('everything').style.display = 'block';
     document.getElementById('msg').style.display = 'none';
-}, 1000); // 3000 milliseconds = 3 seconds
+}, 1000);
 </script>
         
 <div id="everything" style="display:none;">
 
-        
-        <link href="/static/js/front/app.89f4df82.css" rel="stylesheet">
-    
-</head>
-	<body class=" isNotMobile isNotTablet isDesktop">
+    <!-- Main name link -->
+    <a class="myname" href="/mobile">ZACHARY<br>STEPHENS</a>
 
-
-<a class="myname" href="/mobile" style=" z-index: 10000; font-size: 70px; position:absolute; line-height: 80%; margin-left: 8%; margin-top: 5%;  color: #000000; font-family: Kommissar;">ZACHARY<br>STEPHENS</a>
-
-<div class="Content">
-    
-    <div class="Section InfoSection">
-
-    
-        <div class="Section-main">
-            <div class="InfoSectionWrapper">
-        <div class="InfoSectionHeader">
-                 <h1><span class="dummy">About</span><span class="animate">About</span></h1>
+    <!-- Content starts here -->
+    <div class="Content">
+        <div class="Section InfoSection">
+            <div class="Section-main">
+                <div class="InfoSectionWrapper">
+                    <div class="InfoSectionHeader">
+                        <h1><span class="dummy">About</span><span class="animate">About</span></h1>
+                    </div>
 
                     <div class="space"></div>
-                  
-                
-			
-                </div>
-                <div><a class="InfoBtn visible" href="https://www.linkedin.com/in/zachary-stephens-a48b51232/" target="_blank">LinkedIn</a></div>
-                <div class="InfoSectionText visible clearfix">
-                   <br> <div class="InfoSectionTextLeft"><p style="font-size:30px !important; ">Hello! I’m Zach, a 19-year-old Product Design student at the University of Leeds with a 
-			    passion for Technology, Physics, and Art. Born in London and raised with a diversity of cultures, including my French heritage. I studied 
-			    at the Lycée Français Charles de Gaulle, where I completed both my secondary education and sixth form. My A-Levels in Math, 
-			    Physics, Art, and French reflect my diverse interests and curiosity across different fields.<br>
 
-I'm particularly excited about the world of tech startups, where I dream of contributing to projects that blend tech, science, and art. 
-			</p></div>
-                    <div class="InfoSectionTextRight"><p></p></div>
-                </div>
+                    <div class="InfoSectionText visible clearfix">
+                        <div class="InfoSectionTextLeft">
+                            <p>Hello! I’m Zach, a 19-year-old Product Design student at the University of Leeds with a passion for Technology, Physics, and Art. Born in London and raised with a diversity of cultures, including my French heritage. I studied at the Lycée Français Charles de Gaulle, where I completed both my secondary education and sixth form. My A-Levels in Math, Physics, Art, and French reflect my diverse interests and curiosity across different fields.
+I'm particularly excited about the world of tech startups, where I dream of contributing to projects that blend tech, science, and art.</p>
+                        </div>
+                        <div class="InfoSectionTextRight"></div>
+                    </div>
 
-                <div class="InfoOriginalArt">
-    <div class="InfoSectionSep visible"></div>
-    <div class="InfoOriginalArtTitle" style="line-height: 75px; font-size:90px !important; ">ENGINEERING EXCELLENCE</div>
+                    <!-- Original art and text -->
+                    <div class="InfoOriginalArt">
+                        <div class="InfoSectionSep visible"></div>
+                        <div class="InfoOriginalArtTitle">ENGINEERING EXCELLENCE</div>
+                        <img class="InfoOriginalArtImg" src="A0C92B38-DC0E-445A-BCF4-AB19DB0F0AF9.jpeg">
+                        <div class="InfoOriginalArtText">
+                            <p>At the University of Leeds, I'm pursuing my passion for innovation and solving problems.
+ 
+I was fortunate to co-found the Engineering Excellence Society with my STEM peers, where I explore the fusion between engineering and design. My goal is to merge creativity with technology to design original and impactful products that shape the future.</p>
+                        </div>
+                    </div>
 
-    <img class="InfoOriginalArtImg" style="height: auto !important; width: 60% !important;" src="A0C92B38-DC0E-445A-BCF4-AB19DB0F0AF9.jpeg">
-    <div class="InfoOriginalArtText"><p style="font-size:30px !important; ">At the University of Leeds, I'm pursuing my passion for innovation and solving problems.</p><p>&nbsp;</p><p  style="font-size:30px !important; ">I was fortunate to 
-	    co-found the Engineering Excellence Society with my 
-			    STEM peers, where I explore the fusion between engineering and design. My goal is to merge creativity 
-			    with technology to design original and impactful products that shape the future.</p><p>&nbsp;</p>
-    </div></div>
+                    <!-- Media Partners Section -->
+                    <div class="InfoMediaPartners">
+                        <div class="InfoMediaPartnersLogos clearfix">
+                            <span class="InfoMediaNewsTitle">Web Design</span>
+				<div class="InfoSectionTextLeft">
+                            <p>I've always been interested in coding—the idea of creating something out of nothing with just code. My experience started back at the lycée when I joined the programming club, I loved the challenge of figuring things out and building projects with others.
+ 
+Since then, I've gotten more into web design (HTML, CSS and JavaScript) and found that I enjoy the mix of creativity and logic that comes with designing websites. It’s a great way for me to bring ideas to life and see how different elements can shape how people experience the web.</p>
+                        </div>
+                            <img src="Screenshot 2024-09-04.png" style="width:80%; height:auto;">
+				<div class="InfoSectionTextLeft">
+                            <p>I designed this Web Portfolio myself on Github inspired by Shantell Martin's website.</p></div>
+                        </div>
+                    </div>
 
-	    <div class="InfoMediaPartners">
-        <div class="InfoMediaPartnersLogos clearfix">
-    <div class="InfoMediaNewsTitle" style=" font-size: 60px;" >Web Design</div>
-        <br>
-		     <p style="font-size:30px !important; ">I've always been interested in coding—the idea of creating something out of nothing with just code. 
-			     My experience started back at the lycée when I joined the programming club, I loved the challenge of figuring things out and building projects with others.</p>
-<p>&nbsp;</p>
-<p style="font-size:30px !important; ">Since then, I've gotten more into web design (HTML, CSS and JavaScript) and found that I enjoy the mix of creativity and logic that comes with
-			     designing websites. It’s a great way for me to bring ideas to life and see how different elements can shape how people experience the web. 
-			   </p><br>
-                <img  style="width:80%; height: auto;" src="Screenshot 2024-09-04 at 16.40.27.png">
-<br>
-                <span class=""> <br>
-                    <p style="font-size:30px !important; ">I designed this Web Portfolio myself on <a href="http://www.github.com" style="color: inherit; text-decoration: underline;"> Github</a> inspired by Shantell Martin's website. </p>
-                </span>
+                    <!-- Footer Section -->
+                    <footer class="FooterLinks">
+                        <a href="/home" class="FooterLink">HOME</a>
+                        <a href="/work" class="FooterLink">WORK</a>
+                        <a href="/about" class="FooterLink">ABOUT</a>
+                        <a href="/process" class="FooterLink">PROCESS</a>
 
-				</div>
-            </a>
-     
-    <div class="InfoMediaPartners">
-
-        <div class="InfoMediaPartnersLogos clearfix">
-		 <span class="InfoMediaNewsTitle" style=" font-size: 60px;">Digital Fluency</span>
-            <br>
-		  <p style="font-size:30px !important; ">Throughout my journey, I've become proficient in a wide variety of software programs. Including the Prototyping, Graphic design, 3D modelling, Animation and Collaboration tools... and much more.  </p>
-		<br>
-                <div class="InfoMediaPartnersLine">
-                    
-                        <a class="InfoMediaPartner" href="https://www.solidworks.com" target="_blank">
-                           <img class="InfoMediaPartnerImage" src="IMG_4064 2.jpg">
-                            
-                        </a>
-                    
-                        <a class="InfoMediaPartner" href="https://www.blender.org" target="_blank">
-                            <img class="InfoMediaPartnerImage" src="IMG_4064.jpg">
-                            
-                        </a>
-                    
+                        <div class="FooterLinksBlock">
+                            <a href="https://www.instagram.com/">Instagram</a>
+                            <a href="https://www.linkedin.com/">LinkedIn</a>
+                            <a href="mailto:zachstep05@gmail.com">Email</a>
+                        </div>
+                        <span>© Zachary Stephens 2024. All Rights Reserved</span>
+                    </footer>
                 </div>
-            
-                <div class="InfoMediaPartnersLine">
-                    
-                        <a class="InfoMediaPartner" href="https://www.notion.so" target="_blank">
-                            <img class="InfoMediaPartnerImage" src="IMG_4064 3.jpg">
-                            
-                        </a>
-                    
-                        <a class="InfoMediaPartner" href="https://www.adobe.com/uk/products/photoshop/" target="_blank">
-                           <img class="InfoMediaPartnerImage" src="IMG_4064 4.jpg">
-                            
-                        </a>
-                    
-                </div>
-            
-                <div class="InfoMediaPartnersLine">
-                    
-                        <a class="InfoMediaPartner" href="https://procreate.com" target="_blank">
-                           <img class="InfoMediaPartnerImage" src="IMG_4064 5.jpg">
-                            
-                        </a>
-                    
-                        <a class="InfoMediaPartner" href="https://www.microsoft.com/en-gb/microsoft-365/excel" target="_blank">
-                            <img class="InfoMediaPartnerImage" src="IMG_4064 6.jpg">
-                            
-                        </a>
-                    
-                </div>
-            
-                <div class="InfoMediaPartnersLine">
-                    
-                        <a class="InfoMediaPartner" href="https://www.adobe.com/uk/products/indesign/" target="_blank">
-                          <img class="InfoMediaPartnerImage" src="IMG_4064 7.jpg">
-                            
-                        </a>
-                    
-                        <a class="InfoMediaPartner" href="https://www.adobe.com/uk/products/xd/" target="_blank">
-                           <img class="InfoMediaPartnerImage" src="IMG_4064 8.jpg">
-                            
-                        </a>
-                    
-                </div>
-            
-               
-                
-                    
-              
-		  
-               
+            </div>
         </div>
     </div>
 </div>
-                
-
-    </div>
-
-    <script>
-
-    </script>
-
-
-    
-</div>
-
-
-  
-    <div class="FooterLinks" style=" bottom: 20px;" >
-        
-            <a data-label="index" href="/home" class="FooterLink u-Route">HOME</a>
-            <a data-label="projects" href="/work" class="FooterLink u-Route">WORK</a>
-            <a data-label="news" href="/about" class="FooterLink u-Route">ABOUT</a>
-            <a data-label="info" href="/process" class="FooterLink u-Route">PROCESS</a>
-	   
-       
-        
-        
-        <br><br>
-
-	     <span class="FooterLinksBlock">
-
-		    <a href="https://www.instagram.com/zachstepsdesigns?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">Instagram&nbsp;&nbsp;&nbsp;&nbsp;</a>
-		     
-                    <a href="https://www.linkedin.com/in/zacharystephens05/">LinkedIn&nbsp;&nbsp;&nbsp;&nbsp;</a>
-                
-                    <a href="mailto:zachstep05@gmail.com" target="_blank">Email&nbsp;&nbsp;&nbsp;&nbsp;</a>
-		     
-            </span>
-            
-           
-            
-        
-        
-        <span class="FooterLinksBlock FooterLinksBlock--disclamer">
-            <span>&nbsp;&nbsp;&nbsp;© Zachary Stephens 2024.&nbsp;&nbsp;All Rights Reserved</span>
-        </span>
-    </div>
-</footer>
-
-
-</div>
-
-
-
-
-
-
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCUmAN8IKEjfQoslx0BiVZwqFnd1zGUbsI&sensor=false&libraries=geometry,places,drawing&ext=.js" type="text/javascript"></script>
-<script src="/static/js/libs/path-data-polyfill.js"></script>
-
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="/static/js/libs/jquery.min.js"><\/script>')</script>
-
-    <script src="/static/js/front/libs.89f4df82.js"></script>
-
-
-<script src="/static/js/front/app.89f4df82.js"></script>
-
-<script type="text/javascript">
-    var ie = ( !!window.ActiveXObject && +( /msie\s(\d+)/i.exec( navigator.userAgent )[1] ) ) || NaN;
-
-    if (ie === 6 || ie === 7 || ie === 8 || ie === 9 || ie === 10) {
-        $('html').addClass('noPointerEvents');
-    }
-</script>
 
 </body>
 </html>
+
 
 
 <style>
