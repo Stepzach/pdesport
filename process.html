@@ -57,84 +57,67 @@
 <a class="myname" href="/home" style=" z-index: 10000000; font-size: 70px; position:fixed; line-height: 80%; margin-left: 8%; margin-top: 5%;  color: #000000; font-family: Kommissar;">ZACHARY<br>STEPHENS</a>
 
 
-<button class="openbtn" onclick="openNav()">☰ Open Menu</button>
-
-    <!-- Side navigation -->
-    <div id="mySidenav" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#C1" onclick="closeNav()">Physical Prototypes</a><br>
-        <a href="#C2" onclick="closeNav()">Concept Development</a><br>
-        <a href="#C3" onclick="closeNav()">CAD Work</a><br>
-        <a href="#C4" onclick="closeNav()">User Research</a>
-    </div>
-
-    <script>
-    function openNav() {
-      document.getElementById("mySidenav").style.width = "25%";
-    }
-
-    function closeNav() {
-      document.getElementById("mySidenav").style.width = "0";
-    }
-    </script>
-		<style>
-		.openbtn {
-    font-size: 24px;
-    cursor: pointer;
-    background-color: #111;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 100001;
-    transition: background-color 0.3s;
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "25%";
 }
 
-.openbtn:hover {
-    background-color: #444;
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0";
 }
+</script>
+
+<style>
 
 .sidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 100000;
-    top: 0;
-    right: 0;
-    background-color: #000000;
-    overflow-x: hidden;
-    transition: 0.2s;
-    padding-top: 32px;
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 100000;
+  top: 0;
+  right: 0;
+  background-color: #000000;
+  overflow-x: hidden;
+  transition: 0.2s;
+  padding-top: 32px;
 }
 
 .sidenav a {
-    padding: 15px 4px 4px 15px;
-    text-decoration: none;
-    line-height: 34px;
-    font-size: 32px;
-    color: #FFFFFF;
-    display: block;
-    transition: 0.2s;
+  padding: 15px 4px 4px 15px;
+  text-decoration: none;
+	line-height: 34px;
+  font-size: 32px;
+  color: #FFFFFF;
+  display: block;
+  transition: 0.2s;
 }
 
 .sidenav a:hover {
-    color: #f1f1f1;
+  color: #f1f1f1;
 }
 
 .sidenav .closebtn {
-    position: absolute;
-    top: 13px;
-    right: 15px;
-    font-size: 53px;
-    margin-left: 45px;
+  position: absolute;
+  top: 13px;
+  right: 15px;
+  font-size: 53px;
+  margin-left: 45px;
 }
-</style>
-html {
-    scroll-behavior: smooth;
-}
+ html {
+            scroll-behavior: smooth; /* Enables smooth scrolling */
+        }
+	</style>
+
+		
+
+		<div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="#C1" onclick="closeNav()">Physical Prototypes</a><br>
+  <a href="#C2" onclick="closeNav()">Concept Development</a><br>
+  <a href="#C3" onclick="closeNav()">CAD Work</a><br>
+  <a href="#C4" onclick="closeNav()">User Research</a>
+
+</div>
 		
 		<div class="Content">
     
