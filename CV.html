@@ -14,7 +14,7 @@
 
         <!-- Embedding the PDF -->
         <div class="pdf-container">
-            <iframe src="Zachary Stephens - CV.pdf" width="100%" height="600px" frameborder="0"></iframe>
+            <embed src="Zachary Stephens - CV.pdf" type="application/pdf" width="100%" height="100%" />
         </div>
 
         <!-- Download Link -->
@@ -25,7 +25,9 @@
 
 </body>
 </html>
+
 <style>/* General body styling */
+/* General body styling */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -46,7 +48,8 @@ body {
 .pdf-container {
     margin-top: 20px;
     width: 100%;
-    overflow: hidden;
+    height: 800px; /* Adjust this height to suit your needs */
+    overflow: auto;
     border: 1px solid #ddd;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -71,8 +74,9 @@ body {
 
 /* Responsive design for smaller screens */
 @media (max-width: 768px) {
-    iframe {
-        height: 400px;
+    .pdf-container {
+        height: 600px; /* Reduce height for smaller screens */
     }
 }
+
 </style>
