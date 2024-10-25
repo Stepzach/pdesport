@@ -25,12 +25,19 @@
         /* Main container styling */
         .container {
             width: 100%;
-            
+            max-width: 900px;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
         /* Medium text (title) */
+        .mediumtext {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
 
         /* Flex container for layout */
         .layout-container {
@@ -39,12 +46,14 @@
             align-items: flex-start;
             gap: 20px;
             flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
         }
 
         /* PDF viewer container */
         .pdf-container {
             flex: 1;
-            max-width: 70%;
+            max-width: 65%;
             height: 600px;
             overflow: auto;
             border: 1px solid #ddd;
@@ -55,10 +64,12 @@
         /* Download link and caption */
         .download-caption {
             flex: 1;
-            max-width: 35%;
+            max-width: 30%;
             display: flex;
             flex-direction: column;
             gap: 20px;
+            align-items: center;
+            text-align: center;
             margin-top: 20px;
         }
 
@@ -69,7 +80,6 @@
             padding: 10px 20px;
             border-radius: 5px;
             display: inline-block;
-            text-align: center;
         }
 
         .download-link a:hover {
@@ -84,19 +94,34 @@
 
         /* Responsive design */
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                text-align: center;
+            }
+
+            .mediumtext {
+                font-size: 2rem;
+            }
+
             .layout-container {
-                 width: 100%;
                 flex-direction: column;
+                align-items: center;
             }
 
             .pdf-container {
                 width: 100%;
+                max-width: 100%;
+                height: 500px; /* Adjusted for smaller screens */
             }
 
             .download-caption {
                 width: 100%;
                 max-width: none;
-                margin-top: 20px;
+                align-items: center;
+                margin-top: 10px;
             }
         }
     </style>
@@ -104,8 +129,8 @@
      <link href="/portfoliocss.css" rel="stylesheet" type="text/css">
 <body>
     <div class="container">
-        <!-- Title at the top left -->
-        <div class="mediumtext" style="font-size: 4rem">Télécommande adaptée aux personnes âgées</div> <br>
+        <!-- Title at the top center -->
+        <div class="mediumtext">Télécommande adaptée aux personnes âgées</div>
 
         <!-- Flex container for PDF and right content -->
         <div class="layout-container">
