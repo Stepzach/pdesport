@@ -829,7 +829,7 @@
       --map: radial-gradient(circle farthest-corner at var(--x) var(--y), #888, #fff);
       background: var(--pattern), var(--map);
       background-blend-mode: multiply;
-      filter: contrast(16) opacity(40%);
+      filter: contrast(16) opacity(25%);
       transition: .35s cubic-bezier(.1,0,.5,1.5);
       transition-property: --x, --y;
     }
@@ -842,8 +842,9 @@
 
 <script>
 addEventListener('mousemove', e => {
-  document.documentElement.style.setProperty('--x', `${e.clientX}px`);
-  document.documentElement.style.setProperty('--y', `${e.clientY}px`);
+    const background = document.getElementById('background');
+    background.style.setProperty('--x', `${e.clientX}px`);
+    background.style.setProperty('--y', `${e.clientY}px`);
 })
 </script>
 
