@@ -799,4 +799,37 @@
     <script src="/scriptingscriptsss.js" type="text/javascript"></script>
 </body>
 
+    <style>
+@property --x {
+  syntax: '<length-percentage>';
+  initial-value: 50vw;
+  inherits: false
+}
+
+@property --y {
+  syntax: '<length-percentage>';
+  initial-value: 50vh;
+  inherits: false
+}
+
+html {
+  --pattern: radial-gradient(closest-side, #777, #fff) 0/ 1em 1em space;
+  --map: radial-gradient(circle farthest-corner at var(--x) var(--y), #888, #fff);
+  height: 100%;
+  background: var(--pattern), var(--map);
+  background-blend-mode: multiply;
+  filter: contrast(16) opacity(60%);
+  transition: .35s cubic-bezier(.1,0,.5,1.5);
+  transition-property: --x, --y; /* semicolon added here*/
+
+}
+</style>
+
+<script>
+addEventListener('mousemove', e => {
+  document.documentElement.style.setProperty('--x', `${e.clientX}px`);
+  document.documentElement.style.setProperty('--y', `${e.clientY}px`);
+})
+</script>
+
 </html>
