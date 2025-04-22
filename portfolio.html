@@ -39,6 +39,8 @@
     </script>
 </head>
 <div id="background"></div>
+
+     <div class="content">
 <body class="body-2">
     
    
@@ -743,7 +745,7 @@
             </div>
         </div>
     </div>
-
+</div>
    
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
@@ -827,9 +829,14 @@
       --map: radial-gradient(circle farthest-corner at var(--x) var(--y), #888, #fff);
       background: var(--pattern), var(--map);
       background-blend-mode: multiply;
-      filter: contrast(16) opacity(60%);
+      filter: contrast(16) opacity(40%);
       transition: .35s cubic-bezier(.1,0,.5,1.5);
       transition-property: --x, --y;
+    }
+
+    .content {
+      position: relative; /* Important for layering content above the background */
+     
     }
 </style>
 
