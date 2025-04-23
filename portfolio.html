@@ -806,13 +806,13 @@
 <style>
 @property --x {
   syntax: '<length-percentage>';
-  initial-value: 50vw;
+  initial-value: 1vw;
   inherits: false
 }
 
 @property --y {
   syntax: '<length-percentage>';
-  initial-value: 50vh;
+  initial-value: 1vh;
   inherits: false
 }
 
@@ -825,12 +825,12 @@
       height: 100%;
       z-index: -1; /* Place behind all other content */
       pointer-events: none; /* Makes the background non-interactive */
-      --pattern: radial-gradient(closest-side, #777, #fff) 0/ 1em 1em space;
-      --map: radial-gradient(circle farthest-corner at var(--x) var(--y), #888, #fff);
+      --pattern: radial-gradient(closest-side, #ffc2fd, #fff) 0/ 0.8em 0.8em space;
+      --map: radial-gradient(circle farthest-corner at var(--x) var(--y), #888, #edb4eb);
       background: var(--pattern), var(--map);
       background-blend-mode: multiply;
-      filter: contrast(16) opacity(5%);
-      transition: .35s cubic-bezier(.1,0,.5,1.5);
+      filter: contrast(21) opacity(20%);
+      transition: .45s cubic-bezier(.1,0,.5,1.5);
       transition-property: --x, --y;
     }
 
