@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zachary Stephens Portfolio</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+         margin-left: 20px;
+          margin-right: 20px;
+      padding: 0;
+      box-sizing: border-box;
+       
+      
+ 
+    }
+
+    html, body {
+      
+      font-family: 'Helvetica Neue', sans-serif;
+          width: calc (100% - 20px) ;
+           margin-left: 10px;
+             margin-right: 10px;
+             
+           
+                  
+          
+    }
+
+  
+    header {
+    
+      position: fixed;
+      top: 20px;
+      left: 0;
+      
+      width: calc(100% - 40px) ;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0rem;
+      z-index: 9;
+      background-color: white;
+      transition: background-color 0.3s ease;
+      border-bottom: 2px solid black;
+       border-left: 2px solid black;
+        border-right: 2px solid black;
+        display: grid;
+      
+     
+     grid-template-columns: 32% 68%;
+    }
+
+ #site-header2 {
+      position: relative;
+      top:-1000px;
+      left: -20px;
+      width: calc(100%) ;
+      display: flex;
+      height:2000px;
+      align-items: center;
+      padding: 0rem;
+      z-index: 900;
+      background-color: transparent;
+       transition: background-color 0.3s ease;
+      border-bottom: none;
+     
+     
+        display: grid;
+       
+     
+     grid-template-columns: 32% 68%;
+    }
+
+    #site-header {
+      background-color: #A3D1C2;
+       font-size: 1.2rem;
+    }
+
+    .header-green {
+      background-color: #A3D1C2;
+       font-size: 1.2rem;
+     
+       
+    }
+     nav  {
+        display: flex;
+    justify-content: space-between;
+    
+      
+    }
+
+    nav a {
+      margin: 0 0.5rem;
+      text-decoration: none;
+      color: white;
+      font-size: 1.2rem;
+    }
+
+    main {
+    margin:0;
+
+      margin-top: 68px; /* height of the header */
+    }
+
+    .section {
+    height:80vh;
+    margin: 0;
+      display: grid;
+     
+      
+     
+      grid-template-columns: 32% 68%;
+      border-top: 2px solid black;
+      border-bottom: 2px solid black;
+      border-left: 2px solid black;
+      border-right: 2px solid black;
+    }
+    
+    
+
+
+
+
+    .left-panel {
+      margin: 0;
+      background-color: #A3D1C2;
+      padding-left: 0.5rem;
+       padding-top: 2rem;
+     
+    }
+    
+    .left-panel1 {
+      margin: 0;
+    
+      
+     
+    }
+    .left-panel2 {
+      margin: 0;
+      height:20px;
+      
+     
+    }
+
+    .left-panel h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+    }
+
+    .left-panel p {
+      margin-top: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .down-arrow {
+      font-size: 2rem;
+      margin-top: 2rem;
+    }
+
+    .right-panel {
+      background-color: #07834C;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 1rem;
+      padding: 2rem;
+     
+      margin:0;
+       transition: background-color 0.3s ease;
+    }
+    .right-panel1 {
+      background-color: #07834C;
+      display: row;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 1rem;
+      padding: 0.8rem;
+      border-left: 2px solid black;
+      margin:0;
+       transition: background-color 0.3s ease;
+      
+    }
+    
+    
+    
+    
+    .right-panel1blu {
+      background-color: 
+      
+    }
+    .right-panel2 {
+      background-color: transparent;
+      display: row;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 1rem;
+      padding: 2rem;
+      border-left: 2px solid black;
+      margin:0;
+      height:2000px;
+      
+      
+    }
+
+    .project-tile {
+      background-color: white;
+      border: 10px solid #07834C;
+      height: 150px;
+    }
+
+    .section-blue {
+    position: relative;
+    top:-2042px;
+    z-index:2;
+     
+      background-color: #A7D9F5;
+      width:100%;
+      
+       height:80vh;
+   
+      display: grid;
+      
+     
+      grid-template-columns: 32% 68%;
+      left:-20px;
+    
+    }
+    
+    .left-panelblu {
+      margin: 0;
+      background-color: #A7D9F5;
+      padding-left: 0.5rem;
+       padding-top: 2rem;
+     
+    }
+    .right-panelblu {
+      background-color: #529cc4;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 1rem;
+      padding: 2rem;
+     
+      margin:0;
+    }
+    
+    .project-tileblu {
+      background-color: white;
+      border: 1px solid #07834C;
+      height: 20vh;
+      margin:30px;
+    }
+
+
+
+.section-pin {
+
+
+    position: relative;
+    top:-2042px;
+    z-index:2;
+     
+      background-color: #f1aeca;
+      width:100%;
+      
+       height:80vh;
+   
+      display: grid;
+      
+     
+      grid-template-columns: 32% 68%;
+      left:-20px;
+    
+    }
+    
+    .left-panelpin {
+      margin: 0;
+      background-color: #f1aeca;
+      padding-left: 0.5rem;
+       padding-top: 2rem;
+     
+    }
+    .right-panelpin {
+      background-color: #c45283;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 1rem;
+      padding: 2rem;
+     
+      margin:0;
+    }
+    
+    .project-tilepin {
+      background-color: white;
+      border: 1px solid #07834C;
+      height: 20vh;
+      margin:30px;
+    }
+
+
+
+.section-yel {
+    position: relative;
+    top:-2042px;
+    z-index:2;
+     
+      background-color: #ffe16b;
+      width:100%;
+      
+       height:80vh;
+   
+      display: grid;
+      
+     
+      grid-template-columns: 32% 68%;
+      left:-20px;
+    
+    }
+    
+    .left-panelyel {
+      margin: 0;
+      background-color: #ffe16b;
+      padding-left: 0.5rem;
+       padding-top: 2rem;
+     
+    }
+    .right-panelyel {
+      background-color: #c8a61e;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 1rem;
+      padding: 2rem;
+     
+      margin:0;
+    }
+    
+    .project-tileyel {
+      background-color: white;
+      border: 1px solid #07834C;
+      height: 20vh;
+      margin:30px;
+    }
+
+  @media (max-width: 700px) {
+.section-pin,
+.section-blue,
+.section,
+.section-yel,
+.right-panel2,
+header,
+.right-panel1,
+.right-panel1 {
+
+ grid-template-columns: 40% 60% !important;
+ 
+ }
+  }
+  
+   @media (max-width: 570px) {
+.section-pin,
+.section-blue,
+.section,
+.section-yel,
+.right-panel2,
+header,
+.right-panel1,
+.right-panel1 {
+
+ grid-template-columns: 50% 50% !important;
+ 
+ }
+  }
+
+@media (max-width: 420px) {
+.section-pin,
+.section-blue,
+.section,
+.section-yel,
+
+
+.right-panel1,
+.right-panel1 {
+        flex-direction: column;
+ grid-template-columns: 100% 100% !important;
+ display:flex !important;
+ 
+ 
+  
+ 
+ 
+ }
+ .section-pin,
+.section-blue,
+.section-yel,
+.section {
+ width: calc(100% + 20px);
+ height:68vh !important;
+ 
+ }
+ 
+ section {
+  width: calc(100% + 20px);
+      position: relative;
+      left: -10px;
+       
+   }   
+      
+ .bababouille,
+ .right-panel2 {
+ display:none;
+ 
+  }
+  
+   .left-panel h1,
+   .left-panelblu h1,
+   .left-panelyel h1,
+   .left-panelpin h1 {
+      font-size: 1.8rem;
+      font-weight: bold;
+       margin-top: -0.5rem;
+    }
+
+    .left-panel p,
+   .left-panelblu p,
+   .left-panelyel p,
+   .left-panelpin p {
+      margin-top: 0.8rem;
+      font-size: 1.2rem;
+       margin-bottom: 1.8rem;
+       
+    }
+    .left-panel,
+    .left-panelblu,
+    .left-panelpin,
+    .left-panelyel {
+    border-bottom: solid 2px black;
+    
+    
+    }
+    
+     * {
+     
+         margin-left: 10px;
+          margin-right: 10px;
+     
+    }
+      header {
+     width: calc(100% - 20px) ;
+      z-index:4;
+      
+    
+    } 
+     #site-header2 {
+    width: calc(100% + 20px);
+    
+    }
+    
+    .linescool1 {
+    left:-20px !important;
+   
+      width: calc(100% + 20px) !important;
+      
+    }
+    
+    .linescool2 {
+    left:-20px !important;
+   
+      width: calc(100% + 30px) !important;
+      border-right:none  !important;
+      
+    }
+    .linescool22 {
+    left:-30px !important;
+   
+      width: calc(100% + 40px) !important;
+      border-right:none  !important;
+     
+    }
+     .linescool3 {
+    z-index:3 !important;
+     
+    }
+    .linescool221 {
+    z-index:2 !important;
+    background-color: transparent !important;
+   width: calc(100% + 40px) !important;
+     left:-30px !important;
+   color: transparent !important;
+     
+    }
+  
+    
+    }
+
+
+    /* Responsive */
+    
+   
+   
+  </style>
+</head>
+<body> 
+
+<div class="linescool1" style="width: calc(100% - 40px); height 20px; background-color:white; position: fixed; top:0px; display:block; border-left: solid 2px black; border-right: solid 2px black; z-index:11; left:0px; color:white ">hello world</div>
+<div class="linescool1" style="width:100%; height 20px; background-color:white; position: fixed; top:0px; display:block; border-bottom: solid 2px black; z-index:10; left:-20px; color:white ">hello world</div>
+
+<div class="linescool1" style="width:100%; height 200px; background-color: white; position: fixed; top:49.5px; display:block; border-bottom: solid 2px black; z-index:3; left:-20px; color:white ">hello world</div>
+
+
+
+  <header id="site-header">
+   <div class="left-panel1">
+    <div class="logo" style="padding-left :0.5em;" >Portfolio</div>
+    </div>
+     <div class="right-panel1">
+    <nav>
+    
+      <a href="#">Archive</a>
+      <a class="bababouille" href="#">About</a>
+    </nav>
+    </div>
+   
+  </header>
+ 
+
+  <main>
+    <section class="section">
+      <div class="left-panel">
+        <h1>Zachary<br>(Zach)<br>Stephens</h1>
+        <p>Product Designer based in England & France</p>
+       
+      </div>
+      <div class="right-panel">
+        <div class="project-tile"></div>
+        <div class="project-tile"></div>
+        <div class="project-tile"></div>
+        <div class="project-tile"></div> 
+        <div class="project-tile"></div>
+        <div class="project-tile"></div>
+      </div>
+    </section>  
+      
+  
+    
+     <div class="linescool2" style="width: calc(100% + 40px); height 0px !important; background-color:white; position: relative;  display:block;   border-top: solid 2px black; z-index:1; left:-20px; color:white ; bottom:2px; margin:0">hello world</div>
+     
+     
+    <div class="linescool2" style="width: calc(100% - 0px); height 20px; background-color:white; position: relative; bottom:23px; display:block; border-left: solid 2px black; border-right: solid 2px black; border-top: solid 2px black; z-index:1; left:-20px; color:white; ">hello world</div>
+    
+    
+   
+     
+    
+   
+     
+     
+   
+    
+<div class="linescool22" style="width: calc(100% + 40px); height 20px; background-color:white; position: relative; bottom:23px; display:block; border-top: solid 2px black; z-index:1; left:-40px; color:white; overflow: hidden !important;">hello world</div>
+
+
+
+<header id="site-header2">
+   <div class="left-panel2">
+    
+    </div>
+     <div class="right-panel2">
+   
+    </div>
+   
+  </header>
+
+ 
+
+    <section class="section-blue">
+    
+    
+     <div class="left-panelblu">
+        <h1>Zachary<br>(Zach)<br>Stephens</h1>
+        <p>Product Designer based in England & France</p>
+        
+      </div>
+      <div class="right-panelblu">
+        <div class="project-tileblu"></div>
+        <div class="project-tileblu"></div>
+       
+      </div>
+      
+      
+    </section>
+    
+    
+    
+    <div class="linescool3" style="width: calc(100% + 40px); height 0px !important; background-color:white; position: relative;  display:block;   border-top: solid 2px black; z-index:1; left:-20px; color:white ; bottom:2px; margin:0; top:-2042px;">hello world</div>
+     
+     
+    <div class="linescool33" style="width: calc(100% - 0px); height 20px; background-color:white; position: relative; bottom:23px; display:block; border-left: solid 2px black; border-right: solid 2px black; border-top: solid 2px black; z-index:1; left:-20px; color:white; top:-2042px;">hello world</div>
+    
+    
+   
+     
+    
+   
+     
+     
+   
+    
+<div class="linescool221" style="width: calc(100% + 40px); height 20px; background-color:white; position: relative; bottom:23px; display:block; border-top: solid 2px black; z-index:1; left:-40px; color:white; overflow: hidden !important; top:-2063px;">hello world</div>
+
+
+
+<header id="site-header2" style=" position: relative; top:-2042px;">
+   <div class="left-panel2">
+    
+    </div>
+     <div class="right-panel2">
+   
+    </div>
+   
+  </header>
+     <section class="section-pin" style="position: relative; top:-4082px;">
+    
+    
+     <div class="left-panelpin" >
+        <h1>Zachary<br>(Zach)<br>Stephens</h1>
+        <p>Product Designer based in England & France</p>
+        
+      </div>
+      <div class="right-panelpin">
+        <div class="project-tilepin"></div>
+        <div class="project-tilepin"></div>
+       
+      </div>
+      
+      
+    </section>
+    
+    
+    
+    
+      <div class="linescool3" style="width: calc(100% + 40px); height 0px !important; background-color:white; position: relative;  display:block;   border-top: solid 2px black; z-index:1; left:-20px; color:white ; bottom:2px; margin:0; top:-4082px;">hello world</div>
+     
+     
+    <div class="linescool33" style="width: calc(100% - 0px); height 20px; background-color:white; position: relative; bottom:23px; display:block; border-left: solid 2px black; border-right: solid 2px black; border-top: solid 2px black; z-index:1; left:-20px; color:white; top:-4082px;">hello world</div>
+    
+    
+   
+     
+    
+   
+     
+     
+   
+    
+<div class="linescool221" style="width: calc(100% + 40px); height 20px; background-color:white; position: relative; bottom:23px; display:block; border-top: solid 2px black; z-index:1; left:-40px; color:white; overflow: hidden !important; top:-4103px;">hello world</div>
+
+
+
+<header id="site-header2" style=" position: relative; top:-2042px;">
+   <div class="left-panel2">
+    
+    </div>
+     <div class="right-panel2">
+   
+    </div>
+   
+  </header>
+     <section class="section-yel" style="position: relative; top:-6122px;">
+    
+    
+     <div class="left-panelyel" >
+        <h1>Zachary<br>(Zach)<br>Stephens</h1>
+        <p>Product Designer based in England & France</p>
+        
+      </div>
+      <div class="right-panelyel">
+        <div class="project-tileyel"></div>
+        <div class="project-tileyel"></div>
+       
+      </div>
+      
+      
+    </section>
+    
+      <div class="linescool3" style="width: calc(100% + 40px); height 0px !important; background-color:white; position: relative;  display:block;   border-top: solid 2px black; z-index:1; left:-20px; color:white ; bottom:2px; margin:0; top:-6122px;">hello world</div>
+     
+     
+    <div class="linescool33" style="width: calc(100% - 0px); height 20px; background-color:white; position: relative; bottom:23px; display:block; border-left: solid 2px black; border-right: solid 2px black; border-top: solid 2px black; z-index:1; left:-20px; color:white; top:-6122px;">hello world</div>
+    
+    
+   
+     
+    
+   
+     
+     
+   
+    
+<div class="linescool221" style="width: calc(100% + 40px); height 20px; background-color:white; position: relative; bottom:23px; display:block; border-top: solid 2px black; z-index:1; left:-40px; color:white; overflow: hidden !important; top:-6143px;">hello world</div>
+
+<header id="site-header2" style=" position: relative; top:-4042px;">
+   <div class="left-panel2">
+    
+    </div>
+     <div class="right-panel2">
+   
+    </div>
+   
+  </header>
+     <section class="section-yel" style="position: relative; top:-8162px; background-color:white !important;">
+    
+    
+     <div class="left-panelyel" style=" background-color:white !important;" >
+        <h1>Contact<br>Email:</h1>
+        <p>Zachstep05@gmail.com</p>
+        
+      </div>
+    
+      
+      
+    </section>
+
+  </main>
+
+ 
+</body>
+</html>
+<script>
+ window.addEventListener('scroll', function () {
+  const header = document.querySelector('#site-header');
+  const rightPanel = document.querySelector('.right-panel1');
+
+  if (window.innerWidth > 420) {
+    // For screens wider than 420px
+    if (window.scrollY >= 1660) {
+      header.style.backgroundColor = '#ffe16b';
+      if (rightPanel) rightPanel.style.backgroundColor = '#c8a61e';
+    } else if (window.scrollY >= 1100) {
+      header.style.backgroundColor = '#f1aeca';
+      if (rightPanel) rightPanel.style.backgroundColor = '#c45283';
+    } else if (window.scrollY >= 550) {
+      header.style.backgroundColor = '#A7D9F5';
+      if (rightPanel) rightPanel.style.backgroundColor = '#529cc4';
+    } else {
+      header.style.backgroundColor = '';
+      if (rightPanel) rightPanel.style.backgroundColor = '';
+    }
+  } else {
+    // For screens 420px or narrower (smaller scroll distances)
+    if (window.scrollY >= 1430) {
+      header.style.backgroundColor = '#ffe16b';
+      if (rightPanel) rightPanel.style.backgroundColor = '#c8a61e';
+    } else if (window.scrollY >= 940) {
+      header.style.backgroundColor = '#f1aeca';
+      if (rightPanel) rightPanel.style.backgroundColor = '#c45283';
+    } else if (window.scrollY >= 460) {
+      header.style.backgroundColor = '#A7D9F5';
+      if (rightPanel) rightPanel.style.backgroundColor = '#529cc4';
+    } else {
+      header.style.backgroundColor = '';
+      if (rightPanel) rightPanel.style.backgroundColor = '';
+    }
+  }
+});
+window.addEventListener('scroll', () => {
+  if (window.scrollY > window.innerHeight * 3.3) {
+    window.scrollTo({ top: window.innerHeight * 2.6, behavior: 'smooth' });
+  }
+});
+
+</script>
+
+
