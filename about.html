@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="preload" as="image" href="https://github.com/Stepzach/pdesport/blob/main/IMG_3908.jpeg?raw=true">
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <title>Zach Stephens – Portfolio</title>
+  <title>Zach Stephens – About</title>
   <style>
     * {
       margin: 0;
@@ -1079,10 +1081,67 @@ pill-link {
   
   <div class="imgdog">
     <img src="https://github.com/Stepzach/pdesport/blob/main/IMG_3908.jpeg?raw=true" 
-         style="width:100%; border-radius: 14px; max-height:450px; object-fit: cover; display: block;">
+         style="width:100%;  height: 100%; border-radius: 14px; max-height:450px; object-fit: cover; display: block;">
          </div>
          <div class="text-box">
-    <p>Hey! I’m Zach, a Product Design student at the University of Leeds.<br>I enjoy designing and coding websites in my spare time (for others and myself) <br><br> I’m also really into tennis and work at Wimbledon during the Championships. <br>Always up for learning something new or working on a cool project</p>
+    <p>Hey! I’m Zach, a Product Design student at the University of Leeds.<br>I enjoy designing and coding websites in my spare time (for others and myself) <br><br> I’m also really into tennis and work at Wimbledon during the Championships. <br>Always up for learning something new or working on a cool project</p><br>
+    <h4 class="techskill">Technical Skills:</h4>
+     <div class="tools-row">
+    <div class="tool" onclick="this.classList.toggle('open')">
+      <div class="tool-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Adobe_Photoshop_CC_icon.svg/1051px-Adobe_Photoshop_CC_icon.svg.png"></div>
+      <div class="tool-title">Photoshop</div>
+     
+    </div>
+
+    <div class="tool" onclick="this.classList.toggle('open')">
+      <div class="tool-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Adobe_InDesign_CC_icon.svg/1200px-Adobe_InDesign_CC_icon.svg.png"></div>
+      <div class="tool-title">InDesign</div>
+     
+    </div>
+
+    <div class="tool" onclick="this.classList.toggle('open')">
+      <div class="tool-icon"><img src="https://img.icons8.com/?size=512&id=62397&format=png"></div>
+      <div class="tool-title">SolidWorks</div>
+      
+    </div>
+
+    <div class="tool" onclick="this.classList.toggle('open')">
+      <div class="tool-icon"><img src="https://cdn.worldvectorlogo.com/logos/arduino-1.svg"></div>
+      <div class="tool-title">Arduino</div>
+     
+    </div>
+
+    <div class="tool" id="ic1" onclick="this.classList.toggle('open')">
+      <div class="tool-icon"><img src="https://cdn.iconscout.com/icon/free/png-256/free-blender-technology-logo-social-media-logo-download-svg-png-gif-flat-icon-logos-technology-logo-vol-1-pack-blender-logo-icon-2944729.png?f=webp&w=256"></div>
+      <div class="tool-title">Blender</div>
+    
+    </div>
+      <div class="tool" id="ic1" onclick="this.classList.toggle('open')">
+      <div class="tool-icon"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRqa6D6GWxP6MQ_AJznMLvR1y9TWVj5NvIe3w&s"></div>
+      <div class="tool-title">Shapr3d</div>
+     
+    </div>
+      <div class="tool" id="ic2" onclick="this.classList.toggle('open')">
+      <div class="tool-icon"><img src="https://cdn.iconscout.com/icon/free/png-256/free-html-5-logo-icon-download-in-svg-png-gif-file-formats--programming-langugae-language-pack-logos-icons-1175208.png"></div>
+      <div class="tool-title">HTML</div>
+     
+    </div>
+      <div class="tool" id="ic2" onclick="this.classList.toggle('open')">
+      <div class="tool-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/6/62/CSS3_logo.svg"></div>
+      <div class="tool-title">CSS</div>
+     
+    </div>
+      <div class="tool" id="ic3" onclick="this.classList.toggle('open')">
+      <div class="tool-icon"><img src="https://icon2.cleanpng.com/20181209/bzx/kisspng-javascript-angularjs-node-js-computer-icons-clip-a-clipart-js-1713911866197.webp"></div>
+      <div class="tool-title">JavaScript</div>
+     
+    </div>
+      <div class="tool" id="ic3" onclick="this.classList.toggle('open')">
+      <div class="tool-icon"><img src="https://upload.wikimedia.org/wikipedia/en/9/9b/Procreate_icon.png"></div>
+      <div class="tool-title">ProCreate</div>
+     
+    </div>
+  </div>
   </div>
   
   <!-- Overlay Text -->
@@ -1116,7 +1175,80 @@ pill-link {
 <style>
 
 
-   }
+   
+    .tools-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: left;
+      margin-top:20px;
+      max-width:450px;
+    }
+    @media (max-width: 686px) {
+    
+    .tool,
+     .techskill {
+    display: none;
+   
+ }
+ } 
+ 
+  @media (max-width: 704px) {
+    
+    #ic1,
+    #ic2,
+    #ic3 {
+    display: none;
+ }
+ }
+  @media (max-width: 824px) {
+    
+     #ic2,
+     #ic3 {
+    display: none;
+ }
+ }
+ @media (max-width: 916px) {
+    
+     #ic3 {
+    display: none;
+ }
+ }
+    .tool {
+     
+      border-radius: 8px;
+      filter: grayscale(10%);
+      padding: 2px;
+      width: 80px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tool:hover {
+      transform: scale(1.03);
+      filter: grayscale(0%);
+    }
+
+    .tool-icon {
+      font-size: 32px;
+      margin-bottom: 4px;
+      text-align: center;
+    }
+    .tool-icon img {
+      width:35px;
+      height:35px;
+      border-radius:5px;
+    
+      
+    }
+   
+    
+
+    .tool-title {
+      
+      text-align: center;
+    }
+
  
  @media (min-width: 350px) {
  .me {
@@ -1229,6 +1361,8 @@ pill-link {
   flex-direction: column;
   padding: 0 14px;
   max-width: 1300px  !important;
+  
+   
 }
 
 .text-box {
@@ -1237,23 +1371,32 @@ pill-link {
   border-radius: 14px;
   
   min-width:180px;
+ 
   margin-top:12px;
  
+ 
   color: #715f5f;
+  flex: 1;
 }
+
 
 /* Image container style */
 .imgdog {
   max-width: 500px;
+  min-height:100%  !important;
   position: relative;
+   display: flex;
+  flex-direction: column;
+  
+  
 }
 
 /* For screens 451px and above, put text box to the right */
 @media (min-width: 501px) {
   .responsive-container {
     flex-direction: row;
-    align-items: flex-start !important;
-    gap: 16px; /* space between text and image */
+    align-items: stretch; /* ensures equal height */
+    gap: 12px; /* space between text and image */
    
     
   }
@@ -1884,4 +2027,3 @@ document.getElementById('menuButton').addEventListener('click', () => {
     errorMessage.classList.add('visible');
   });
 </script>
-
