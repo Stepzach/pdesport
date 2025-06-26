@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <title>Zach Stephens – About</title>
+  <title>Zach Stephens – Portfolio</title>
   <style>
     * {
       margin: 0;
@@ -1075,14 +1075,20 @@ pill-link {
     CURRENTLY ON PLACEMENT AT AIR LIQUIDE PARIS (UNTIL SEPT 2026)
     </p>
   </div>
-<div class="imgdog" style="position: relative; padding: 0px 14px; max-width:400px;">
-  <img src="https://github.com/Stepzach/pdesport/blob/main/IMG_3908.jpeg?raw=true" 
-       style="width:100%; border-radius: 14px; max-height:450px; object-fit: cover; display: block;">
+<div class="responsive-container">
+  
+  <div class="imgdog">
+    <img src="https://github.com/Stepzach/pdesport/blob/main/IMG_3908.jpeg?raw=true" 
+         style="width:100%; border-radius: 14px; max-height:450px; object-fit: cover; display: block;">
+         </div>
+         <div class="text-box">
+    <p>Hey! I’m Zach, a Product Design student at the University of Leeds.<br>I enjoy designing and coding websites in my spare time (for others and myself) <br><br> I’m also really into tennis and work at Wimbledon during the Championships. <br>Always up for learning something new or working on a cool project</p>
+  </div>
   
   <!-- Overlay Text -->
   <div class="me" style="
     position: absolute;
-    top: 20px;
+    top: 80px;
     left: 30px;
     font-size: 28px;
     
@@ -1094,7 +1100,7 @@ pill-link {
   </div>
   <div class="dog" style="
     position: absolute;
-    top: 38px;
+    top: 98px;
     left: 110px;
     font-size: 14px;
   
@@ -1106,18 +1112,16 @@ pill-link {
   ">
     RANDOM <br>DOG
   </div>
+   
 <style>
 
- @media (min-width: 768px) {
- .imgdog {
- padding:0px 28px !important;
-  }
-  }
+
+   }
  
  @media (min-width: 350px) {
  .me {
         
-    top: 32px !important;
+    top: 89px !important;
     left: 38px !important;
    
     
@@ -1125,7 +1129,7 @@ pill-link {
     }
     .mea {
         
-    top: 65px !important;
+    top: 125px !important;
     left: 65px !important;
    
     
@@ -1133,7 +1137,7 @@ pill-link {
     }
      .doga {
         
-    top: 75px !important;
+    top: 135px !important;
     left: 155px !important;
    
     
@@ -1141,7 +1145,7 @@ pill-link {
     }
      .dog {
         
-    top: 45px !important;
+    top: 100px !important;
     left: 140px !important;
    
     
@@ -1151,7 +1155,7 @@ pill-link {
     @media (min-width: 399px) {
  .me {
         
-    top: 38px !important;
+    top: 98px !important;
     left: 42px !important;
    
     
@@ -1159,7 +1163,7 @@ pill-link {
     }
     .mea {
         
-    top: 71px !important;
+    top: 135px !important;
     left: 71px !important;
    
     
@@ -1167,7 +1171,7 @@ pill-link {
     }
      .doga {
         
-    top: 95px !important;
+    top: 155px !important;
     left: 175px !important;
    
     
@@ -1175,18 +1179,236 @@ pill-link {
     }
      .dog {
         
-    top: 65px !important;
+    top: 125px !important;
     left: 156px !important;
    
     
    
     }
     }
-    </style>
+    
+    @media (min-width: 450px) {
+ .me {
+        
+    top: 98px !important;
+    left: 42px !important;
+   
+    
+   
+    }
+    .mea {
+        
+    top: 135px !important;
+    left: 71px !important;
+   
+    
+   
+    }
+     .doga {
+        
+    top: 155px !important;
+    left: 195px !important;
+   
+    
+   
+    }
+     .dog {
+        
+    top: 125px !important;
+    left: 176px !important;
+   
+    
+   
+    }
+    }
+    
+   
+    .responsive-container {
+    
+  display: flex;
+  flex-direction: column;
+  padding: 0 14px;
+  max-width: 1300px  !important;
+}
+
+.text-box {
+  background-color: #efefef;
+  padding: 14px;
+  border-radius: 14px;
+  
+  min-width:180px;
+  margin-top:12px;
+ 
+  color: #715f5f;
+}
+
+/* Image container style */
+.imgdog {
+  max-width: 500px;
+  position: relative;
+}
+
+/* For screens 451px and above, put text box to the right */
+@media (min-width: 501px) {
+  .responsive-container {
+    flex-direction: row;
+    align-items: flex-start !important;
+    gap: 16px; /* space between text and image */
+   
+    
+  }
+
+  .text-box {
+     margin-top: 0px !important;
+    flex: 1;
+  }
+   .me {
+        
+    top: 80px !important;
+    left: 42px !important;
+   
+    
+   
+    }
+    .mea {
+        
+    top: 115px !important;
+    left: 61px !important;
+   
+    
+   
+    }
+     .doga {
+        
+    top: 135px !important;
+    left: 145px !important;
+   
+    
+   
+    }
+     .dog {
+        
+    top: 105px !important;
+    left: 125px !important;
+   }
+    
+}
+
+@media (min-width: 568px) {
+
+ .me {
+        
+    top: 100px !important;
+    left: 40px !important;
+   
+    
+   
+    }
+    .mea {
+        
+    top: 130px !important;
+    left: 55px !important;
+   
+    
+   
+    }
+     .doga {
+        
+    top: 155px !important;
+    left: 165px !important;
+   
+    
+   
+    }
+     .dog {
+        
+    top: 130px !important;
+    left: 145px !important;
+   }
+    
+}
+  @media (min-width: 768px) {
+ .imgdog {
+ padding-left: 14px !important;
+  }
+  .text-box {
+  margin-right: 14px !important;
+  }
+  
+  .me {
+        
+    top: 100px !important;
+    left: 53px !important;
+   
+    
+   
+    }
+    .mea {
+        
+    top: 130px !important;
+    left: 67px !important;
+   
+    
+   
+    }
+     .doga {
+        
+    top: 155px !important;
+    left: 177px !important;
+   
+    
+   
+    }
+     .dog {
+        
+    top: 130px !important;
+    left: 157px !important;
+   }
+    
+}
+@media (min-width: 1300px) {
+  .responsive-container {
+    
+  position: relative;
+  
+  }
+   .me {
+        
+    top: 30px !important;
+    left: 53px !important;
+   
+    
+   
+    }
+    .mea {
+        
+    top: 60px !important;
+    left: 67px !important;
+   
+    
+   
+    }
+     .doga {
+        
+    top: 95px !important;
+    left: 177px !important;
+   
+    
+   
+    }
+     .dog {
+        
+    top: 70px !important;
+    left: 157px !important;
+   }
+    
+  
+  }
+</style>
   <!-- Hand-drawn style arrow using SVG -->
   <svg class="mea" viewBox="0 0 200 200" style="
     position: absolute;
-    top: 55px;
+    top: 115px;
     left: 55px;
     width: 100px;
     height: 100px;
@@ -1201,7 +1423,7 @@ pill-link {
   
    <svg class="doga" viewBox="0 0 200 200" style="
     position: absolute;
-    top: 65px;
+    top: 125px;
     left: 130px;
     width: 100px;
     height: 100px;
@@ -1234,7 +1456,7 @@ pill-link {
     <div class="footer-section">
       <h4>NAVIGATE</h4>
       <ul>
-       <li><a href="https://zacharystephens.info/home">Home</a></li>
+       <li><a href="https://zacharystephens.info">Home</a></li>
         <li><a href="https://zacharystephens.info/archive">Archive</a></li>
         <li><a href="https://zacharystephens.info/about" class="marginsfoot">About</a></li>
       </ul>
