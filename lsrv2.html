@@ -51,7 +51,7 @@
     .hero-section {
    
       position: relative;
-       height: calc(var(--vh, 1vh) * 100 - 136px);
+       height: calc(var(--vh, 1vh) * 100 - 145px);
      margin: 30px 28px;
       border-radius: 14px;
       overflow: hidden;
@@ -61,7 +61,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position:left;
+      object-position:center;
       border-radius: 14px;
       display: block;
        filter: brightness(0.8); 
@@ -1299,7 +1299,7 @@ pill-link {
 </div>
 
   <div class="hero-section">
-  <img class="hero-img" src="https://stepzach.github.io/leedstestradio/316c00_97fbd91f59754425949fd7a851336bf6~mv2.jpg.webp">
+  <img class="hero-img" src="https://stepzach.github.io/leedstestradio/316c00_e270ed388b21449d9bdd56622dbeb4ec~mv2.jpg.webp">
 
     <div class="overlay">
      <div class="top-row"> 
@@ -1857,13 +1857,13 @@ function updateDescription() {
     const words = fullText.split(' ');
     if (words.length > 12) {
       description.childNodes[0].textContent = words.slice(0, 12).join(' ') + '...';
-      toggleBtn.textContent = 'Show more';
+      toggleBtn.textContent = 'More';
     } else {
       toggleBtn.textContent = '';
     }
   } else {
     description.childNodes[0].textContent = fullText;
-    toggleBtn.textContent = expanded ? 'See less' : '';
+    toggleBtn.textContent = expanded ? 'Less' : '';
   }
 }
 
