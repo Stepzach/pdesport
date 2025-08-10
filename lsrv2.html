@@ -382,7 +382,7 @@ top: 0px;
   opacity: 0;
   transform: translateY(-40px);
   transition: opacity 1.4s ease, transform 1.4s ease;
-  padding: 100px 24px;
+  padding: 80px 24px;
     overflow-x: auto;
 }
 
@@ -688,14 +688,14 @@ pill-link {
     @media screen and (min-width: 768px) {
   
   .sliding-menu  {
-      max-height: 450px;
+      max-height: 250px !important;
   }
        }
        
         @media screen and (max-width: 767px) {
   
   .sliding-menu  {
-      max-height: 310px;
+      max-height: 200px !important;
   }
        }
 
@@ -1049,7 +1049,7 @@ pill-link {
     }
       }
 
-    form {
+    .form {
       display: flex;
       align-items: center;
       background: white;
@@ -1375,7 +1375,51 @@ pill-link {
      
   }
 }
+ .unique-nav-list {
+  margin: 0;
+ 
+  overflow-y: none !important;
+  padding: 6px;
+  color: whitesmoke !important;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  gap: 8px; /* space between items */
+  list-style: none; /* optional: remove bullets */
+ 
+}
 
+.unique-nav-list li {
+overflow: none !important;
+  display: block; /* ensures each li takes up its cell */
+}
+
+.unique-nav-link {
+overflow: none !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  padding: 1px 16px;
+  color: whitesmoke !important;
+  font-weight: 600;
+  font-size: 18px !important;
+}
+
+.unique-listen-link {
+  color: whitesmoke;
+  border-color: rgba(6,182,212,0.18);
+}
+
+.unique-apply-link {
+  color: whitesmoke;
+}
+
+
+    
+
+   
+
+   
 
   </style>
 </head>
@@ -1453,9 +1497,9 @@ pill-link {
 
   <!-- Desktop Navigation -->
   <div class="desktop-nav">
-    <div class="nav-item projects" id="projectsHover" >PORTFOLIO</div>
-    <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/about'" >ABOUT</div>
-    <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/archive'" >ARCHIVE</div>
+    <div class="nav-item projects"   id="nav-item">SCHEDULE</div>
+    <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/about'" >LISTEN</div>
+    <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/archive'" >APPLY</div>
   </div>
 </div>
 
@@ -1463,7 +1507,14 @@ pill-link {
       <div class="sliding-menu" id="slidingMenu">
  <div class="sliding-content">
   <div class="menu-tabs">
-  <span class="tab active" data-category="featured">PORTFOLIO LOCKED</span>
+  <nav class="unique-nav-card" aria-label="Main actions">
+    <ul class="unique-nav-list">
+      <li><a class="unique-nav-link unique-schedule-link" href="/schedule"><span class="unique-nav-icon" aria-hidden="true"></span>Schedule</a></li>
+      <li><a class="unique-nav-link unique-listen-link" href="/listen"><span class="unique-nav-icon" aria-hidden="true"></span>Listen</a></li>
+      <li><a class="unique-nav-link unique-apply-link" href="/apply"><span class="unique-nav-icon" aria-hidden="true"></span>GET INVOLVED</a></li>
+       <li><a class="unique-nav-link unique-apply-link" href="/apply"><span class="unique-nav-icon" aria-hidden="true"></span>About</a></li>
+    </ul>
+  </nav>
    <!-- <span class="tab active" data-category="featured">FEATURED</span>
     <span class="tab" data-category="university">UNI COURSEWORK</span>
      <span class="tab" data-category="personal">PERSONAL PROJECTS</span>
@@ -1476,11 +1527,9 @@ pill-link {
    <div class="form-container">
   
   <form id="password-form">
-    <span class="lock-icon"><i class="fa fa-lock"></i></span>
-    <input type="text" id="password-input" placeholder="Enter password">
-    <button class="passtext" type="submit"><i class="fa fa-arrow-right"></i></button>
+   
   </form>
-  <div class="error-message" id="error-message">Incorrect Password</div>
+ 
 </div>
 
 
