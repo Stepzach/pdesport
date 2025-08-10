@@ -30,13 +30,13 @@
 
     .pill-banner {
       max-width: 100%;
-     
+    
       background-color: wheat !important;
      border: solid 2px black;
      
       border-radius: 14px !important;
       text-transform: uppercase;
-     
+      margin: 16px 20px;
     
       
      
@@ -49,10 +49,10 @@
 
 
     .hero-section {
-    
+   
       position: relative;
-       height: calc(var(--vh, 1vh) * 100 - 80px);
-     margin: 16px 28px;
+       height: calc(var(--vh, 1vh) * 100 - 130px);
+     margin: 130px 28px;
       border-radius: 14px;
       overflow: hidden;
     }
@@ -100,6 +100,10 @@
     .menu-tabs {
      justify-content: center;
   }
+   .pill-banner {
+   width: calc(100% - 42px) !important;
+   max-width:1260px !important;
+}
 }
 
     .top-row {
@@ -189,7 +193,7 @@
      .hero-section {
     
      
-     margin: 12px 12px;
+     margin: 130px 12px;
     
     }
     }
@@ -1153,16 +1157,16 @@ pill-link {
     align-items: center;
     gap: 0.3rem;
     font-size: 0.8rem;
-    color: green;
+    color: darkgreen;
     font-weight: bold;
   }
 
   .pulse-dot {
     width: 8px;
     height: 8px;
-    background: #0f0;
+    background: #057705;
     border-radius: 50%;
-    animation: pulse 1s infinite;
+    animation: pulse 5s infinite;
   }
 
   @keyframes pulse {
@@ -1223,6 +1227,53 @@ pill-link {
       text-overflow: ellipsis;
     }
   }   
+   @media (min-width: 850px) {
+   .pill-banner img.thumbnail {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+  }
+  .pill-title {
+    font-weight: bold;
+    font-size: 1.15rem;
+   
+  }
+  .pill-description {
+  font-size: 0.95rem;
+  color: #555;
+  margin-top: 0.5rem;
+  max-width: 90%;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+ .on-air {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    
+    font-weight: bold;
+  }
+   .play-btn {
+    
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+    cursor: pointer;
+    flex-shrink: 1;
+    transition: background 0.3s ease;
+  }
+    .pill-banner.shrink img.thumbnail {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+  }
+  
+   }
     
   </style>
 </head>
@@ -1806,8 +1857,8 @@ const fullText = description.childNodes[0].textContent.trim();
 function updateDescription() {
   if (window.innerWidth <= 600 && !expanded) {
     const words = fullText.split(' ');
-    if (words.length > 8) {
-      description.childNodes[0].textContent = words.slice(0, 8).join(' ') + '...';
+    if (words.length > 12) {
+      description.childNodes[0].textContent = words.slice(0, 12).join(' ') + '...';
       toggleBtn.textContent = 'Show more';
     } else {
       toggleBtn.textContent = '';
@@ -1843,5 +1894,17 @@ playBtn.addEventListener('click', () => {
   playing = !playing;
   playBtn.textContent = playing ? '⏸' : '▶';
 });
+document.addEventListener("DOMContentLoaded", function () {
+  const pillBanner = document.querySelector(".pill-banner");
+  const heroSection = document.querySelector(".hero-section");
 
+  if (pillBanner && heroSection) {
+    // Get the height of .pill-banner
+    const pillHeight = pillBanner.offsetHeight;
+    const extraSpace = 20; // Fixed value in px you want to add
+
+    // Apply margin-top to .hero-section
+    heroSection.style.marginTop = (pillHeight + extraSpace) + "px";
+  }
+});
 </script>
