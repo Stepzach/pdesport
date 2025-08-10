@@ -266,12 +266,28 @@
    
 }
 
+
 .footer-content {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
  
   
+}
+
+.footer1 {
+  
+  background-color: rgb(149, 13, 13);
+  border: solid 2px black;
+  max-width:100% !important;
+  padding: 0;
+  margin: 16px 12px;
+  border-radius: 14px;
+  font-family: 'Helvetica Neue', sans-serif;
+
+   color: whitesmoke;
+  
+   
 }
 
 .footer-section h4 {
@@ -1415,13 +1431,90 @@ overflow: none !important;
 }
 
 @media (min-width: 1000px) {
-    #careerss {
+    #careerss,
+     .footer1 {
     display:none;
 }
 }
    
 
-   
+   .footer-section1 {
+  position: relative;
+  color: whitesmoke;
+  overflow: hidden !important;
+}
+
+.footer-section1 h4 {
+position: absolute !important;
+ 
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+   z-index: 2;
+   margin-left:22px;
+}
+
+.image-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  margin: 0 !important;
+   overflow: hidden !important;
+}
+
+.image-container img {
+  width: 100%;
+  display: block;
+  height:250px;
+  object-fit:cover;
+  object-position: center;
+  border-radius:14px;
+  
+  
+}
+
+
+
+.podcast-links {
+  position: absolute !important;
+  bottom: 1.5rem;
+  left:50%;
+  transform: translate(-50%);
+  margin: 0;
+  z-index: 2;
+}
+
+
+.image-container::before {
+ content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 75%),
+              linear-gradient(to bottom, rgba(0,0,0,0.02) 0%, transparent 25%);
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 14px;
+   overflow: hidden !important;
+}
+@media (min-width: 655px) {
+  .footer-wrapper {
+    display: flex;
+    gap: 0px;
+  }
+  
+  /* Optional: make them share width equally */
+  #careerss, .footer1 {
+    flex: 1 1 0;
+  }
+  .footer1 {
+  margin-left:-5px !important;
+  margin-right:24px !important;
+}
+}
 
   </style>
 </head>
@@ -1594,29 +1687,42 @@ overflow: none !important;
   <div class="carousel-dots" id="carouselDots"></div>
   
   
-  
+  <div class="footer-wrapper">
   <footer class="footer" id="careerss">
-  <div class="footer-content">
-
-   
-    
-    
-    <div class="footer-section">
-      <h4 style="margin-top: -10px;">Brought To you by our Sponsor:</h4>
-     <img  src="https://stepzach.github.io/leedstestradio/316c00_e85e432bbd2e4e15a926db384684cf02~mv2.png.avif" width=100% style="max-width:600px">
-     <p>Discover, develop and decide your future with appointments, events and vacancies.<br><u>Find out more</u></p>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4 style="margin-top: -10px;">Brought To you by our Sponsor:</h4>
+        <img src="https://stepzach.github.io/leedstestradio/316c00_e85e432bbd2e4e15a926db384684cf02~mv2.png.avif" width="100%" style="max-width:600px">
+        <p>Discover, develop and decide your future with appointments, events and vacancies.<br><u>Find out more</u></p>
+      </div>
     </div>
-    
-    
-    
-  
-   
-    
-   
-    
+  </footer>
+
+  <div class="footer1">
+    <div class="footer-section1">
+      <h4>LATEST PODCAST</h4>
+      <div class="image-container">
+        <img src="https://lh3.googleusercontent.com/u/0/d/1t_mDlGRhZ-JYbfhgIN_IpNJAz5Bmv7CM=w2940-h1680-iv1" alt="Podcast">
+      </div>
+
+      <div class="podcast-links" style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
+        <a href="https://open.spotify.com/your-podcast-link" target="_blank" rel="noopener" 
+           style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" 
+               alt="Spotify" style="width: 28px; height: 28px; margin-right: 8px;">
+          <span><b>Listen on Spotify</b></span>
+        </a>
+        <a href="https://soundcloud.com/your-soundcloud-link" target="_blank" rel="noopener" 
+           style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+          <img src="https://cdn.worldvectorlogo.com/logos/soundcloud-2.svg" 
+               alt="SoundCloud" style="width: 28px; height: 28px; margin-right: 8px;">
+          <span><b>Listen on SoundCloud</b></span>
+        </a>
+      </div>
+    </div>
   </div>
- 
-</footer>
+</div>
+
 
 
 
