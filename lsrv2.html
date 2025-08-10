@@ -31,7 +31,7 @@
     .pill-banner {
       max-width: 100%;
     
-      background-color: wheat !important;
+      background-color: rgb(148 14 14) !important;
      border: solid 2px black;
      
       border-radius: 14px !important;
@@ -51,7 +51,7 @@
     .hero-section {
    
       position: relative;
-       height: calc(var(--vh, 1vh) * 100 - 145px);
+       height: calc(var(--vh, 1vh) * 100 - 150px);
      margin: 30px 28px;
       border-radius: 14px;
       overflow: hidden;
@@ -70,7 +70,7 @@
 
 /* Wrap the image in a container */
 .hero-img-wrapper {
- height: calc(var(--vh, 1vh) * 100 - 145px);
+ height: calc(var(--vh, 1vh) * 100 - 150px);
   position: relative;
   overflow: hidden;
   border-radius: 14px; /* match the image radius */
@@ -132,7 +132,7 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      color: white;
+      color: whitesmoke;
       font-weight: bold;
       font-size: 1.25rem;
     }
@@ -147,7 +147,7 @@
     .bottom-right {
       align-self: flex-end;
       text-align: right;
-      color: white;
+      color: whitesmoke;
       max-width: 90%;
       z-index:100;
     }
@@ -1097,6 +1097,7 @@ pill-link {
   flex: 1; /* take up remaining space */
   display: flex;
   flex-direction: column;
+  color: whitesmoke;
 }
 
 .pill-top-row {
@@ -1116,13 +1117,13 @@ pill-link {
   align-items: center;
   gap: 0.3rem;
   font-size: 0.8rem;
-  color: green;
+  color: lightgreen;
   font-weight: bold;
 }
 
 .pill-description {
   font-size: 0.85rem;
-  color: #555;
+  color: whitesmoke !important;
   margin-top: 0.2rem;
   max-width: 100%;
   transition: max-height 0.3s ease, opacity 0.3s ease;
@@ -1133,7 +1134,7 @@ pill-link {
   cursor: pointer;
   margin-left: 0.3rem;
   font-size: 0.75rem;
-  color: blue;
+  color: whitesmoke !important;
 }
 
 .pill-banner.shrink .pill-description {
@@ -1180,14 +1181,14 @@ pill-link {
     align-items: center;
     gap: 0.3rem;
     font-size: 0.8rem;
-    color: darkgreen;
+    color: lightgreen;
     font-weight: bold;
   }
 
   .pulse-dot {
     width: 8px;
     height: 8px;
-    background: #057705;
+    background: lightgreen;
     border-radius: 50%;
     animation: pulse 5s infinite;
   }
@@ -1223,9 +1224,9 @@ pill-link {
 
  
   .play-btn {
-    background: rgb(149, 13, 13);
-    color: wheat;
-    border: solid 2px black;
+    background: whitesmoke;
+    color: rgb(149, 13, 13);
+    
     border-radius: 50%;
     width: 36px;
     height: 36px;
