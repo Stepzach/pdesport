@@ -52,6 +52,7 @@
    
       position: relative;
        height: calc(var(--vh, 1vh) * 100 - 150px);
+       max-height:650px;
      margin: 30px 28px;
       border-radius: 14px;
       overflow: hidden;
@@ -135,6 +136,7 @@
       color: whitesmoke;
       font-weight: bold;
       font-size: 1.25rem;
+      
     }
 
     .top-row .menu {
@@ -289,6 +291,20 @@
   
    
 }
+.footer10 {
+  
+  background-color: rgb(149, 13, 13);
+  border: solid 2px black;
+  max-width:100% !important;
+  padding: 0;
+  margin: 16px 12px;
+  border-radius: 14px;
+  font-family: 'Helvetica Neue', sans-serif;
+
+   color: whitesmoke;
+  
+   
+}
 
 .footer-section h4 {
   font-size: 1rem;
@@ -348,15 +364,16 @@ text-decoration: underline;
 
 .sliding-menu {
   position: absolute;
-  top: -2px;
+  top: 0px;
   left:0;
   width: 100%;
-  height: 0;
+  height: 60px;
   background-color: rgb(149, 13, 13);
   border: solid 2px black;
   z-index: 1;
   transition: height 1.5s cubic-bezier(0.5, 0, 0.1, 1); /* Strong slow-fast-slow */
-  border-radius:14px;
+  border-radius: 14px 14px 0 0;
+
   pointer-events: none;
   display: flex;
   justify-content: center;
@@ -826,6 +843,25 @@ pill-link {
   left:-15px; 
   top:10px; 
  
+   }
+  }
+  
+  @media (min-width: 481px) {
+  .sliding-menu {
+  
+  height: 80px;
+  
+  
+   }
+  }
+  
+   @media (min-width: 768px) {
+  .sliding-menu {
+  
+  height: 0px;
+  top:-2px;
+  
+  
    }
   }
   
@@ -1457,6 +1493,26 @@ position: absolute !important;
    z-index: 2;
    margin-left:22px;
 }
+ .footer-section10 {
+  position: relative;
+  color: whitesmoke;
+  overflow: hidden !important;
+}
+
+.footer-section10 h4 {
+position: absolute !important;
+ 
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+   z-index: 2;
+   margin-left:22px;
+}
+
 
 .image-container {
   position: relative;
@@ -1467,6 +1523,24 @@ position: absolute !important;
 }
 
 .image-container img {
+  width: 100%;
+  display: block;
+  height:250px;
+  object-fit:cover;
+  object-position: center;
+  border-radius:14px;
+  
+  
+}
+.image-container2 {
+  position: relative;
+  
+  width: 100%;
+  margin: 0 !important;
+   overflow: hidden !important;
+}
+
+.image-container2 img {
   width: 100%;
   display: block;
   height:250px;
@@ -1500,22 +1574,127 @@ position: absolute !important;
   border-radius: 14px;
    overflow: hidden !important;
 }
+
+.image-container2::before {
+ content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 75%),
+              linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 20%);
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 14px;
+   overflow: hidden !important;
+}
 @media (min-width: 655px) {
   .footer-wrapper {
     display: flex;
     gap: 0px;
+  }
+  #book2 {
+   display: none;
   }
   
   /* Optional: make them share width equally */
   #careerss, .footer1 {
     flex: 1 1 0;
   }
+  
+}
+@media (min-width: 655px)  and (max-width: 768px) {
+ 
+  .footer1 {
+  margin-left:5px !important;
+  margin-right:14px !important;
+  margin-top:12px !important;
+   margin-bottom:12px !important;
+}
+ #book21 {
+   margin-top: 0 !important;
+  }
+}
+@media (min-width: 769px) {
+ 
   .footer1 {
   margin-left:-5px !important;
   margin-right:24px !important;
 }
 }
 
+
+.bottom-rightb {
+    padding: 8px 16px;
+    border: 2px solid white;
+    background-color: transparent;
+    color: white;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    margin-top:10px;
+    transition: all 0.3s ease;
+    }
+    
+    
+    @media (min-width: 655px) and (max-width: 999px) {
+  #book21 {
+    margin-top: 0;
+    margin-left: 14px !important;
+  }
+}
+
+     @media (min-width: 769px) {
+  #book21 {
+   
+   margin-left:22px !important;
+   
+    
+  
+  
+    } }
+    
+    @media (max-width: 999px) {
+  .footer10 {
+    display: none;
+    
+  }
+  }
+  
+   @media (min-width: 1000px) {
+  #book21,
+  
+  
+  .image-container2 {
+    display: block !important;
+   
+    
+  } }
+   @media (min-width: 1000px) {
+  .footer10 {
+   
+    width:50% !important;
+    
+  
+   } }
+   
+    @media (min-width: 1000px) {
+  #book21 {
+   
+   margin-left:26px !important;
+   margin-right:5px !important;
+    
+  
+  
+    } }
+    
+     @media (min-width: 1000px) {
+  .footer10 {
+   
+   margin-right:26px !important;
+    
+  
+  
+    } }
   </style>
 </head>
 <body style="    max-width: 1300px;
@@ -1595,6 +1774,7 @@ position: absolute !important;
     <div class="nav-item projects"   id="nav-item">SCHEDULE</div>
     <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/about'" >LISTEN</div>
     <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/archive'" >APPLY</div>
+     <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/archive'" >ABOUT</div>
   </div>
 </div>
 
@@ -1724,6 +1904,56 @@ position: absolute !important;
 </div>
 
 
+ <div class="footer-wrapper">
+ 
+ 
+ <div class="footer1" id="book21" style="height:400px">
+    <div class="footer-section1" style="height:400px">
+      <h4>BOOK STUDIO 2</h4>
+      <div class="image-container2" style="height:400px">
+        <img src="https://lh3.googleusercontent.com/u/0/d/17uovn0s5rAa14vC9GfKN23FlvdsuBQn5=w2940-h1680-iv1" alt="Podcast" style="height:400px">
+      </div>
+
+      <div class="podcast-links" style="margin-top: 10px; width:90%;">
+        <a href="https://open.spotify.com/your-podcast-link" target="_blank" rel="noopener" 
+           style=" align-items: center; text-decoration: none; color: inherit;">
+         
+          <span><b>If you'd like to record your podcast or make use of our CDJs/Turntable, LSR's Studio 2 is available for our members to book out.</b></span>
+        </a> <br>
+       <button class="bottom-rightb" onclick="window.open('https://zacharystephens.info/radicaldesignPART2.pdf', '_blank')">
+  Make a booking
+</button>
+      </div>
+      
+    </div>
+  </div>
+
+ <div class="footer10" style="height:400px">
+    <div class="footer-section10" style="height:400px">
+      <h4>LATEST PODCAST</h4>
+      <div class="image-container" style="height:400px">
+        <img src="https://lh3.googleusercontent.com/u/0/d/1t_mDlGRhZ-JYbfhgIN_IpNJAz5Bmv7CM=w2940-h1680-iv1" alt="Podcast" style="height:400px">
+      </div>
+
+      <div class="podcast-links" style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
+        <a href="https://open.spotify.com/your-podcast-link" target="_blank" rel="noopener" 
+           style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" 
+               alt="Spotify" style="width: 28px; height: 28px; margin-right: 8px;">
+          <span><b>Listen on Spotify</b></span>
+        </a>
+        <a href="https://soundcloud.com/your-soundcloud-link" target="_blank" rel="noopener" 
+           style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+          <img src="https://cdn.worldvectorlogo.com/logos/soundcloud-2.svg" 
+               alt="SoundCloud" style="width: 28px; height: 28px; margin-right: 8px;">
+          <span><b>Listen on SoundCloud</b></span>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  
+</div>
 
 
 
