@@ -1410,18 +1410,12 @@ pill-link {
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
-    position: relative;
+    position: fixed;
+    max-height:145px;
   }
-
-  /* Vertical divider between columns */
-  .pill-banner::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 10%;
-    bottom: 10%;
-    width: 1px;
-    background-color: rgba(0, 0, 0, 0.15);
+  
+  .hero-section  {
+   margin-top:159px !important;
   }
 
   .pill-section {
@@ -2558,4 +2552,40 @@ function resetAutoPlay() {
   clearInterval(autoPlay);
   autoPlay = setInterval(nextSlide, 8000);
 }
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const banners = document.querySelectorAll('.pill-banner');
+
+  banners.forEach(banner => {
+    const descriptionEl = banner.querySelector('.pill-description');
+    const toggleBtn = banner.querySelector('.show-more');
+    const playBtn = banner.querySelector('.play-btn');
+
+   
+
+   
+
+    // Scroll shrink effect
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', () => {
+      const st = window.scrollY || document.documentElement.scrollTop;
+      if (st > lastScrollTop + 10) {
+        banner.classList.add('shrink');
+      } else if (st < lastScrollTop - 10) {
+        banner.classList.remove('shrink');
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    });
+
+    // Play/Pause toggle
+    if (playBtn) {
+      let playing = false;
+      playBtn.addEventListener('click', () => {
+        playing = !playing;
+        playBtn.textContent = playing ? '⏸' : '▶';
+      });
+    }
+  });
+});
 </script>
