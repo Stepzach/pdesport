@@ -58,23 +58,27 @@
       overflow: hidden;
     }
 
-   .hero-img {
-  position: relative;
+ .hero-img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
   border-radius: 14px;
-  display: block;
   filter: brightness(0.95);
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
 }
 
-/* Wrap the image in a container */
+.hero-img.active {
+  opacity: 1;
+}
+
 .hero-img-wrapper {
- height: calc(var(--vh, 1vh) * 100 - 150px);
+  height: calc(var(--vh, 1vh) * 100 - 150px);
   position: relative;
   overflow: hidden;
-  border-radius: 14px; /* match the image radius */
+  border-radius: 14px;
   border: solid 2px black;
 }
 
@@ -84,11 +88,45 @@
   inset: 0;
   background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 35%),
               linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 25%);
-  pointer-events: none;
   z-index: 1;
   border-radius: 14px;
+  pointer-events: none;
 }
 
+.carousel {
+  position: relative;
+  height: 100%;
+}
+
+/* Arrows */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.2);
+  color: whitesmoke;
+  border: none;
+  font-size: 1.5rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+  opacity:0.8;
+}
+
+.arrow:hover {
+  background: rgba(0, 0, 0, 0.6);
+  opacity:1;
+}
+
+.arrow.left {
+  left: 10px;
+}
+
+.arrow.right {
+  right: 10px;
+}
     .desktop-video {
     display: block;
   }
@@ -1695,6 +1733,10 @@ position: absolute !important;
   
   
     } }
+     @media (max-width: 335px) {
+    .title {
+    font-size:20px;
+      } }
   </style>
 </head>
 <body style="    max-width: 1300px;
@@ -1761,8 +1803,16 @@ position: absolute !important;
 
 
   <div class="hero-section">
-  <div class="hero-img-wrapper">
-  <img class="hero-img" src="https://stepzach.github.io/leedstestradio/316c00_e270ed388b21449d9bdd56622dbeb4ec~mv2.jpg.webp">
+<div class="hero-img-wrapper">
+  <div class="carousel">
+    <img class="hero-img active" src="https://stepzach.github.io/leedstestradio/316c00_e270ed388b21449d9bdd56622dbeb4ec~mv2.jpg.webp" alt="Slide 1">
+    <img class="hero-img" src="https://lh3.googleusercontent.com/u/0/d/18Tg2OocMQiJBQoRyVNegp6GFcqocijv7=w2940-h1680-iv1" alt="Slide 2">
+    <img class="hero-img" src="https://stepzach.github.io/leedstestradio/316c00_97fbd91f59754425949fd7a851336bf6~mv2.jpg.webp" alt="Slide 3">
+
+    <!-- Arrows -->
+    <button class="arrow left">&#10094;</button>
+    <button class="arrow right">&#10095;</button>
+  </div>
 </div>
     <div class="overlay">
      <div class="top-row"> 
@@ -2473,4 +2523,38 @@ document.addEventListener("DOMContentLoaded", function () {
     heroSection.style.marginTop = (pillHeight + extraSpace) + "px";
   }
 });
+const slides = document.querySelectorAll('.hero-img');
+const prevBtn = document.querySelector('.arrow.left');
+const nextBtn = document.querySelector('.arrow.right');
+let current = 0;
+let autoPlay = setInterval(nextSlide, 4000);
+
+function showSlide(index) {
+  slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+}
+
+function nextSlide() {
+  current = (current + 1) % slides.length;
+  showSlide(current);
+}
+
+function prevSlide() {
+  current = (current - 1 + slides.length) % slides.length;
+  showSlide(current);
+}
+
+nextBtn.addEventListener('click', () => {
+  nextSlide();
+  resetAutoPlay();
+});
+
+prevBtn.addEventListener('click', () => {
+  prevSlide();
+  resetAutoPlay();
+});
+
+function resetAutoPlay() {
+  clearInterval(autoPlay);
+  autoPlay = setInterval(nextSlide, 8000);
+}
 </script>
