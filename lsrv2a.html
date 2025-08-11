@@ -1455,19 +1455,17 @@ pill-link {
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
-    position: relative;
+    position: fixed;
+    max-height:145px;
   }
+  
+  .hero-section  {
+   margin-top:159px !important;
+  }
+  
 
   /* Vertical divider between columns */
-  .pill-banner::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 10%;
-    bottom: 10%;
-    width: 1px;
-    background-color: rgba(0, 0, 0, 0.15);
-  }
+  
 
   .pill-section {
     display: flex;
@@ -1819,14 +1817,14 @@ position: absolute !important;
       </div>
 
       <!-- BOTTOM ROW -->
-      <div class="pill-description" id="pillDescription">
+      <div class="pill-description" id="pillDescription1">
         Your daily smooth jazz session with the best artists from around the globe bringing the best melodies for your morning.
-        <span class="show-more" id="toggleDescription"></span>
+        <span class="show-more" id="toggleDescription1"></span>
       </div>
     </div>
 
     <!-- Play Button (moved out for alignment control) -->
-    <button class="play-btn" id="playBtn">▶</button>
+    <button class="play-btn" id="playBtn1">▶</button>
   </div>
 
   <!-- UP NEXT SHOW -->
@@ -3428,4 +3426,76 @@ function resetAutoPlay() {
   clearInterval(autoPlay);
   autoPlay = setInterval(nextSlide, 8000);
 }
+</script>
+<script>
+  const track = document.getElementById('carouselTrack');
+  const dotsContainer = document.getElementById('carouselDots');
+  const cards = track.querySelectorAll('.image-card');
+
+  // Create dots and add click listeners
+  cards.forEach((_, index) => {
+    const dot = document.createElement('span');
+    dot.classList.add('dot');
+    if (index === 0) dot.classList.add('active');
+    
+    dot.addEventListener('click', () => {
+      const cardWidth = cards[0].offsetWidth + 20; // includes gap
+      track.scrollTo({
+        left: index * cardWidth,
+        behavior: 'smooth'
+      });
+    });
+
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = dotsContainer.querySelectorAll('.dot');
+
+  // Update active dot on scroll
+  track.addEventListener('scroll', () => {
+    const scrollLeft = track.scrollLeft;
+    const cardWidth = cards[0].offsetWidth + 20;
+    const index = Math.round(scrollLeft / cardWidth);
+
+    dots.forEach(dot => dot.classList.remove('active'));
+    if (dots[index]) {
+      dots[index].classList.add('active');
+    }
+  });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const banners = document.querySelectorAll('.pill-banner');
+
+  banners.forEach(banner => {
+    const descriptionEl = banner.querySelector('.pill-description');
+    const toggleBtn = banner.querySelector('.show-more');
+    const playBtn = banner.querySelector('.play-btn');
+
+   
+
+   
+
+    // Scroll shrink effect
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', () => {
+      const st = window.scrollY || document.documentElement.scrollTop;
+      if (st > lastScrollTop + 10) {
+        banner.classList.add('shrink');
+      } else if (st < lastScrollTop - 10) {
+        banner.classList.remove('shrink');
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    });
+
+    // Play/Pause toggle
+    if (playBtn) {
+      let playing = false;
+      playBtn.addEventListener('click', () => {
+        playing = !playing;
+        playBtn.textContent = playing ? '⏸' : '▶';
+      });
+    }
+  });
+});
 </script>
