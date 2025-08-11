@@ -86,7 +86,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 35%),
+  background: linear-gradient(to top, rgba(0,0,0,0.0) 0%, transparent 35%),
               linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 25%);
   z-index: 1;
   border-radius: 14px;
@@ -999,27 +999,12 @@ pill-link {
   flex: 1 1 calc(33.333% - 16px);
   overflow: hidden;
   min-width: 100px;
-   aspect-ratio: 1 / 1;
+   aspect-ratio: 1 / 1.15;
   border-radius: 14px;
   border: solid 2px black;
  
 }
-.image-card:before{
-  content: "";
-  position: absolute;
-  inset: 0;    
-  
-  pointer-events: none;
-  z-index: 2;
-  border-radius: 1px;
-  background: linear-gradient(
-               to bottom,
-               rgba(0,0,0,0.0) 0%,
-               rgba(0,0,0,0) 20%,
-               rgba(0,0,0,0.2) 70%,
-               rgba(0,0,0,0.7) 100%
-             );
-}
+
 
 
 .image-card img {
@@ -1129,22 +1114,13 @@ pill-link {
 
 
 /* Responsive */
-@media (max-width: 768px) {
-  .image-card {
-     flex: 1 1 calc(50% - 32px);
-  }
- .carousel-track {
-        margin: 0px 12px;
-    }
-   
 
-}
 @media (max-width: 700px) {
   .image-card {
   position: relative;
   flex: 0 0 85%;
   max-width: 85%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1 / 1.15;
   border-radius: 10px;
   overflow: hidden;
   min-width: 250px;
@@ -2430,6 +2406,138 @@ position: absolute !important;
      font-size:1.05em !important;
      }
     }
+    
+    @media (min-width: 701px) {
+    #carohide {
+   
+     display: none;
+    
+     }
+     }
+      @media (max-width: 700px) {
+    #carohide2 {
+   
+     display: none;
+    
+     }
+     }
+      @media (min-width: 701px) and (max-width: 999px) {
+    
+ .image-card {
+  position: relative;
+  flex: 0 0 calc(50% - 8px);
+  max-width: calc(50% - 8px);
+  aspect-ratio: 1 / 1.15;
+  border-radius: 10px;
+  
+  
+ 
+}
+.carousel-track {
+    overflow-x: visible; /* No horizontal scroll */
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+    flex-wrap: wrap; /* Wrap into rows */
+    margin-left: 14px; /* Adjust if needed */
+     margin-right: 14px; /* Adjust if needed */
+  }
+}
+
+@media (min-width: 0px) {
+ 
+ 
+ 
+ 
+ 
+  
+  
+  
+ 
+
+.carousel-track {
+   
+    margin-left: 12px; /* Adjust if needed */
+     margin-right: 12px; /* Adjust if needed */
+    
+  }
+  
+}
+ @media (min-width: 769px) {
+ 
+ 
+ 
+ 
+ 
+  
+  
+  
+ 
+
+.carousel-track {
+   
+    margin-left: 26px; /* Adjust if needed */
+     margin-right: 26px; /* Adjust if needed */
+    
+  }
+  
+}
+
+.footerzz {
+  
+  background-color: transparent;
+  border: solid 2px black;
+  max-width:100% !important;
+  padding: 32px 24px 16px;
+  margin: 16px 12px;
+  border-radius: 14px;
+  font-family: 'Helvetica Neue', sans-serif;
+
+   color: whitesmoke;
+  
+   
+}
+@media (min-width: 769px) {
+.footerzz {
+margin-top: -16px !important;
+margin: 16px 26px;
+ font-size: 1em;
+  padding: 32px 45px 16px;
+}
+.footerzz h4 {
+  
+ 
+   font-size: 1.15em;
+  
+   
+}
+}
+
+@media (min-width: 1000px) {
+.footerzz {
+  
+  background-color: transparent;
+  border: solid 2px black;
+  max-width:100% !important;
+  padding: 32px 45px 16px;
+  margin: 16px 26px;
+  border-radius: 14px;
+  font-family: 'Helvetica Neue', sans-serif;
+margin-top: -16px;
+   color: whitesmoke;
+   font-size: 1.2em;
+  }
+   
+.footerzz h4 {
+  
+ 
+   font-size: 1.2em;
+  
+   
+}
+
+}
+
+
      </style>
       <div class="bottom-right">
         <p>About</p>
@@ -2454,38 +2562,102 @@ In the late 1990s, TV presenter Anita Rani worked at the radio station.</span>
 
     </div>
   </div>
+  
+  <footer class="footerzz" id="careerss" style="display:block !important">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4 style="margin-top: -10px;">2025/26 Commitee:</h4>
+        
+        <p class="atexta">Whatever you’re interested in, there’s a space here for you: presenting, producing, DJing, design, tech, event management, marketing. The list goes on.</p>
+      </div>
+    </div>
+  </footer>
  <div class="carousel-container">
   <div class="carousel-track" id="carouselTrack">
   
    <div class="image-card" onclick="window.location.href='https://thisislsr.com'">
-    <img src="https://lh3.googleusercontent.com/u/0/d/1OfLVtIsaaGFcSz3NdCOTmee1RyTVrx_U=w2940-h1680-iv1" alt="LSR" class="default-img">
+    <img src="https://static.wixstatic.com/media/316c00_bedcdf0a159141a09c83142b7b0cb04f~mv2.png" alt="LSR" class="default-img">
    
-    <div class="tag">Weekdays 9-11am</div>
+   <!-- <div class="tag">Weekdays 9-11am</div> -->
     <div class="text">
      
-      <p>Every week day 9-11am, four presenters wake up the students of Leeds with pop music and culture</p>
+      
     </div>
    
   </div>
   
   <div class="image-card" onclick="window.location.href='https://zacharystephens.info/WalkieTalkie(part3).pdf'">
-    <img src="https://lh3.googleusercontent.com/u/0/d/17Psc3lr03AhwhXw_ZtyvfQ-sbN_PXZ9f=w2940-h1680-iv1" alt="Image 1" class="default-img">
+    <img src="https://stepzach.github.io/leedstestradio/316c00_f94fec6fbefb4d47aef6441c3d43af74~mv2.png.webp" alt="Image 1" class="default-img">
    
-    <div class="tag">Every Friday 3-4pm</div>
-    <div class="text">
-    
-      <p>Highlighting the work of women in Leeds and beyond. Every Friday 3-4pm</p>
-    </div>
+   
    
   </div>
 
   <div class="image-card" onclick="window.location.href='https://zacharystephens.info/pizza.pdf'">
-    <img src="https://lh3.googleusercontent.com/u/0/d/1LlFqrd-zYd523gDWh0IXQkvDPfA_uGWK=w2940-h1680-iv1" alt="Image 2" class="default-img">
+    <img src="https://static.wixstatic.com/media/316c00_07b21cc780014f789b3f295f46ba5c29~mv2.png" alt="Image 2" class="default-img">
     
-    <div class="tag">Every Friday 1-2pm</div>
-    <div class="text">
+   
+    </div>
+     <div class="image-card" onclick="window.location.href='https://thisislsr.com'">
+    <img src="https://stepzach.github.io/leedstestradio/316c00_0b1678ae9f7441c58bf08b07aee38475~mv2.png.webp" alt="LSR" class="default-img"> 
+   
+   <!-- <div class="tag">Weekdays 9-11am</div> -->
+   
+  </div>
+  
+   <div class="image-card" id="carohide"  onclick="window.location.href='https://zacharystephens.info/WalkieTalkie(part3).pdf'">
+    <img src="https://stepzach.github.io/leedstestradio/316c00_2ae9608a78ac466ca9166e868c2fb3dd~mv2.png.webp" alt="Image 1" class="default-img">
+   
+   
+   
+  </div>
+
+  <div class="image-card" id="carohide" onclick="window.location.href='https://zacharystephens.info/pizza.pdf'">
+    <img src="https://stepzach.github.io/leedstestradio/316c00_9798ec6b97c8405c8f572ee5995efb12~mv2.png.webp" alt="Image 2" class="default-img">
     
-      <p>Weekly rundown of the world's biggest stories, every friday 1-2pm</p>
+   
+    </div>
+    
+    <div class="image-card" id="carohide" onclick="window.location.href='https://zacharystephens.info/pizza.pdf'">
+    <img src="https://stepzach.github.io/leedstestradio/316c00_ae16481e2ba74c45ad7e93269e29211f~mv2.png.webp" alt="Image 2" class="default-img">
+    
+   
+    </div>
+     <div class="image-card" id="carohide" onclick="window.location.href='https://zacharystephens.info/pizza.pdf'">
+    <img src="https://stepzach.github.io/leedstestradio/316c00_6ce347b81ab54599b5f35fcce0f0f66c~mv2.png.webp" alt="Image 2" class="default-img">
+    
+   
+    </div>
+    
+    
+  </div>
+  </div>
+  
+  <div class="carousel-container" id="carohide2">
+  <div class="carousel-track" id="carouselTrack">
+  
+  <div class="image-card"  onclick="window.location.href='https://zacharystephens.info/WalkieTalkie(part3).pdf'">
+    <img src="https://stepzach.github.io/leedstestradio/316c00_2ae9608a78ac466ca9166e868c2fb3dd~mv2.png.webp" alt="Image 1" class="default-img">
+   
+   
+   
+  </div>
+
+  <div class="image-card" onclick="window.location.href='https://zacharystephens.info/pizza.pdf'">
+    <img src="https://stepzach.github.io/leedstestradio/316c00_9798ec6b97c8405c8f572ee5995efb12~mv2.png.webp" alt="Image 2" class="default-img">
+    
+   
+    </div>
+    
+    <div class="image-card" onclick="window.location.href='https://zacharystephens.info/pizza.pdf'">
+    <img src="https://stepzach.github.io/leedstestradio/316c00_ae16481e2ba74c45ad7e93269e29211f~mv2.png.webp" alt="Image 2" class="default-img">
+    
+   
+    </div>
+     <div class="image-card" onclick="window.location.href='https://zacharystephens.info/pizza.pdf'">
+    <img src="https://stepzach.github.io/leedstestradio/316c00_6ce347b81ab54599b5f35fcce0f0f66c~mv2.png.webp" alt="Image 2" class="default-img">
+    
+   
     </div>
    
   </div>
