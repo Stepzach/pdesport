@@ -2496,6 +2496,12 @@ position: absolute !important;
   
    
 }
+@media (min-width: 701px) {
+#nocarohide2 {
+margin-bottom: 16px !important;
+
+}
+}
 @media (min-width: 769px) {
 .footerzz {
 margin-top: -16px !important;
@@ -2510,6 +2516,11 @@ margin: 16px 26px;
   
    
 }
+#carohide2 {
+margin-bottom: 32px !important;
+
+}
+
 }
 
 @media (min-width: 1000px) {
@@ -2536,8 +2547,14 @@ margin-top: -16px;
 }
 
 }
+ @media (max-width: 999px) {
+ #foottttest,
+ #careerss {
+ display: none;
+ }
 
-
+}
+ 
      </style>
       <div class="bottom-right">
         <p>About</p>
@@ -2572,7 +2589,7 @@ In the late 1990s, TV presenter Anita Rani worked at the radio station.</span>
       </div>
     </div>
   </footer>
- <div class="carousel-container">
+ <div class="carousel-container" id="nocarohide2">
   <div class="carousel-track" id="carouselTrack">
   
    <div class="image-card" onclick="window.location.href='https://thisislsr.com'">
@@ -2665,10 +2682,53 @@ In the late 1990s, TV presenter Anita Rani worked at the radio station.</span>
  
   
 </div>
+<style>
+.icon-ne {
+    width: 0.9em;
+    height: 0.9em;
+  }
+</style>
 
   <div class="carousel-dots" id="carouselDots"></div>
   
   
+   <footer class="footerzz" id="careerss" style="display:block !important">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4 style="margin-top: -10px;">ARCHIVES</h4> 
+        
+       <p>
+  <a href="https://www.youtube.com/watch?v=IpHj4hlQ9iU" target="_blank" rel="noopener noreferrer" class="atexta">
+    Radio.co promotional video
+    <svg class="icon-ne" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M7 17L17 7" />
+      <path d="M7 7h10v10" />
+    </svg>
+  </a>
+</p>
+
+<p>
+  <a href="https://www.facebook.com/watch/?v=2466153720135883" target="_blank" rel="noopener noreferrer" class="atexta">
+    Interview with Roman Kemp
+    <svg class="icon-ne" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M7 17L17 7" />
+      <path d="M7 7h10v10" />
+    </svg>
+  </a>
+</p>
+
+<p>
+  <a href="https://www.youtube.com/shorts/S0iV_RXRUAU" target="_blank" rel="noopener noreferrer" class="atexta">
+    BBC Radio 1 surprises LSR with Jade
+    <svg class="icon-ne" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M7 17L17 7" />
+      <path d="M7 7h10v10" />
+    </svg>
+  </a>
+</p>
+      </div>
+    </div>
+  </footer>
   <div class="footer-wrapper">
   <footer class="footer" id="careerss">
     <div class="footer-content">
@@ -2680,7 +2740,7 @@ In the late 1990s, TV presenter Anita Rani worked at the radio station.</span>
     </div>
   </footer>
 
-  <div class="footer1">
+  <div class="footer1" id="foottttest">
     <div class="footer-section1">
       <h4>LATEST PODCAST</h4>
       <div class="image-container">
