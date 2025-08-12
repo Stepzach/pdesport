@@ -7,7 +7,7 @@
   <style>
     :root{--gap:12px;--card-radius:12px;--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2}
     *{box-sizing:border-box}
-    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial;margin:0;background:linear-gradient(180deg,#071022 0%,#07101a 100%);color:#eef2f7;padding:20px}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial;margin:0;background:darkred;color:#eef2f7;padding:20px}
 
     .week-toggle{display:flex;gap:6px;margin-bottom:12px}
     .week-toggle button{padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
@@ -15,8 +15,8 @@
 
     /* Grid for larger screens */
     .week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:var(--gap)}
-    .day-column{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:10px;border-radius:10px;min-height:120px}
-    .day-header{font-weight:700;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+    .day-column{background:linear-gradient(180deg,rgba(0,0,0,0.2),transparent);padding:10px;border:solid 2px black;border-radius:14px;min-height:120px}
+    .day-header{font-weight:700;margin-bottom:1px;display:flex;justify-content:space-between;align-items:center}
     .day-sub{color:var(--muted);font-size:13px}
 
     .show-card{display:flex;gap:8px;align-items:flex-start;padding:8px;border-radius:10px;margin-bottom:8px;overflow:hidden}
@@ -45,6 +45,9 @@
     .time-pill{font-size:12px;padding:4px 8px;border-radius:999px;font-weight:600}
     .hosts{font-size:12px;color:var(--muted)}
     .muted{color:var(--muted)}
+    
+    
+
   </style>
 </head>
 <body>
@@ -65,8 +68,8 @@
     </div>
   </div>
 
-  <script>
-  const defaultCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRoXcefXiUOFuRnA6DpheBwR2CJ4Zs09o68IG9in3w2WwncXybxsbVDWwQY6u6MSpmFDiRrx83MO8M3/pub?output=csv'; // <-- Put your CSV export URL here
+ <script>
+  const defaultCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRoXcefXiUOFuRnA6DpheBwR2CJ4Zs09o68IG9in3w2WwncXybxsbVDWwQY6u6MSpmFDiRrx83MO8M3/pub?output=csv';
 
   const DAY_ORDER = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
   function normalizeDay(name){
@@ -94,23 +97,199 @@
     return rows;
   }
 
-  let schedule = []; let activeWeek = localStorage.getItem('activeWeek') || 'A';
-  function setActiveWeek(w){ activeWeek=w; localStorage.setItem('activeWeek',w); updateWeekButtons(); renderAll(); }
-  function updateWeekButtons(){ document.querySelectorAll('.week-toggle button').forEach(b=>b.classList.toggle('active', b.dataset.week===activeWeek)); }
+  let schedule = []; 
+  let activeWeek = localStorage.getItem('activeWeek') || 'A';
+
+  function setActiveWeek(w){ 
+    activeWeek=w; 
+    localStorage.setItem('activeWeek',w); 
+    updateWeekButtons(); 
+    renderAll(); 
+  }
+  
+  function updateWeekButtons(){ 
+    document.querySelectorAll('.week-toggle button').forEach(b=>b.classList.toggle('active', b.dataset.week===activeWeek)); 
+  }
 
   function groupByDay(shows){
-    const map = {}; DAY_ORDER.forEach(d=>map[d]=[]);
-    shows.forEach(s=>{ const d=normalizeDay(s.day_of_week)||'Monday'; map[d].push(s); });
+    const map = {}; 
+    DAY_ORDER.forEach(d=>map[d]=[]);
+    shows.forEach(s=>{ 
+      const d=normalizeDay(s.day_of_week)||'Monday'; 
+      map[d].push(s); 
+    });
     for(const d in map) map[d].sort((a,b)=>a.start_time.localeCompare(b.start_time));
     return map;
   }
 
+  function timeToMinutes(t){
+    const [h,m]=t.split(':').map(Number);
+    return h*60+m;
+  }
+
+  function isLive(show){
+    const now = new Date();
+    const dayName = DAY_ORDER[now.getDay() - 1] || 'Monday';
+    if(normalizeDay(show.day_of_week) !== dayName) return false;
+    const nowMinutes = now.getHours()*60 + now.getMinutes();
+    return nowMinutes >= timeToMinutes(show.start_time) && nowMinutes < timeToMinutes(show.end_time);
+  }
+
+  // Create popup overlay with image, title, hosts, description
+  function createPopup(){
+    let popup = document.getElementById('showPopup');
+    if(popup) return popup;
+    popup = document.createElement('div');
+    popup.id = 'showPopup';
+    popup.style.position = 'fixed';
+    popup.style.top = 0;
+    popup.style.left = 0;
+    popup.style.width = '100vw';
+    popup.style.height = '100vh';
+    popup.style.background = 'rgba(0,0,0,0.75)';
+    popup.style.display = 'flex';
+    popup.style.justifyContent = 'center';
+    popup.style.alignItems = 'center';
+    popup.style.zIndex = 10000;
+    popup.style.visibility = 'hidden';
+    popup.style.opacity = 0;
+    popup.style.transition = 'opacity 0.3s ease';
+
+    popup.innerHTML = `
+      <div id="popupContent" style="
+        background: #fff; 
+        border-radius: 12px; 
+        max-width: 600px; 
+        max-height: 80vh; 
+        overflow-y: auto; 
+        padding: 20px; 
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        position: relative;
+        font-family: Arial, sans-serif;
+      ">
+        <button id="closePopup" style="
+          position: absolute; 
+          top: 12px; 
+          right: 16px; 
+          background: none; 
+          border: none; 
+          font-size: 28px; 
+          font-weight: bold; 
+          color: #444; 
+          cursor: pointer;
+        " aria-label="Close popup">&times;</button>
+        <img id="popupImage" src="" alt="" style="width: 100%; border-radius: 8px; margin-bottom: 15px; object-fit: cover; max-height: 250px;">
+        <h2 id="popupTitle" style="margin-top: 0; margin-bottom: 8px; color: #222;"></h2>
+        <p id="popupHosts" style="font-weight: 600; margin-top: 0; margin-bottom: 12px; color: #666;"></p>
+        <p id="popupDescription" style="white-space: pre-wrap; line-height: 1.4; color: #333;"></p>
+      </div>
+    `;
+
+    document.body.appendChild(popup);
+    popup.querySelector('#closePopup').onclick = () => {
+      popup.style.opacity = 0;
+      setTimeout(() => popup.style.visibility = 'hidden', 300);
+    };
+    // Close on click outside content
+    popup.addEventListener('click', e => {
+      if(e.target === popup){
+        popup.style.opacity = 0;
+        setTimeout(() => popup.style.visibility = 'hidden', 300);
+      }
+    });
+
+    return popup;
+  }
+
+  function showPopup(show){
+    const popup = createPopup();
+    popup.querySelector('#popupImage').src = show.cover_image_url || '';
+    popup.querySelector('#popupImage').alt = show.title || '';
+    popup.querySelector('#popupTitle').textContent = show.title || '';
+    popup.querySelector('#popupHosts').textContent = `Host: ${show.hosts || 'Unknown'}`;
+    popup.querySelector('#popupDescription').textContent = show.description || 'No description available.';
+    popup.style.visibility = 'visible';
+    popup.style.opacity = 1;
+  }
+
   function makeShowElement(show){
-    const el=document.createElement('div'); el.className='show-card';
-    const thumb=document.createElement('img'); thumb.className='show-thumb'; thumb.src=show.cover_image_url; thumb.alt=show.title; thumb.onerror=()=>{thumb.style.background=show.colour; thumb.src='';};
-    const body=document.createElement('div'); body.className='show-body';
-    body.innerHTML=`<div class='show-title'>${show.title}</div><div class='show-meta'><span class='time-pill' style='background:${show.colour}'>${show.start_time} — ${show.end_time}</span> <span class='hosts'>${show.hosts}</span></div><div class='show-desc'>${show.description}</div>`;
-    el.append(thumb,body); return el;
+    const el=document.createElement('div'); 
+    el.className='show-card';
+    el.style.position = 'relative';
+
+    const thumb=document.createElement('img'); 
+    thumb.className='show-thumb'; 
+    thumb.src=show.cover_image_url; 
+    thumb.alt=show.title; 
+    thumb.onerror=()=>{thumb.style.background=show.colour; thumb.src='';};
+
+    const body=document.createElement('div'); 
+    body.className='show-body';
+    body.innerHTML=`
+      <div class='show-title'>${show.title}</div>
+      <div class='show-meta'>
+        <div class='show-meta'>
+        <span class='time-pill' style='background:${show.colour}'>${show.start_time}—${show.end_time}</span> 
+       
+      </div>
+    `;
+
+    el.append(thumb,body);
+
+    el.onclick = (e) => {
+      e.stopPropagation();
+      showPopup(show);
+    };
+
+    return el;
+  }
+
+  // Add a small green pulsing dot with text "on air" on live shows
+  function highlightLiveShows(){
+    const now = new Date();
+    const dayName = DAY_ORDER[now.getDay() - 1] || 'Monday';
+
+    // Remove existing dots
+    document.querySelectorAll('.show-card .live-dot').forEach(dot => dot.remove());
+
+    document.querySelectorAll('.day-column .show-card').forEach(card => {
+      const title = card.querySelector('.show-title').textContent;
+      const dayCol = card.closest('.day-column');
+      const day = dayCol?.querySelector('.day-header div')?.textContent || '';
+      const filteredShows = schedule.filter(s => s.title === title && normalizeDay(s.day_of_week) === day);
+      if(filteredShows.length === 0) return;
+      const show = filteredShows[0];
+      if(isLive(show)){
+        // Create pulsing dot + text
+        const dotWrapper = document.createElement('div');
+        dotWrapper.className = 'live-dot';
+        dotWrapper.style.position = 'relative';
+        dotWrapper.style.top = '8px';
+        dotWrapper.style.left = '8px';
+        dotWrapper.style.display = 'flex';
+        dotWrapper.style.alignItems = 'center';
+        dotWrapper.style.gap = '6px';
+        dotWrapper.style.fontSize = '12px';
+        dotWrapper.style.fontWeight = '700';
+        dotWrapper.style.color = 'green';
+        dotWrapper.style.userSelect = 'none';
+
+        const dot = document.createElement('span');
+        dot.style.width = '10px';
+        dot.style.height = '10px';
+        dot.style.borderRadius = '50%';
+        dot.style.backgroundColor = 'green';
+        dot.style.animation = 'pulse 1.5s infinite';
+
+        dotWrapper.appendChild(dot);
+        const text = document.createElement('span');
+        text.textContent = 'on air';
+        dotWrapper.appendChild(text);
+
+        card.style.position = 'relative'; // ensure relative for absolute positioning
+        card.appendChild(dotWrapper);
+      }
+    });
   }
 
   function renderWeekGrid(shows){
@@ -123,6 +302,7 @@
       byDay[day].forEach(s=>col.appendChild(makeShowElement(s)));
       root.appendChild(col);
     });
+    highlightLiveShows();
   }
 
   function renderMobile(shows){
@@ -134,31 +314,64 @@
       col.innerHTML=`<div class='day-header'><div>${day}</div><div class='day-sub'>${byDay[day].length} shows</div></div>`;
       byDay[day].forEach(s=>col.appendChild(makeShowElement(s)));
       scroller.appendChild(col);
-      const dot=document.createElement('button'); dot.textContent=day.slice(0,3); dot.onclick=()=>scroller.children[i].scrollIntoView({behavior:'smooth',inline:'center'});
+      const dot=document.createElement('button'); dot.textContent=day.slice(0,3);
+      dot.onclick=()=>scroller.children[i].scrollIntoView({behavior:'smooth',inline:'center'});
       pager.appendChild(dot);
     });
+
+    const now = new Date();
+    const today = DAY_ORDER[now.getDay() - 1] || 'Monday';
+    const idx = DAY_ORDER.indexOf(today);
+    if(idx >= 0 && scroller.children[idx]){
+      scroller.children[idx].scrollIntoView({inline:'top'});
+    }
+
+    highlightLiveShows();
   }
 
   function renderAll(){
     const filtered=schedule.filter(s=>!s.week_type || s.week_type===activeWeek);
-    renderWeekGrid(filtered); renderMobile(filtered);
+    renderWeekGrid(filtered); 
+    renderMobile(filtered);
   }
 
   async function fetchCSV(url){
-    const res=await fetch(url); const txt=await res.text();
-    const rows=parseCSV(txt); const headers=rows[0].map(h=>h.trim());
+    const res=await fetch(url); 
+    const txt=await res.text();
+    const rows=parseCSV(txt); 
+    const headers=rows[0].map(h=>h.trim());
     schedule=rows.slice(1).map(r=>{
       const obj={}; headers.forEach((h,i)=>obj[h]=r[i]||'');
       return obj;
     });
     renderAll();
+    setInterval(highlightLiveShows, 60 * 1000); // Refresh every minute
   }
 
-  document.getElementById('weekA').onclick=()=>setActiveWeek('A');
-  document.getElementById('weekB').onclick=()=>setActiveWeek('B');
-  updateWeekButtons();
+  document.getElementById('weekA').onclick = () => setActiveWeek('A');
+  document.getElementById('weekB').onclick = () => setActiveWeek('B');
 
   fetchCSV(defaultCsvUrl);
-  </script>
+
+  // CSS injection for pulse animation and styles
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes pulse {
+      0% { transform: scale(0.9); opacity: 0.7; }
+      50% { transform: scale(1.3); opacity: 1; }
+      100% { transform: scale(0.9); opacity: 0.7; }
+    }
+   
+   
+    .live-dot {
+    
+    position: relative;
+     right:0px;
+    }
+  `;
+  document.head.appendChild(style);
+
+</script>
+</script>
 </body>
 </html>
