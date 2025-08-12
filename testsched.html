@@ -2,592 +2,163 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Leeds Student Radio — Schedule</title>
-  <!-- date-fns and date-fns-tz from jsDelivr -->
-<script src="https://cdn.jsdelivr.net/npm/date-fns@3.6.0/dist/date-fns.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/date-fns-tz@3.2.0/dist/date-fns-tz.umd.min.js"></script>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <!-- Swiper (for mobile day swipe) -->
-  <link rel="stylesheet" href="https://unpkg.com/swiper@9/swiper-bundle.min.css" />
+  <title>Bi-weekly Radio Schedule</title>
   <style>
-    /* ---------- Basic CSS (starter) ---------- */
-    :root{
-      --bg:#0f1720; --panel:#0b1220; --muted:#9aa6b2;
-      --grid-gap:6px;
+    :root{--gap:12px;--card-radius:12px;--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2}
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,Arial;margin:0;background:linear-gradient(180deg,#071022 0%,#07101a 100%);color:#eef2f7;padding:20px}
+
+    .week-toggle{display:flex;gap:6px;margin-bottom:12px}
+    .week-toggle button{padding:8px 12px;border-radius:8px;border:none;cursor:pointer}
+    .week-toggle button.active{background:#1f6feb;color:white}
+
+    /* Grid for larger screens */
+    .week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:var(--gap)}
+    .day-column{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:10px;border-radius:10px;min-height:120px}
+    .day-header{font-weight:700;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+    .day-sub{color:var(--muted);font-size:13px}
+
+    .show-card{display:flex;gap:8px;align-items:flex-start;padding:8px;border-radius:10px;margin-bottom:8px;overflow:hidden}
+    .show-thumb{width:56px;height:56px;border-radius:8px;flex:0 0 56px;background:#0a1220;object-fit:cover}
+    .show-body{flex:1}
+    .show-title{font-weight:700;font-size:14px;margin:0}
+    .show-meta{font-size:13px;color:var(--muted);margin-top:4px}
+    .show-desc{font-size:13px;color:var(--muted);margin-top:6px}
+
+    /* Mobile: single-day carousel */
+    .mobile-day{display:none}
+    .mobile-wrapper{overflow:hidden;position:relative}
+    .mobile-scroller{display:flex;gap:12px;scroll-snap-type:x mandatory;overflow-x:auto;padding-bottom:10px;-webkit-overflow-scrolling:touch}
+    .mobile-scroller > .day-column{min-width:92%;flex:0 0 92%;scroll-snap-align:center}
+    .pager{display:flex;gap:8px;justify-content:center;margin-top:8px}
+
+    /* Responsive rules */
+    @media (max-width:900px){
+      .week-grid{display:none}
+      .mobile-day{display:block}
     }
-    body{
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      margin:0; padding:16px; background:linear-gradient(180deg,#071022 0%, #071523 100%); color:#e6eef6;
-      -webkit-font-smoothing:antialiased;
+    @media (min-width:901px){
+      .mobile-day{display:none}
     }
 
-    .schedule-root{ max-width:1200px; margin:0 auto; }
-    .header{
-      display:flex; gap:12px; align-items:center; justify-content:space-between; margin-bottom:12px;
-    }
-    .title{ font-size:20px; font-weight:700; letter-spacing:0.2px; }
-    .controls{ display:flex; gap:8px; align-items:center; }
-
-    .week-toggle{
-      background:#0b1220; border:1px solid rgba(255,255,255,0.06); padding:6px 10px; border-radius:6px; cursor:pointer; color:var(--muted);
-    }
-    .week-toggle[aria-pressed="true"]{ background:#142034; color:#fff; box-shadow:0 4px 18px rgba(10,20,30,0.6); }
-
-    /* Desktop grid */
-    .timetable{
-      display:none; /* visible on wider screens via media query */
-      gap:12px;
-    }
-
-    .week-wrapper{ background:rgba(255,255,255,0.02); padding:12px; border-radius:8px; margin-bottom:16px; }
-    .week-label{ font-weight:700; margin-bottom:8px; }
-
-    .grid{
-      display:grid;
-      grid-template-columns: 56px repeat(7, 1fr);
-      gap:var(--grid-gap);
-    }
-    .time-col{
-      display:flex; flex-direction:column; gap:var(--grid-gap);
-    }
-    .time-cell{
-      height:48px; font-size:12px; color:var(--muted); display:flex; align-items:center; justify-content:center;
-      border-right:1px dashed rgba(255,255,255,0.03);
-    }
-    .day-col{ display:flex; flex-direction:column; gap:var(--grid-gap); padding:4px; min-height: 48px; }
-    .day-header{ text-align:center; font-size:13px; padding:6px 2px; border-bottom:1px dashed rgba(255,255,255,0.03); color:var(--muted); }
-
-    .show-block{
-      position:relative; border-radius:6px; padding:6px; font-size:13px; color:#071422; display:flex; gap:8px; align-items:center;
-      box-shadow: 0 6px 18px rgba(2,10,20,0.6);
-      cursor:pointer; overflow:hidden;
-    }
-    .show-thumb{ width:40px; height:40px; flex:0 0 40px; border-radius:4px; object-fit:cover; background:#ddd; }
-    .show-meta{ display:flex; flex-direction:column; min-width:0; }
-    .show-title{ font-weight:700; color:inherit; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .show-sub{ font-size:12px; color:rgba(7,20,34,0.7); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-
-    /* Mobile list */
-    .mobile-list{ display:block; }
-    .day-list{ padding:8px 0; }
-    .list-item{ display:flex; gap:10px; padding:10px; border-radius:8px; margin-bottom:8px; background:rgba(255,255,255,0.02); cursor:pointer; }
-    .list-times{ min-width:72px; font-weight:700; color:var(--muted); }
-    .empty-slot{ color:var(--muted); padding:12px; text-align:center; }
-
-    /* modal */
-    .modal{
-      position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:9999;
-      background:linear-gradient(180deg, rgba(0,0,0,0.6), rgba(3,6,10,0.75)); padding:20px;
-    }
-    .modal[open]{ display:flex; }
-    .modal-panel{ width: min(880px, 96%); background:#071422; padding:18px; border-radius:10px; color:#eaf2ff; display:flex; gap:14px; }
-    .modal-thumb{ width:160px;height:160px;border-radius:8px; object-fit:cover; background:#0b1220; }
-    .modal-content{ flex:1; }
-    .modal-close{ background:transparent; border:0; color:var(--muted); cursor:pointer; font-size:20px; }
-
-    /* small helpers */
-    .sr-only{ position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden; }
-    .muted{ color:var(--muted); font-size:13px; }
-
-    /* responsive rules */
-    @media(min-width:920px){
-      .timetable{ display:block; }
-      .mobile-list{ display:none; }
-      .grid{ grid-auto-rows: 48px; }
-      /* each hour slot is 48px height; we'll position blocks accordingly */
-    }
+    .time-pill{font-size:12px;padding:4px 8px;border-radius:999px;font-weight:600}
+    .hosts{font-size:12px;color:var(--muted)}
+    .muted{color:var(--muted)}
   </style>
 </head>
 <body>
-  <div class="schedule-root" id="scheduleRoot">
-    <div class="header" role="banner">
-      <div>
-        <div class="title">Leeds Student Radio — Schedule</div>
-        <div class="muted">Bi-weekly timetable • Auto-detects week parity • Tap a show for details</div>
-      </div>
-      <div class="controls" role="region" aria-label="Schedule controls">
-        <button id="autoWeekBtn" class="week-toggle" title="Auto-detect week">Auto</button>
-        <button id="weekABtn" class="week-toggle" aria-pressed="true">Week A</button>
-        <button id="weekBBtn" class="week-toggle" aria-pressed="false">Week B</button>
-      </div>
-    </div>
+  <h1 style="margin:0 0 8px">Radio Schedule (A / B weeks)</h1>
 
-    <!-- DESKTOP: two stacked weeks (A then B). Each has a header and a grid -->
-    <div id="desktopTimetables" class="timetable" aria-live="polite"></div>
-
-    <!-- MOBILE: list view with swiper for day swipe -->
-    <div class="mobile-list" id="mobileListRoot">
-      <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
-        <button id="mobilePrevDay" class="week-toggle" aria-label="Previous day">‹</button>
-        <div id="mobileDayTitle" style="font-weight:700;">Today</div>
-        <button id="mobileNextDay" class="week-toggle" aria-label="Next day">›</button>
-        <div style="flex:1"></div>
-        <div class="muted">Week: <span id="mobileWeekLabel">A</span></div>
-      </div>
-
-      <!-- Swiper container -->
-      <div class="swiper" id="daySwiper" style="height: 100%;">
-        <div class="swiper-wrapper" id="swiperWrapper">
-          <!-- slides will be injected: one slide per day -->
-        </div>
-      </div>
-    </div>
-
-    <!-- modal for show details -->
-    <div id="showModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <div class="modal-panel" role="document">
-        <div style="display:flex;flex-direction:column; gap:8px;">
-          <img id="modalThumb" class="modal-thumb" src="" alt="">
-          <button id="modalClose" class="modal-close" aria-label="Close">✕</button>
-        </div>
-        <div class="modal-content">
-          <h2 id="modalTitle"></h2>
-          <div class="muted" id="modalMeta"></div>
-          <p id="modalDesc"></p>
-        </div>
-      </div>
-    </div>
-
-    <div id="debug" class="sr-only" aria-hidden="true"></div>
+  <div class="week-toggle" role="tablist" aria-label="Week type">
+    <button id="weekA" class="btn" data-week="A">Week A</button>
+    <button id="weekB" class="btn" data-week="B">Week B</button>
   </div>
 
-  <!-- Libraries -->
-  <script src="https://unpkg.com/date-fns@2.31.0/dist/date-fns.min.js"></script>
-  <script src="https://unpkg.com/date-fns-tz@1.3.7/dist/date-fns-tz.min.js"></script>
-  <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js"></script>
+  <div id="scheduleRoot">
+    <div class="week-grid" id="weekGrid" aria-live="polite"></div>
+    <div class="mobile-day" id="mobileDay">
+      <div class="mobile-wrapper">
+        <div id="mobileScroller" class="mobile-scroller" tabindex="0"></div>
+      </div>
+      <div class="pager" id="mobilePager"></div>
+    </div>
+  </div>
 
   <script>
-  /*****************************************************************************
-   * Leeds Student Radio — Schedule script
-   * Configs (edit these):
-   *****************************************************************************/
-  const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRoXcefXiUOFuRnA6DpheBwR2CJ4Zs09o68IG9in3w2WwncXybxsbVDWwQY6u6MSpmFDiRrx83MO8M3/pub?output=csv'; // <-- set this
-  const TIMEZONE = 'Europe/London';                           // site timezone
-  const WEEK_A_START = '2025-01-06'; // ISO date of a Monday that is Week A (change if you want)
-  const HOUR_START = 8;   // timetable visual start (08:00)
-  const HOUR_END = 24;    // timetable visual end (24:00)
-  const HOUR_SLOT_PX = 48; // height per hour in desktop grid (CSS matches this)
+  const defaultCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRoXcefXiUOFuRnA6DpheBwR2CJ4Zs09o68IG9in3w2WwncXybxsbVDWwQY6u6MSpmFDiRrx83MO8M3/pub?output=csv'; // <-- Put your CSV export URL here
 
-  /*****************************************************************************
-   * Utility: fetch CSV and parse
-   *****************************************************************************/
-  async function fetchCSV(url) {
-    if (!url || url.includes('PASTE_YOUR')) {
-      throw new Error('Please set SHEET_CSV_URL to the published CSV link from Google Sheets.');
-    }
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) throw new Error('Failed to fetch sheet: ' + res.statusText);
-    const text = await res.text();
-    return parseCSV(text);
+  const DAY_ORDER = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  function normalizeDay(name){
+    if(!name) return '';
+    const cap = name[0].toUpperCase()+name.slice(1).toLowerCase();
+    const map = {Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday',Fri:'Friday',Sat:'Saturday',Sun:'Sunday'};
+    return DAY_ORDER.includes(cap) ? cap : map[cap.slice(0,3)] || cap;
   }
 
-  // Simple robust CSV parser (handles quoted commas)
-  function parseCSV(text) {
-    const rows = [];
-    const lines = text.split(/\r?\n/);
-    // find header line
-    let headerLineIndex = 0;
-    while (headerLineIndex < lines.length && lines[headerLineIndex].trim() === '') headerLineIndex++;
-    const headerLine = lines[headerLineIndex] || '';
-    const headers = splitCSVLine(headerLine).map(h => h.trim());
-    for (let i = headerLineIndex + 1; i < lines.length; i++){
-      const line = lines[i];
-      if (!line.trim()) continue;
-      const cols = splitCSVLine(line);
-      const obj = {};
-      for (let j = 0; j < headers.length; j++){
-        obj[headers[j]] = (cols[j] ?? '').trim();
+  function parseCSV(text){
+    const rows=[]; const lines=text.split(/\r?\n/);
+    for(let line of lines){
+      if(!line.trim()) continue;
+      let cols=[]; let cur=''; let inQuotes=false;
+      for(let i=0;i<line.length;i++){
+        const ch=line[i];
+        if(ch==='"'){
+          if(inQuotes && line[i+1]==='"'){ cur+='"'; i++; }
+          else inQuotes=!inQuotes;
+        } else if(ch===',' && !inQuotes){ cols.push(cur); cur=''; }
+        else cur+=ch;
       }
-      rows.push(obj);
+      cols.push(cur); rows.push(cols);
     }
     return rows;
   }
 
-  function splitCSVLine(line) {
-    const result = [];
-    let cur = '';
-    let inQuotes = false;
-    for (let i = 0; i < line.length; i++){
-      const ch = line[i];
-      if (ch === '"' ) {
-        if (inQuotes && line[i+1] === '"') { cur += '"'; i++; continue; } // escaped quote
-        inQuotes = !inQuotes;
-        continue;
-      }
-      if (ch === ',' && !inQuotes) {
-        result.push(cur);
-        cur = '';
-        continue;
-      }
-      cur += ch;
-    }
-    result.push(cur);
-    return result;
+  let schedule = []; let activeWeek = localStorage.getItem('activeWeek') || 'A';
+  function setActiveWeek(w){ activeWeek=w; localStorage.setItem('activeWeek',w); updateWeekButtons(); renderAll(); }
+  function updateWeekButtons(){ document.querySelectorAll('.week-toggle button').forEach(b=>b.classList.toggle('active', b.dataset.week===activeWeek)); }
+
+  function groupByDay(shows){
+    const map = {}; DAY_ORDER.forEach(d=>map[d]=[]);
+    shows.forEach(s=>{ const d=normalizeDay(s.day_of_week)||'Monday'; map[d].push(s); });
+    for(const d in map) map[d].sort((a,b)=>a.start_time.localeCompare(b.start_time));
+    return map;
   }
 
-  /*****************************************************************************
-   * Transform rows into schedule object
-   *****************************************************************************/
-  function buildSchedule(rows) {
-    // Normalize day names to Mon..Sun
-    const dayOrder = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-    const schedule = { A: {}, B: {} };
-    for (const d of dayOrder) {
-      schedule.A[d] = [];
-      schedule.B[d] = [];
-    }
-    for (const r of rows) {
-      const item = {
-        id: r.show_id || (r.title || '').toLowerCase().replace(/\s+/g,'-').slice(0,60),
-        title: r.title || 'Untitled',
-        description: r.description || '',
-        cover: r.cover_image_url || '',
-        day: normalizeDay(r.day_of_week || ''),
-        start: normalizeTime(r.start_time || ''),
-        end: normalizeTime(r.end_time || ''),
-        hosts: r.hosts || '',
-        colour: r.colour || '',
-        week_type: (r.week_type || 'A/B').toUpperCase()
-      };
-      // skip invalid day/time rows
-      if (!item.day || !item.start || !item.end) continue;
-      // calculate duration minutes (safely)
-      item.duration_minutes = timeDiffMinutes(item.start, item.end);
-
-      if (item.week_type === 'A' || item.week_type === 'A/B') schedule.A[item.day].push(item);
-      if (item.week_type === 'B' || item.week_type === 'A/B') schedule.B[item.day].push(item);
-    }
-
-    // sort each day by start time
-    for (const week of ['A','B']) for (const d of Object.keys(schedule[week])) {
-      schedule[week][d].sort((x,y) => timeToMinutes(x.start) - timeToMinutes(y.start));
-    }
-    return schedule;
+  function makeShowElement(show){
+    const el=document.createElement('div'); el.className='show-card';
+    const thumb=document.createElement('img'); thumb.className='show-thumb'; thumb.src=show.cover_image_url; thumb.alt=show.title; thumb.onerror=()=>{thumb.style.background=show.colour; thumb.src='';};
+    const body=document.createElement('div'); body.className='show-body';
+    body.innerHTML=`<div class='show-title'>${show.title}</div><div class='show-meta'><span class='time-pill' style='background:${show.colour}'>${show.start_time} — ${show.end_time}</span> <span class='hosts'>${show.hosts}</span></div><div class='show-desc'>${show.description}</div>`;
+    el.append(thumb,body); return el;
   }
 
-  function normalizeDay(v) {
-    if (!v) return null;
-    const map = { mon:'Mon', monday:'Mon', tue:'Tue', tuesday:'Tue', wed:'Wed', wednesday:'Wed', thu:'Thu', thursday:'Thu',
-                  fri:'Fri', friday:'Fri', sat:'Sat', saturday:'Sat', sun:'Sun', sunday:'Sun' };
-    const key = v.trim().toLowerCase();
-    return map[key] || null;
-  }
-  function normalizeTime(v){
-    if (!v) return null;
-    // accept HH:MM, H:MM, or HHMM
-    const m = v.trim().match(/^(\d{1,2}):?(\d{2})$/);
-    if (!m) return null;
-    const hh = parseInt(m[1],10);
-    const mm = parseInt(m[2],10);
-    if (isNaN(hh) || isNaN(mm)) return null;
-    const hhNorm = hh.toString().padStart(2,'0');
-    const mmNorm = mm.toString().padStart(2,'0');
-    return `${hhNorm}:${mmNorm}`;
-  }
-  function timeToMinutes(t) {
-    const [hh,mm] = t.split(':').map(x=>parseInt(x,10));
-    return hh*60 + mm;
-  }
-  // careful minute difference (end after start), if end <= start assume same day and end > start (we are in 08:00-24:00)
-  function timeDiffMinutes(start, end) {
-    const s = timeToMinutes(start), e = timeToMinutes(end);
-    if (e >= s) return e - s;
-    // fallback: treat as zero
-    return 0;
+  function renderWeekGrid(shows){
+    const root=document.getElementById('weekGrid'); root.innerHTML='';
+    const byDay=groupByDay(shows);
+    DAY_ORDER.forEach(day=>{
+      const col=document.createElement('div'); col.className='day-column';
+      col.innerHTML=`<div class='day-header'><div>${day}</div><div class='day-sub'>${byDay[day].length} shows</div></div>`;
+      if(!byDay[day].length) col.innerHTML+='<div class="muted">No shows</div>';
+      byDay[day].forEach(s=>col.appendChild(makeShowElement(s)));
+      root.appendChild(col);
+    });
   }
 
-  /*****************************************************************************
-   * Week detection: compute parity (A or B) from WEEK_A_START anchor
-   *****************************************************************************/
-  function detectWeekForDate(date = new Date()) {
-    // using date-fns-tz to handle timezone
-    const tz = dateFnsTz;
-    const { zonedTimeToUtc, utcToZonedTime } = tz;
-    const start = dateFns.parseISO(WEEK_A_START);
-    // get start-of-day of both dates in timezone
-    const currentZ = utcToZonedTime(date, TIMEZONE);
-    const startZ = utcToZonedTime(start, TIMEZONE);
-    // compute difference in calendar weeks (Mon..Sun). We'll count weeks starting Monday.
-    const diffWeeks = Math.floor(dateFns.differenceInCalendarWeeks(currentZ, startZ, { weekStartsOn:1 }));
-    // if diffWeeks is even -> same parity as Week A; odd -> Week B.
-    return (diffWeeks % 2 === 0) ? 'A' : 'B';
+  function renderMobile(shows){
+    const scroller=document.getElementById('mobileScroller'); scroller.innerHTML='';
+    const pager=document.getElementById('mobilePager'); pager.innerHTML='';
+    const byDay=groupByDay(shows);
+    DAY_ORDER.forEach((day,i)=>{
+      const col=document.createElement('div'); col.className='day-column';
+      col.innerHTML=`<div class='day-header'><div>${day}</div><div class='day-sub'>${byDay[day].length} shows</div></div>`;
+      byDay[day].forEach(s=>col.appendChild(makeShowElement(s)));
+      scroller.appendChild(col);
+      const dot=document.createElement('button'); dot.textContent=day.slice(0,3); dot.onclick=()=>scroller.children[i].scrollIntoView({behavior:'smooth',inline:'center'});
+      pager.appendChild(dot);
+    });
   }
 
-  /*****************************************************************************
-   * Rendering
-   *****************************************************************************/
-  const dayOrder = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-
-  function renderDesktopTimetables(rootEl, schedule, activeWeek) {
-    rootEl.innerHTML = '';
-    // We'll render Week A then Week B stacked vertically. Highlight activeWeek.
-    for (const week of ['A','B']) {
-      const wkDiv = document.createElement('div');
-      wkDiv.className = 'week-wrapper';
-      if (week === activeWeek) wkDiv.style.boxShadow = '0 10px 30px rgba(0,0,0,0.6)';
-      wkDiv.innerHTML = `<div class="week-label">Week ${week}</div>`;
-
-      const grid = document.createElement('div');
-      grid.className = 'grid';
-      // time column
-      const timeCol = document.createElement('div');
-      timeCol.className = 'time-col';
-      for (let h = HOUR_START; h < HOUR_END; h++){
-        const cell = document.createElement('div');
-        cell.className = 'time-cell';
-        const label = (h % 24).toString().padStart(2,'0') + ':00';
-        cell.textContent = label;
-        // set cell height via CSS row height, grid auto-rows is set, but we'll control visual spacing by JS when placing blocks
-        timeCol.appendChild(cell);
-      }
-      grid.appendChild(timeCol);
-
-      // day columns
-      for (const d of dayOrder) {
-        const col = document.createElement('div');
-        col.className = 'day-col';
-        col.setAttribute('data-day', d);
-        const header = document.createElement('div');
-        header.className = 'day-header';
-        header.textContent = d;
-        col.appendChild(header);
-
-        // create a container for hourly slots
-        const slotContainer = document.createElement('div');
-        slotContainer.style.position = 'relative';
-        slotContainer.style.minHeight = ((HOUR_END - HOUR_START) * HOUR_SLOT_PX) + 'px';
-        slotContainer.style.padding = '6px 2px 2px 2px';
-
-        // add shows
-        const shows = schedule[week][d] || [];
-        for (const s of shows) {
-          const block = document.createElement('button');
-          block.className = 'show-block';
-          block.setAttribute('data-id', s.id);
-          block.setAttribute('aria-label', `${s.title} ${s.start}-${s.end}`);
-          // style
-          const bg = s.colour || '#b2d9ff';
-          block.style.background = bg;
-          // position: top based on start time offset; height proportional to duration
-          const topMinutes = timeToMinutes(s.start) - HOUR_START * 60;
-          const heightMinutes = Math.max(20, s.duration_minutes);
-          const topPx = Math.max(0, (topMinutes / 60) * HOUR_SLOT_PX);
-          const heightPx = Math.max(28, (heightMinutes / 60) * HOUR_SLOT_PX);
-          block.style.position = 'absolute';
-          block.style.left = '6px';
-          block.style.right = '6px';
-          block.style.top = topPx + 'px';
-          block.style.height = heightPx + 'px';
-          block.style.display = 'flex';
-          block.style.alignItems = 'center';
-          block.style.gap = '8px';
-
-          // content
-          const img = document.createElement('img');
-          img.className = 'show-thumb';
-          img.src = s.cover || '';
-          img.alt = s.title;
-          block.appendChild(img);
-
-          const meta = document.createElement('div');
-          meta.className = 'show-meta';
-          meta.innerHTML = `<div class="show-title">${escapeHtml(s.title)}</div>
-                            <div class="show-sub">${escapeHtml(s.start)} — ${escapeHtml(s.end)} • ${escapeHtml(s.hosts || '')}</div>`;
-          block.appendChild(meta);
-
-          block.addEventListener('click', () => openModal(s));
-          slotContainer.appendChild(block);
-        }
-
-        col.appendChild(slotContainer);
-        grid.appendChild(col);
-      }
-
-      wkDiv.appendChild(grid);
-      rootEl.appendChild(wkDiv);
-    }
+  function renderAll(){
+    const filtered=schedule.filter(s=>!s.week_type || s.week_type===activeWeek);
+    renderWeekGrid(filtered); renderMobile(filtered);
   }
 
-  // Mobile list rendering — one slide per day
-  function renderMobileList(swiperWrapper, schedule, activeWeek, swiper) {
-    swiperWrapper.innerHTML = '';
-    for (const d of dayOrder) {
-      const slide = document.createElement('div');
-      slide.className = 'swiper-slide';
-      slide.style.padding = '6px 0';
-      slide.style.minHeight = '200px';
-
-      const title = document.createElement('div');
-      title.style.fontWeight = '700';
-      title.style.marginBottom = '8px';
-      title.textContent = d;
-      slide.appendChild(title);
-
-      const shows = schedule[activeWeek][d] || [];
-      const list = document.createElement('div');
-      list.className = 'day-list';
-      if (shows.length === 0) {
-        const empty = document.createElement('div');
-        empty.className = 'empty-slot'; empty.textContent = 'No shows scheduled';
-        list.appendChild(empty);
-      } else {
-        for (const s of shows) {
-          const item = document.createElement('div');
-          item.className = 'list-item';
-          item.style.background = s.colour || 'rgba(255,255,255,0.02)';
-          item.setAttribute('data-id', s.id);
-          item.style.alignItems = 'center';
-          item.role = 'button';
-          item.tabIndex = 0;
-
-          const times = document.createElement('div');
-          times.className = 'list-times';
-          times.textContent = `${s.start}–${s.end}`;
-          item.appendChild(times);
-
-          const thumb = document.createElement('img');
-          thumb.className = 'show-thumb';
-          thumb.src = s.cover || '';
-          thumb.alt = s.title;
-          item.appendChild(thumb);
-
-          const meta = document.createElement('div');
-          meta.style.flex = '1';
-          meta.innerHTML = `<div style="font-weight:700">${escapeHtml(s.title)}</div>
-                            <div style="font-size:12px;color:var(--muted)">${escapeHtml(s.hosts || '')}</div>`;
-          item.appendChild(meta);
-
-          item.addEventListener('click', () => openModal(s));
-          item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openModal(s); });
-
-          list.appendChild(item);
-        }
-      }
-      slide.appendChild(list);
-      swiperWrapper.appendChild(slide);
-    }
-    // update swiper
-    if (swiper) {
-      swiper.update();
-    }
+  async function fetchCSV(url){
+    const res=await fetch(url); const txt=await res.text();
+    const rows=parseCSV(txt); const headers=rows[0].map(h=>h.trim());
+    schedule=rows.slice(1).map(r=>{
+      const obj={}; headers.forEach((h,i)=>obj[h]=r[i]||'');
+      return obj;
+    });
+    renderAll();
   }
 
-  /*****************************************************************************
-   * Modal
-   *****************************************************************************/
-  function openModal(show) {
-    const modal = document.getElementById('showModal');
-    document.getElementById('modalThumb').src = show.cover || '';
-    document.getElementById('modalTitle').textContent = show.title;
-    document.getElementById('modalMeta').textContent = `${show.start} — ${show.end} • ${show.hosts || ''}`;
-    document.getElementById('modalDesc').textContent = show.description || '';
-    modal.setAttribute('open','');
-    modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  }
-  function closeModal() {
-    const modal = document.getElementById('showModal');
-    modal.removeAttribute('open');
-    modal.style.display = 'none';
-    document.body.style.overflow = '';
-  }
+  document.getElementById('weekA').onclick=()=>setActiveWeek('A');
+  document.getElementById('weekB').onclick=()=>setActiveWeek('B');
+  updateWeekButtons();
 
-  /*****************************************************************************
-   * Helpers
-   *****************************************************************************/
-  function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
-  /*****************************************************************************
-   * Boot sequence
-   *****************************************************************************/
-  (async function init(){
-    try {
-      // fetch and parse
-      const rows = await fetchCSV(SHEET_CSV_URL);
-      const schedule = buildSchedule(rows);
-
-      // detect week now
-      let autoWeek = detectWeekForDate(new Date());
-      let manualOverride = null; // 'A' or 'B' or null
-      function currentWeek() { return manualOverride || autoWeek; }
-
-      // init UI components
-      const desktopRoot = document.getElementById('desktopTimetables');
-      const mobileRoot = document.getElementById('mobileListRoot');
-      const swiperWrapper = document.getElementById('swiperWrapper');
-      const weekABtn = document.getElementById('weekABtn');
-      const weekBBtn = document.getElementById('weekBBtn');
-      const autoWeekBtn = document.getElementById('autoWeekBtn');
-      const mobileWeekLabel = document.getElementById('mobileWeekLabel');
-
-      // initial render
-      renderDesktopTimetables(desktopRoot, schedule, currentWeek());
-      // init Swiper for day swipe
-      const swiper = new Swiper('#daySwiper', {
-        slidesPerView: 1, spaceBetween: 10, autoHeight: true
-      });
-      renderMobileList(swiperWrapper, schedule, currentWeek(), swiper);
-      mobileWeekLabel.textContent = currentWeek();
-
-      // Set mobile swiper to today's day index
-      const today = new Date();
-      const tz = dateFnsTz.utcToZonedTime(today, TIMEZONE);
-      const dayIdx = (dateFns.getDay(tz) + 6) % 7; // convert js 0=Sun to 0=Mon
-      swiper.slideTo(dayIdx, 0, false);
-
-      // event handlers: week toggle
-      weekABtn.addEventListener('click', () => {
-        manualOverride = 'A';
-        weekABtn.setAttribute('aria-pressed','true');
-        weekBBtn.setAttribute('aria-pressed','false');
-        autoWeekBtn.setAttribute('aria-pressed','false');
-        mobileWeekLabel.textContent = 'A';
-        renderDesktopTimetables(desktopRoot, schedule, currentWeek());
-        renderMobileList(swiperWrapper, schedule, currentWeek(), swiper);
-      });
-      weekBBtn.addEventListener('click', () => {
-        manualOverride = 'B';
-        weekABtn.setAttribute('aria-pressed','false');
-        weekBBtn.setAttribute('aria-pressed','true');
-        autoWeekBtn.setAttribute('aria-pressed','false');
-        mobileWeekLabel.textContent = 'B';
-        renderDesktopTimetables(desktopRoot, schedule, currentWeek());
-        renderMobileList(swiperWrapper, schedule, currentWeek(), swiper);
-      });
-      autoWeekBtn.addEventListener('click', () => {
-        manualOverride = null;
-        autoWeek = detectWeekForDate(new Date());
-        const isA = autoWeek === 'A';
-        weekABtn.setAttribute('aria-pressed', String(isA));
-        weekBBtn.setAttribute('aria-pressed', String(!isA));
-        autoWeekBtn.setAttribute('aria-pressed','true');
-        mobileWeekLabel.textContent = currentWeek();
-        renderDesktopTimetables(desktopRoot, schedule, currentWeek());
-        renderMobileList(swiperWrapper, schedule, currentWeek(), swiper);
-      });
-
-      // mobile prev/next day
-      document.getElementById('mobilePrevDay').addEventListener('click', () => swiper.slidePrev());
-      document.getElementById('mobileNextDay').addEventListener('click', () => swiper.slideNext());
-
-      // modal close
-      document.getElementById('modalClose').addEventListener('click', closeModal);
-      document.getElementById('showModal').addEventListener('click', (e) => {
-        if (e.target.id === 'showModal') closeModal();
-      });
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
-
-      // Accessible keyboard: focus first show-block on desktop when pressing Tab into grid (optional enhancement)
-      // debug: attach schedule JSON to hidden element (useful while integrating)
-      document.getElementById('debug').textContent = JSON.stringify(schedule);
-
-    } catch (err) {
-      console.error(err);
-      const root = document.getElementById('scheduleRoot');
-      root.innerHTML = `<div style="padding:16px;background:#101826;color:#ffd7a6;border-radius:8px;">Error loading schedule: ${escapeHtml(err.message)}</div>`;
-    }
-  })();
-
+  fetchCSV(defaultCsvUrl);
   </script>
 </body>
 </html>
