@@ -2103,11 +2103,10 @@ Discover, develop and decide your future with appointments, events and vacancies
 
 </body>
 </html>
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <script>
 /** ====== Config ====== **/
-const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRoXcefXiUOFuRnA6DpheBwR2CJ4Zs09o68IG9in3w2WwncXybxsbVDWwQY6u6MSpmFDiRrx83MO8M3/pub?output=csv";
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRoXcefXiUOFuRnA6DpheBwR2CJ4Zs09o68IG9in3w2WwncXybxsbVDWwQY6u6MSpmFDiRrx83MO8M3/pub?output=csv"; // change to your published CSV link
 const A_IS_EVEN_ISO_WEEK = true;
 
 const FALLBACK_SHOW = {
@@ -2135,7 +2134,7 @@ function isoWeekNumber(d) {
 function getWeekTypeAB(date) {
   const wk = isoWeekNumber(date);
   const isEven = wk % 2 === 0;
-  return (A_IS_EVEN_ISO_WEEK ? (isEven ? "B" : "A") : (isEven ? "A" : "B"));
+  return (A_IS_EVEN_ISO_WEEK ? (isEven ? "A" : "B") : (isEven ? "B" : "A"));
 }
 
 function timeToMinutes(t) {
@@ -2190,7 +2189,7 @@ function applyShowToSection(sectionSelector, show, labelText, isLive, labelSelec
   const img = show.cover_image_url || show["cover image url"] || show["Cover Image Url"] || show["Cover Image URL"];
 
   if (titleElem) titleElem.textContent = title;
-  if (descElem) descElem.textContent = desc;
+  if (descElem) descElem.firstChild ? descElem.firstChild.textContent = desc : descElem.textContent = desc;
   if (imgElem) imgElem.src = img;
 
   const labelElem = section.querySelector(labelSelector);
@@ -2200,6 +2199,11 @@ function applyShowToSection(sectionSelector, show, labelText, isLive, labelSelec
     } else {
       labelElem.textContent = labelText;
     }
+  }
+
+  // Special: Update description toggle fullText for first banner
+  if (sectionSelector === "#pillBanner") {
+    setBannerDescription(desc);
   }
 }
 
@@ -2242,6 +2246,41 @@ function findNextShow(rows) {
   return candidates[0] || null;
 }
 
+/** ====== Description Toggle for Banner 1 ====== **/
+const description = document.getElementById('pillDescription');
+const toggleBtn = document.getElementById('toggleDescription');
+let expanded = false;
+let fullText = description.textContent.trim();
+
+function updateDescription() {
+  if (window.innerWidth <= 600 && !expanded) {
+    const words = fullText.split(' ');
+    if (words.length > 8) {
+      description.firstChild.textContent = words.slice(0, 8).join(' ') + '...';
+      toggleBtn.textContent = ' More';
+    } else {
+      toggleBtn.textContent = '';
+    }
+  } else {
+    description.firstChild.textContent = fullText;
+    toggleBtn.textContent = expanded ? ' Less' : '';
+  }
+}
+
+toggleBtn.addEventListener('click', () => {
+  expanded = !expanded;
+  updateDescription();
+});
+
+window.addEventListener('resize', updateDescription);
+
+function setBannerDescription(newText) {
+  fullText = newText.trim();
+  expanded = false;
+  updateDescription();
+}
+
+/** ====== Fetch + Update ====== **/
 function fetchAndUpdate() {
   Papa.parse(SHEET_CSV_URL, {
     download: true,
@@ -2260,7 +2299,7 @@ function fetchAndUpdate() {
       }
 
       // Second banner (current + up next)
-      const current2 = current1 || findCurrentShow(rows); // reuse if same
+      const current2 = current1 || findCurrentShow(rows);
       if (current2) {
         applyShowToSection("#pillBanner1 .current-show", current2, "On Air", true, ".on-air");
       } else {
@@ -2278,7 +2317,7 @@ function fetchAndUpdate() {
 }
 
 fetchAndUpdate();
-setInterval(fetchAndUpdate, 6000);
+setInterval(fetchAndUpdate, 60000);
 </script>
 <script>
   // Set --vh to the initial viewport height and don't update it again
@@ -2718,6 +2757,9 @@ document.addEventListener("DOMContentLoaded", function () {
     heroSection.style.marginTop = (pillHeight + extraSpace) + "px";
   }
 });
+
+</script>
+<script>
 const slides = document.querySelectorAll('.hero-img');
 const prevBtn = document.querySelector('.arrow.left');
 const nextBtn = document.querySelector('.arrow.right');
@@ -2789,3 +2831,88 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
+<script>
+  const streamUrl = "https://streamer.radio.co/s986435880/listen";
+  const audio = new Audio(streamUrl);
+  let playing = false;
+
+  // Select all play buttons
+  const playButtons = document.querySelectorAll('.play-btn');
+
+  // Function to update all buttons' icons
+  function updateButtons() {
+    playButtons.forEach(btn => {
+      btn.textContent = playing ? '⏸' : '▶';
+    });
+  }
+
+  // Add click event to each button
+  playButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!playing) {
+        audio.play().catch(err => console.error("Playback failed:", err));
+      } else {
+        audio.pause();
+      }
+      playing = !playing;
+      updateButtons();
+    });
+  });
+
+  // Sync buttons if audio ends
+  audio.addEventListener('ended', () => {
+    playing = false;
+    updateButtons();
+  });
+</script>
+
+
+<style>
+   @media (max-width: 1099px) {
+ 
+  
+  .hero-section  {
+   margin-top:159px !important;
+  }
+  }
+
+     @media (max-width: 1099px) {
+ 
+  
+  .hero-section  {
+   margin-top:159px !important;
+  }
+  }
+
+     @media (max-width: 849px) {
+ 
+  
+  .hero-section  {
+   margin-top:129px !important;
+  }
+  }
+
+      @media (max-width: 768px) {
+ 
+  
+  .hero-section  {
+   margin-top:119px !important;
+  }
+  }
+
+     @media (max-width: 335px) {
+ 
+  
+  .hero-section  {
+   margin-top:139px !important;
+  }
+      
+  }
+  @media  (max-width: 768px) {
+.pill-banner {
+    
+    width: calc(100% - 24px);
+    
+    }
+    }
+</style>
