@@ -3098,7 +3098,7 @@ function isoWeekNumber(d) {
 function getWeekTypeAB(date) {
   const wk = isoWeekNumber(date);
   const isEven = wk % 2 === 0;
-  return (A_IS_EVEN_ISO_WEEK ? (isEven ? "A" : "B") : (isEven ? "B" : "A"));
+  return (A_IS_EVEN_ISO_WEEK ? (isEven ? "B" : "A") : (isEven ? "A" : "B"));
 }
 
 function timeToMinutes(t) {
