@@ -1861,10 +1861,10 @@ position: absolute !important;
 
   <!-- Desktop Navigation -->
   <div class="desktop-nav">
-    <div class="nav-item projects"  onclick="window.location.href='https://zacharystephens.info/lsrv2s'" id="nav-item">SCHEDULE</div>
+    <div class="nav-item projects"  onclick="window.location.href='https://zacharystephens.info/lsrv2s'" id="nav-item"><u>SCHEDULE</u></div>
     <div class="nav-item" id="nav-item"onclick="window.location.href='https://zacharystephens.info/lsrv2l'" >LISTEN</div>
     <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/lsrv2g'" >APPLY</div>
-     <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/lsrv2a'" ><u>ABOUT</u></div>
+     <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/lsrv2a'" >ABOUT</div>
   </div>
 </div>
 
@@ -1874,10 +1874,10 @@ position: absolute !important;
   <div class="menu-tabs">
   <nav class="unique-nav-card" aria-label="Main actions">
     <ul class="unique-nav-list">
-      <li><a class="unique-nav-link unique-schedule-link" href="/s"><span class="unique-nav-icon" aria-hidden="true"></span>Schedule</a></li>
+      <li><a class="unique-nav-link unique-schedule-link" href="/s"><span class="unique-nav-icon" aria-hidden="true"></span><u>Schedule</u></a></li>
       <li><a class="unique-nav-link unique-listen-link" href="/l"><span class="unique-nav-icon" aria-hidden="true"></span>Listen</a></li>
       <li><a class="unique-nav-link unique-apply-link" href="/g"><span class="unique-nav-icon" aria-hidden="true"></span>GET INVOLVED</a></li>
-       <li><a class="unique-nav-link unique-apply-link" href="/a"><span class="unique-nav-icon" aria-hidden="true"></span><u>About</u></a></li>
+       <li><a class="unique-nav-link unique-apply-link" href="/a"><span class="unique-nav-icon" aria-hidden="true"></span>About</a></li>
     </ul>
   </nav>
    <!-- <span class="tab active" data-category="featured">FEATURED</span>
@@ -2649,12 +2649,12 @@ margin-top: -16px;
 
   <style>
     :root{--gap:12px;--card-radius:12px;--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2}
-    *{box-sizing:border-box}
+   
     body{color:whitesmoke;}
 
     .week-toggle{display:flex;gap:6px;margin-bottom:12px}
-    .week-toggle button{padding:8px 12px;border-radius:8px;border:none;cursor:pointer; border: solid 1px black;}
-    .week-toggle button.active{background:#1f6feb;color:white}
+    .week-toggle button{padding:8px 12px;border-radius:8px;border:none;cursor:pointer; border: solid 1px black; color:white; font-size:1em}
+    .week-toggle button.active{background:white;color:rgb(148 14 14)}
 
     /* Grid for larger screens */
     .week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;}
@@ -2683,8 +2683,30 @@ margin-top: -16px;
     /* Mobile: single-day carousel */
     .mobile-day{display:none}
     .mobile-wrapper{overflow:hidden;position:relative}
-    .mobile-scroller{display:flex;gap:12px;scroll-snap-type:x mandatory;overflow-x:auto;padding-bottom:10px;-webkit-overflow-scrolling:touch}
-    .mobile-scroller > .day-column{min-width:92%;flex:0 0 92%;scroll-snap-align:center}
+   .mobile-scroller {
+  display: flex;
+  gap: 12px;
+  scroll-snap-type: x mandatory;
+  overflow-x: auto;
+  padding: 0 12px 10px 12px; /* top 0, right/left 12px, bottom 10px */
+  -webkit-overflow-scrolling: touch;
+}
+
+.mobile-scroller > .day-column {
+  min-width: 92%;
+  flex: 0 0 92%;
+  scroll-snap-align: center;
+}
+
+/* Optional: make sure the first and last items respect the container padding */
+.mobile-scroller > .day-column:first-child {
+  margin-left: 0;
+}
+
+.mobile-scroller > .day-column:last-child {
+  margin-right: 0;
+}
+
     .pager{display:flex;gap:8px;justify-content:stretch;margin-top:8px; margin-bottom:8px; width:100%; flex-wrap: wrap;}
 
     /* Responsive rules */
@@ -2953,15 +2975,15 @@ function highlightLiveShows(){
       dotWrapper.className = 'live-dot';
       Object.assign(dotWrapper.style, {
         display: 'flex', alignItems: 'center', gap: '6px',
-        fontSize: '12px', fontWeight: '700', color: 'green', userSelect: 'none'
+        fontSize: '12px', fontWeight: '700', color: 'lightgreen', userSelect: 'none'
       });
 
       const dot = document.createElement('span');
-      dot.style.cssText = 'width:10px;height:10px;border-radius:50%;background-color:green;animation:pulse 1.5s infinite;';
+      dot.style.cssText = 'width:10px;height:10px;border-radius:50%;background-color:lightgreen;animation:pulse 3.5s infinite;';
       dotWrapper.appendChild(dot);
 
       const text = document.createElement('span');
-      text.textContent = 'on air';
+      text.textContent = '';
       dotWrapper.appendChild(text);
 
       card.appendChild(dotWrapper);
@@ -3084,127 +3106,7 @@ function highlightLiveShows(){
 </script>
 
 </div>
-</div>
-
-
-  <div class="carousel-dots" id="carouselDots"></div>
-  
-  
-   <footer class="footerzz" id="careerss" style="display:block !important">
-    <div class="footer-content" style="width:100%">
-      <div class="footer-section" style="width:100%">
-        <h4 style="margin-top: -10px;">ARCHIVE</h4> 
-        <div class="link-grid">
-      
-  <a href="https://www.youtube.com/watch?v=IpHj4hlQ9iU" target="_blank" rel="noopener noreferrer" class="atexta">
-    > Radio.co promotional video
-   
-  </a>
-
-
-
-  <a href="https://www.facebook.com/watch/?v=2466153720135883" target="_blank" rel="noopener noreferrer" class="atexta">
-    > Interview with Roman Kemp
-   
-  </a>
-
-
-
-  <a href="https://www.youtube.com/shorts/S0iV_RXRUAU" target="_blank" rel="noopener noreferrer" class="atexta">
-    > BBC Radio 1 surprises LSR with Jade
-   
-  </a>
-
-</div>
-      </div>
-    </div>
-  </footer>
-  <div class="footer-wrapper">
-  <footer class="footer" id="careerss">
-    <div class="footer-content">
-      <div class="footer-section">
-        <h4 style="margin-top: -10px;">Brought To you by our Sponsor:</h4>
-        <img src="https://stepzach.github.io/leedstestradio/316c00_e85e432bbd2e4e15a926db384684cf02~mv2.png.avif" width="100%" style="max-width:600px">
-        <p>Discover, develop and decide your future with appointments, events and vacancies.<br><u>Find out more</u></p>
-      </div>
-    </div>
-  </footer>
-
-  <div class="footer1" id="foottttest">
-    <div class="footer-section1">
-      <h4>LATEST PODCAST</h4>
-      <div class="image-container">
-        <img src="https://i.scdn.co/image/ab6765630000ba8a0d529ceb5b75392d6f8ae63e" alt="Podcast">
-      </div>
-
-      <div class="podcast-links" style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
-        <a href="https://open.spotify.com/your-podcast-link" target="_blank" rel="noopener" 
-           style="display: flex; align-items: center; text-decoration: none; color: inherit;">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" 
-               alt="Spotify" style="width: 28px; height: 28px; margin-right: 8px;">
-          <span><b>Listen on Spotify</b></span>
-        </a>
-        <a href="https://soundcloud.com/your-soundcloud-link" target="_blank" rel="noopener" 
-           style="display: flex; align-items: center; text-decoration: none; color: inherit;">
-          <img src="https://cdn.worldvectorlogo.com/logos/soundcloud-2.svg" 
-               alt="SoundCloud" style="width: 28px; height: 28px; margin-right: 8px;">
-          <span><b>Listen on SoundCloud</b></span>
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-
-
- <div class="footer-wrapper">
  
- 
- <div class="footer1" id="book21" style="height:400px">
-    <div class="footer-section1" style="height:400px">
-      <h4>BOOK STUDIO 2</h4>
-      <div class="image-container2" style="height:400px">
-        <img src="https://lh3.googleusercontent.com/u/0/d/17uovn0s5rAa14vC9GfKN23FlvdsuBQn5=w2940-h1680-iv1" alt="Podcast" style="height:400px">
-      </div>
-
-      <div class="podcast-links" style="margin-top: 10px; width:90%;">
-        <a href="https://open.spotify.com/your-podcast-link" target="_blank" rel="noopener" 
-           style=" align-items: center; text-decoration: none; color: inherit;">
-         
-          <span><b>If you'd like to record your podcast or make use of our CDJs/Turntable, LSR's Studio 2 is available for our members to book out.</b></span>
-        </a> <br>
-       <button class="bottom-rightb" onclick="window.open('https://zacharystephens.info/radicaldesignPART2.pdf', '_blank')">
-  Make a booking
-</button>
-      </div>
-      
-    </div>
-  </div>
-
- <div class="footer10" style="height:400px">
-    <div class="footer-section10" style="height:400px">
-      <h4>LATEST PODCAST</h4>
-      <div class="image-container" style="height:400px">
-        <img src="https://i.scdn.co/image/ab6765630000ba8a0d529ceb5b75392d6f8ae63e" alt="Podcast" style="height:400px">
-      </div>
-
-      <div class="podcast-links" style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
-        <a href="https://open.spotify.com/your-podcast-link" target="_blank" rel="noopener" 
-           style="display: flex; align-items: center; text-decoration: none; color: inherit;">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" 
-               alt="Spotify" style="width: 28px; height: 28px; margin-right: 8px;">
-          <span><b>Listen on Spotify</b></span>
-        </a>
-        <a href="https://soundcloud.com/your-soundcloud-link" target="_blank" rel="noopener" 
-           style="display: flex; align-items: center; text-decoration: none; color: inherit;">
-          <img src="https://cdn.worldvectorlogo.com/logos/soundcloud-2.svg" 
-               alt="SoundCloud" style="width: 28px; height: 28px; margin-right: 8px;">
-          <span><b>Listen on SoundCloud</b></span>
-        </a>
-      </div>
-    </div>
-  </div>
-  
-  
 </div>
 
 
@@ -3215,6 +3117,8 @@ function highlightLiveShows(){
   background: transparent;
   border-radius: 14px; /* match pseudo element radius */
   overflow: hidden;    /* keeps gradient inside rounded corners */
+  margin-left:0;
+  margin-right:0;
 }
 
 .footer::before {
@@ -3230,6 +3134,32 @@ function highlightLiveShows(){
 .footer > * {
   position: relative; /* keeps text above gradient */
   z-index: 2;
+}
+.overlay {
+  padding-left:0;
+   padding-right:0;
+}
+
+.top-row,
+.scheduleRootdiv h1,
+.week-toggle {
+  padding-left:24px;
+   padding-right:24px;
+}
+@media (min-width: 768px) {
+.top-row {
+  padding-left:24px;
+   padding-right:24px;
+}
+.overlay {
+  padding-left:12px;
+   padding-right:12px;
+}
+.scheduleRootdiv h1,
+.week-toggle {
+  padding-left:45px;
+   padding-right:45px;
+}
 }
 
 </style>
