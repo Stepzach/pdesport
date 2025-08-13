@@ -2249,37 +2249,97 @@ function findNextShow(rows) {
 /** ====== Description Toggle for Banner 1 ====== **/
 const description = document.getElementById('pillDescription');
 const toggleBtn = document.getElementById('toggleDescription');
+
 let expanded = false;
-let fullText = description.textContent.trim();
+let fullText = (description.textContent || '').trim();
+
+// Ensure there's a leading text node before the button
+let textNode = description.firstChild;
+if (!textNode || textNode.nodeType !== Node.TEXT_NODE) {
+  textNode = document.createTextNode('');
+  description.insertBefore(textNode, toggleBtn || null);
+}
+
+// Hidden measurer that copies the description's font styles
+const measurer = document.createElement('span');
+Object.assign(measurer.style, {
+  position: 'absolute',
+  visibility: 'hidden',
+  whiteSpace: 'nowrap',
+  top: '-9999px',
+  left: '-9999px'
+});
+document.body.appendChild(measurer);
+
+function textWidth(str) {
+  const cs = getComputedStyle(description);
+  measurer.style.font = cs.font;
+  measurer.style.letterSpacing = cs.letterSpacing;
+  measurer.style.textTransform = cs.textTransform;
+  measurer.textContent = str;
+  return measurer.getBoundingClientRect().width;
+}
+
+function truncateToPixelWidth(text, maxPx) {
+  if (textWidth(text) <= maxPx) {
+    return { text, cut: false };
+  }
+  // Binary search for longest prefix that fits with "..."
+  let lo = 0, hi = text.length, best = '...';
+  while (lo <= hi) {
+    const mid = (lo + hi) >> 1;
+    const candidate = text.slice(0, mid).trimEnd() + '...';
+    if (textWidth(candidate) <= maxPx) {
+      best = candidate;
+      lo = mid + 1;
+    } else {
+      hi = mid - 1;
+    }
+  }
+  return { text: best, cut: true };
+}
 
 function updateDescription() {
-  if (window.innerWidth <= 600 && !expanded) {
-    const words = fullText.split(' ');
-    if (words.length > 8) {
-      description.firstChild.textContent = words.slice(0, 8).join(' ') + '...';
+  // Choose limit based on screen size
+  const maxWidthPx = window.innerWidth <= 600 ? 320 : 900;
+
+  if (!expanded) {
+    const { text, cut } = truncateToPixelWidth(fullText, maxWidthPx);
+    textNode.textContent = text;
+    if (cut) {
       toggleBtn.textContent = ' More';
+      toggleBtn.style.display = 'inline';
+      toggleBtn.setAttribute('aria-hidden', 'false');
     } else {
       toggleBtn.textContent = '';
+      toggleBtn.style.display = 'none';
+      toggleBtn.setAttribute('aria-hidden', 'true');
     }
   } else {
-    description.firstChild.textContent = fullText;
-    toggleBtn.textContent = expanded ? ' Less' : '';
+    textNode.textContent = fullText;
+    const wasTruncated = textWidth(fullText) > maxWidthPx;
+    toggleBtn.textContent = wasTruncated ? ' Less' : '';
+    toggleBtn.style.display = wasTruncated ? 'inline' : 'none';
+    toggleBtn.setAttribute('aria-hidden', wasTruncated ? 'false' : 'true');
   }
 }
 
 toggleBtn.addEventListener('click', () => {
   expanded = !expanded;
+  toggleBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
   updateDescription();
 });
 
 window.addEventListener('resize', updateDescription);
 
 function setBannerDescription(newText) {
-  fullText = newText.trim();
+  fullText = (newText || '').trim();
   expanded = false;
   updateDescription();
 }
 
+// Initial render
+updateDescription();
 /** ====== Fetch + Update ====== **/
 function fetchAndUpdate() {
   Papa.parse(SHEET_CSV_URL, {
