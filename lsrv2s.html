@@ -2959,7 +2959,7 @@ function showPopup(show) {
   popup.querySelector('#popupImage').src = show.cover_image_url || '';
   popup.querySelector('#popupImage').alt = show.title || '';
   popup.querySelector('#popupTitle').textContent = show.title || '';
-  popup.querySelector('#popupHosts').textContent = `Host: ${show.hosts || 'Unknown'}`;
+  popup.querySelector('#popupHosts').textContent = `Host(s): ${show.hosts || 'Unknown'}`;
   popup.querySelector('#popupDescription').textContent = show.description || 'No description available.';
 
   // Adjust layout *after* content is in place
