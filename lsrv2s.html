@@ -2657,7 +2657,9 @@ margin-top: -16px;
     .week-toggle button.active{background:white;color:rgb(148 14 14)}
 
     /* Grid for larger screens */
-    .week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;}
+    .week-grid{display:grid;grid-template-columns: repeat(7, minmax(150px, 1fr));
+    gap: 10px;
+    overflow-x: auto;}
     .day-column{background:linear-gradient(180deg,rgba(0,0,0,0.2),transparent);padding:10px; border-radius:14px;min-height:120px}
     
      @media (max-width:900px){
@@ -2893,12 +2895,12 @@ localStorage.setItem('activeWeek', activeWeek);
   width:45px; height:45px;" aria-label="Close popup">&times;</button>
 
   <img id="popupImage" src="" alt="" style="
-    width: 100%;
+    width: 98%;
     border-radius: 8px;
     margin-bottom: 15px;
     object-fit: cover;
-    max-height: 350px;
-    max-width: 350px;
+    max-height: 320px;
+    max-width: 320px;
   ">
    <div id="popupText" style="text-align: left;">
     <h2 id="popupTitle" style="margin-top: 0; margin-bottom: 8px; color: whitesmoke;"></h2>
@@ -2921,44 +2923,84 @@ localStorage.setItem('activeWeek', activeWeek);
     return popup;
   }
 
-  function showPopup(show){
-    const popup = createPopup();
-    popup.querySelector('#popupImage').src = show.cover_image_url || '';
-    popup.querySelector('#popupImage').alt = show.title || '';
-    popup.querySelector('#popupTitle').textContent = show.title || '';
-    popup.querySelector('#popupHosts').textContent = `Host: ${show.hosts || 'Unknown'}`;
-    popup.querySelector('#popupDescription').textContent = show.description || 'No description available.';
-    popup.style.visibility = 'visible';
-    popup.style.opacity = 1;
+ function adjustPopupLayout() {
+  const popupContent = document.getElementById('popupContent');
+  const popupImage = document.getElementById('popupImage');
+  const popupText = document.getElementById('popupText');
+
+  if (!popupContent || !popupImage || !popupText) return; // Avoid errors if popup not built yet
+
+  if (window.innerWidth >= 920) {
+    popupContent.style.display = 'flex';
+    popupContent.style.flexDirection = 'row';
+    popupContent.style.alignItems = 'flex-start';
+    popupContent.style.textAlign = 'left';
+    popupImage.style.marginBottom = '0';
+    popupImage.style.marginRight = '20px';
+    popupText.style.flex = '1';
+  } else {
+    popupContent.style.display = 'flex';
+    popupContent.style.flexDirection = 'column';
+    popupContent.style.alignItems = 'center';
+    popupContent.style.textAlign = 'center';
+    popupImage.style.marginBottom = '15px';
+    popupImage.style.marginRight = '0';
+    popupText.style.flex = 'unset';
   }
+}
 
-  function makeShowElement(show){
-    const el=document.createElement('div'); 
-    el.className='show-card';
-    el.style.position = 'relative';
+function showPopup(show) {
+  const popup = createPopup();
 
-    const thumb=document.createElement('img'); 
-    thumb.className='show-thumb'; 
-    thumb.src=show.cover_image_url; 
-    thumb.alt=show.title; 
-    thumb.onerror=()=>{thumb.style.background=show.colour; thumb.src='';};
+  // Inject content dynamically
+  popup.querySelector('#popupImage').src = show.cover_image_url || '';
+  popup.querySelector('#popupImage').alt = show.title || '';
+  popup.querySelector('#popupTitle').textContent = show.title || '';
+  popup.querySelector('#popupHosts').textContent = `Host: ${show.hosts || 'Unknown'}`;
+  popup.querySelector('#popupDescription').textContent = show.description || 'No description available.';
 
-    const body=document.createElement('div'); 
-    body.className='show-body';
-    body.innerHTML=`
-      <div class='show-title'>${show.title}</div>
-      <div class='show-meta'>
-        <span class='time-pill' style='background:${show.colour}'>${show.start_time}—${show.end_time}</span> 
-      </div>
-    `;
+  // Adjust layout *after* content is in place
+  adjustPopupLayout();
 
-    el.append(thumb,body);
-    el.onclick = (e) => {
-      e.stopPropagation();
-      showPopup(show);
-    };
-    return el;
-  }
+  // Show popup
+  popup.style.visibility = 'visible';
+  popup.style.opacity = 1;
+}
+
+function makeShowElement(show) {
+  const el = document.createElement('div');
+  el.className = 'show-card';
+  el.style.position = 'relative';
+
+  const thumb = document.createElement('img');
+  thumb.className = 'show-thumb';
+  thumb.src = show.cover_image_url;
+  thumb.alt = show.title;
+  thumb.onerror = () => {
+    thumb.style.background = show.colour;
+    thumb.src = '';
+  };
+
+  const body = document.createElement('div');
+  body.className = 'show-body';
+  body.innerHTML = `
+    <div class='show-title'>${show.title}</div>
+    <div class='show-meta'>
+      <span class='time-pill' style='background:${show.colour}'>${show.start_time}—${show.end_time}</span> 
+    </div>
+  `;
+
+  el.append(thumb, body);
+  el.onclick = (e) => {
+    e.stopPropagation();
+    showPopup(show);
+  };
+
+  return el;
+}
+
+// Keep resize listener so layout adapts if window changes size
+window.addEventListener('resize', adjustPopupLayout);
 
 function highlightLiveShows(){
   const dayName = getTodayName();
@@ -3160,8 +3202,8 @@ function highlightLiveShows(){
 }
 @media (min-width: 768px) {
 .top-row {
-  padding-left:24px;
-   padding-right:24px;
+padding-left: 12px;
+padding-right: 12px;
 }
 .overlay {
   padding-left:12px;
@@ -3169,8 +3211,8 @@ function highlightLiveShows(){
 }
 .scheduleRootdiv h1,
 .week-toggle {
-  padding-left:45px;
-   padding-right:45px;
+  padding-left:32px;
+   padding-right:32px;
 }
 }
 
@@ -3252,6 +3294,7 @@ Discover, develop and decide your future with appointments, events and vacancies
 
 </body>
 </html>
+
 <script>
   // Set --vh to the initial viewport height and don't update it again
   (function () {
@@ -3797,30 +3840,4 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-</script>
-<script>
-function adjustPopupLayout() {
-  const popupContent = document.getElementById('popupContent');
-  const popupImage = document.getElementById('popupImage');
-  const popupText = document.getElementById('popupText');
-
-  if (window.innerWidth >= 920) {
-    popupContent.style.flexDirection = 'row';
-    popupContent.style.alignItems = 'flex-start';
-    popupContent.style.textAlign = 'left';
-    popupImage.style.marginBottom = '0';
-    popupImage.style.marginRight = '20px';
-    popupText.style.flex = '1';
-  } else {
-    popupContent.style.flexDirection = 'column';
-    popupContent.style.alignItems = 'center';
-    popupContent.style.textAlign = 'center';
-    popupImage.style.marginBottom = '15px';
-    popupImage.style.marginRight = '0';
-    popupText.style.flex = 'unset';
-  }
-}
-
-window.addEventListener('resize', adjustPopupLayout);
-window.addEventListener('load', adjustPopupLayout);
 </script>
