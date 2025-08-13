@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Bi-weekly Radio Schedule</title>
+  <title>Schedule</title>
   <style>
     :root{--gap:12px;--card-radius:12px;--bg:#0f1724;--card:#0b1220;--muted:#9aa4b2}
     *{box-sizing:border-box}
@@ -14,15 +14,24 @@
     .week-toggle button.active{background:#1f6feb;color:white}
 
     /* Grid for larger screens */
-    .week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:var(--gap)}
-    .day-column{background:linear-gradient(180deg,rgba(0,0,0,0.2),transparent);padding:10px;border:solid 2px black;border-radius:14px;min-height:120px}
+    .week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;}
+    .day-column{background:linear-gradient(180deg,rgba(0,0,0,0.2),transparent);padding:10px; border-radius:14px;min-height:120px}
+    
+     @media (max-width:900px){
+     .day-column {
+    border:solid 2px black;
+    }
+     }
+    
+    
     .day-header{font-weight:700;margin-bottom:1px;display:flex;justify-content:space-between;align-items:center}
     .day-sub{color:var(--muted);font-size:13px}
 
-    .show-card{display:flex;gap:8px;align-items:flex-start;padding:8px;border-radius:10px;margin-bottom:8px;overflow:hidden}
+    .show-card{display:flex;gap:1px;align-items:flex-start;padding:4px;border-radius:10px;margin-bottom:8px;overflow:hidden; cursor:pointer; transition: transform 0.3s ease; }
+    .show-card:hover{transform: translateY(-6px) scale(1.01);}
     .show-thumb{width:56px;height:56px;border-radius:8px;flex:0 0 56px;background:#0a1220;object-fit:cover}
     .show-body{flex:1}
-    .show-title{font-weight:700;font-size:14px;margin:0}
+    .show-title{font-weight:500;font-size:14px;margin:0; margin-left:4px;}
     .show-meta{font-size:13px;color:var(--muted);margin-top:4px}
     .show-desc{font-size:13px;color:var(--muted);margin-top:6px}
 
@@ -46,28 +55,38 @@
     .hosts{font-size:12px;color:var(--muted)}
     .muted{color:var(--muted)}
     
-    
+    #mobilePager button.today {
+  background: #1f6feb;
+  color: white;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 4px 8px;
+}
+
 
   </style>
 </head>
 <body>
-  <h1 style="margin:0 0 8px">Radio Schedule (A / B weeks)</h1>
+  <h1 style="margin:0 0 8px">Schedule</h1>
+
 
   <div class="week-toggle" role="tablist" aria-label="Week type">
     <button id="weekA" class="btn" data-week="A">Week A</button>
     <button id="weekB" class="btn" data-week="B">Week B</button>
   </div>
 
-  <div id="scheduleRoot">
+ 
+ <div id="scheduleRoot">
     <div class="week-grid" id="weekGrid" aria-live="polite"></div>
     <div class="mobile-day" id="mobileDay">
+     <div class="pager" id="mobilePager"></div>
       <div class="mobile-wrapper">
         <div id="mobileScroller" class="mobile-scroller" tabindex="0"></div>
       </div>
-      <div class="pager" id="mobilePager"></div>
+     
     </div>
   </div>
-
+ 
  <script>
   const defaultCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRoXcefXiUOFuRnA6DpheBwR2CJ4Zs09o68IG9in3w2WwncXybxsbVDWwQY6u6MSpmFDiRrx83MO8M3/pub?output=csv';
 
@@ -77,6 +96,18 @@
     const cap = name[0].toUpperCase()+name.slice(1).toLowerCase();
     const map = {Mon:'Monday',Tue:'Tuesday',Wed:'Wednesday',Thu:'Thursday',Fri:'Friday',Sat:'Saturday',Sun:'Sunday'};
     return DAY_ORDER.includes(cap) ? cap : map[cap.slice(0,3)] || cap;
+  }
+
+  function getTodayName() {
+    return DAY_ORDER[(new Date().getDay() + 6) % 7]; // Monday=0, Sunday=6
+  }
+
+  function getCurrentWeekType() {
+    const start = new Date(new Date().getFullYear(), 0, 1); // Jan 1
+    const now = new Date();
+    const daysSinceStart = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+    const weekNum = Math.floor(daysSinceStart / 7) + 1; // Week number (1-based)
+    return weekNum % 2 === 0 ? 'B' : 'A';
   }
 
   function parseCSV(text){
@@ -98,7 +129,8 @@
   }
 
   let schedule = []; 
-  let activeWeek = localStorage.getItem('activeWeek') || 'A';
+  let activeWeek = getCurrentWeekType();
+localStorage.setItem('activeWeek', activeWeek);
 
   function setActiveWeek(w){ 
     activeWeek=w; 
@@ -129,54 +161,35 @@
 
   function isLive(show){
     const now = new Date();
-    const dayName = DAY_ORDER[now.getDay() - 1] || 'Monday';
+    const dayName = getTodayName();
     if(normalizeDay(show.day_of_week) !== dayName) return false;
     const nowMinutes = now.getHours()*60 + now.getMinutes();
     return nowMinutes >= timeToMinutes(show.start_time) && nowMinutes < timeToMinutes(show.end_time);
   }
 
-  // Create popup overlay with image, title, hosts, description
   function createPopup(){
     let popup = document.getElementById('showPopup');
     if(popup) return popup;
     popup = document.createElement('div');
+    Object.assign(popup.style, {
+      position: 'fixed', top: 0, left: 0,
+      width: '100vw', height: '100vh',
+      background: 'rgba(0,0,0,0.75)',
+      display: 'flex', justifyContent: 'center', alignItems: 'center',
+      zIndex: 10000, visibility: 'hidden', opacity: 0,
+      transition: 'opacity 0.3s ease'
+    });
     popup.id = 'showPopup';
-    popup.style.position = 'fixed';
-    popup.style.top = 0;
-    popup.style.left = 0;
-    popup.style.width = '100vw';
-    popup.style.height = '100vh';
-    popup.style.background = 'rgba(0,0,0,0.75)';
-    popup.style.display = 'flex';
-    popup.style.justifyContent = 'center';
-    popup.style.alignItems = 'center';
-    popup.style.zIndex = 10000;
-    popup.style.visibility = 'hidden';
-    popup.style.opacity = 0;
-    popup.style.transition = 'opacity 0.3s ease';
-
     popup.innerHTML = `
       <div id="popupContent" style="
-        background: #fff; 
-        border-radius: 12px; 
-        max-width: 600px; 
-        max-height: 80vh; 
-        overflow-y: auto; 
-        padding: 20px; 
+        background: #fff; border-radius: 12px; max-width: 600px; 
+        max-height: 80vh; overflow-y: auto; padding: 20px; 
         box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        position: relative;
-        font-family: Arial, sans-serif;
+        position: relative; font-family: Arial, sans-serif;
       ">
         <button id="closePopup" style="
-          position: absolute; 
-          top: 12px; 
-          right: 16px; 
-          background: none; 
-          border: none; 
-          font-size: 28px; 
-          font-weight: bold; 
-          color: #444; 
-          cursor: pointer;
+          position: absolute; top: 12px; right: 16px; background: none; 
+          border: none; font-size: 28px; font-weight: bold; color: #444; cursor: pointer;
         " aria-label="Close popup">&times;</button>
         <img id="popupImage" src="" alt="" style="width: 100%; border-radius: 8px; margin-bottom: 15px; object-fit: cover; max-height: 250px;">
         <h2 id="popupTitle" style="margin-top: 0; margin-bottom: 8px; color: #222;"></h2>
@@ -184,20 +197,17 @@
         <p id="popupDescription" style="white-space: pre-wrap; line-height: 1.4; color: #333;"></p>
       </div>
     `;
-
     document.body.appendChild(popup);
     popup.querySelector('#closePopup').onclick = () => {
       popup.style.opacity = 0;
       setTimeout(() => popup.style.visibility = 'hidden', 300);
     };
-    // Close on click outside content
     popup.addEventListener('click', e => {
       if(e.target === popup){
         popup.style.opacity = 0;
         setTimeout(() => popup.style.visibility = 'hidden', 300);
       }
     });
-
     return popup;
   }
 
@@ -228,106 +238,130 @@
     body.innerHTML=`
       <div class='show-title'>${show.title}</div>
       <div class='show-meta'>
-        <div class='show-meta'>
         <span class='time-pill' style='background:${show.colour}'>${show.start_time}—${show.end_time}</span> 
-       
       </div>
     `;
 
     el.append(thumb,body);
-
     el.onclick = (e) => {
       e.stopPropagation();
       showPopup(show);
     };
-
     return el;
   }
 
-  // Add a small green pulsing dot with text "on air" on live shows
-  function highlightLiveShows(){
-    const now = new Date();
-    const dayName = DAY_ORDER[now.getDay() - 1] || 'Monday';
+function highlightLiveShows(){
+  const dayName = getTodayName();
 
-    // Remove existing dots
-    document.querySelectorAll('.show-card .live-dot').forEach(dot => dot.remove());
+  // Remove existing live dots first
+  document.querySelectorAll('.show-card .live-dot').forEach(dot => dot.remove());
 
-    document.querySelectorAll('.day-column .show-card').forEach(card => {
-      const title = card.querySelector('.show-title').textContent;
-      const dayCol = card.closest('.day-column');
-      const day = dayCol?.querySelector('.day-header div')?.textContent || '';
-      const filteredShows = schedule.filter(s => s.title === title && normalizeDay(s.day_of_week) === day);
-      if(filteredShows.length === 0) return;
-      const show = filteredShows[0];
-      if(isLive(show)){
-        // Create pulsing dot + text
-        const dotWrapper = document.createElement('div');
-        dotWrapper.className = 'live-dot';
-        dotWrapper.style.position = 'relative';
-        dotWrapper.style.top = '8px';
-        dotWrapper.style.left = '8px';
-        dotWrapper.style.display = 'flex';
-        dotWrapper.style.alignItems = 'center';
-        dotWrapper.style.gap = '6px';
-        dotWrapper.style.fontSize = '12px';
-        dotWrapper.style.fontWeight = '700';
-        dotWrapper.style.color = 'green';
-        dotWrapper.style.userSelect = 'none';
+  // Only highlight shows if the active week is the current week
+  if(activeWeek !== getCurrentWeekType()) return;
 
-        const dot = document.createElement('span');
-        dot.style.width = '10px';
-        dot.style.height = '10px';
-        dot.style.borderRadius = '50%';
-        dot.style.backgroundColor = 'green';
-        dot.style.animation = 'pulse 1.5s infinite';
+  document.querySelectorAll('.day-column .show-card').forEach(card => {
+    const title = card.querySelector('.show-title')?.textContent?.trim();
+    const dayCol = card.closest('.day-column');
+    const day = dayCol?.querySelector('.day-header div')?.textContent?.trim() || '';
 
-        dotWrapper.appendChild(dot);
-        const text = document.createElement('span');
-        text.textContent = 'on air';
-        dotWrapper.appendChild(text);
-
-        card.style.position = 'relative'; // ensure relative for absolute positioning
-        card.appendChild(dotWrapper);
-      }
+    const show = schedule.find(s => {
+      const weekType = (s.week_type || '').trim();
+      return (
+        s.title?.trim() === title &&
+        normalizeDay(s.day_of_week) === day &&
+        weekType === activeWeek &&
+        isLive(s)
+      );
     });
-  }
+
+    if(show){
+      const dotWrapper = document.createElement('div');
+      dotWrapper.className = 'live-dot';
+      Object.assign(dotWrapper.style, {
+        display: 'flex', alignItems: 'center', gap: '6px',
+        fontSize: '12px', fontWeight: '700', color: 'green', userSelect: 'none'
+      });
+
+      const dot = document.createElement('span');
+      dot.style.cssText = 'width:10px;height:10px;border-radius:50%;background-color:green;animation:pulse 1.5s infinite;';
+      dotWrapper.appendChild(dot);
+
+      const text = document.createElement('span');
+      text.textContent = 'on air';
+      dotWrapper.appendChild(text);
+
+      card.appendChild(dotWrapper);
+    }
+  });
+}
+
+
 
   function renderWeekGrid(shows){
     const root=document.getElementById('weekGrid'); root.innerHTML='';
     const byDay=groupByDay(shows);
+    const today = getTodayName();
     DAY_ORDER.forEach(day=>{
       const col=document.createElement('div'); col.className='day-column';
-      col.innerHTML=`<div class='day-header'><div>${day}</div><div class='day-sub'>${byDay[day].length} shows</div></div>`;
+      const header = document.createElement('div');
+      header.className = 'day-header';
+      if(day === today) header.classList.add('today');
+      header.innerHTML = `<div>${day}</div><div class='day-sub'>${byDay[day].length} shows</div>`;
+      col.appendChild(header);
       if(!byDay[day].length) col.innerHTML+='<div class="muted">No shows</div>';
       byDay[day].forEach(s=>col.appendChild(makeShowElement(s)));
       root.appendChild(col);
     });
     highlightLiveShows();
+  } 
+
+ function renderMobile(shows){
+  const scroller = document.getElementById('mobileScroller'); 
+  scroller.innerHTML = '';
+  const pager = document.getElementById('mobilePager'); 
+  pager.innerHTML = '';
+  const byDay = groupByDay(shows);
+  const today = getTodayName();
+  let activeDay = today; // Track which day is active
+  let todayIndex = 0;
+
+  DAY_ORDER.forEach((day, i) => {
+    const col = document.createElement('div'); 
+    col.className = 'day-column';
+    const header = document.createElement('div');
+    header.className = 'day-header';
+    if(day === today) todayIndex = i;
+    header.innerHTML = `<div>${day}</div><div class='day-sub'>${byDay[day].length} shows</div>`;
+    col.appendChild(header);
+    byDay[day].forEach(s => col.appendChild(makeShowElement(s)));
+    scroller.appendChild(col);
+
+    const dot = document.createElement('button'); 
+    dot.textContent = day.slice(0,3);
+    if(day === today) dot.classList.add('today'); // highlight current day on load
+    dot.onclick = () => {
+      activeDay = day;
+      // Scroll to the day
+      scroller.scrollTo({
+        left: scroller.children[i].offsetLeft,
+        behavior: 'smooth'
+      });
+      // Update button highlights
+      pager.querySelectorAll('button').forEach(b => b.classList.remove('today'));
+      dot.classList.add('today');
+    };
+    pager.appendChild(dot);
+  });
+
+  // Scroll to today's column on load
+  if(scroller.children[todayIndex]) {
+    scroller.scrollLeft = scroller.children[todayIndex].offsetLeft;
   }
 
-  function renderMobile(shows){
-    const scroller=document.getElementById('mobileScroller'); scroller.innerHTML='';
-    const pager=document.getElementById('mobilePager'); pager.innerHTML='';
-    const byDay=groupByDay(shows);
-    DAY_ORDER.forEach((day,i)=>{
-      const col=document.createElement('div'); col.className='day-column';
-      col.innerHTML=`<div class='day-header'><div>${day}</div><div class='day-sub'>${byDay[day].length} shows</div></div>`;
-      byDay[day].forEach(s=>col.appendChild(makeShowElement(s)));
-      scroller.appendChild(col);
-      const dot=document.createElement('button'); dot.textContent=day.slice(0,3);
-      dot.onclick=()=>scroller.children[i].scrollIntoView({behavior:'smooth',inline:'center'});
-      pager.appendChild(dot);
-    });
+  highlightLiveShows();
+  scroller.addEventListener('scroll', highlightLiveShows);
+}
 
-    const now = new Date();
-    const today = DAY_ORDER[now.getDay() - 1] || 'Monday';
-    const idx = DAY_ORDER.indexOf(today);
-    if(idx >= 0 && scroller.children[idx]){
-      scroller.children[idx].scrollIntoView({inline:'top'});
-    }
-
-    highlightLiveShows();
-  }
 
   function renderAll(){
     const filtered=schedule.filter(s=>!s.week_type || s.week_type===activeWeek);
@@ -344,8 +378,9 @@
       const obj={}; headers.forEach((h,i)=>obj[h]=r[i]||'');
       return obj;
     });
+    updateWeekButtons();
     renderAll();
-    setInterval(highlightLiveShows, 60 * 1000); // Refresh every minute
+    setInterval(highlightLiveShows, 60 * 1000);
   }
 
   document.getElementById('weekA').onclick = () => setActiveWeek('A');
@@ -353,7 +388,6 @@
 
   fetchCSV(defaultCsvUrl);
 
-  // CSS injection for pulse animation and styles
   const style = document.createElement('style');
   style.textContent = `
     @keyframes pulse {
@@ -361,17 +395,19 @@
       50% { transform: scale(1.3); opacity: 1; }
       100% { transform: scale(0.9); opacity: 0.7; }
     }
-   
-   
-    .live-dot {
-    
-    position: relative;
-     right:0px;
+    .day-header.today {
+      background: rgba(255, 215, 0, 0.2);
+      border: 2px solid gold;
+      border-radius: 8px;
+    }
+    .week-toggle button.active {
+      background: gold;
+      color: black;
+      font-weight: bold;
     }
   `;
   document.head.appendChild(style);
+</script>
 
-</script>
-</script>
 </body>
 </html>
