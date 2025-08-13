@@ -1783,23 +1783,25 @@ position: absolute !important;
       } }
   </style>
 </head>
-<body style="    max-width: 1500px;
+
+
+ <body style="    max-width: 1500px;
     margin-left: auto;
     margin-right: auto;">
     
     <div class="pill-banner" id="pillBanner">
-  <img src="https://lh3.googleusercontent.com/u/0/d/1Xeo6bn74JObZylqkFV54g2vSsMSuF-Gq=w2940-h1680-iv1" alt="Thumbnail" class="thumbnail">
+  <img src="" alt="Thumbnail" class="thumbnail">
   <div class="pill-content">
     <!-- TOP ROW -->
     <div class="pill-top-row">
-      <span class="pill-title">Morning Jazz Hour</span>
+      <span class="pill-title">...Loading</span>
       <span class="on-air"><span class="pulse-dot"></span>On Air</span>
       <button class="play-btn" id="playBtn">▶</button>
     </div>
 
     <!-- BOTTOM ROW -->
     <div class="pill-description" id="pillDescription">
-      Your daily smooth jazz session with the best artists from around the globe bringing the best melodies for your morning.
+      ...Loading
       <span class="show-more" id="toggleDescription"></span>
     </div>
   </div>
@@ -1807,43 +1809,44 @@ position: absolute !important;
 <div class="pill-banner" id="pillBanner1">
   <!-- CURRENT SHOW -->
   <div class="pill-section current-show">
-    <img src="https://lh3.googleusercontent.com/u/0/d/1Xeo6bn74JObZylqkFV54g2vSsMSuF-Gq=w2940-h1680-iv1" alt="Thumbnail" class="thumbnail">
+    <img src="" alt="Thumbnail" class="thumbnail">
 
     <div class="pill-content">
       <!-- TOP ROW -->
       <div class="pill-top-row">
-        <span class="pill-title">Morning Jazz Hour</span>
+        <span class="pill-title">...Loading</span>
         <span class="on-air"><span class="pulse-dot"></span>On Air</span>
       </div>
 
       <!-- BOTTOM ROW -->
-      <div class="pill-description" id="pillDescription1">
-        Your daily smooth jazz session with the best artists from around the globe bringing the best melodies for your morning.
-        <span class="show-more" id="toggleDescription1"></span>
+      <div class="pill-description" id="pillDescription">
+        ...Loading
+        <span class="show-more" id="toggleDescription"></span>
       </div>
     </div>
 
     <!-- Play Button (moved out for alignment control) -->
-    <button class="play-btn" id="playBtn1">▶</button>
+    <button class="play-btn" id="playBtn">▶</button>
   </div>
 
   <!-- UP NEXT SHOW -->
   <div class="pill-section up-next">
-    <img src="https://lh3.googleusercontent.com/u/0/d/1Qv1I1wfHrBzI0NSNBsXl85cGrvsTb_ft=w2940-h1680-iv1" class="thumbnail">
+    <img src="" class="thumbnail">
     <div class="pill-content">
       <!-- TOP ROW -->
       <div class="pill-top-row">
-        <span class="pill-title">Evening Soul Mix</span>
+        <span class="pill-title">...Loading</span>
         <span class="up-next-label">⏳ Up Next</span>
       </div>
 
       <!-- BOTTOM ROW -->
       <div class="pill-description">
-        A curated blend of soulful tunes to wind down your evening and set the perfect mood.
+       ...Loading
       </div>
     </div>
   </div>
 </div>
+
 
 
   <div class="hero-section">
@@ -3295,6 +3298,223 @@ Discover, develop and decide your future with appointments, events and vacancies
 </body>
 </html>
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script>
+/** ====== Config ====== **/
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRoXcefXiUOFuRnA6DpheBwR2CJ4Zs09o68IG9in3w2WwncXybxsbVDWwQY6u6MSpmFDiRrx83MO8M3/pub?output=csv"; // change to your published CSV link
+const A_IS_EVEN_ISO_WEEK = true;
+
+const FALLBACK_SHOW = {
+  title: "No Show Live",
+  description: "We're currently off air. Stay tuned for the next broadcast.",
+  cover_image_url: "https://example.com/off-air-thumbnail.jpg"
+};
+
+const FALLBACK_NEXT = {
+  title: "No Show Scheduled",
+  description: "No upcoming shows are scheduled at the moment.",
+  cover_image_url: "https://example.com/no-upcoming-thumbnail.jpg"
+};
+
+/** ====== Helpers ====== **/
+function isoWeekNumber(d) {
+  const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  const dayNum = (date.getUTCDay() + 6) % 7;
+  date.setUTCDate(date.getUTCDate() + 3 - dayNum);
+  const firstThursday = new Date(Date.UTC(date.getUTCFullYear(), 0, 4));
+  const diff = date - firstThursday;
+  return 1 + Math.round(diff / (7 * 24 * 3600 * 1000));
+}
+
+function getWeekTypeAB(date) {
+  const wk = isoWeekNumber(date);
+  const isEven = wk % 2 === 0;
+  return (A_IS_EVEN_ISO_WEEK ? (isEven ? "B" : "A") : (isEven ? "A" : "B"));
+}
+
+function timeToMinutes(t) {
+  if (!t) return NaN;
+  const [h, m] = t.trim().split(":").map(Number);
+  return h * 60 + (m || 0);
+}
+
+function currentDayTokens(date) {
+  const long = date.toLocaleString("en-GB", { weekday: "long" });
+  const short = long.slice(0, 3);
+  const dayIndex = (date.getDay() + 6) % 7;
+  const isWeekday = dayIndex <= 4;
+  return { long, short, isWeekday };
+}
+
+function matchesDay(showDayRaw, date) {
+  if (!showDayRaw) return false;
+  const val = String(showDayRaw).trim().toLowerCase();
+  const { long, short, isWeekday } = currentDayTokens(date);
+  const longL = long.toLowerCase();
+  const shortL = short.toLowerCase();
+  if (val === longL || val === shortL) return true;
+  if (val === "daily" || val === "every day") return true;
+  if (["weekday", "weekdays", "every weekday", "mon-fri", "m-f"].includes(val)) {
+    return isWeekday;
+  }
+  if (["weekend", "weekends", "sat-sun"].includes(val)) {
+    return !isWeekday;
+  }
+  return false;
+}
+
+function withinSlot(nowMin, startMin, endMin) {
+  if (isNaN(startMin) || isNaN(endMin)) return false;
+  if (startMin <= endMin) {
+    return nowMin >= startMin && nowMin < endMin;
+  } else {
+    return nowMin >= startMin || nowMin < endMin;
+  }
+}
+
+function applyShowToSection(sectionSelector, show, labelText, isLive, labelSelector = ".on-air") {
+  const section = document.querySelector(sectionSelector);
+  if (!section) return;
+  const titleElem = section.querySelector(".pill-title");
+  const descElem = section.querySelector(".pill-description");
+  const imgElem = section.querySelector(".thumbnail");
+
+  const title = show.title || show["Title"];
+  const desc = show.description || show["Description"];
+  const img = show.cover_image_url || show["cover image url"] || show["Cover Image Url"] || show["Cover Image URL"];
+
+  if (titleElem) titleElem.textContent = title;
+  if (descElem) descElem.firstChild ? descElem.firstChild.textContent = desc : descElem.textContent = desc;
+  if (imgElem) imgElem.src = img;
+
+  const labelElem = section.querySelector(labelSelector);
+  if (labelElem) {
+    if (isLive) {
+      labelElem.innerHTML = `<span class="pulse-dot"></span>${labelText}`;
+    } else {
+      labelElem.textContent = labelText;
+    }
+  }
+
+  // Special: Update description toggle fullText for first banner
+  if (sectionSelector === "#pillBanner") {
+    setBannerDescription(desc);
+  }
+}
+
+function normalizeRows(rows) {
+  return rows.map(r => {
+    const o = {};
+    Object.keys(r).forEach(k => {
+      o[k.trim().toLowerCase().replace(/\s+/g, '_')] = (r[k] ?? "").toString().trim();
+    });
+    return o;
+  });
+}
+
+function findCurrentShow(rows) {
+  const now = new Date();
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+  const weekType = getWeekTypeAB(now);
+  return rows.find(show => {
+    const dayOK = matchesDay(show.day_of_week, now);
+    if (!dayOK) return false;
+    const wt = (show.week_type || "").toUpperCase();
+    const weekOK = !wt || wt === "*" || wt === "ALL" || wt === weekType;
+    if (!weekOK) return false;
+    return withinSlot(nowMinutes, timeToMinutes(show.start_time), timeToMinutes(show.end_time));
+  });
+}
+
+function findNextShow(rows) {
+  const now = new Date();
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+  const weekType = getWeekTypeAB(now);
+  const candidates = rows.filter(show => {
+    const dayOK = matchesDay(show.day_of_week, now);
+    if (!dayOK) return false;
+    const wt = (show.week_type || "").toUpperCase();
+    const weekOK = !wt || wt === "*" || wt === "ALL" || wt === weekType;
+    if (!weekOK) return false;
+    return timeToMinutes(show.start_time) > nowMinutes;
+  }).sort((a, b) => timeToMinutes(a.start_time) - timeToMinutes(b.start_time));
+  return candidates[0] || null;
+}
+
+/** ====== Description Toggle for Banner 1 ====== **/
+const description = document.getElementById('pillDescription');
+const toggleBtn = document.getElementById('toggleDescription');
+let expanded = false;
+let fullText = description.textContent.trim();
+
+function updateDescription() {
+  if (window.innerWidth <= 600 && !expanded) {
+    const words = fullText.split(' ');
+    if (words.length > 8) {
+      description.firstChild.textContent = words.slice(0, 8).join(' ') + '...';
+      toggleBtn.textContent = ' More';
+    } else {
+      toggleBtn.textContent = '';
+    }
+  } else {
+    description.firstChild.textContent = fullText;
+    toggleBtn.textContent = expanded ? ' Less' : '';
+  }
+}
+
+toggleBtn.addEventListener('click', () => {
+  expanded = !expanded;
+  updateDescription();
+});
+
+window.addEventListener('resize', updateDescription);
+
+function setBannerDescription(newText) {
+  fullText = newText.trim();
+  expanded = false;
+  updateDescription();
+}
+
+/** ====== Fetch + Update ====== **/
+function fetchAndUpdate() {
+  Papa.parse(SHEET_CSV_URL, {
+    download: true,
+    header: true,
+    skipEmptyLines: "greedy",
+    complete: function(res) {
+      if (!res || !res.data || !res.data.length) return;
+      const rows = normalizeRows(res.data);
+
+      // First banner (original)
+      const current1 = findCurrentShow(rows);
+      if (current1) {
+        applyShowToSection("#pillBanner", current1, "On Air", true);
+      } else {
+        applyShowToSection("#pillBanner", FALLBACK_SHOW, "Off Air", false);
+      }
+
+      // Second banner (current + up next)
+      const current2 = current1 || findCurrentShow(rows);
+      if (current2) {
+        applyShowToSection("#pillBanner1 .current-show", current2, "On Air", true, ".on-air");
+      } else {
+        applyShowToSection("#pillBanner1 .current-show", FALLBACK_SHOW, "Off Air", false, ".on-air");
+      }
+
+      const next = findNextShow(rows);
+      if (next) {
+        applyShowToSection("#pillBanner1 .up-next", next, "⏳ Up Next", false, ".up-next-label");
+      } else {
+        applyShowToSection("#pillBanner1 .up-next", FALLBACK_NEXT, "⏳ Up Next", false, ".up-next-label");
+      }
+    }
+  });
+}
+
+fetchAndUpdate();
+setInterval(fetchAndUpdate, 60000);
+</script>
 <script>
   // Set --vh to the initial viewport height and don't update it again
   (function () {
@@ -3841,3 +4061,88 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 </script>
+<script>
+    const streamUrl = "https://streamer.radio.co/s986435880/listen";
+  const audio = new Audio(streamUrl);
+  let playing = false;
+
+  // Select all play buttons
+  const playButtons = document.querySelectorAll('.play-btn');
+
+  // Function to update all buttons' icons
+  function updateButtons() {
+    playButtons.forEach(btn => {
+      btn.textContent = playing ? '⏸' : '▶';
+    });
+  }
+
+  // Add click event to each button
+  playButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!playing) {
+        audio.play().catch(err => console.error("Playback failed:", err));
+      } else {
+        audio.pause();
+      }
+      playing = !playing;
+      updateButtons();
+    });
+  });
+
+  // Sync buttons if audio ends
+  audio.addEventListener('ended', () => {
+    playing = false;
+    updateButtons();
+  });
+</script>
+
+
+<style>
+   @media (max-width: 1099px) {
+ 
+  
+  .hero-section  {
+   margin-top:159px !important;
+  }
+  }
+
+     @media (max-width: 1099px) {
+ 
+  
+  .hero-section  {
+   margin-top:159px !important;
+  }
+  }
+
+     @media (max-width: 849px) {
+ 
+  
+  .hero-section  {
+   margin-top:129px !important;
+  }
+  }
+
+      @media (max-width: 768px) {
+ 
+  
+  .hero-section  {
+   margin-top:119px !important;
+  }
+  }
+
+     @media (max-width: 335px) {
+ 
+  
+  .hero-section  {
+   margin-top:139px !important;
+  }
+      
+  }
+  @media  (max-width: 768px) {
+.pill-banner {
+    
+    width: calc(100% - 24px);
+    
+    }
+    }
+</style>
