@@ -2872,26 +2872,40 @@ localStorage.setItem('activeWeek', activeWeek);
     });
     popup.id = 'showPopup';
     popup.innerHTML = `
-      <div id="popupContent" style="
-       position: relative;
+     <div id="popupContent" style="
+  position: relative;
   width: 95%;
-  max-width:700px;
+  max-width: 700px;
   padding: 20px;
   border-radius: 14px;
-  background: rgb(149, 13, 13);
+  background: rgb(205, 50, 50);
   color: whitesmoke;
   text-align: center;
- border: solid 2px black;
-      ">
-        <button id="closePopup" style="
-          position: absolute; top: 12px; right: 16px; background: none; 
-          border: solid 2px black;  border-radius: 14px; font-size: 38px; font-weight: bold; color: whitesmoke; cursor: pointer; background: rgb(149 13 13 / 64%);
-        " aria-label="Close popup">&times;</button>
-        <img id="popupImage" src="" alt="" style="width: 100%; border-radius: 8px; margin-bottom: 15px; object-fit: cover; max-height: 350px; max-width: 350px;">
-        <h2 id="popupTitle" style="margin-top: 0; margin-bottom: 8px; color: whitesmoke;"></h2>
-        <p id="popupHosts" style="font-weight: 600; margin-top: 0; margin-bottom: 12px; color: whitesmoke;"></p>
-        <p id="popupDescription" style="white-space: pre-wrap; line-height: 1.4; color: whitesmoke;"></p>
-      </div>
+  border: solid 2px black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+">
+  <button id="closePopup" style="
+    position: absolute; top: 12px; right: 16px; background: none; 
+    border: solid 2px black; border-radius: 50%; font-size: 38px; font-weight: bold; 
+    color: whitesmoke; cursor: pointer; background: rgb(149 13 13 / 64%);
+  width:45px; height:45px;" aria-label="Close popup">&times;</button>
+
+  <img id="popupImage" src="" alt="" style="
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    object-fit: cover;
+    max-height: 350px;
+    max-width: 350px;
+  ">
+   <div id="popupText" style="text-align: left;">
+    <h2 id="popupTitle" style="margin-top: 0; margin-bottom: 8px; color: whitesmoke;"></h2>
+    <p id="popupHosts" style="font-weight: 600; margin-top: 0; margin-bottom: 12px; color: whitesmoke;"></p>
+    <p id="popupDescription" style="white-space: pre-wrap; line-height: 1.4; color: whitesmoke;"></p>
+  </div>
+</div>
     `;
     document.body.appendChild(popup);
     popup.querySelector('#closePopup').onclick = () => {
@@ -3092,9 +3106,7 @@ function highlightLiveShows(){
       100% { transform: scale(0.9); opacity: 0.7; }
     }
     .day-header.today {
-      background: rgba(255, 215, 0, 0.2);
-      border: 2px solid gold;
-      border-radius: 8px;
+     
     }
     .week-toggle button.active {
       background: gold;
@@ -3785,4 +3797,30 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+</script>
+<script>
+function adjustPopupLayout() {
+  const popupContent = document.getElementById('popupContent');
+  const popupImage = document.getElementById('popupImage');
+  const popupText = document.getElementById('popupText');
+
+  if (window.innerWidth >= 920) {
+    popupContent.style.flexDirection = 'row';
+    popupContent.style.alignItems = 'flex-start';
+    popupContent.style.textAlign = 'left';
+    popupImage.style.marginBottom = '0';
+    popupImage.style.marginRight = '20px';
+    popupText.style.flex = '1';
+  } else {
+    popupContent.style.flexDirection = 'column';
+    popupContent.style.alignItems = 'center';
+    popupContent.style.textAlign = 'center';
+    popupImage.style.marginBottom = '15px';
+    popupImage.style.marginRight = '0';
+    popupText.style.flex = 'unset';
+  }
+}
+
+window.addEventListener('resize', adjustPopupLayout);
+window.addEventListener('load', adjustPopupLayout);
 </script>
