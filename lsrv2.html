@@ -1811,14 +1811,14 @@ position: absolute !important;
     <div class="overlay">
      <div class="top-row"> 
   <div class="menu" id="menuButton" aria-haspopup="true" aria-expanded="false">☰</div>
-  <div class="title" onclick="window.location.href='https://zacharystephens.info'" style="cursor:pointer">Leeds Student Radio</div>
+  <div class="title" onclick="window.location.href='https://zacharystephens.info/lsrv2'" style="cursor:pointer">Leeds Student Radio</div>
 
   <!-- Desktop Navigation -->
   <div class="desktop-nav">
-    <div class="nav-item projects"   id="nav-item">SCHEDULE</div>
-    <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/about'" >LISTEN</div>
-    <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/archive'" >APPLY</div>
-     <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/archive'" >ABOUT</div>
+    <div class="nav-item projects"   onclick="window.location.href='https://zacharystephens.info/lsrv2ls'" id="nav-item">SCHEDULE</div>
+    <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/lsrv2l'" >LISTEN</div>
+    <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/lsrv2g'" >APPLY</div>
+     <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/lsrv2a'" >ABOUT</div>
   </div>
 </div>
 
@@ -1828,10 +1828,10 @@ position: absolute !important;
   <div class="menu-tabs">
   <nav class="unique-nav-card" aria-label="Main actions">
     <ul class="unique-nav-list">
-      <li><a class="unique-nav-link unique-schedule-link" href="/schedule"><span class="unique-nav-icon" aria-hidden="true"></span>Schedule</a></li>
-      <li><a class="unique-nav-link unique-listen-link" href="/listen"><span class="unique-nav-icon" aria-hidden="true"></span>Listen</a></li>
-      <li><a class="unique-nav-link unique-apply-link" href="/apply"><span class="unique-nav-icon" aria-hidden="true"></span>GET INVOLVED</a></li>
-       <li><a class="unique-nav-link unique-apply-link" href="/apply"><span class="unique-nav-icon" aria-hidden="true"></span>About</a></li>
+      <li><a class="unique-nav-link unique-schedule-link" href="https://zacharystephens.info/lsrv2s"><span class="unique-nav-icon" aria-hidden="true"></span>Schedule</a></li>
+      <li><a class="unique-nav-link unique-listen-link" href="https://zacharystephens.info/lsrv2l"><span class="unique-nav-icon" aria-hidden="true"></span>Listen</a></li>
+      <li><a class="unique-nav-link unique-apply-link" href="https://zacharystephens.info/lsrv2g"><span class="unique-nav-icon" aria-hidden="true"></span>GET INVOLVED</a></li>
+       <li><a class="unique-nav-link unique-apply-link" href="https://zacharystephens.info/lsrv2a"><span class="unique-nav-icon" aria-hidden="true"></span>About</a></li>
     </ul>
   </nav>
    <!-- <span class="tab active" data-category="featured">FEATURED</span>
@@ -2134,7 +2134,7 @@ function isoWeekNumber(d) {
 function getWeekTypeAB(date) {
   const wk = isoWeekNumber(date);
   const isEven = wk % 2 === 0;
-  return (A_IS_EVEN_ISO_WEEK ? (isEven ? "A" : "B") : (isEven ? "B" : "A"));
+  return (A_IS_EVEN_ISO_WEEK ? (isEven ? "B" : "A") : (isEven ? "A" : "B"));
 }
 
 function timeToMinutes(t) {
