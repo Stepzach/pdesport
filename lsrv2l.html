@@ -2775,16 +2775,16 @@ margin-top: -16px;
 <audio id="alt-audio" src="https://s2.radio.co/seb5cdba5b/listen"></audio>
 
 <script>
-  const audio = document.getElementById('alt-audio');
-  const btn = document.querySelector('.play-btn1');
+  const audioPPP = document.getElementById('alt-audio');
+  const btnPPP = document.querySelector('.play-btn1');
 
-  btn.addEventListener('click', () => {
-    if (audio.paused) {
-      audio.play();
-      btn.textContent = '⏸';
+  btnPPP.addEventListener('click', () => {
+    if (audioPPP.paused) {
+      audioPPP.play();
+      btnPPP.textContent = '⏸';
     } else {
-      audio.pause();
-      btn.textContent = '▶';
+      audioPPP.pause();
+      btnPPP.textContent = '▶';
     }
   });
 </script>
