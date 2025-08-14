@@ -2734,7 +2734,21 @@ margin-top: -16px;
 <div class="player main-player">
  <div class="album-cover">
     <img src="https://lh3.googleusercontent.com/u/0/d/1Xeo6bn74JObZylqkFV54g2vSsMSuF-Gq=w2940-h1680-iv1" alt="Main Stream Cover Art">
-          <button class="play-btn1">▶</button>
+          <button class="play-btn"  id="playBtn" style=" position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0,0,0,0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;">▶</button>
      </div>
     <div class="player-content">
         <div class="player-title">Main Live Show</div>
@@ -2746,17 +2760,37 @@ margin-top: -16px;
 
 <!-- Alternate Player -->
 <div class="player alt-player">
-<div class="album-cover">
-    <img src="https://lh3.googleusercontent.com/u/0/d/1TAuZYdHRBvmMWc_bjh0c-KP_mouGEzrE=w2940-h1680-iv1" alt="Alternate Stream Cover Art">
-     <button class="play-btn1">▶</button>
-      </div>
-    <div class="player-content">
-        <div class="player-title">Alternate Stream</div>
-        <div class="player-description">Chill vibes and smooth tracks.</div>
-       
-    </div>
-    
+  <div class="album-cover">
+    <img src="https://lh3.googleusercontent.com/u/0/d/1t_mDlGRhZ-JYbfhgIN_IpNJAz5Bmv7CM=w2940-h1680-iv1" 
+         alt="Alternate Stream Cover Art" 
+         style="aspect-ratio: 1 / 1; object-fit: cover;">
+    <button class="play-btn1">▶</button>
+  </div>
+  <div class="player-content">
+    <div class="player-title">Alternate Stream</div>
+    <div class="player-description">Chill vibes and smooth tracks.</div>
+  </div>
 </div>
+
+<audio id="alt-audio" src="https://s2.radio.co/seb5cdba5b/listen"></audio>
+
+<script>
+  const audio = document.getElementById('alt-audio');
+  const btn = document.querySelector('.play-btn1');
+
+  btn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play();
+      btn.textContent = '⏸';
+    } else {
+      audio.pause();
+      btn.textContent = '▶';
+    }
+  });
+</script>
+
+    
+
 <p class="ebhecze" style="opacity:0.8; font-size: 0.85em; margin-top:20px; padding: 0 12px 0; color: whitesmoke;">DISCLAIMER: As a student media group, Leeds Student Radio (LSR) provides students with the tools to learn journalistic practices as they go. Leeds University Union (LUU) is not liable for opinions or views expressed in this broadcast, which are also not necessarily reflective of LSR or LUU as whole organisations. Please do not take opinions expressed in the following broadcasts as fact, and always use external, reputable media sources to supplement discussions of current affairs on LSR. Enjoy the show.</p>
 </div>
 
@@ -2891,13 +2925,13 @@ margin-top: -16px;
       </div>
 
       <div class="podcast-links" style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
-        <a href="https://open.spotify.com/your-podcast-link" target="_blank" rel="noopener" 
+        <a href="https://open.spotify.com/show/36MV4v6eQjy2dOlDTezLoA?si=be44a1986d7448bd&nd=1&dlsi=51cc85551eb3439f" target="_blank" rel="noopener" 
            style="display: flex; align-items: center; text-decoration: none; color: inherit;">
           <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" 
                alt="Spotify" style="width: 28px; height: 28px; margin-right: 8px;">
           <span><b>Listen on Spotify</b></span>
         </a>
-        <a href="https://soundcloud.com/your-soundcloud-link" target="_blank" rel="noopener" 
+        <a href="https://soundcloud.com/thisislsr" target="_blank" rel="noopener" 
            style="display: flex; align-items: center; text-decoration: none; color: inherit;">
           <img src="https://cdn.worldvectorlogo.com/logos/soundcloud-2.svg" 
                alt="SoundCloud" style="width: 28px; height: 28px; margin-right: 8px;">
@@ -2958,9 +2992,9 @@ Discover, develop and decide your future with appointments, events and vacancies
     <div class="footer-section">
       <h4>NAVIGATE</h4>
       <ul>
-       <li><a href="https://zacharystephens.info">Schedule</a></li>
-        <li><a href="https://zacharystephens.info/archive">Listen</a></li>
-        <li><a href="https://zacharystephens.info/about" class="marginsfoot">Get Involved</a></li>
+       <li><a href="https://zacharystephens.info/lsrv2s">Schedule</a></li>
+        <li><a href="https://zacharystephens.info/lsrv2l">Listen</a></li>
+        <li><a href="https://zacharystephens.info/lsrv2g" class="marginsfoot">Get Involved</a></li>
       </ul>
     </div>
     
@@ -2968,20 +3002,20 @@ Discover, develop and decide your future with appointments, events and vacancies
       <h4>SOCIAL</h4>
       <ul>
        
-        <li><a href="https://www.instagram.com/zstepsdesigns" target="_blank"><span class="icon"><i class="fa fa-instagram"></i></span> Instagram</a></li>
-         <li><a href="https://www.linkedin.com/in/zacharystephens05/" target="_blank"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
+        <li><a href="https://www.instagram.com/thisislsr/" target="_blank"><span class="icon"><i class="fa fa-instagram"></i></span> Instagram</a></li>
+         <li><a href="https://www.tiktok.com/@thisislsr" target="_blank"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
   <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
 </svg></span> TikTok</a></li>
-        <li><a href="https://github.com/Stepzach/" target="_blank"><span class="icon"><i class="fa fa-facebook"></i></span> Facebook</a></li>
+        <li><a href="https://www.facebook.com/thisislsr" target="_blank"><span class="icon"><i class="fa fa-facebook"></i></span> Facebook</a></li>
       </ul>
     </div>
     
     <div class="footer-section" id="offifoot">
       <h4>OFFICIAL</h4>
       <ul>
-        <li><a href="#">About</a></li>
+        <li><a href="https://zacharystephens.info/lsrv2a">About</a></li>
         <li><a href="#">Awards</a></li>
-        <li><a href="mailto:zachstep05@gmail.com">Contact</a></li>
+        <li><a href="mailto:info@thisislsr.com">Contact</a></li>
       </ul>
  
     </div>
@@ -3253,6 +3287,29 @@ function setBannerDescription(newText) {
 // Initial render
 updateDescription();
 
+function applyShowToPlayer(sectionSelector, show, isLive) {
+  const section = document.querySelector(sectionSelector);
+  if (!section) return;
+
+  const titleElem = section.querySelector(".player-title");
+  const descElem = section.querySelector(".player-description");
+  const imgElem = section.querySelector(".album-cover img");
+
+  const title = show.title || show["Title"];
+  const desc = show.description || show["Description"];
+  const img = show.cover_image_url || show["cover image url"] || show["Cover Image Url"] || show["Cover Image URL"];
+
+  if (titleElem) titleElem.textContent = title;
+  if (descElem) descElem.textContent = desc;
+  if (imgElem) imgElem.src = img;
+
+  // Optional: Add "On Air" indicator somewhere in the player if needed
+  if (isLive) {
+    section.classList.add("on-air");
+  } else {
+    section.classList.remove("on-air");
+  }
+}
 
 /** ====== Fetch + Update ====== **/
 function fetchAndUpdate() {
@@ -3285,6 +3342,11 @@ function fetchAndUpdate() {
         applyShowToSection("#pillBanner1 .up-next", next, "⏳ Up Next", false, ".up-next-label");
       } else {
         applyShowToSection("#pillBanner1 .up-next", FALLBACK_NEXT, "⏳ Up Next", false, ".up-next-label");
+      }
+      if (current1) {
+        applyShowToPlayer(".playerzz .main-player", current1, true);
+      } else {
+        applyShowToPlayer(".playerzz .main-player", FALLBACK_SHOW, false);
       }
     }
   });
@@ -3889,4 +3951,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     }
 </style>
-
