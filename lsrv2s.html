@@ -2863,34 +2863,49 @@ localStorage.setItem('activeWeek', activeWeek);
     return nowMinutes >= timeToMinutes(show.start_time) && nowMinutes < timeToMinutes(show.end_time);
   }
 
-  function createPopup(){
+function createPopup(){
     let popup = document.getElementById('showPopup');
     if(popup) return popup;
+
     popup = document.createElement('div');
     Object.assign(popup.style, {
       position: 'fixed', top: 0, left: 0,
       width: '100vw', height: '100vh',
       background: 'rgba(0,0,0,0.09)',
-      display: 'flex', justifyContent: 'center', alignItems: 'center',
-      zIndex: 10000, visibility: 'hidden', opacity: 0,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      padding: '20px', // gives breathing room when content is tall
+      boxSizing: 'border-box',
+      overflowY: 'auto', // scroll the whole popup if needed
+      zIndex: 10000,
+      visibility: 'hidden',
+      opacity: 0,
       transition: 'opacity 0.3s ease'
     });
+
     popup.id = 'showPopup';
     popup.innerHTML = `
      <div id="popupContent" style="
-  position: relative;
-  width: 95%;
-  max-width: 700px;
-  padding: 20px;
-  border-radius: 14px;
-  background: rgb(205, 50, 50);
-  color: whitesmoke;
-  text-align: center;
-  border: solid 2px black;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-">
+       position: relative;
+       width: 95%;
+       max-width: 700px;
+       padding: 20px;
+       border-radius: 14px;
+       background: rgb(205, 50, 50);
+       color: whitesmoke;
+       text-align: center;
+       border: solid 2px black;
+       display: flex;
+       flex-direction: column;
+       align-items: center;
+       max-height: 90vh; /* keep inside viewport */
+       overflow-y: auto; /* scroll inner content if too tall */
+     ">
+   
+
+    
+
   <button id="closePopup" style="
     position: absolute; top: 12px; right: 16px; background: none; 
     border: solid 2px black; border-radius: 50%; font-size: 38px; font-weight: bold; 
