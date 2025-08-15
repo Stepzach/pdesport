@@ -3479,11 +3479,85 @@ Discover, develop and decide your future with appointments, events and vacancies
         <li style="
     margin-top: 0;
 "><p>Leeds Student Radio is a student radio station broadcasting every day during term time, from the heart of Leeds University</p></li>
-        <li><p><u>Disclaimer</u></p></li>
+        <li id="disclaimer-trigger"><p style="cursor: pointer"><u>Disclaimer</u></p></li>
+
+<!-- Popup Modal -->
+<div id="disclaimer-modal" class="modala">
+  <div class="modal-contenta">
+    <span class="closea">&times;</span>
+    <p>
+      DISCLAIMER: As a student media group, Leeds Student Radio (LSR) provides students with the tools to learn journalistic practices as they go. Leeds University Union (LUU) is not liable for opinions or views expressed in this broadcast, which are also not necessarily reflective of LSR or LUU as whole organisations. Please do not take opinions expressed in the following broadcasts as fact, and always use external, reputable media sources to supplement discussions of current affairs on LSR. Enjoy the show.
+    </p>
+  </div>
+</div>
        
       </ul>
     </div>
-    
+     <style>
+      .modala {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0; 
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-contenta {
+  background-color: rgb(205, 50, 50);
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  color:whitesmoke;
+  border: solid black 2px;
+}
+      .modal-contenta p {
+  
+  width: 95% !important;
+ 
+}
+
+.closea {
+  float: right;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  border: solid 2px black;
+  border-radius:50%;
+  width: 40px; 
+  height:40px;
+      background: rgb(149 13 13 / 64%);
+  text-align: center;
+      line-height: 1;
+  
+}
+</style>
+    <script>
+
+      const trigger = document.getElementById('disclaimer-trigger');
+const modal   = document.getElementById('disclaimer-modal');
+const closeBtn = modal.querySelector('.closea');
+
+trigger.addEventListener('click', () => {
+  modal.style.display = 'block';
+});
+
+closeBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+  if (e.target == modal) {
+    modal.style.display = 'none';
+  }
+});
+
+  </script>
     
   </div>
   <div class="footer-bottom">
