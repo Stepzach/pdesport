@@ -3161,13 +3161,15 @@ function highlightLiveShows(){
     });
     updateWeekButtons();
     renderAll();
-    setInterval(highlightLiveShows, 60 * 1000);
+   
   }
 
   document.getElementById('weekA').onclick = () => setActiveWeek('A');
   document.getElementById('weekB').onclick = () => setActiveWeek('B');
 
-  fetchCSV(defaultCsvUrl);
+fetchCSV(defaultCsvUrl);
+setInterval(highlightLiveShows, 60 * 1000);
+
 
   const style = document.createElement('style');
   style.textContent = `
