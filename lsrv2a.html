@@ -3404,7 +3404,7 @@ function fetchAndUpdate() {
       if (current1) {
         applyShowToSection("#pillBanner", current1, "On Air", true);
       } else {
-       applyShowToSection("#pillBanner", FALLBACK_SHOW, "<span class='off-air'>Off Air</span>", false);
+         applyShowToSection("#pillBanner", FALLBACK_SHOW, "Off Air", false);
       }
 
       // Second banner (current + up next)
@@ -3412,7 +3412,7 @@ function fetchAndUpdate() {
       if (current2) {
         applyShowToSection("#pillBanner1 .current-show", current2, "On Air", true, ".on-air");
       } else {
-        applyShowToSection("#pillBanner1", FALLBACK_SHOW, "<span class='off-air'>Off Air</span>", false);
+         applyShowToSection("#pillBanner1 .current-show", FALLBACK_SHOW, "Off Air", false, ".on-air");
       }
 
       const next = findNextShow(rows);
