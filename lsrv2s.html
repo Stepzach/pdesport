@@ -1287,6 +1287,7 @@ pill-link {
   margin-top: 0.2rem;
   max-width: 100%;
   transition: max-height 0.3s ease, opacity 0.3s ease;
+  text-transform: none;
 }
 
 .show-more {
@@ -3477,6 +3478,7 @@ function withinSlot(nowMin, startMin, endMin) {
 function applyShowToSection(sectionSelector, show, labelText, isLive, labelSelector = ".on-air") {
   const section = document.querySelector(sectionSelector);
   if (!section) return;
+
   const titleElem = section.querySelector(".pill-title");
   const descElem = section.querySelector(".pill-description");
   const imgElem = section.querySelector(".thumbnail");
@@ -3502,7 +3504,29 @@ function applyShowToSection(sectionSelector, show, labelText, isLive, labelSelec
   if (sectionSelector === "#pillBanner") {
     setBannerDescription(desc);
   }
+
+  // -------------------------
+  // Media Session API (lock-screen title + artwork)
+  // -------------------------
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: title,
+      artist: 'Leeds Radio',
+      album: '',
+      artwork: [
+        { src: img, sizes: '96x96',   type: 'image/jpeg' },
+        { src: img, sizes: '128x128', type: 'image/jpeg' },
+        { src: img, sizes: '256x256', type: 'image/jpeg' },
+        { src: img, sizes: '512x512', type: 'image/jpeg' }
+      ]
+    });
+
+    // Optional: allow lock-screen play/pause buttons to control your audio
+    navigator.mediaSession.setActionHandler('play', () => audio.play());
+    navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+  }
 }
+
 
 function normalizeRows(rows) {
   return rows.map(r => {
@@ -3650,28 +3674,54 @@ function fetchAndUpdate() {
       const rows = normalizeRows(res.data);
 
       // First banner (original)
-      const current1 = findCurrentShow(rows);
-      if (current1) {
-        applyShowToSection("#pillBanner", current1, "On Air", true);
-      } else {
-        applyShowToSection("#pillBanner", FALLBACK_SHOW, "Off Air", false);
-      }
+     // First banner (original, current show)
+const current1 = findCurrentShow(rows);
+if (current1) {
+  applyShowToSection("#pillBanner", current1, "On Air", true);
+  // Update Media Session ONLY for current show
+  updateMediaSession(current1);
+} else {
+  applyShowToSection("#pillBanner", FALLBACK_SHOW, "Off Air", false);
+  updateMediaSession(FALLBACK_SHOW);
+}
 
-      // Second banner (current + up next)
-      const current2 = current1 || findCurrentShow(rows);
-      if (current2) {
-        applyShowToSection("#pillBanner1 .current-show", current2, "On Air", true, ".on-air");
-      } else {
-        applyShowToSection("#pillBanner1 .current-show", FALLBACK_SHOW, "Off Air", false, ".on-air");
-      }
+// Second banner (current + up next)
+const current2 = current1; // always just current1 for consistency
+if (current2) {
+  applyShowToSection("#pillBanner1 .current-show", current2, "On Air", true, ".on-air");
+} else {
+  applyShowToSection("#pillBanner1 .current-show", FALLBACK_SHOW, "Off Air", false, ".on-air");
+}
 
-      const next = findNextShow(rows);
-      if (next) {
-        applyShowToSection("#pillBanner1 .up-next", next, "⏳ Up Next", false, ".up-next-label");
-      } else {
-        applyShowToSection("#pillBanner1 .up-next", FALLBACK_NEXT, "⏳ Up Next", false, ".up-next-label");
-      }
-    }
+const next = findNextShow(rows);
+if (next) {
+  applyShowToSection("#pillBanner1 .up-next", next, "⏳ Up Next", false, ".up-next-label");
+} else {
+  applyShowToSection("#pillBanner1 .up-next", FALLBACK_NEXT, "⏳ Up Next", false, ".up-next-label");
+}
+}
+  });
+}
+function updateMediaSession(show) {
+  if (!show || !('mediaSession' in navigator)) return;
+  const title = show.title || show["Title"] || "Live Stream";
+  const img = show.cover_image_url || show["cover image url"] || show["Cover Image Url"] || show["Cover Image URL"] || "default-artwork.jpg";
+
+  requestAnimationFrame(() => {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: title,
+      artist: 'Leeds Radio',
+      album: '',
+      artwork: [
+        { src: img, sizes: '96x96',   type: 'image/jpeg' },
+        { src: img, sizes: '128x128', type: 'image/jpeg' },
+        { src: img, sizes: '256x256', type: 'image/jpeg' },
+        { src: img, sizes: '512x512', type: 'image/jpeg' }
+      ]
+    });
+
+    navigator.mediaSession.setActionHandler('play', () => audio.play());
+    navigator.mediaSession.setActionHandler('pause', () => audio.pause());
   });
 }
 
