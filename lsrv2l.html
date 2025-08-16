@@ -1304,6 +1304,7 @@ pill-link {
   margin-top: 0.2rem;
   max-width: 100%;
   transition: max-height 0.3s ease, opacity 0.3s ease;
+ text-transform: none;
 }
 
 .show-more {
@@ -3393,6 +3394,25 @@ function applyShowToPlayer(sectionSelector, show, isLive) {
   } else {
     section.classList.remove("on-air");
   }
+
+   // Media Session API (lock-screen title + artwork)
+  if ('mediaSession' in navigator) {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: title,
+      artist: 'Leeds Student Radio',
+      album: '',
+      artwork: [
+        { src: img, sizes: '96x96',   type: 'image/jpeg' },
+        { src: img, sizes: '128x128', type: 'image/jpeg' },
+        { src: img, sizes: '256x256', type: 'image/jpeg' },
+        { src: img, sizes: '512x512', type: 'image/jpeg' }
+      ]
+    });
+
+    navigator.mediaSession.setActionHandler('play', () => audio.play());
+    navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+  }
+
 }
 
 /** ====== Fetch + Update ====== **/
@@ -3438,6 +3458,9 @@ function fetchAndUpdate() {
 
 fetchAndUpdate();
 setInterval(fetchAndUpdate, 60000);
+
+
+ 
 </script>
 
 
@@ -3913,6 +3936,8 @@ function resetAutoPlay() {
   clearInterval(autoPlay);
   autoPlay = setInterval(nextSlide, 8000);
 }
+
+ 
 </script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -3984,6 +4009,8 @@ document.addEventListener('DOMContentLoaded', () => {
     updateButtons();
   });
 </script>
+
+
 
 
 <style>
