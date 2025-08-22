@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Leeds Student Radio — Student Radio Association Awards</title>
+  <style>
+    :root{
+      --bg: rgb(205, 50, 50);
+      --panel: #111318;
+      --ink: #e9ecf1;
+      --muted: #a9b2c0;
+      --accent: #88e0a3;
+      --accent-2: #8cc8ff;
+      --rank-gold: #ffd166;
+      --rank-silver: #cfd8e3;
+      --rank-bronze: #f4a261;
+      --radius: 18px;
+    }
+
+    html,body{height:100%;}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 10% -10%, rgb(205, 50, 50) 0%, transparent 60%),
+                  radial-gradient(900px 700px at 110% 10%, rgb(205, 50, 50) 0%, transparent 55%),
+                  var(--bg);
+      color: var(--ink);
+      line-height: 1.45;
+    }
+
+    .wrap{
+      max-width: 960px;
+      margin: 0 auto;
+      padding: clamp(16px, 3vw, 32px);
+    }
+
+    header{
+      margin-bottom: clamp(18px, 2.4vw, 28px);
+    }
+
+    .kicker{
+      display:inline-block;
+      font-size: .85rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      opacity: .9;
+      margin-bottom: .35rem;
+    }
+
+    h1{
+      margin: 0 0 .25rem 0;
+      font-size: clamp(1.6rem, 3.8vw, 2.6rem);
+      font-weight: 800;
+    }
+
+    .lede{
+ color: whitesmoke;
+      margin: 0;
+      max-width: 60ch;
+    }
+
+    /* Year blocks */
+    .year{
+         background: transparent;
+         border: solid 2px black;
+      border-radius: var(--radius);
+      padding: clamp(14px, 2.2vw, 22px);
+      margin: 14px 0;
+      box-shadow: 0 1px 0 rgba(255,255,255,0.03), 0 20px 40px rgba(0,0,0,0.25);
+          position: relative;
+          overflow: hidden;
+              color: whitesmoke;
+    }
+     .year::before{
+        content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0) 0%, transparent 50%), linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, transparent 38%);
+    z-index: -1;
+    pointer-events: none;
+     }
+
+    .year h2{
+      margin: 0 0 .5rem 0;
+      font-size: clamp(1.1rem, 2.4vw, 1.5rem);
+      display:flex;
+      align-items: baseline;
+      gap:.6rem;
+    }
+
+    .year h2 .pill{
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      background: #16202d;
+      color: var(--accent);
+      border: 1px solid color-mix(in oklab, #16202d, white 4%);
+      border-radius: 999px;
+      padding: .15rem .5rem;
+    }
+
+    .awards{list-style: none; padding: 0; margin: 0; display: grid; gap: 10px;}
+
+    .award{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap: .35rem .75rem;
+      align-items: start;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), transparent);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 14px;
+      padding: .75rem .85rem;
+    }
+
+    .title{font-weight: 650;}
+    .sponsor{color: var(--muted); font-size: .95rem;}
+    .show{color: var(--accent-2); font-size: .95rem;}
+
+    .rank{
+      justify-self: end;
+      align-self: start;
+      font-weight: 800;
+      font-size: .85rem;
+      border-radius: 999px;
+      padding: .25rem .6rem;
+      line-height: 1;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: #0f1218;
+    }
+    .rank.gold{ background: linear-gradient(180deg, var(--rank-gold), #e6b94a); color: #1a1300; }
+    .rank.silver{ background: linear-gradient(180deg, var(--rank-silver), #b9c4d3); color: #0c1220; }
+    .rank.bronze{ background: linear-gradient(180deg, var(--rank-bronze), #d88946); color: #1d0f04; }
+
+    /* Compact tweaks */
+    @media (max-width: 560px){
+      .award{ grid-template-columns: 1fr; }
+      .rank{ justify-self: start; }
+    }
+
+    /* Print friendly */
+    @media print{
+      body{ background: #fff; color:#000; }
+      .year{ box-shadow: none; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .rank{ -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" role="document">
+    <header>
+     <span class="kicker" 
+      style="display:inline-flex; justify-content:center; align-items:center; 
+             background-color:white; padding:5px; padding-bottom:2.5px; padding-top:2.5px;
+             width:50%; max-width:190px; 
+             border-radius:14px; border:solid 0.13em black;">
+  <img src="https://www.studentradio.org.uk/wp-content/uploads/sites/28/2023/06/sralogo.png" 
+       style="max-width:170px !important; max-height:60px; width:auto; height:auto;">
+</span>
+
+<span class="kicker" 
+      style="display:inline-flex; justify-content:center; align-items:center; 
+             background-color:white; padding:5px; padding-bottom:2.5px; padding-top:2.5px;
+             width:50%; max-width:190px;
+             border-radius:14px; border:solid 0.13em black;">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/BBC_Radio_1_2021.svg/1200px-BBC_Radio_1_2021.svg.png" 
+       style="max-width:170px !important; max-height:60px; width:auto; height:auto;">
+</span>
+<style>
+@media (max-width: 420px) {
+  .kicker {
+    width: calc( 100% - 16px ) !important;
+    max-width: 100% !important;
+    
+  }
+
+  .kicker img {
+    max-width: 100% !important;
+    
+    height: auto !important;
+  }
+}
+</style>
+
+      <h1>Leeds Student Radio: Awards</h1>
+      <p class="lede">A chronological record of our achievements at the annual SRA awards.</p>
+    </header>
+
+    <!-- Ordered newest → oldest, as a side page with no nav/footer -->
+
+    <section class="year" aria-labelledby="y2024">
+      <h2 id="y2024">2024</h2>
+      <ul class="awards">
+        <li class="award">
+          <div>
+            <div class="title">Best Student Radio Station</div>
+            <div class="sponsor">Supported by Global</div>
+          </div>
+          <div class="rank gold" aria-label="1st place">GOLD</div>
+        </li>
+        <li class="award">
+          <div>
+            <div class="title">Best Event Programming <span class="show">(The LSR x URY Presenter Hunt)</span></div>
+            <div class="sponsor">Supported by BBC Nations</div>
+          </div>
+          <div class="rank gold" aria-label="1st place">GOLD</div>
+        </li>
+        <li class="award">
+          <div>
+            <div class="title">Best Specialist Music Programming <span class="show">(Low Notes with AKA Low)</span></div>
+            <div class="sponsor">Supported by BBC Radio 1Xtra</div>
+          </div>
+          <div class="rank bronze" aria-label="3rd place">BRONZE</div>
+        </li>
+         <li class="award">
+          <div>
+            <div class="title">Best Station Branding</div>
+            <div class="sponsor">Supported by Painting Pixels</div>
+          </div>
+          <div class="rank bronze" aria-label="3rd place">BRONZE</div>
+        </li>
+       
+      </ul>
+    </section>
+
+    <section class="year" aria-labelledby="y2023">
+      <h2 id="y2023">2023</h2>
+      <ul class="awards">
+        <li class="award">
+          <div>
+            <div class="title">Best Student Radio Station</div>
+            <div class="sponsor">Supported by Global</div>
+          </div>
+          <div class="rank gold" aria-label="1st place">GOLD</div>
+        </li>
+         <li class="award">
+          <div>
+            <div class="title">Best Station Branding</div>
+            <div class="sponsor">Supported by Painting Pixels</div>
+          </div>
+          <div class="rank gold" aria-label="1st place">GOLD</div>
+        </li>
+        <li class="award">
+          <div>
+            <div class="title">The Joe Lyons Award for Best Producer <span class="show">(Matty Fisher)</span></div>
+          </div>
+          <div class="rank silver" aria-label="2nd place">SILVER</div>
+        </li>
+       
+        <li class="award">
+          <div>
+            <div class="title">Diversity, Equality and Inclusion Award <span class="show">(Daytime shows)</span></div>
+          </div>
+          <div class="rank bronze" aria-label="3rd place">BRONZE</div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="year" aria-labelledby="y2022">
+      <h2 id="y2022">2022</h2>
+      <ul class="awards">
+       <li class="award">
+          <div>
+            <div class="title">Best Station Branding</div>
+            <div class="sponsor">Supported by Painting Pixels</div>
+          </div>
+          <div class="rank gold" aria-label="1st place">GOLD</div>
+        </li>
+         <li class="award">
+          <div>
+            <div class="title">Best Multiplatform Initiative <span class="show">(Girls night in Leeds)</span></div>
+            <div class="sponsor">Supported by Global Player</div>
+          </div>
+          <div class="rank gold" aria-label="1st place">GOLD</div>
+        </li>
+        <li class="award">
+          <div>
+            <div class="title">Best Specialist Music Programming <span class="show">(These B*tches want Nikes)</span></div>
+            <div class="sponsor">Supported by BBC Radio 1XTRA</div>
+          </div>
+          <div class="rank gold" aria-label="1st place">GOLD</div>
+        </li>
+        <li class="award">
+          <div>
+            <div class="title">Best Student Radio Station</div>
+            <div class="sponsor">Supported by Global</div>
+          </div>
+          <div class="rank silver" aria-label="2nd place">SILVER</div>
+        </li>
+       <li class="award">
+          <div>
+            <div class="title">Best Interview <span class="show">(Anne Widdecombe)</span></div>
+            <div class="sponsor">Supported by Communicorp UK</div>
+          </div>
+          <div class="rank silver" aria-label="2nd place">SILVER</div>
+        </li>
+         <li class="award">
+          <div>
+            <div class="title">Best Presenter <span class="show">(Maddi Fearn)</span></div>
+            <div class="sponsor">Supported by BBC Radio 1</div>
+          </div>
+          <div class="rank silver" aria-label="2nd place">SILVER</div>
+        </li>
+        <li class="award">
+          <div>
+            <div class="title">Best Chart Show Programming <span class="show">(The LSR Christmas special chart)</span></div>
+            <div class="sponsor">Supported by BBC Radio 1</div>
+          </div>
+          <div class="rank bronze" aria-label="3rd place">BRONZE</div>
+        </li>
+        
+       
+       
+      </ul>
+    </section>
+
+    <section class="year" aria-labelledby="y2020">
+      <h2 id="y2020">2020</h2>
+      <ul class="awards">
+       <li class="award">
+          <div>
+            <div class="title">Best Producer <span class="show">(Seb Cheer)</span></div>
+            <div class="sponsor">Supported by Global</div>
+          </div>
+          <div class="rank gold" aria-label="1st place">GOLD</div>
+        </li>
+        <li class="award">
+          <div>
+            <div class="title">Best Station Sound</div>
+            <div class="sponsor">Supported by Reelworld</div>
+          </div>
+          <div class="rank gold" aria-label="1st place">GOLD</div>
+        </li>
+         <li class="award">
+          <div>
+            <div class="title">Best Event or Outside Broadcast <span class="show">(LSR's Virtual Fruity)</span></div>
+          </div>
+          <div class="rank gold" aria-label="1st place">GOLD</div>
+        </li>
+        <li class="award">
+          <div>
+            <div class="title">Best Student Radio Station</div>
+            <div class="sponsor">Supported by Global</div>
+          </div>
+          <div class="rank silver" aria-label="2nd place">SILVER</div>
+        </li>
+       
+        <li class="award">
+          <div>
+            <div class="title">The Kevin Greening Award for Creativity <span class="show">(Ben Swift)</span></div>
+            <div class="sponsor">Supported by North Media Talent</div>
+          </div>
+          <div class="rank silver" aria-label="2nd place">SILVER</div>
+        </li>
+       
+        <li class="award">
+          <div>
+            <div class="title">The Student Radio Chart Show Award <span class="show">(Leeds: A Load of Balls)</span></div>
+            <div class="sponsor">Supported by BBC Radio 1</div>
+          </div>
+          <div class="rank silver" aria-label="2nd place">SILVER</div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="year" aria-labelledby="y2019">
+      <h2 id="y2019">2019</h2>
+      <ul class="awards">
+        <li class="award">
+          <div>
+            <div class="title">Best Student Radio Station</div>
+            <div class="sponsor">Supported by BBC Radio 1</div>
+          </div>
+          <div class="rank bronze" aria-label="3rd place">BRONZE</div>
+        </li>
+        <li class="award">
+          <div>
+            <div class="title">Best Student Radio Chart Show</div>
+            <div class="sponsor">Supported by BBC Radio 1</div>
+          </div>
+          <div class="rank bronze" aria-label="3rd place">BRONZE</div>
+        </li>
+        <li class="award">
+          <div>
+            <div class="title">Best Multi-Platform Initiative <span class="show">(LSR Breakfast)</span></div>
+            <div class="sponsor">Supported by Global Player</div>
+          </div>
+          <div class="rank bronze" aria-label="3rd place">BRONZE</div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="year" aria-labelledby="y2018">
+      <h2 id="y2018">2018</h2>
+      <ul class="awards">
+        <li class="award">
+          <div>
+            <div class="title">Best Student Radio Station</div>
+            <div class="sponsor">Supported by Global</div>
+          </div>
+          <div class="rank bronze" aria-label="3rd place">BRONZE</div>
+        </li>
+        <li class="award">
+          <div>
+            <div class="title">Best Technical Achievement</div>
+            <div class="sponsor">Supported by BBC Sounds</div>
+          </div>
+          <div class="rank bronze" aria-label="3rd place">BRONZE</div>
+        </li>
+        <li class="award">
+          <div>
+            <div class="title">Best Station Branding</div>
+            <div class="sponsor">Supported by Reelworld</div>
+          </div>
+          <div class="rank bronze" aria-label="3rd place">BRONZE</div>
+        </li>
+      </ul>
+    </section>
+
+    <section class="year" aria-labelledby="y2017">
+      <h2 id="y2017">2017</h2>
+      <ul class="awards">
+       <li class="award">
+          <div>
+            <div class="title">Best Female <span class="show">(Faye Lawrence)</span></div>
+          </div>
+          <div class="rank gold" aria-label="1st place">GOLD</div>
+        </li>
+        <li class="award">
+          <div>
+            <div class="title">Best Student Radio Station</div>
+            <div class="sponsor">Supported by Global</div>
+          </div>
+          <div class="rank silver" aria-label="2nd place">SILVER</div>
+        </li>
+       
+        <li class="award">
+          <div>
+            <div class="title">Best Female <span class="show">(Hannah Scherrer)</span></div>
+          </div>
+          <div class="rank bronze" aria-label="3rd place">BRONZE</div>
+        </li>
+      </ul>
+    </section>
+
+  </div>
+</body>
+</html>
