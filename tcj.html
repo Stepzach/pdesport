@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tennis Club Josassien – Club de tennis à Jouy-en-Josas</title>
+  <meta name="description" content="Rejoignez la communauté du Tennis Club Josassien à Jouy-en-Josas : terrains de qualité, tournois, équipes et convivialité. Réservez votre créneau et découvrez le club." />
+  <link rel="icon" href="/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:title" content="Tennis Club Josassien" />
+  <meta property="og:description" content="Club de tennis à Jouy-en-Josas : 6 terrains, équipes, tournois et une ambiance conviviale." />
+  <meta property="og:image" content="/og-image.jpg" />
+  <meta property="og:url" content="https://exemple.com/" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <style>
+    /* =========================
+       Design System (CSS Vars)
+       ========================= */
+    :root {
+      --clr-bg: #fffdf8;           /* off-white light theme */
+      --clr-text: #1f2a1f;         /* deep green text */
+      --clr-muted: #5c6b5e;
+      --clr-accent: #e86b2f;       /* clay-court orange */
+      --clr-accent-2: #0f5b3e;     /* deep green */
+      --clr-surface: #ffffff;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+      --shadow-md: 0 10px 15px rgba(0,0,0,.08), 0 4px 6px rgba(0,0,0,.05);
+      --radius: 14px;
+      --space-1: .25rem;
+      --space-2: .5rem;
+      --space-3: .75rem;
+      --space-4: 1rem;
+      --space-5: 1.5rem;
+      --space-6: 2rem;
+      --space-8: 3rem;
+      --maxw: 1200px;
+    }
+
+    /* Base */
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: Manrope, Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--clr-text); background: var(--clr-bg);
+      line-height: 1.6;
+    }
+    img { max-width: 100%; display: block; height: auto; }
+    a { color: var(--clr-accent-2); text-decoration-thickness: .08em; }
+    .container { width: min(100% - 2rem, var(--maxw)); margin-inline: auto; }
+
+    /* Focus styles for accessibility */
+    :focus-visible { outline: 3px solid var(--clr-accent); outline-offset: 2px; border-radius: 6px; }
+
+    /* Announcement bar */
+    .announce { position: sticky; top: 0; z-index: 50; background: var(--clr-accent); color: #fff; }
+    .announce-inner { display: grid; grid-template-columns: 1fr auto; gap: var(--space-3); align-items: center; padding: .5rem 1rem; }
+    .announce button { border: 0; background: rgba(255,255,255,.15); color: #fff; padding: .35rem .65rem; border-radius: 999px; cursor: pointer; }
+
+    /* Header / Navbar */
+    header { position: sticky; top: 0; z-index: 40; background: rgba(255,253,248,.85); backdrop-filter: saturate(140%) blur(6px); border-bottom: 1px solid rgba(0,0,0,.05); }
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: .75rem 1rem; }
+    .brand { display: flex; gap: .5rem; align-items: center; font-weight: 800; letter-spacing: .2px; }
+    .brand-logo { width: 60px; height: 30px; border-radius: 10px;  display: grid; place-items: center; color: #fff; font-weight: 900; }
+    .brand span { font-size: clamp(1.05rem, 1.5vw + .6rem, 1.35rem); }
+
+    .menu { display: flex; gap: 1rem; align-items: center;  }
+    .menu a { padding: .5rem .75rem; border-radius: var(--radius); font-weight: 600; color: var(--clr-text); }
+    .menu a:hover { background: rgba(0,0,0,.04); }
+
+    /* Mobile menu */
+    .hamb { display: inline-grid; place-items: center; width: 42px; height: 42px; border-radius: 10px; border: 1px solid rgba(0,0,0,.1); background: var(--clr-surface); box-shadow: var(--shadow-sm); }
+    .hamb svg { width: 22px; height: 22px; }
+    .menu-panel { position: fixed; inset: 0; display: none; }
+    .menu-panel[aria-hidden="false"] { display: block; }
+    .menu-sheet { position: absolute; right: 0; top: 0; height: 100%; width: 100%; background: transparent; box-shadow: var(--shadow-md); padding: 1rem; display: grid; grid-template-rows: auto 1fr; gap: 1rem; }
+    .sheet-links {     display: grid
+;
+    gap: .5rem;
+    width: calc(100% - 40px);
+    margin-left: 20px;
+    /* align-items: center; */
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid rgba(0,0,0,.06);
+     }
+    
+    .sheet-links a { padding: .875rem 1rem; border-radius: 12px; border: 1px solid rgba(0,0,0,.06); font-weight: 700;  background: rgba(255,253,248,1); }
+
+    /* Desktop nav visibility */
+    .menu-desktop { display: none; }
+    @media (min-width: 768px) { .menu-desktop { display: flex; } .hamb { display: none; } }
+
+    /* Hero */
+    .hero { position: relative; min-height: clamp(60vh, 72vh, 84vh); display: grid; place-items: end; color: #fff; }
+    .hero-media { position: absolute; inset: 0; overflow: clip; }
+    .hero video, .hero .poster { width: 100%; height: 100%; object-fit: cover; }
+    .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,.15) 40%, rgba(0,0,0,0) 70%); }
+    .hero-content { position: relative; z-index: 1; padding: 2rem 1rem; width: 100%; }
+    .hero h1 { font-size: clamp(1.6rem, 3vw + 1rem, 3rem); margin: 0 0 .5rem; }
+    .cta { display: flex; gap: .75rem; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .75rem 1rem; border-radius: 999px; border: 1px solid transparent; cursor: pointer; font-weight: 800; text-decoration: none; box-shadow: var(--shadow-sm); }
+    .btn-primary { background: var(--clr-accent); color: #fff; }
+    .btn-primary:hover { filter: brightness(1.05); }
+    .btn-outline { background: transparent; color: #fff; border-color: rgba(255,255,255,.6); }
+
+    /* Sections */
+    section { padding: clamp(2rem, 4vw, 4rem) 0; }
+    .section-title { font-size: clamp(1.25rem, 1.5vw + 1rem, 2rem); margin-bottom: .75rem; }
+    .muted { color: var(--clr-muted); }
+
+    /* About grid */
+    .about-grid { display: grid; gap: 1.5rem; }
+    @media (min-width: 900px) { .about-grid { grid-template-columns: 1.2fr .8fr; align-items: start; } }
+
+    .installations { display: grid; gap: .4rem; padding: 1rem; background: #fff; border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,.06); }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; margin-top: 1rem; }
+    .stat { background: #fff; border: 1px solid rgba(0,0,0,.06); border-radius: 16px; padding: .75rem; text-align: center; box-shadow: var(--shadow-sm); }
+    .stat .num { font-size: clamp(1.25rem, 1.2vw + .8rem, 1.8rem); font-weight: 900; color: var(--clr-accent-2); }
+
+    .photo-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .5rem; }
+    @media (min-width: 600px) { .photo-grid { grid-template-columns: repeat(3, 1fr); } }
+    .photo { border-radius: 12px; overflow: clip; aspect-ratio: 4/3; background: #f1f1f1; box-shadow: var(--shadow-sm); }
+
+    /* Contact */
+    .contact-grid { display: grid; gap: 1rem; }
+    @media (min-width: 900px) { .contact-grid { grid-template-columns: 1fr 1.2fr; align-items: start; } }
+    .contact-card { background: #fff; border-radius: var(--radius); padding: 1rem; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,.06); }
+    .map-wrap { border-radius: var(--radius); overflow: clip; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,.06); }
+
+    /* Back to top button */
+    .to-top { position: fixed; right: 1rem; bottom: 1rem; z-index: 40; opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity .2s, transform .2s; }
+    .to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+    .to-top .btn { background: var(--clr-accent-2); color: #fff; }
+
+    /* Footer */
+    footer { border-top: 1px solid rgba(0,0,0,.06); padding: 1.25rem 0; text-align: center; color: var(--clr-muted); }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+     img, video { max-width: 100%; height: auto; display: block; }
+      img { width: 100%; height: 100%; object-fit: cover }
+    a { color: var(--clr-accent-2); text-decoration-thickness: .08em; word-break: break-word; }
+    .container { width: min(100% - 2rem, var(--maxw)); margin-inline: auto; }
+
+    :focus-visible { outline: 3px solid var(--clr-accent); outline-offset: 2px; border-radius: 6px; }
+
+    .announce { position: sticky; top: 0; z-index: 50; background: var(--clr-accent); color: #fff; }
+    .announce-inner { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .5rem; padding: .5rem 1rem; }
+    .announce button { border: 0; background: rgba(255,255,255,.15); color: #fff; padding: .35rem .65rem; border-radius: 999px; cursor: pointer; }
+
+   
+    .brand { display: flex; gap: .5rem; align-items: center; font-weight: 800; letter-spacing: .2px; flex-shrink: 1; min-width: 0; }
+    .brand span { font-size: clamp(1rem, 1.2vw + .6rem, 1.35rem); overflow-wrap: break-word; }
+
+
+   
+    .hero { position: relative; min-height: 60vh; display: grid; place-items: end; color: #fff; overflow: hidden; }
+    .hero-content { position: relative; z-index: 1; padding: 2rem 1rem; max-width: var(--maxw); margin-inline: auto; text-align: center; }
+    .hero h1 { font-size: clamp(1.4rem, 3vw + 1rem, 2.5rem); margin: 0 0 .5rem; word-wrap: break-word; }
+    .hero p { margin: 0 0 1rem; padding: 0 1rem; color:white }
+    .cta { display: flex; gap: .75rem; flex-wrap: wrap; justify-content: center; }
+
+    section { padding: clamp(2rem, 4vw, 4rem) 0; }
+    .about-grid { display: grid; gap: 1.5rem; }
+    @media (min-width: 900px) { .about-grid { grid-template-columns: 1fr 1fr; } }
+
+    .installations, .stat, .contact-card { word-wrap: break-word; overflow-wrap: break-word; }
+
+    .photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .75rem; }
+    .photo { border-radius: 12px; overflow: hidden; aspect-ratio: 4/3; background: #f1f1f1; box-shadow: var(--shadow-sm); }
+
+    .contact-grid { display: grid; gap: 1rem; }
+    @media (min-width: 900px) { .contact-grid { grid-template-columns: 1fr 1fr; } }
+
+    .to-top { position: fixed; right: 1rem; bottom: 1rem; z-index: 40; opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity .2s, transform .2s; }
+    .to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+
+.icon-close { display: none; z-index:2 }
+.hamb.active .icon-hamb { display: none; }
+.hamb.active .icon-close { display: block; }
+
+
+/* Wrapper slide-in */
+.sheet-wrapper {
+  width: calc(100% + 40px);
+  margin-left: -20px;
+  margin-top: 50px;
+  background: rgba(255,253,248,.95);
+  backdrop-filter: saturate(140%) blur(6px);
+  transform: translateY(-12px);
+  opacity: 0;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.menu-panel[aria-hidden="false"] .sheet-wrapper {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Links stagger */
+.sheet-links a {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+.sheet-links.show a {
+  animation: linkFadeIn 0.25s forwards;
+}
+.sheet-links.hide a {
+  animation: linkFadeOut 0.2s forwards;
+}
+
+@keyframes linkFadeIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes linkFadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-8px); }
+}
+
+.panel {
+  opacity: 1;
+  transition: opacity 0.3s ease; /* fade duration */
+}
+
+.panel[aria-hidden="true"] {
+  opacity: 0;
+  pointer-events: none; /* prevent interaction while hidden */
+}
+
+
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": ["Organization", "LocalBusiness", "SportsActivityLocation"],
+    "name": "Tennis Club Josassien",
+    "url": "https://exemple.com/",
+    "logo": "https://exemple.com/logo.png",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "21 rue Saint Roch",
+      "addressLocality": "Jouy-en-Josas",
+      "postalCode": "78350",
+      "addressCountry": "FR"
+    },
+    "telephone": "+33 1 23 45 67 89",
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 48.762,
+      "longitude": 2.169
+    },
+    "sameAs": [
+      "https://www.instagram.com/tennisclubjosassien",
+      "https://www.facebook.com/tennisclubjosassien"
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <!-- Announcement Bar -->
+  <div class="announce" role="region" aria-label="Annonce tournoi" id="announceBar" hidden>
+    <div class="container announce-inner">
+      <div>
+        <strong>Prochain tournoi</strong> : 14–22 septembre 2025 · Inscriptions ouvertes sur <span aria-hidden="true">TENUP</span><span class="sr-only">Ten Up</span>.
+      </div>
+      <button id="dismissAnnounce" aria-label="Masquer l'annonce">✕</button>
+    </div>
+  </div>
+
+  <!-- Header / Navigation -->
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#accueil" aria-label="Aller à l'accueil">
+        <div class="brand-logo" aria-hidden="true"><img src="https://github.com/Stepzach/pdesport/blob/main/ChatGPT_Image_Aug_23__2025__12_23_28_PM-removebg-preview.png?raw=true"></div>
+        <span>Tennis Club Josassien</span>
+      </a>
+      <nav class="menu menu-desktop" aria-label="Navigation principale">
+        <a href="#accueil">Accueil</a>
+        <a href="#bons-plans" aria-describedby="bp-desc">Bons plans</a>
+      
+        <a href="#equipe" aria-describedby="tenup-desc">Équipe</a>
+        <span id="tenup-desc" class="sr-only">Lien vers une page à venir</span>
+        <a href="#contact">Contact</a>
+      </nav>
+     <button class="hamb" id="menuToggle" aria-label="Ouvrir le menu" aria-controls="mobileMenu" aria-expanded="false">
+  <!-- Hamburger icon -->
+  <svg class="icon-hamb" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M4 6h16M4 12h16M4 18h16"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+  <!-- Close icon -->
+  <svg class="icon-close" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+    <path d="M6 6l12 12M18 6l-12 12"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+</button>
+
+
+    </div>
+
+    <!-- Mobile menu panel with focus trap -->
+    <div class="menu-panel" id="mobileMenu" aria-hidden="true">
+      <div class="menu-sheet" role="dialog" aria-modal="true" aria-label="Menu">
+       
+     <div class="sheet-wrapper">
+
+        <div class="sheet-links" id="sheetLinks">
+          <a href="#accueil" data-close>Accueil</a>
+          <a href="#bons-plans" data-close>Bons plans</a>
+          <a href="#equipe" data-close>Équipe</a>
+          <a href="#contact" data-close>Contact</a>
+        </div>
+           </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main id="accueil" class="hero" aria-label="Section d'introduction">
+    <div class="hero-media" aria-hidden="true">
+      <!-- Video fallback logic handled in JS (save-data, errors) -->
+      <video id="heroVideo" playsinline autoplay muted loop preload="metadata" poster="assets/hero-poster.jpg" width="1920" height="1080">
+        <source src="https://video.wixstatic.com/video/095ada_f570a322edbc48b8814466dcd170b3f9/720p/mp4/file.mp4" type="video/mp4" />
+        <!-- Fallback text if HTML5 video unsupported -->
+      </video>
+      <img class="poster" id="heroPoster" src="assets/hero-poster.jpg" alt="Terrains de tennis du club" loading="eager" width="1920" height="1080" style="display:none" />
+    </div>
+    <div class="container hero-content">
+    
+      <p class="muted" style="margin-bottom:1rem">Plus qu'un lieu de passage, un lieu de vie.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#a-propos">Découvrir le club</a>
+        <a class="btn btn-outline" href="#tenup">Réserver</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- About -->
+  <section id="a-propos" aria-labelledby="apropos-title">
+    <div class="container about-grid">
+      <div>
+        <h2 class="section-title" id="apropos-title">À propos du club</h2>
+        <p>Situé au cœur de <strong>Jouy-en-Josas</strong>, le Tennis Club Josassien réunit des joueuses et joueurs de tous niveaux autour d’une même passion. Nos installations de qualité, notre équipe engagée et nos animations régulières créent un environnement idéal pour progresser et partager.</p>
+
+        <div class="installations" aria-labelledby="inst-title">
+          <h3 id="inst-title" style="margin:0 0 .25rem">Installations</h3>
+          <ul>
+            <li>6 terrains extérieurs</li>
+            <li>2 terres battues</li>
+            <li>2 quicks</li>
+            <li>2 green set</li>
+            <li>Un mur d'entraînement</li>
+            <li><strong>Adresse</strong> : 21 rue Saint Roch · 78350 Jouy-en-Josas</li>
+          </ul>
+        </div>
+
+        <div class="stats" aria-label="Chiffres clés">
+          <div class="stat"><div class="num" aria-hidden="true">450+</div><div>adhérents</div></div>
+          <div class="stat"><div class="num" aria-hidden="true">12</div><div>équipes</div></div>
+          <div class="stat"><div class="num" aria-hidden="true">20+</div><div>tournois/an</div></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="photo-grid" aria-label="Galerie de photos">
+          <picture class="photo" id="hidesmallid">
+            <source type="image/avif" srcset="https://static.wixstatic.com/media/095ada_585e7455e94a4e75851501c98615bb9e~mv2.jpeg/v1/fill/w_1038,h_680,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/095ada_585e7455e94a4e75851501c98615bb9e~mv2.jpeg" />
+            <source type="image/webp" srcset="assets/court1.webp" />
+            <img src="assets/court1.jpg" alt="Vue d'un court en terre battue" loading="lazy" width="800" height="600">
+          </picture>
+          <picture class="photo">
+            <source type="image/avif" srcset="https://static.wixstatic.com/media/095ada_fa2ee376a8b1445dbebec79ac360c6fa~mv2.jpeg/v1/fill/w_1756,h_1317,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/095ada_fa2ee376a8b1445dbebec79ac360c6fa~mv2.jpeg" />
+            <source type="image/webp" srcset="assets/court2.webp" />
+            <img src="assets/court2.jpg" alt="Match en double sur court extérieur" loading="lazy" width="800" height="600">
+          </picture>
+          <picture class="photo">
+            <source type="image/avif" srcset="https://static.wixstatic.com/media/095ada_7faab6078cab48a78d23215470693a80~mv2.jpeg/v1/fill/w_1756,h_1317,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/095ada_7faab6078cab48a78d23215470693a80~mv2.jpeg" />
+            <source type="image/webp" srcset="assets/court3.webp" />
+            <img src="assets/court3.jpg" alt="Joueuse en coup droit" loading="lazy" width="800" height="600">
+          </picture>
+          <picture class="photo" id="hidesmallid">
+            <source type="image/avif" srcset="https://static.wixstatic.com/media/095ada_507dab7306f346fc8b5f17d8b6c609ec~mv2.jpeg/v1/fill/w_1024,h_768,al_c,q_85,enc_auto/095ada_507dab7306f346fc8b5f17d8b6c609ec~mv2.jpeg" />
+            <source type="image/webp" srcset="assets/court4.webp" />
+            <img src="assets/court4.jpg" alt="Vue aérienne des terrains" loading="lazy" width="800" height="600">
+          </picture>
+          <picture class="photo" id="hidesmallid">
+            <source type="image/avif" srcset="https://static.wixstatic.com/media/095ada_19b73a72b9774e4fb296154b59aa0048~mv2.jpeg/v1/fill/w_1024,h_768,al_c,q_85,enc_auto/095ada_19b73a72b9774e4fb296154b59aa0048~mv2.jpeg" />
+            <source type="image/webp" srcset="assets/court5.webp" />
+            <img src="assets/court5.jpg" alt="Club-house du TCJ" loading="lazy" width="800" height="600">
+          </picture>
+          <picture class="photo" id="hidesmallid2">
+            <source type="image/avif" srcset="https://static.wixstatic.com/media/095ada_c82002d5916644faa5c1619ff878a825~mv2.jpg/v1/fill/w_1070,h_802,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/095ada_c82002d5916644faa5c1619ff878a825~mv2.jpg" />
+            <source type="image/webp" srcset="assets/court6.webp" />
+            <img src="assets/court6.jpg" alt="Entraînement jeunes" loading="lazy" width="800" height="600">
+          </picture>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Placeholder anchors for future pages -->
+  <section id="bons-plans" aria-labelledby="bp-title">
+    <div class="container">
+      <h2 class="section-title" id="bp-title">Bons plans</h2>
+      <p class="muted">Bientôt en ligne : réductions partenaires, stages, offres matériel…</p>
+    </div>
+  </section>
+
+<section id="equipe" aria-labelledby="equipe-title">
+  <div class="container">
+    <h2 class="section-title" id="equipe-title">Équipe</h2>
+    <p class="muted">Découvrez les membres de notre équipe pédagogique.</p>
+    <div class="team-grid">
+      
+      <div class="team-member">
+        <img src="https://static.wixstatic.com/media/095ada_c68e7bfe5bb04ddf96e1d65095a8528d~mv2.jpg/v1/crop/x_0,y_115,w_768,h_794/fill/w_420,h_434,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/johan.jpg" alt="Photo de Alice Dupont">
+        <div class="name">Alice Dupont</div>
+        <div class="role">Présidente</div>
+      </div>
+
+      <div class="team-member">
+        <img src="https://static.wixstatic.com/media/095ada_fc56690df12d43d3a0697f264d07834d~mv2.jpg/v1/crop/x_0,y_115,w_768,h_794/fill/w_420,h_434,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/julien.jpg" alt="Photo de Marc Leroy">
+        <div class="name">Marc Leroy</div>
+        <div class="role">Trésorier</div>
+      </div>
+
+      <div class="team-member">
+        <img src="https://static.wixstatic.com/media/095ada_7d3e7cf6df494d0a816a2a4c9c09d9df~mv2.jpg/v1/crop/x_0,y_247,w_512,h_529/fill/w_420,h_434,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/johan%202.jpg" alt="Photo de Sophie Martin">
+        <div class="name">Sophie Martin</div>
+        <div class="role">Secrétaire</div>
+      </div>
+
+      <div class="team-member">
+        <img src="https://static.wixstatic.com/media/095ada_0ea0d0b72b5c4f52b1a624090322fdfb~mv2.jpg/v1/fill/w_432,h_434,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Capture2_edited.jpg" alt="Photo de Julien Moreau">
+        <div class="name">Julien Moreau</div>
+        <div class="role">Entraîneur</div>
+      </div>
+
+      <div class="team-member">
+        <img src="https://static.wixstatic.com/media/095ada_916e0e099c0c4601b5bf6877a5cbfd12~mv2.jpg/v1/fill/w_432,h_434,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/lucile.jpg" alt="Photo de Claire Dubois">
+        <div class="name">Claire Dubois</div>
+        <div class="role">Coach junior</div>
+      </div>
+
+      <div class="team-member">
+        <img src="https://static.wixstatic.com/media/095ada_c7c95a2ce5024cfb8083515b14c0efee~mv2.jpeg/v1/crop/x_0,y_115,w_768,h_794/fill/w_420,h_434,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/WhatsApp%20Image%202023-09-22%20at%2021_17_35.jpeg" alt="Photo de Thomas Bernard">
+        <div class="name">Thomas Bernard</div>
+        <div class="role">Responsable logistique</div>
+      </div>
+
+      <div class="team-member">
+        <img src="https://static.wixstatic.com/media/095ada_48719ab4eab74c9dbb0d2f21ddb51f05~mv2.jpg/v1/crop/x_0,y_36,w_240,h_248/fill/w_336,h_347,al_c,lg_1,q_80,enc_avif,quality_auto/pablo.jpg" alt="Photo de Emilie Fournier">
+        <div class="name">Emilie Fournier</div>
+        <div class="role">Chargée communication</div>
+      </div>
+
+      <div class="team-member">
+        <img src="https://static.wixstatic.com/media/095ada_601ad67ddc5d467c8efc522e78642c0d~mv2.jpg/v1/crop/x_0,y_83,w_831,h_859/fill/w_420,h_434,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/marta.jpg" alt="Photo de Nicolas Petit">
+        <div class="name">Nicolas Petit</div>
+        <div class="role">Coordinateur événements</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+.team-grid {
+  display: grid;
+  gap: 2rem;
+  text-align: center;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.team-member img {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-inline: auto;
+  transition: transform 0.3s;
+}
+
+.team-member img:hover {
+  transform: scale(1.05);
+}
+
+.team-member .name {
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+.team-member .role {
+  font-size: 0.85rem;
+  color: var(--clr-muted);
+}
+
+/* Maximum 4 per row on large screens */
+@media (min-width: 1200px) {
+  .team-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+ 
+}
+@media (max-width: 423px) {
+ .team-member img {
+ 
+  border-radius: 20% !important;
+  max-width: 80%;
+  
+}
+}
+@media (max-width: 483px) {
+#hidesmallid {
+ display: none;
+}
+}
+
+@media (min-width: 900px) and (max-width: 959px) {
+#hidesmallid,
+#hidesmallid2 {
+ display: none;
+}
+}
+</style>
+
+
+
+  <!-- Contact -->
+  <section id="contact" aria-labelledby="contact-title">
+    <div class="container contact-grid">
+      <div class="contact-card">
+        <h2 class="section-title" id="contact-title">Contact</h2>
+        <p><strong>Adresse</strong> : 21 rue Saint Roch, 78350 Jouy-en-Josas</p>
+        <p><strong>Téléphone</strong> : <a href="tel:+33123456789">01 23 45 67 89</a></p>
+        <p><strong>E-mail</strong> : <a href="mailto:contact@tcjosassien.fr">contact@tcjosassien.fr</a></p>
+        <p>
+          <a class="btn" href="https://instagram.com/tennisclubjosassien" target="_blank" rel="noopener" aria-label="Instagram du Tennis Club Josassien">Instagram</a>
+          <a class="btn" href="https://facebook.com/tennisclubjosassien" target="_blank" rel="noopener" aria-label="Facebook du Tennis Club Josassien">Facebook</a>
+        </p>
+      </div>
+      <div class="map-wrap">
+        <iframe title="Carte Google Maps - Tennis Club Josassien" loading="lazy" width="100%" height="420" style="border:0" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2621.560000!2d2.169!3d48.762!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2zNDjCsDQ1JzQzLjIiTiAywrAxMCcwOC4zIkU!5e0!3m2!1sfr!2sfr!4v00000000000"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">© <span id="year"></span> Tennis Club Josassien. Tous droits réservés.</div>
+  </footer>
+
+  <!-- Back to top -->
+  <div class="to-top" id="toTop">
+    <a href="#accueil" class="btn" aria-label="Revenir en haut">↑ Haut</a>
+  </div>
+
+  <script defer>
+    // Utility: qs
+    const $ = (sel, el=document) => el.querySelector(sel);
+
+    // Year in footer
+    $('#year').textContent = new Date().getFullYear();
+
+    // Announcement bar with localStorage persistence
+    (function setupAnnouncement(){
+      const KEY = 'tcj_announce_dismissed_v1';
+      const bar = $('#announceBar');
+      const dismissed = localStorage.getItem(KEY) === '1';
+      if (!dismissed) { bar.hidden = false; }
+      $('#dismissAnnounce').addEventListener('click', () => { localStorage.setItem(KEY, '1'); bar.hidden = true; });
+    })();
+
+    // Mobile menu: open/close with focus trap and ESC
+  (function mobileMenu(){
+  const toggleBtn = $('#menuToggle') || $('#openMenu'); // support either id
+  const panel = $('#mobileMenu');
+  if (!toggleBtn || !panel) return;
+  const sheet = panel.querySelector('.menu-sheet');
+  if (!sheet) return;
+
+  // find close candidates inside the sheet (common attributes/classes)
+  const internalClose = $('#closeMenu') || sheet.querySelector('[data-close], [aria-label="Fermer le menu"], .close');
+
+  const links = sheet.querySelectorAll('a, button');
+  let lastFocused = null;
+
+  const getFocusables = () => [...sheet.querySelectorAll('a,button,[tabindex]:not([tabindex="-1"])')]
+                                .filter(el => !el.hasAttribute('disabled'));
+
+  function trap(e){
+    if (e.key !== 'Tab') return;
+    const focusables = getFocusables();
+    if (!focusables.length) { e.preventDefault(); return; }
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+
+  function open(){
+  lastFocused = document.activeElement;
+  panel.setAttribute('aria-hidden', 'false');
+  toggleBtn.setAttribute('aria-expanded', 'true');
+  toggleBtn.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  document.addEventListener('keydown', onKeyDown);
+  document.addEventListener('keydown', trap);
+  
+  // stagger in
+  const links = sheet.querySelectorAll('.sheet-links a');
+  sheet.querySelector('.sheet-links').classList.remove('hide');
+  sheet.querySelector('.sheet-links').classList.add('show');
+  links.forEach((link, i) => {
+    link.style.animationDelay = `${i * 80}ms`; // stagger
+  });
+
+  setTimeout(() => { getFocusables()[0]?.focus(); }, 0);
+}
+
+function close(){
+  const links = sheet.querySelectorAll('.sheet-links a');
+  sheet.querySelector('.sheet-links').classList.remove('show');
+  sheet.querySelector('.sheet-links').classList.add('hide');
+  links.forEach((link, i) => {
+    link.style.animationDelay = `${i * 0}ms`;
+  });
+
+  // wait for last animation before hiding panel
+  setTimeout(() => {
+    panel.setAttribute('aria-hidden', 'true');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    toggleBtn.classList.remove('active');
+    document.body.style.overflow = '';
+    document.removeEventListener('keydown', onKeyDown);
+    document.removeEventListener('keydown', trap);
+    lastFocused?.focus();
+  }, 50 + links.length * 0); // match exit timing
+}
+
+
+
+  function onKeyDown(e){ if (e.key === 'Escape') close(); }
+
+  // Toggle with the header button (hamb / X)
+  toggleBtn.addEventListener('click', (e) => {
+    const isOpen = panel.getAttribute('aria-hidden') === 'false';
+    isOpen ? close() : open();
+  });
+
+  // Click outside the sheet closes it
+  panel.addEventListener('click', (e) => { if (e.target === panel) close(); });
+
+  // Menu links close panel (already wired via data-close in your markup)
+  sheet.querySelectorAll('[data-close]').forEach(a => a.addEventListener('click', (ev) => { ev.preventDefault(); close(); }));
+
+  // If there's a dedicated close button inside the sheet (the X), wire it too
+  if (internalClose) {
+    internalClose.setAttribute('type', 'button'); // prevent accidental form submit
+    internalClose.addEventListener('click', (ev) => { ev.preventDefault(); close(); });
+  }
+})();
+
+
+
+    // Back to top visibility
+    (function toTop(){
+      const btn = $('#toTop');
+      const sentinel = document.createElement('div');
+      sentinel.setAttribute('aria-hidden','true');
+      document.body.prepend(sentinel);
+      const io = new IntersectionObserver(([e])=>{
+        if (!e.isIntersecting) btn.classList.add('show'); else btn.classList.remove('show');
+      }, { rootMargin: '-120px 0px 0px 0px', threshold: 0 });
+      io.observe(sentinel);
+    })();
+
+    // Hero video: respect Save-Data and failures
+    (function heroMedia(){
+      const video = $('#heroVideo');
+      const poster = $('#heroPoster');
+
+      const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      const saveData = connection && connection.saveData;
+
+      function showPoster(){
+        if (!poster) return; poster.style.display = 'block'; if (video) video.remove();
+      }
+      if (saveData) { showPoster(); return; }
+
+      if (video) {
+        // If video fails to load, show poster
+        video.addEventListener('error', showPoster, { once: true });
+        // Autoplay policy already satisfied (muted). If play() rejects, show poster
+        video.play().catch(showPoster);
+      } else {
+        showPoster();
+      }
+    })();
+  </script>
+
+  <!-- Accessibility helpers -->
+  <style>
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  </style>
+</body>
+</html>
