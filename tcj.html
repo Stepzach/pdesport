@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tennis Club Josassien – Club de tennis à Jouy-en-Josas</title>
   <meta name="description" content="Rejoignez la communauté du Tennis Club Josassien à Jouy-en-Josas : terrains de qualité, tournois, équipes et convivialité. Réservez votre créneau et découvrez le club." />
-  <link rel="icon" href="/favicon.ico" />
+  <link rel="icon" href="https://github.com/Stepzach/pdesport/blob/main/IMG_3237.png?raw=true" />
   <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
@@ -68,9 +68,9 @@
     .announce button { border: 0; background: rgba(255,255,255,.15); color: #fff; padding: .35rem .65rem; border-radius: 999px; cursor: pointer; }
 
     /* Header / Navbar */
-    header { position: sticky; top: 0; z-index: 40; background: rgba(255,253,248,.85); backdrop-filter: saturate(140%) blur(6px); border-bottom: 1px solid rgba(0,0,0,.05); }
+    header { position: sticky; top: 0; z-index: 40; background: rgba(255,253,248,.85); backdrop-filter: saturate(140%) blur(6px); border-bottom: 2px solid #0f5b3e; }
     .nav { display: flex; align-items: center; justify-content: space-between; padding: .75rem 1rem; }
-    .brand { display: flex; gap: .5rem; align-items: center; font-weight: 800; letter-spacing: .2px; }
+    .brand { display: flex; gap: .5rem; align-items: center; font-weight: 800; letter-spacing: .2px;     text-decoration: none;}
     .brand-logo { width: 60px; height: 30px; border-radius: 10px;  display: grid; place-items: center; color: #fff; font-weight: 900; }
     .brand span { font-size: clamp(1.05rem, 1.5vw + .6rem, 1.35rem); }
 
@@ -79,8 +79,38 @@
     .menu a:hover { background: rgba(0,0,0,.04); }
 
     /* Mobile menu */
-    .hamb { display: inline-grid; place-items: center; width: 42px; height: 42px; border-radius: 10px; border: 1px solid rgba(0,0,0,.1); background: var(--clr-surface); box-shadow: var(--shadow-sm); }
-    .hamb svg { width: 22px; height: 22px; }
+   .hamb {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,.1);
+  background: var(--clr-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.hamb svg {
+  width: 26px;
+  height: 26px;
+}
+
+/* Assuming the SVG has three lines/paths stacked */
+.hamb svg line:nth-child(1),
+.hamb svg path:nth-child(1) {
+  stroke: #0f5b3e;
+}
+
+.hamb svg line:nth-child(2),
+.hamb svg path:nth-child(2) {
+  stroke: #e86b2f;
+}
+
+.hamb svg line:nth-child(3),
+.hamb svg path:nth-child(3) {
+  stroke: #0f5b3e;
+}
+
     .menu-panel { position: fixed; inset: 0; display: none; }
     .menu-panel[aria-hidden="false"] { display: block; }
     .menu-sheet { position: absolute; right: 0; top: 0; height: 100%; width: 100%; background: transparent; box-shadow: var(--shadow-md); padding: 1rem; display: grid; grid-template-rows: auto 1fr; gap: 1rem; }
@@ -92,7 +122,7 @@
     /* align-items: center; */
     padding-top: 20px;
     padding-bottom: 20px;
-    border-bottom: 2px solid rgba(0,0,0,.06);
+    
      }
     
     .sheet-links a { padding: .875rem 1rem; border-radius: 12px; border: 1px solid rgba(0,0,0,.06); font-weight: 700;  background: rgba(255,253,248,1); }
@@ -102,7 +132,7 @@
     @media (min-width: 895px) { .menu-desktop { display: flex; } .hamb { display: none; } }
 
     /* Hero */
-    .hero { position: relative; min-height: clamp(60vh, 75vh, 89vh); display: grid; place-items: end; color: #fff; }
+    .hero { position: relative; height: calc(95vh - 66px) !important; display: grid; place-items: end; color: #fff; }
     .hero-media { position: absolute; inset: 0; overflow: clip; }
     .hero video, .hero .poster { width: 100%; height: 100%; object-fit: cover; }
     .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,.15) 40%, rgba(0,0,0,0) 70%); }
@@ -122,7 +152,7 @@
     /* About grid */
     
       @media (min-width: 1100px) {
-    .hero { min-height: 80vh !important }
+    .hero { height: 85vh !important }
     
      
     }
@@ -148,9 +178,9 @@
     .map-wrap { border-radius: var(--radius); overflow: clip; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,.06); }
 
     /* Back to top button */
-    .to-top { position: fixed; right: 1rem; bottom: 1rem; z-index: 40; opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity .2s, transform .2s; }
-    .to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
-    .to-top .btn { background: var(--clr-accent-2); color: #fff; }
+    .to-top { display: none !important; right: 1rem; bottom: 1rem; z-index: 40; opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity .2s, transform .2s; }
+    .to-top.show { display: none !important; transform: translateY(0); pointer-events: auto; }
+    .to-top .btn { display: none !important; }
 
     /* Footer */
     footer { border-top: 1px solid rgba(0,0,0,.06); padding: 1.25rem 0; text-align: center; color: var(--clr-muted); }
@@ -235,12 +265,13 @@
 .sheet-wrapper {
   width: calc(100% + 40px);
   margin-left: -20px;
-  margin-top: 50px;
+  margin-top: 52px;
   background: rgba(255,253,248,.95);
   backdrop-filter: saturate(140%) blur(6px);
   transform: translateY(-12px);
   opacity: 0;
   transition: transform 0.25s ease, opacity 0.25s ease;
+  border-bottom: 2px solid #0f5b3e;
 }
 .menu-panel[aria-hidden="false"] .sheet-wrapper {
   transform: translateY(0);
@@ -326,8 +357,10 @@
   <header>
     <div class="container nav">
       <a class="brand" href="#accueil" aria-label="Aller à l'accueil">
-        <div class="brand-logo" aria-hidden="true"><img src="https://github.com/Stepzach/pdesport/blob/main/ChatGPT_Image_Aug_23__2025__12_23_28_PM-removebg-preview.png?raw=true"></div>
-        <span>Tennis Club Josassien</span>
+        <div class="brand-logo" aria-hidden="true"><img src="https://github.com/Stepzach/pdesport/blob/main/IMG_3236.png?raw=true"></div>
+        <span style="
+    line-height: 1em; padding-right:14px;
+">Tennis Club Josassien</span>
       </a>
       <nav class="menu menu-desktop" aria-label="Navigation principale">
         <a href="#accueil">Accueil</a>
@@ -340,15 +373,24 @@
       </nav>
      <button class="hamb" id="menuToggle" aria-label="Ouvrir le menu" aria-controls="mobileMenu" aria-expanded="false">
   <!-- Hamburger icon -->
-  <svg class="icon-hamb" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-    <path d="M4 6h16M4 12h16M4 18h16"
-      stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-  </svg>
-  <!-- Close icon -->
-  <svg class="icon-close" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-    <path d="M6 6l12 12M18 6l-12 12"
-      stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-  </svg>
+ <!-- Hamburger -->
+<svg class="icon-hamb" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <line x1="4" y1="5.5" x2="20" y2="5.5" 
+        stroke="#0f5b3e" stroke-width="3.2" stroke-linecap="round"/>
+  <line x1="4" y1="12" x2="20" y2="12" 
+        stroke="#e86b2f" stroke-width="3.2" stroke-linecap="round"/>
+  <line x1="4" y1="18.5" x2="20" y2="18.5" 
+        stroke="#0f5b3e" stroke-width="3.2" stroke-linecap="round"/>
+</svg>
+
+<!-- Close (X) -->
+<svg class="icon-close" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <line x1="6" y1="6" x2="18" y2="18" 
+        stroke="#0f5b3e" stroke-width="3" stroke-linecap="round"/>
+  <line x1="18" y1="6" x2="6" y2="18" 
+        stroke="#e86b2f" stroke-width="3" stroke-linecap="round"/>
+</svg>
+
 </button>
 
 
@@ -384,14 +426,30 @@
     </div>
     <div class="container hero-content">
     
-      <p class="muted" style="margin-bottom:1rem">Plus qu'un lieu de passage, un lieu de vie.</p>
+      <p class="muted" id="mut1" style="margin-bottom:1rem">Plus qu'un lieu de passage, un lieu de vie.</p>
+       <p class="muted" id="mut2" style="margin-bottom:1rem">Plus qu'un lieu de passage,<br> un lieu de vie.</p>
       <div class="cta">
         <a class="btn btn-primary" href="#a-propos">Inscription 24/25</a>
         <a class="btn btn-outline" href="#tenup">Réserver</a>
       </div>
     </div>
   </main>
+<style>
+@media (max-width: 403px) { 
+#mut1  { 
+display:none !important;
 
+
+}
+}
+@media (min-width: 404px) { 
+#mut2  { 
+display:none !important;
+
+
+}
+}
+</style>
   <!-- About -->
   <section id="a-propos" aria-labelledby="apropos-title">
     <div class="container about-grid">
