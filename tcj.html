@@ -99,7 +99,7 @@
 
     /* Desktop nav visibility */
     .menu-desktop { display: none; }
-    @media (min-width: 768px) { .menu-desktop { display: flex; } .hamb { display: none; } }
+    @media (min-width: 895px) { .menu-desktop { display: flex; } .hamb { display: none; } }
 
     /* Hero */
     .hero { position: relative; min-height: clamp(60vh, 72vh, 84vh); display: grid; place-items: end; color: #fff; }
@@ -190,8 +190,8 @@
     .photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .75rem; }
     .photo { border-radius: 12px; overflow: hidden; aspect-ratio: 4/3; background: #f1f1f1; box-shadow: var(--shadow-sm); }
 
-    .contact-grid { display: grid; gap: 1rem; }
-    @media (min-width: 900px) { .contact-grid { grid-template-columns: 1fr 1fr; } }
+    .contact-grid { display: grid; gap: 1rem;  }
+    @media (min-width: 900px) { .contact-grid { grid-template-columns: 1fr 1fr; align-items: stretch; } }
 
     .to-top { position: fixed; right: 1rem; bottom: 1rem; z-index: 40; opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity .2s, transform .2s; }
     .to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
@@ -301,6 +301,7 @@
       </a>
       <nav class="menu menu-desktop" aria-label="Navigation principale">
         <a href="#accueil">Accueil</a>
+         <a href="#TENUP">TENUP</a>
         <a href="#bons-plans" aria-describedby="bp-desc">Bons plans</a>
       
         <a href="#equipe" aria-describedby="tenup-desc">Équipe</a>
@@ -331,6 +332,7 @@
 
         <div class="sheet-links" id="sheetLinks">
           <a href="#accueil" data-close>Accueil</a>
+           <a href="#TENUP" data-close>TENUP</a>
           <a href="#bons-plans" data-close>Bons plans</a>
           <a href="#equipe" data-close>Équipe</a>
           <a href="#contact" data-close>Contact</a>
@@ -354,7 +356,7 @@
     
       <p class="muted" style="margin-bottom:1rem">Plus qu'un lieu de passage, un lieu de vie.</p>
       <div class="cta">
-        <a class="btn btn-primary" href="#a-propos">Découvrir le club</a>
+        <a class="btn btn-primary" href="#a-propos">Inscription 24/25</a>
         <a class="btn btn-outline" href="#tenup">Réserver</a>
       </div>
     </div>
@@ -376,7 +378,9 @@
 Ensuite les deux premiers courts extérieurs virent le jour, les courts 1 et 2, en vraie terre battue.
 
  
-<br><br>En 1973, le Club House fut construit grâce en partie à des actions participatives des adhérents</p>
+<br><br>En 1973, le Club House fut construit grâce en partie à des actions participatives des adhérents...<br><u>En savoir plus</u></p>
+<img class="smallimghider" style="height:300px; border-radius: 12px; margin-bottom:20px;" src="https://static.wixstatic.com/media/095ada_fa2ee376a8b1445dbebec79ac360c6fa~mv2.jpeg/v1/fill/w_1756,h_1317,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/095ada_fa2ee376a8b1445dbebec79ac360c6fa~mv2.jpeg">
+ 
 
         <div class="installations" aria-labelledby="inst-title">
          
@@ -396,6 +400,8 @@ Ensuite les deux premiers courts extérieurs virent le jour, les courts 1 et 2, 
        
       </div>
 
+
+
       <div>
         <div class="photo-grid" aria-label="Galerie de photos">
           <picture class="photo" id="hidesmallid">
@@ -403,12 +409,12 @@ Ensuite les deux premiers courts extérieurs virent le jour, les courts 1 et 2, 
             <source type="image/webp" srcset="assets/court1.webp" />
             <img src="assets/court1.jpg" alt="Vue d'un court en terre battue" loading="lazy" width="800" height="600">
           </picture>
-          <picture class="photo">
+          <picture class="photo" id="hidesmallidall">
             <source type="image/avif" srcset="https://static.wixstatic.com/media/095ada_fa2ee376a8b1445dbebec79ac360c6fa~mv2.jpeg/v1/fill/w_1756,h_1317,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/095ada_fa2ee376a8b1445dbebec79ac360c6fa~mv2.jpeg" />
             <source type="image/webp" srcset="assets/court2.webp" />
             <img src="assets/court2.jpg" alt="Match en double sur court extérieur" loading="lazy" width="800" height="600">
           </picture>
-          <picture class="photo">
+          <picture class="photo" id="hidesmallidall">
             <source type="image/avif" srcset="https://static.wixstatic.com/media/095ada_7faab6078cab48a78d23215470693a80~mv2.jpeg/v1/fill/w_1756,h_1317,al_c,q_90,usm_0.66_1.00_0.01,enc_auto/095ada_7faab6078cab48a78d23215470693a80~mv2.jpeg" />
             <source type="image/webp" srcset="assets/court3.webp" />
             <img src="assets/court3.jpg" alt="Joueuse en coup droit" loading="lazy" width="800" height="600">
@@ -423,7 +429,7 @@ Ensuite les deux premiers courts extérieurs virent le jour, les courts 1 et 2, 
             <source type="image/webp" srcset="assets/court5.webp" />
             <img src="assets/court5.jpg" alt="Club-house du TCJ" loading="lazy" width="800" height="600">
           </picture>
-          <picture class="photo" id="hidesmallid2">
+          <picture class="photo" id="hidesmallid">
             <source type="image/avif" srcset="https://static.wixstatic.com/media/095ada_c82002d5916644faa5c1619ff878a825~mv2.jpg/v1/fill/w_1070,h_802,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/095ada_c82002d5916644faa5c1619ff878a825~mv2.jpg" />
             <source type="image/webp" srcset="assets/court6.webp" />
             <img src="assets/court6.jpg" alt="Entraînement jeunes" loading="lazy" width="800" height="600">
@@ -434,65 +440,304 @@ Ensuite les deux premiers courts extérieurs virent le jour, les courts 1 et 2, 
   </section>
 
   <!-- Placeholder anchors for future pages -->
-  <section id="bons-plans" aria-labelledby="bp-title">
-    <div class="container">
-      <h2 class="section-title" id="bp-title">Bons plans</h2>
-      <p class="muted">Bientôt en ligne : réductions partenaires, stages, offres matériel…</p>
+ <section id="TENUP" aria-labelledby="bp-title">
+  <div class="container">
+    <h2 class="section-title" id="bp-title">Trouvez un partenaire</h2>
+    <p class="muted">Connectez vous sur l'application Ten'up avec le bouton ci-dessous.</p>
+
+    <!-- Small screen image + button -->
+    <div class="tenup-small">
+      <div class="tenup-button-wrapper">
+        <a href="#" class="tenup-button">Connectez vous!</a>
+        <a class="btn btn-outline" href="#tenup" style="border: solid #0f5b3e; color: #0f5b3e; margin-left:10px;">S'Incrire</a>
+      </div>
+      <div class="tenup-image-wrapper">
+        <img src="https://static.wixstatic.com/media/095ada_578c359257ea482587787b9400be19da~mv2.png/v1/fill/w_1024,h_460,al_c,q_90,enc_avif,quality_auto/095ada_578c359257ea482587787b9400be19da~mv2.png" alt="Ten'up App" class="tenup-image" />
+      </div>
     </div>
-  </section>
+
+    <!-- Large screen image + text -->
+    <div class="tenup-large">
+      <div class="tenup-large-content">
+        <!-- Left column: title, subtitle, buttons -->
+        <div class="tenup-left">
+          <h3>Rendez-vous sur Ten'up !</h3>
+          <ul>
+            <li>Connectez-vous avec vos identifiants.</li>
+            <li>Allez dans l'onglet "Rechercher".</li>
+            <li>Cliquez sur "Rechercher un partenaire".</li>
+            <li>Remplissez le formulaire (photo ci-jointe).</li>
+            <li>Cliquez sur le bouton "Rechercher".</li>
+          </ul>
+        </div>
+        <!-- Right column: large TENUP image -->
+        <div class="tenup-right">
+          <img src="https://static.wixstatic.com/media/095ada_88b141dd092c4ffc9785c52d2889d928~mv2.png/v1/fill/w_974,h_797,al_c,q_90,enc_avif,quality_auto/095ada_88b141dd092c4ffc9785c52d2889d928~mv2.png" alt="Ten'up Instructions" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+@media(min-width: 484px) {
+.smallimghider {
+display: none;
+}
+}
+
+@media(max-width: 483px) {
+#hidesmallidall {
+display: none;
+}
+}
+</style>
+
+
+<style>
+/* Small screen defaults */
+.tenup-large { display: none; }
+
+.tenup-image-wrapper {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.tenup-image {
+  width: 100%;
+  max-width: 1024px;
+  max-height: 300px;
+  height: auto;
+  display: block;
+}
+
+.tenup-button-wrapper {
+  display: flex;
+  justify-content: left;
+  margin-bottom: 10px;
+}
+
+.tenup-button {
+  background-color: #e86b2f;
+  color: #fff;
+  padding: 12px 30px;
+  text-decoration: none;
+  border-radius: 999px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.tenup-button:hover {
+  filter: brightness(1.05);
+}
+
+/* Large screen layout */
+@media(min-width: 992px) {
+  .tenup-large { display: block; }
+
+
+.tenup-image {
+ 
+  max-width: 299px;
+  max-height: 90px;
+  height: auto;
+  display: block;
+}
+.tenup-image-wrapper {
+  display: flex;
+  justify-content: left;
+  margin: 20px 0;
+}
+
+  .tenup-large-content {
+    display: flex;
+    gap: 40px;
+    align-items: stretch;
+    margin: 40px 0;
+  }
+
+  .tenup-left, .tenup-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .tenup-left {
+    justify-content: flex-start;
+    max-width:350px;
+          
+  
+  }
+
+  .tenup-left h3 {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+  }
+
+  .tenup-left ul {
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-top: 20px;
+  }
+
+  .tenup-left li {
+    margin-bottom: 10px;
+    line-height: 1.5;
+  }
+
+  .tenup-right img {
+    width: 100%;
+    max-height:450px;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+     
+  }
+  
+  .tenup-right {
+   
+      margin-top: -190px;
+  }
+}
+</style>
+
+  
+  <section id="bons-plans" aria-labelledby="bp-title">
+  <div class="container">
+    <h2 class="section-title" id="bp-title">Bons plans</h2>
+   
+<div id="promowi">
+    <!-- Plan 1: Cordeur du club -->
+    <div class="bp-item">
+      <div class="bp-img">
+        <img src="https://static.wixstatic.com/media/095ada_26e3cdc87c884bf492a7598003749732~mv2.jpeg/v1/fill/w_456,h_668,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/WhatsApp%20Image%202023-08-28%20at%2016_56_05.jpeg" alt="Maxence Vaspart">
+      </div>
+      <div class="bp-text">
+        <h3>Cordeur du club</h3>
+        <p>La rentrée approchant, je vous propose de recorder vos raquettes afin de recommencer la saison dans de bonnes conditions. Si vous êtes intéressés, n’hésitez pas à m’envoyer un message privé au 0643686751 ou à rejoindre le groupe WhatsApp: <a href="https://chat.whatsapp.com/FzuOj5MfgMsBnf5aPXTWRC" target="_blank">Rejoindre le groupe</a>. Je suis disponible toute la semaine pour corder.</p>
+        <p>Bon courage pour la reprise,<br>Maxence Vaspart</p>
+      </div>
+    </div>
+
+    <!-- Plan 2: Magasin partenaire -->
+    <div class="bp-item reverse">
+      <div class="bp-img">
+        <img src="https://static.wixstatic.com/media/095ada_252c5032955f4dd9a949d3f4f812d14c~mv2.png/v1/crop/x_42,y_13,w_147,h_195/fill/w_206,h_272,al_c,lg_1,q_85,enc_avif,quality_auto/gr.png" alt="Galeries Royales">
+      </div>
+      <div class="bp-text">
+        <h3>Magasin partenaire</h3>
+        <p>Bienvenue au TCJ ! Notre magasin partenaire Galeries Royales à Versailles est le lieu parfait pour renouveler ses chaussures de tennis ainsi que tous les articles que vous souhaitez. Vous bénéficiez de 20% de réduction sur vos achats. N'hésitez pas à passer pour jeter un coup d'oeil!</p>
+        <p><u>Adresse:</u> 3 rue Royale, 78000 Versailles<br>Tél: 0139501230</p>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+#promowi {
+    max-width:900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .bp-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 2rem 0;
+    gap: 1rem;
+  }
+
+  .bp-item.reverse {
+    flex-direction: row-reverse;
+  }
+
+  .bp-img {
+   
+    text-align: center;
+  }
+
+  .bp-img img {
+    width: 100%;
+    max-width: 250px;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  .bp-text {
+    flex: 2 1 300px;
+    max-width:500px;
+  }
+
+  .bp-text h3 {
+    margin-top: 0;
+  }
+
+  @media (max-width: 768px) {
+    .bp-item img {
+      display: none;
+    }
+
+    .bp-text {
+      flex: 1 1 100%;
+    }
+  }
+</style>
+
 
 <section id="equipe" aria-labelledby="equipe-title">
   <div class="container">
     <h2 class="section-title" id="equipe-title">Équipe</h2>
     <p class="muted">Découvrez les membres de notre équipe pédagogique.</p>
     <div class="team-grid">
-      
+      <div class="team-member">
+        <img src="https://static.wixstatic.com/media/095ada_0ea0d0b72b5c4f52b1a624090322fdfb~mv2.jpg/v1/fill/w_432,h_434,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Capture2_edited.jpg" alt="Photo de Julien Moreau">
+        <div class="name">Nicola Foglia</div>
+        <div class="role">Directeur Sportif<br>Entraineur jeunes et haut niveau</div>
+      </div>
       <div class="team-member">
         <img src="https://static.wixstatic.com/media/095ada_c68e7bfe5bb04ddf96e1d65095a8528d~mv2.jpg/v1/crop/x_0,y_115,w_768,h_794/fill/w_420,h_434,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/johan.jpg" alt="Photo de Alice Dupont">
-        <div class="name">Alice Dupont</div>
-        <div class="role">Présidente</div>
+        <div class="name">Johan Sionneau</div>
+        <div class="role">Entraineur</div>
       </div>
 
       <div class="team-member">
         <img src="https://static.wixstatic.com/media/095ada_fc56690df12d43d3a0697f264d07834d~mv2.jpg/v1/crop/x_0,y_115,w_768,h_794/fill/w_420,h_434,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/julien.jpg" alt="Photo de Marc Leroy">
-        <div class="name">Marc Leroy</div>
-        <div class="role">Trésorier</div>
+        <div class="name">Julien Godard Bastos</div>
+        <div class="role">Entraineur</div>
       </div>
 
       <div class="team-member">
         <img src="https://static.wixstatic.com/media/095ada_7d3e7cf6df494d0a816a2a4c9c09d9df~mv2.jpg/v1/crop/x_0,y_247,w_512,h_529/fill/w_420,h_434,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/johan%202.jpg" alt="Photo de Sophie Martin">
-        <div class="name">Sophie Martin</div>
-        <div class="role">Secrétaire</div>
+        <div class="name">Johan Grève</div>
+        <div class="role">Entraineur</div>
       </div>
 
-      <div class="team-member">
-        <img src="https://static.wixstatic.com/media/095ada_0ea0d0b72b5c4f52b1a624090322fdfb~mv2.jpg/v1/fill/w_432,h_434,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/Capture2_edited.jpg" alt="Photo de Julien Moreau">
-        <div class="name">Julien Moreau</div>
-        <div class="role">Entraîneur</div>
-      </div>
+      
 
       <div class="team-member">
         <img src="https://static.wixstatic.com/media/095ada_916e0e099c0c4601b5bf6877a5cbfd12~mv2.jpg/v1/fill/w_432,h_434,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/lucile.jpg" alt="Photo de Claire Dubois">
-        <div class="name">Claire Dubois</div>
-        <div class="role">Coach junior</div>
+        <div class="name">Lucile Gence</div>
+        <div class="role">Entraîneuse</div>
       </div>
 
       <div class="team-member">
         <img src="https://static.wixstatic.com/media/095ada_c7c95a2ce5024cfb8083515b14c0efee~mv2.jpeg/v1/crop/x_0,y_115,w_768,h_794/fill/w_420,h_434,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/WhatsApp%20Image%202023-09-22%20at%2021_17_35.jpeg" alt="Photo de Thomas Bernard">
-        <div class="name">Thomas Bernard</div>
-        <div class="role">Responsable logistique</div>
+        <div class="name">Elydjah Regis</div>
+        <div class="role">Entraineur</div>
       </div>
 
       <div class="team-member">
         <img src="https://static.wixstatic.com/media/095ada_48719ab4eab74c9dbb0d2f21ddb51f05~mv2.jpg/v1/crop/x_0,y_36,w_240,h_248/fill/w_336,h_347,al_c,lg_1,q_80,enc_avif,quality_auto/pablo.jpg" alt="Photo de Emilie Fournier">
-        <div class="name">Emilie Fournier</div>
-        <div class="role">Chargée communication</div>
+        <div class="name">Pablo OREA</div>
+        <div class="role">Entraineur</div>
       </div>
 
       <div class="team-member">
         <img src="https://static.wixstatic.com/media/095ada_601ad67ddc5d467c8efc522e78642c0d~mv2.jpg/v1/crop/x_0,y_83,w_831,h_859/fill/w_420,h_434,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/marta.jpg" alt="Photo de Nicolas Petit">
-        <div class="name">Nicolas Petit</div>
-        <div class="role">Coordinateur événements</div>
+        <div class="name">Marta OREA</div>
+        <div class="role">Entraîneuse</div>
       </div>
 
     </div>
@@ -504,7 +749,7 @@ Ensuite les deux premiers courts extérieurs virent le jour, les courts 1 et 2, 
   display: grid;
   gap: 2rem;
   text-align: center;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
 
 .team-member img {
@@ -533,20 +778,13 @@ Ensuite les deux premiers courts extérieurs virent le jour, les courts 1 et 2, 
 }
 
 /* Maximum 4 per row on large screens */
-@media (min-width: 1200px) {
+@media (min-width: 810px) {
   .team-grid {
     grid-template-columns: repeat(4, 1fr);
   }
  
 }
-@media (max-width: 423px) {
- .team-member img {
- 
-  border-radius: 20% !important;
-  max-width: 80%;
-  
-}
-}
+
 @media (max-width: 483px) {
 #hidesmallid {
  display: none;
