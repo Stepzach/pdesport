@@ -102,7 +102,7 @@
     @media (min-width: 895px) { .menu-desktop { display: flex; } .hamb { display: none; } }
 
     /* Hero */
-    .hero { position: relative; min-height: clamp(60vh, 72vh, 84vh); display: grid; place-items: end; color: #fff; }
+    .hero { position: relative; min-height: clamp(60vh, 75vh, 89vh); display: grid; place-items: end; color: #fff; }
     .hero-media { position: absolute; inset: 0; overflow: clip; }
     .hero video, .hero .poster { width: 100%; height: 100%; object-fit: cover; }
     .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,.15) 40%, rgba(0,0,0,0) 70%); }
@@ -120,6 +120,15 @@
     .muted { color: var(--clr-muted); }
 
     /* About grid */
+    
+      @media (min-width: 1100px) {
+    .hero { min-height: 80vh !important }
+    
+     
+    }
+    
+    
+    
     .about-grid { display: grid; gap: 1.5rem; }
     @media (min-width: 900px) { .about-grid { grid-template-columns: 1.2fr .8fr; align-items: start; } }
 
@@ -183,7 +192,7 @@
 
     section { padding: clamp(2rem, 4vw, 4rem) 0; }
     .about-grid { display: grid; gap: 1.5rem; }
-    @media (min-width: 900px) { .about-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 900px) { .about-grid { grid-template-columns: 1fr 1fr;  align-items: stretch; /* makes both columns equal height */} }
 
     .installations, .stat, .contact-card { word-wrap: break-word; overflow-wrap: break-word; }
 
@@ -191,7 +200,28 @@
     .photo { border-radius: 12px; overflow: hidden; aspect-ratio: 4/3; background: #f1f1f1; box-shadow: var(--shadow-sm); }
 
     .contact-grid { display: grid; gap: 1rem;  }
-    @media (min-width: 900px) { .contact-grid { grid-template-columns: 1fr 1fr; align-items: stretch; } }
+    @media (min-width: 900px) { .contact-grid { grid-template-columns: 1fr 1fr; align-items: stretch; } 
+    .photo-grid { height:100%; }
+    
+    .photo-grid .photo img {
+  width: 100%;
+  height: 100%;
+  min-height: 99% !important;
+   max-height: 100% !important;
+   aspect-ratio: none !important;
+  object-fit: cover;
+  
+    
+    }  
+    .photo {
+
+    
+    height: 100%;
+    width: 100%;
+    
+    
+    }
+     }
 
     .to-top { position: fixed; right: 1rem; bottom: 1rem; z-index: 40; opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity .2s, transform .2s; }
     .to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
