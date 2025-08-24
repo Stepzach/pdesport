@@ -903,7 +903,9 @@ display: none;
         </p>
       </div>
       <div class="map-wrap">
-        <iframe title="Carte Google Maps - Tennis Club Josassien" loading="lazy" width="100%" height="420" style="border:0" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2621.560000!2d2.169!3d48.762!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0:0x0!2zNDjCsDQ1JzQzLjIiTiAywrAxMCcwOC4zIkU!5e0!3m2!1sfr!2sfr!4v00000000000"></iframe>
+        <iframe title="Carte Google Maps - Tennis Club Josassien" loading="lazy" width="100%" height="420" style="border:0" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?width=100%&amp;height=100%&amp;hl=en&amp;q=21, rue Saint Roch  78350 Jouy en Josas, France​&amp;t=&amp;z=14&amp;ie=UTF8&amp;iwloc=B&amp;output=embed"></iframe>
+      
+        
       </div>
     </div>
   </section>
@@ -1107,24 +1109,70 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const sections = document.querySelectorAll("main[id], section[id]");
+  const navLinks = document.querySelectorAll("nav.menu a, .sheet-links a");
+
+  // Create an observer to watch sections
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // Remove active class from all
+        navLinks.forEach(link => link.classList.remove("active"));
+        // Find the matching links (both desktop + mobile)
+        const activeLinks = document.querySelectorAll(`nav.menu a[href="#${entry.target.id}"], .sheet-links a[href="#${entry.target.id}"]`);
+        activeLinks.forEach(link => link.classList.add("active"));
+      }
+    });
+  }, { threshold: 0.5 }); // 50% of section must be visible
+
+  sections.forEach(section => observer.observe(section));
+});
+</script>
+
+<style>
+/* Style for active nav link (desktop + mobile) */
+nav.menu a.active,
+.sheet-links a.active {
+  text-decoration: underline;
+  text-decoration-color: var(--clr-accent);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
+}
+</style>
+
 
   <!-- Accessibility helpers -->
   <style>
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
     
    @media (min-width: 895px) {
-  section[id],
-  main[id],
-  header[id]
+  section[id]
+ 
    {
-    scroll-margin-top: 66px;
+    scroll-margin-top: -16px;
   }
   
-}
+
 
 
   :root { --header-h: 66px; }      /* keep it tweakable */
   html  { scroll-padding-top: var(--header-h); }
+
+}
+
+/* Remove iOS orange border on tap */
+a, button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Override unwanted orange outline */
+a:focus,
+a:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
 
 
   </style>
