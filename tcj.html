@@ -369,7 +369,7 @@
 ">Tennis Club Josassien</span>
       </a>
       <nav class="menu menu-desktop" aria-label="Navigation principale">
-        <a href="#accueil">Accueil</a>
+        <a href="#a-propos">À propos</a>
          <a href="#TENUP">TENUP</a>
         <a href="#bons-plans" aria-describedby="bp-desc">Bons plans</a>
       
@@ -409,7 +409,7 @@
      <div class="sheet-wrapper">
 
         <div class="sheet-links" id="sheetLinks">
-          <a href="#accueil" data-close>Accueil</a>
+          <a href="#a-propos" data-close>À propos</a>
            <a href="#TENUP" data-close>TENUP</a>
           <a href="#bons-plans" data-close>Bons plans</a>
           <a href="#equipe" data-close>Équipe</a>
@@ -730,53 +730,21 @@ display: none;
 </section>
 
 <style>
-#promowi {
-    max-width:900px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .bp-item {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    margin: 2rem 0;
-    gap: 1rem;
-  }
-
-  .bp-item.reverse {
-    flex-direction: row-reverse;
-  }
-
-  .bp-img {
-   
-    text-align: center;
-  }
-
-  .bp-img img {
-    width: 100%;
-    max-width: 250px;
-    height: auto;
-    border-radius: 8px;
-  }
-
-  .bp-text {
-    flex: 2 1 300px;
-    max-width:500px;
-  }
-
-  .bp-text h3 {
-    margin-top: 0;
-  }
-
-  @media (max-width: 768px) {
-    .bp-item img {
-      display: none;
+ #promowi {  margin-inline: auto; }
+    .bp-item {
+      display: flex; flex-wrap: wrap; align-items: center;
+      margin: 2.5rem 0; gap: 1.5rem;
+      background: var(--clr-surface); border-radius: var(--radius);
+      padding: 1.5rem; box-shadow: var(--shadow-sm); border: 1px solid rgba(0,0,0,.06);
     }
-
-    .bp-text {
-      flex: 1 1 100%;
+    .bp-item.reverse { flex-direction: row-reverse; }
+    .bp-img { flex-shrink: 0; width: 100%; max-width: 200px; margin-inline: auto; } /* Centered and max width */
+    .bp-img img { width: 100%; height: auto; border-radius: 8px; object-fit: cover; }
+    .bp-text { flex: 1 1 300px; } /* Allows text to grow */
+    .bp-text h3 { margin-top: 0; font-size: 1.3rem; }
+    @media (min-width: 768px) {
+      .bp-img { max-width: 250px; margin: 0; } /* Align images */
     }
-  }
 </style>
 
 
@@ -1139,7 +1107,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Special case: keep "accueil" active over "a-propos"
     if (currentSectionId === "a-propos") {
-      currentSectionId = "accueil";
+      currentSectionId = "a-propos";
     }
 
     // Remove all active classes
