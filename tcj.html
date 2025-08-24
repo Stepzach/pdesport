@@ -132,7 +132,7 @@
     @media (min-width: 895px) { .menu-desktop { display: flex; } .hamb { display: none; } }
 
     /* Hero */
-    .hero { position: relative; height: calc(95vh - 66px) !important; display: grid; place-items: end; color: #fff; }
+    .hero { position: relative;  height: calc(var(--vh, 1vh) * 100 - 66px) !important; display: grid; place-items: end; color: #fff; }
     .hero-media { position: absolute; inset: 0; overflow: clip; }
     .hero video, .hero .poster { width: 100%; height: 100%; object-fit: cover; }
     .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,.15) 40%, rgba(0,0,0,0) 70%); }
@@ -985,7 +985,7 @@ function close(){
   sheet.querySelector('.sheet-links').classList.remove('show');
   sheet.querySelector('.sheet-links').classList.add('hide');
   links.forEach((link, i) => {
-    link.style.animationDelay = `${i * 0}ms`;
+    link.style.animationDelay = `{i * 0}ms`;
   });
 
   // wait for last animation before hiding panel
@@ -1059,11 +1059,74 @@ function close(){
         showPoster();
       }
     })();
+    
+    
   </script>
+  <script>
+  function setVH() {
+  document.documentElement.style.setProperty('--vh', `${window.innerHeight * 0.01}px`);
+}
+setVH();
+window.addEventListener('resize', setVH);
+
+  </script>
+  
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const header = document.querySelector("header");
+  const sheetLinks = document.querySelectorAll('.sheet-links a[data-close]');
+  const mobileMenu = document.getElementById("mobileMenu");
+  const menuToggle = document.getElementById("menuToggle");
+
+  function scrollWithOffset(target) {
+    const headerHeight = header ? header.offsetHeight : 0;
+    const elementPosition = target.getBoundingClientRect().top + window.scrollY;
+    const offsetPosition = elementPosition - headerHeight;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth"
+    });
+  }
+
+  sheetLinks.forEach(link => {
+    link.addEventListener("click", (e) => {
+      const targetId = link.getAttribute("href").substring(1);
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        e.preventDefault();
+
+        // close menu if it's open (non-destructive)
+        if (mobileMenu) mobileMenu.setAttribute("aria-hidden", "true");
+        if (menuToggle) menuToggle.classList.remove("active");
+
+        // allow CSS transition to finish before scroll
+        setTimeout(() => scrollWithOffset(targetEl), 250);
+      }
+    });
+  });
+});
+</script>
 
   <!-- Accessibility helpers -->
   <style>
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    
+   @media (min-width: 895px) {
+  section[id],
+  main[id],
+  header[id]
+   {
+    scroll-margin-top: 66px;
+  }
+  
+}
+
+
+  :root { --header-h: 66px; }      /* keep it tweakable */
+  html  { scroll-padding-top: var(--header-h); }
+
+
   </style>
 </body>
 </html>
