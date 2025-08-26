@@ -1,1492 +1,1676 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rare Pendants — Vintage & Curated</title>
-  <meta name="description" content="Rare Pendants — a curated selection of vintage pendants & souvenirs. Elegant, minimal, progressive shopping experience." />
-  <!-- Open Graph / Social placeholders -->
-  <meta property="og:title" content="Rare Pendants — Vintage & Curated" />
-  <meta property="og:description" content="A curated selection of vintage pendants & souvenirs." />
-  <meta property="og:image" content="" />
-  <meta name="twitter:card" content="summary_large_image" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Heritage Trove - Vintage Pendants</title>
 
-  <!-- Google Fonts (change here to alter brand fonts) -->
-  <!-- Fonts used: 'Playfair Display' for headings (luxury serif), 'Inter' for UI. -->
-  <!-- To change the aesthetic: swap Playfair for another serif and Inter for a geometric sans -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Discover unique vintage pendants at The Heritage Trove. A curated selection of historic and handcrafted pieces from around the world, blending luxury with a progressive shopping experience.">
+    <meta name="keywords" content="vintage pendants, antique jewelry, heritage, collectible, unique gifts, old jewelry, handmade, bespoke, luxury, handcrafted">
 
-  <style>
-    /* =========================
-       Theme tokens — change colors here
-       ========================= */
-    :root{
-      --bg: #fff;
-      --muted: #707070;
-      --text: #111;
-      --accent: #1b5a46; /* deep green for luxury / call-to-action */
-      --accent-2: #6e8b7a;
-      --surface: #f8f7f6;
-      --card-shadow: 0 8px 20px rgba(16,20,24,0.06);
-      --glass: rgba(255,255,255,0.6);
-      --radius: 14px;
-      --radius-sm: 8px;
-      --max-width: 1200px;
-      --transition: 300ms cubic-bezier(.2,.9,.2,1);
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-    }
+    <!-- Social Sharing Meta Tags (Open Graph, Twitter Cards) -->
+    <meta property="og:title" content="The Heritage Trove - Vintage Pendants">
+    <meta property="og:description" content="Discover unique vintage pendants at The Heritage Trove. A curated selection of historic and handcrafted pieces from around the world, blending luxury with a progressive shopping experience.">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/F4EDDC/3C3B3C?text=The+Heritage+Trove">
+    <meta property="og:url" content="https://heritagetrove.com/shop">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="The Heritage Trove - Vintage Pendants">
+    <meta name="twitter:description" content="Discover unique vintage pendants at The Heritage Trove. A curated selection of historic and handcrafted pieces from around the world, blending luxury with a progressive shopping experience.">
+    <meta name="twitter:image" content="https://via.placeholder.com/1200x630/F4EDDC/3C3B3C?text=The+Heritage+Trove">
 
-    /* Basic reset */
-    *{box-sizing:border-box}
-    html,body,#app{height:100%}
-    body{
-      margin:0;
-      background:var(--bg);
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.45;
-    }
+    <!-- Google Fonts -->
+    <!-- Fonts chosen for a luxury but progressive feel: Cormorant Garamond for headings (elegant, traditional), Inter for body (modern, clean, highly legible) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    /* Layout */
-    .wrap{
-      max-width:var(--max-width);
-      margin:36px auto;
-      padding:24px;
-    }
+    <style>
+        /*
+        * CSS Styles for The Heritage Trove
+        * Inspired by rhodeskin.com's luxury progressive aesthetic.
+        *
+        * Colors:
+        * --color-primary: A rich, dark grey for text and strong elements.
+        * --color-secondary: A warm, off-white/cream for backgrounds.
+        * --color-accent: A subtle, sophisticated gold/brass for highlights.
+        * --color-text-light: Lighter grey for secondary text.
+        * --color-border: Light grey for subtle borders.
+        * --color-error: Red for validation/errors.
+        *
+        * Fonts:
+        * --font-heading: 'Cormorant Garamond', serif (elegant, traditional).
+        * --font-body: 'Inter', sans-serif (modern, clean, legible).
+        *
+        * Breakpoints:
+        * Desktop: > 1200px
+        * Tablet Large: 900px - 1200px
+        * Tablet Small / Mobile Landscape: 600px - 900px
+        * Mobile: < 600px
+        */
 
-    header.site-header{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      margin-bottom:20px;
-    }
-    .brand{
-      display:flex;
-      gap:14px;
-      align-items:center;
-      text-decoration:none;
-      color:inherit;
-    }
-    .logo{
-      width:56px;height:56px;
-      background:linear-gradient(135deg,var(--accent),var(--accent-2));
-      border-radius:12px;
-      display:grid;place-items:center;
-      color:#fff;font-weight:700;
-      font-family:'Playfair Display', serif;
-      font-size:20px;
-      box-shadow:var(--card-shadow);
-    }
-    .brand h1{
-      margin:0;font-family:'Playfair Display', serif;font-weight:400;
-      font-size:18px;
-      letter-spacing:0.4px;
-    }
-    .brand p{margin:0;font-size:12px;color:var(--muted)}
+        :root {
+            /* Colors */
+            --color-primary: #3C3B3C; /* Dark Charcoal */
+            --color-secondary: #F4EDDC; /* Creamy Off-White */
+            --color-accent: #B28F6A; /* Muted Gold/Brass */
+            --color-text-light: #6C6C6C; /* Medium Grey */
+            --color-border: #D1D1D1; /* Light Grey */
+            --color-error: #E57373; /* Light Red */
+            --color-white: #FFFFFF;
 
-    /* Header actions */
-    .actions{
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
-    .search-bar{
-      background:var(--surface);
-      border-radius:999px;
-      padding:8px 12px;
-      display:flex;align-items:center;gap:8px;
-      min-width:240px;
-      border:1px solid rgba(0,0,0,0.04);
-    }
-    .search-bar input{
-      border:0;background:transparent;outline:0;font-size:14px;
-    }
-    .icon-btn{
-      background:transparent;border:0;padding:8px;border-radius:8px; cursor:pointer;
-      display:inline-grid;place-items:center;
-    }
-    .icon-btn:hover{background:rgba(0,0,0,0.03)}
-    .badge{
-      font-size:12px;padding:2px 6px;border-radius:999px;background:var(--accent);color:#fff;
-      min-width:28px;text-align:center;
-    }
+            /* Fonts */
+            --font-heading: 'Cormorant Garamond', serif;
+            --font-body: 'Inter', sans-serif;
 
-    /* Main layout */
-    .controls{
-      display:flex;
-      gap:20px;
-      align-items:flex-start;
-      margin-bottom:22px;
-    }
-    .filters{
-      width:300px;
-      min-width:240px;
-      background:transparent;
-      padding:10px 8px;
-      border-radius:12px;
-    }
-    .filters .panel{
-      background:#fff;border-radius:12px;padding:12px;margin-bottom:12px;box-shadow:var(--card-shadow);
-    }
-    .results{
-      flex:1;
-    }
+            /* Spacing */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
 
-    /* Grid */
-    .grid{
-      display:grid;
-      gap:18px;
-      grid-template-columns:repeat(3, 1fr);
-    }
-    .card{
-      background:#fff;border-radius:12px;padding:12px;box-shadow:var(--card-shadow);
-      display:flex;flex-direction:column;gap:10px;transition:transform var(--transition),box-shadow var(--transition);
-      cursor:pointer;
-    }
-    .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(16,20,24,0.08)}
-    .card .imgwrap{
-      aspect-ratio:1/1;padding:8px;border-radius:10px;overflow:hidden;display:grid;place-items:center;background:linear-gradient(180deg,#fbfbfb,#f4f4f4);
-      position:relative;
-    }
-    .card img{
-      max-width:100%;max-height:100%;object-fit:contain;display:block;transition:filter 400ms ease, transform 400ms ease;
-      transform-origin:center center;
-    }
-    /* blur-up placeholder while image loads */
-    .img-placeholder{
-      filter:blur(10px) saturate(.9) contrast(.9);
-      transform:scale(1.03);
-      transition:filter 500ms var(--transition), transform 500ms var(--transition);
-    }
-    .img-ready{filter:blur(0) saturate(1) contrast(1);transform:scale(1)}
-    .meta{font-size:13px;color:var(--muted)}
-    .title{font-weight:600}
+            /* Border Radius */
+            --border-radius-sm: 4px;
+            --border-radius-md: 8px;
 
-    /* Card actions row */
-    .row{display:flex;align-items:center;justify-content:space-between;gap:8px}
-    .price{font-weight:700}
-    .pill{padding:6px 8px;border-radius:999px;border:1px solid rgba(0,0,0,0.06);font-size:13px}
+            /* Transitions */
+            --transition-speed: 0.3s;
+            --transition-ease: ease-in-out;
+        }
 
-    /* Modal overlay */
-    .overlay{
-      position:fixed;inset:0;background:rgba(7,7,8,0.5);display:none;place-items:center;padding:24px;z-index:60;
-    }
-    .overlay[aria-hidden="false"]{display:grid}
-    .modal{
-      width:100%;max-width:980px;background:#fff;border-radius:16px;padding:18px;box-shadow:0 28px 80px rgba(14,18,20,0.6);
-      display:grid;grid-template-columns:1fr 360px;gap:18px;max-height:92vh;overflow:auto;
-    }
-    .modal .carousel{background:var(--surface);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px}
-    .carousel .big{
-      aspect-ratio:1/1;border-radius:12px;overflow:hidden;display:grid;place-items:center;background:#fff;
-    }
-    .carousel .thumbs{display:flex;gap:8px;overflow:auto;padding-bottom:6px}
-    .modal .meta-table{background:#fff;padding:12px;border-radius:12px;box-shadow:var(--card-shadow)}
+        /* Base Styles & Typography */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    /* Filters UI */
-    .facet{display:flex;flex-direction:column;gap:8px}
-    .chips{display:flex;flex-wrap:wrap;gap:8px}
-    .chip{padding:6px 10px;border-radius:999px;border:1px solid rgba(0,0,0,0.06);cursor:pointer}
-    .chip.active{background:var(--accent);color:#fff;border-color:transparent;box-shadow:0 8px 20px rgba(27,90,70,0.08)}
-    .small{font-size:12px;color:var(--muted)}
+        html {
+            scroll-behavior: smooth;
+        }
 
-    /* Footer */
-    footer{margin-top:40px;padding:28px 24px;background:linear-gradient(180deg, #fbfbfb, #fff);border-top:1px solid rgba(0,0,0,0.04)}
-    .footer-grid{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+        body {
+            font-family: var(--font-body);
+            line-height: 1.6;
+            color: var(--color-primary);
+            background-color: var(--color-secondary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
 
-    /* Responsive breakpoints */
-    @media (max-width:1200px){
-      .wrap{padding:18px}
-      .grid{grid-template-columns:repeat(2,1fr)}
-      .controls{flex-direction:column}
-      .filters{width:100%}
-      .modal{grid-template-columns:1fr}
-    }
-    @media (max-width:900px){
-      .grid{grid-template-columns:repeat(1,1fr)}
-      header.site-header{flex-direction:column;align-items:flex-start;gap:12px}
-      .actions{width:100%;justify-content:space-between}
-    }
-    @media (max-width:600px){
-      .brand h1{font-size:16px}
-      .search-bar{min-width:unset;width:100%}
-      .modal{padding:12px}
-      .modal .thumbs{gap:6px}
-    }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 500;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-primary);
+        }
 
-    /* utility */
-    .muted{color:var(--muted)}
-    .center{display:grid;place-items:center}
-    .sr-only{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
-    .hidden{display:none}
+        h1 { font-size: 3rem; line-height: 1.1; }
+        h2 { font-size: 2.2rem; line-height: 1.2; }
+        h3 { font-size: 1.8rem; line-height: 1.3; }
+        h4 { font-size: 1.5rem; line-height: 1.4; }
+        p { margin-bottom: var(--spacing-sm); }
 
-    /* small forms */
-    input[type="range"]{width:100%}
-    .sortbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    .filters-summary{display:flex;gap:8px;flex-wrap:wrap}
-    .filter-pill{background:#fff;padding:6px 8px;border-radius:999px;border:1px solid rgba(0,0,0,0.06);display:flex;gap:8px;align-items:center}
+        a {
+            color: var(--color-primary);
+            text-decoration: none;
+            transition: color var(--transition-speed) var(--transition-ease);
+        }
 
-  </style>
+        a:hover, a:focus {
+            color: var(--color-accent);
+        }
 
-  <!-- Analytics placeholder (commented) -->
-  <!--
-  <script>
-    // Google Analytics / Tag Manager placeholder:
-    // Insert your GA or GTM snippet here.
-  </script>
-  -->
+        /* Utility Classes */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
 
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        /* Buttons */
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .button-primary, .button-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius-sm);
+            font-family: var(--font-body);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all var(--transition-speed) var(--transition-ease);
+        }
+
+        .button-primary {
+            background-color: var(--color-primary);
+            color: var(--color-secondary);
+            border: 1px solid var(--color-primary);
+        }
+
+        .button-primary:hover, .button-primary:focus {
+            background-color: var(--color-accent);
+            border-color: var(--color-accent);
+            color: var(--color-white);
+        }
+
+        .button-secondary {
+            background-color: transparent;
+            color: var(--color-primary);
+            border: 1px solid var(--color-primary);
+        }
+
+        .button-secondary:hover, .button-secondary:focus {
+            background-color: var(--color-primary);
+            color: var(--color-secondary);
+        }
+
+        .icon-button {
+            padding: var(--spacing-xs);
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            transition: color var(--transition-speed) var(--transition-ease);
+        }
+
+        .icon-button:hover, .icon-button:focus {
+            color: var(--color-accent);
+        }
+
+        /* Forms */
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-sm);
+            background-color: var(--color-secondary);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--color-primary);
+            transition: border-color var(--transition-speed) var(--transition-ease),
+                        box-shadow var(--transition-speed) var(--transition-ease);
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="number"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 2px rgba(178, 143, 106, 0.2); /* Soft focus ring */
+        }
+
+        label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: var(--spacing-md);
+        }
+
+        /* Header */
+        .main-header {
+            background-color: var(--color-secondary);
+            border-bottom: 1px solid var(--color-border);
+            padding: var(--spacing-sm) var(--spacing-md);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--color-primary);
+        }
+
+        .main-nav .nav-links {
+            list-style: none;
+            display: flex;
+            gap: var(--spacing-xl);
+        }
+
+        .main-nav .nav-links a {
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+        }
+
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .search-container input {
+            border: none;
+            border-bottom: 1px solid var(--color-border);
+            background-color: transparent;
+            padding: 0.5rem var(--spacing-md) 0.5rem var(--spacing-xs);
+            font-size: 1rem;
+            width: 150px;
+            transition: width var(--transition-speed) var(--transition-ease);
+        }
+        .search-container input:focus {
+            width: 200px; /* Expand on focus */
+            border-color: var(--color-primary);
+            box-shadow: none;
+        }
+        .search-container .icon-button {
+            position: absolute;
+            right: 0;
+            font-size: 1.2rem;
+        }
+
+        .cart-count {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-accent);
+            color: var(--color-white);
+            border-radius: 50%;
+            min-width: 1.2em;
+            height: 1.2em;
+            font-size: 0.75rem;
+            margin-left: -5px; /* Overlap with icon */
+        }
+        .menu-toggle { display: none; } /* Hidden on desktop */
+
+        /* Main Content & Shop Layout */
+        .shop-page {
+            display: flex;
+            max-width: 1600px;
+            margin: var(--spacing-lg) auto;
+            gap: var(--spacing-xl);
+            padding: 0 var(--spacing-md);
+        }
+
+        .sidebar {
+            flex: 0 0 280px; /* Fixed width sidebar for desktop */
+            padding: var(--spacing-md);
+            background-color: var(--color-white);
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: transform var(--transition-speed) var(--transition-ease), opacity var(--transition-speed) var(--transition-ease);
+        }
+
+        .sidebar h2, .sidebar h3 {
+            font-size: 1.4rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .filter-group {
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--color-border);
+        }
+        .filter-group:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+        }
+
+        .tag {
+            background-color: var(--color-border);
+            color: var(--color-primary);
+            padding: 0.4rem 0.8rem;
+            border-radius: var(--border-radius-sm);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color var(--transition-speed) var(--transition-ease), color var(--transition-speed) var(--transition-ease);
+            border: 1px solid var(--color-border);
+        }
+
+        .tag:hover, .tag.active {
+            background-color: var(--color-primary);
+            color: var(--color-secondary);
+        }
+        .tag.active {
+            border-color: var(--color-primary);
+        }
+        .tag .count {
+            font-size: 0.8em;
+            margin-left: 0.3em;
+            opacity: 0.8;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: var(--spacing-xs);
+            cursor: pointer;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: var(--spacing-xs);
+            accent-color: var(--color-primary); /* Style checkbox itself */
+        }
+
+        /* Range Sliders (Custom Styling) */
+        .range-slider-group {
+            position: relative;
+            margin-top: var(--spacing-md);
+        }
+        .range-slider {
+            width: 100%;
+            height: 2px;
+            background-color: var(--color-border);
+            margin-top: var(--spacing-md);
+            position: relative;
+            z-index: 1;
+        }
+        .range-slider input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 2px;
+            background: transparent;
+            position: absolute;
+            pointer-events: none; /* Make inputs only visible for focus/active states */
+        }
+
+        .range-slider input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            cursor: grab;
+            margin-top: -8px; /* Center thumb on track */
+            pointer-events: all;
+            border: 2px solid var(--color-white);
+            transition: background-color var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease);
+        }
+        .range-slider input[type="range"]::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            cursor: grab;
+            margin-top: -8px;
+            pointer-events: all;
+            border: 2px solid var(--color-white);
+            transition: background-color var(--transition-speed) var(--transition-ease), border-color var(--transition-speed) var(--transition-ease);
+        }
+        .range-slider input[type="range"]::-webkit-slider-thumb:hover,
+        .range-slider input[type="range"]::-moz-range-thumb:hover {
+            background-color: var(--color-accent);
+        }
+
+        .range-values {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-sm);
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+        }
+        .range-values span {
+            font-weight: 500;
+            color: var(--color-primary);
+        }
+        /* Highlight the track between thumbs */
+        .range-track-active {
+            position: absolute;
+            height: 2px;
+            background-color: var(--color-primary);
+            z-index: 2;
+        }
+
+        .clear-filters-btn {
+            background-color: transparent;
+            border: 1px solid var(--color-primary);
+            color: var(--color-primary);
+            width: 100%;
+            padding: 0.6rem;
+            border-radius: var(--border-radius-sm);
+            margin-top: var(--spacing-lg);
+            font-size: 0.9rem;
+            transition: all var(--transition-speed) var(--transition-ease);
+        }
+        .clear-filters-btn:hover {
+            background-color: var(--color-primary);
+            color: var(--color-secondary);
+        }
+
+        .product-listing {
+            flex: 1;
+            padding: var(--spacing-md);
+            background-color: var(--color-white);
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .shop-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--color-border);
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+
+        .active-filters-summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+        }
+        .active-filter-tag {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+            padding: 0.3rem 0.6rem;
+            border-radius: var(--border-radius-sm);
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+        }
+        .active-filter-tag button {
+            background: none;
+            border: none;
+            color: var(--color-white);
+            margin-left: var(--spacing-xs);
+            cursor: pointer;
+            font-size: 0.9em;
+            opacity: 0.8;
+            transition: opacity var(--transition-speed) var(--transition-ease);
+        }
+        .active-filter-tag button:hover {
+            opacity: 1;
+        }
+
+        .sort-options select {
+            border: 1px solid var(--color-border);
+            padding: 0.5rem;
+            border-radius: var(--border-radius-sm);
+            background-color: var(--color-secondary);
+            cursor: pointer;
+        }
+        .sort-options select:focus {
+            border-color: var(--color-accent);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+        }
+
+        .product-card {
+            background-color: var(--color-white);
+            border: 1px solid var(--color-border);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: transform var(--transition-speed) var(--transition-ease), box-shadow var(--transition-speed) var(--transition-ease);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card .image-container {
+            width: 100%;
+            aspect-ratio: 1/1; /* Square images */
+            overflow: hidden;
+            position: relative;
+            background-color: #f0f0f0; /* Placeholder background */
+        }
+        .product-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity var(--transition-speed) var(--transition-ease);
+            display: block; /* Remove extra space below image */
+        }
+        /* Image loading skeleton effect */
+        .product-card img:not([src]) {
+            opacity: 0;
+        }
+        .product-card .image-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            transform: translateX(-100%);
+            animation: shimmer 1.5s infinite;
+        }
+        .product-card img[src] + .image-container::after {
+             animation: none; /* Stop shimmer when image loads */
+             display: none;
+        }
+
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+
+        .product-card-info {
+            padding: var(--spacing-md);
+            text-align: left;
+            flex-grow: 1; /* Allow info section to take available space */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card-title {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: var(--spacing-xs);
+            height: 3.2em; /* Ensure consistent height for titles over 2 lines */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .product-card-meta {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .product-card-price {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-top: auto; /* Push price to the bottom */
+        }
+
+        .product-card-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--spacing-xs);
+            margin-top: var(--spacing-md);
+            padding-top: var(--spacing-sm);
+            border-top: 1px solid var(--color-border);
+        }
+        .product-card-actions .button-primary,
+        .product-card-actions .button-secondary {
+            flex: 1;
+            padding: 0.6rem;
+            font-size: 0.9rem;
+        }
+        .product-card-actions .button-secondary {
+            border: 1px solid var(--color-text-light);
+            color: var(--color-text-light);
+        }
+        .product-card-actions .button-secondary:hover {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+            background-color: transparent;
+        }
+
+        .loading-message, .no-results-message {
+            grid-column: 1 / -1; /* Span all columns */
+            text-align: center;
+            padding: var(--spacing-xl);
+            font-size: 1.2rem;
+            color: var(--color-text-light);
+        }
+
+        /* Modals */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s var(--transition-speed), opacity var(--transition-speed) var(--transition-ease);
+        }
+
+        .modal.is-open {
+            visibility: visible;
+            opacity: 1;
+            transition-delay: 0s;
+        }
+
+        .modal-content {
+            background-color: var(--color-secondary);
+            border-radius: var(--border-radius-md);
+            max-width: 900px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            padding: var(--spacing-lg);
+            transform: translateY(20px);
+            transition: transform var(--transition-speed) var(--transition-ease);
+        }
+
+        .modal.is-open .modal-content {
+            transform: translateY(0);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: var(--spacing-md);
+            right: var(--spacing-md);
+            font-size: 2rem;
+            z-index: 1;
+            color: var(--color-primary);
+        }
+
+        .modal-body {
+            display: flex;
+            gap: var(--spacing-xl);
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+
+        .product-images {
+            flex: 1 1 40%; /* Take 40% width, flexible */
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .product-images .main-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: var(--border-radius-sm);
+            margin-bottom: var(--spacing-md);
+            border: 1px solid var(--color-border);
+        }
+
+        .image-carousel-nav {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: var(--spacing-sm);
+            gap: var(--spacing-sm);
+        }
+        .image-carousel-nav button {
+            background-color: var(--color-border);
+            color: var(--color-primary);
+            border-radius: var(--border-radius-sm);
+            padding: 0.5rem 1rem;
+            font-size: 1.2rem;
+            transition: background-color var(--transition-speed) var(--transition-ease), color var(--transition-speed) var(--transition-ease);
+        }
+        .image-carousel-nav button:hover {
+            background-color: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        .thumbnail-nav {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+        }
+
+        .thumbnail-nav .thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border: 2px solid var(--color-border);
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            transition: border-color var(--transition-speed) var(--transition-ease);
+        }
+
+        .thumbnail-nav .thumbnail.active,
+        .thumbnail-nav .thumbnail:hover {
+            border-color: var(--color-accent);
+        }
+
+        .product-info {
+            flex: 1 1 50%; /* Take 50% width, flexible */
+            min-width: 280px;
+        }
+
+        .product-info h2 {
+            font-size: 2rem;
+            margin-bottom: var(--spacing-sm);
+            color: var(--color-primary);
+        }
+
+        .product-info .product-price {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--color-accent);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .product-description {
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.7;
+            color: var(--color-text-light);
+        }
+
+        .product-metadata {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .product-metadata th, .product-metadata td {
+            text-align: left;
+            padding: 0.6rem 0;
+            border-bottom: 1px dashed var(--color-border);
+        }
+
+        .product-metadata th {
+            font-weight: 600;
+            width: 30%;
+            color: var(--color-primary);
+        }
+
+        .product-metadata td {
+            color: var(--color-text-light);
+        }
+        .product-metadata tr:last-child th, .product-metadata tr:last-child td {
+            border-bottom: none;
+        }
+
+        .add-to-cart-btn, .add-to-wishlist-btn {
+            width: 100%;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        /* Cart Sidebar */
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 350px; /* Fixed width for cart */
+            z-index: 250;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            transform: translateX(100%);
+            transition: transform var(--transition-speed) var(--transition-ease);
+            display: flex;
+            flex-direction: column;
+            background-color: var(--color-secondary);
+            border-radius: 0; /* Remove border-radius on fixed side panel */
+        }
+        .cart-panel.is-open {
+            transform: translateX(0);
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: var(--spacing-md);
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: var(--spacing-md);
+        }
+        .cart-header h2 {
+            margin-bottom: 0;
+        }
+
+        .cart-items {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: var(--spacing-sm); /* For scrollbar */
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 1px dashed var(--color-border);
+        }
+        .cart-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .cart-item-image {
+            width: 70px;
+            height: 70px;
+            object-fit: cover;
+            border-radius: var(--border-radius-sm);
+            border: 1px solid var(--color-border);
+        }
+
+        .cart-item-details {
+            flex-grow: 1;
+        }
+        .cart-item-details h4 {
+            font-size: 1rem;
+            margin-bottom: var(--spacing-xs);
+        }
+        .cart-item-details .price {
+            font-weight: 600;
+            color: var(--color-accent);
+            margin-right: var(--spacing-sm);
+        }
+        .cart-item-details .quantity {
+            font-size: 0.9rem;
+            color: var(--color-text-light);
+        }
+        .cart-item-details input[type="number"] {
+            width: 60px;
+            padding: 0.3rem;
+            font-size: 0.9rem;
+            height: auto;
+        }
+
+        .remove-from-cart {
+            font-size: 1.5rem;
+            color: var(--color-text-light);
+        }
+        .remove-from-cart:hover {
+            color: var(--color-error);
+        }
+
+        .empty-cart-message {
+            text-align: center;
+            color: var(--color-text-light);
+            padding: var(--spacing-lg);
+        }
+
+        .cart-summary {
+            margin-top: var(--spacing-md);
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--color-border);
+        }
+        .cart-summary p {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-xs);
+        }
+        .cart-summary .cart-total {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-top: var(--spacing-sm);
+            padding-top: var(--spacing-sm);
+            border-top: 1px solid var(--color-border);
+        }
+        .cart-summary .checkout-btn {
+            width: 100%;
+            margin-top: var(--spacing-md);
+        }
+        .cart-disclaimer {
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            text-align: center;
+            margin-top: var(--spacing-sm);
+        }
+
+        /* Checkout Page (Mock) */
+        .checkout-page {
+            max-width: 700px;
+            margin: var(--spacing-xl) auto;
+            padding: var(--spacing-xl);
+            background-color: var(--color-white);
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            display: none; /* Hidden by default, shown by JS */
+        }
+        .checkout-page h1 {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+        .checkout-page h2 {
+            margin-top: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
+            padding-bottom: var(--spacing-sm);
+            border-bottom: 1px solid var(--color-border);
+        }
+        .checkout-page .place-order-btn,
+        .checkout-page .back-to-shop-btn {
+            width: 100%;
+            margin-top: var(--spacing-md);
+        }
+
+        /* Footer */
+        .main-footer {
+            background-color: var(--color-primary);
+            color: var(--color-secondary);
+            padding: var(--spacing-xl) var(--spacing-md);
+            margin-top: var(--spacing-xl);
+            font-size: 0.95rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-xl);
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .footer-section h3 {
+            color: var(--color-secondary);
+            margin-bottom: var(--spacing-md);
+            font-size: 1.1rem;
+            font-family: var(--font-body); /* For footer headings */
+            font-weight: 600;
+        }
+
+        .footer-section p {
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .footer-section a {
+            color: var(--color-secondary);
+            display: block;
+            margin-bottom: var(--spacing-xs);
+        }
+        .footer-section a:hover {
+            color: var(--color-accent);
+        }
+
+        .newsletter-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+        .newsletter-form input {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--color-white);
+            padding: 0.8rem;
+        }
+        .newsletter-form input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        .newsletter-form button {
+            background-color: var(--color-accent);
+            color: var(--color-white);
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--border-radius-sm);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: background-color var(--transition-speed) var(--transition-ease);
+        }
+        .newsletter-form button:hover {
+            background-color: var(--color-secondary);
+            color: var(--color-primary);
+        }
+
+        .social-icons a {
+            display: inline-block;
+            margin-right: var(--spacing-sm);
+            font-size: 1.5rem;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: var(--spacing-xl);
+            padding-top: var(--spacing-md);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Backdrop for modals/sidebars */
+        .backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 199; /* Below modals, above content */
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity var(--transition-speed) var(--transition-ease);
+        }
+        .backdrop.is-open {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        /* Media Queries for Responsiveness */
+
+        /* Tablet Large - 900px to 1200px */
+        @media (max-width: 1200px) {
+            .shop-page {
+                gap: var(--spacing-md);
+            }
+            .sidebar {
+                flex-basis: 250px;
+            }
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            .main-nav .nav-links {
+                gap: var(--spacing-lg);
+            }
+            .header-content {
+                max-width: 1200px;
+            }
+        }
+
+        /* Tablet Small / Mobile Landscape - 600px to 900px */
+        @media (max-width: 900px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 1.8rem; }
+            h3 { font-size: 1.5rem; }
+
+            .main-nav { display: none; } /* Hide main nav on smaller screens */
+            .search-container input { width: 120px; }
+            .search-container input:focus { width: 180px; }
+            .menu-toggle { display: block; }
+
+            .shop-page {
+                flex-direction: column; /* Stack filters and products */
+                margin-top: var(--spacing-md);
+                gap: var(--spacing-lg);
+            }
+            .sidebar {
+                width: 100%;
+                flex-basis: auto;
+                max-width: 100%; /* For smaller tablets */
+            }
+            .product-listing {
+                padding: var(--spacing-sm);
+            }
+            .product-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: var(--spacing-md);
+            }
+            .product-card-title {
+                font-size: 1.2rem;
+            }
+            .product-card-price {
+                font-size: 1.3rem;
+            }
+
+            .modal-content {
+                max-width: 95%;
+                width: 95%;
+                padding: var(--spacing-md);
+            }
+            .modal-body {
+                flex-direction: column;
+                gap: var(--spacing-md);
+            }
+            .product-info {
+                min-width: unset;
+            }
+            .product-images {
+                min-width: unset;
+                order: -1; /* Image section first */
+            }
+            .cart-panel {
+                width: 300px;
+            }
+        }
+
+        /* Mobile - Less than 600px */
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.6rem; }
+            h3 { font-size: 1.3rem; }
+
+            .header-content {
+                padding: var(--spacing-xs) var(--spacing-sm);
+            }
+            .logo {
+                font-size: 1.5rem;
+            }
+            .search-container input {
+                width: 80px;
+                padding: 0.3rem 0.5rem;
+                font-size: 0.9rem;
+            }
+            .search-container input:focus {
+                width: 150px;
+            }
+            .header-actions {
+                gap: var(--spacing-xs);
+            }
+            .icon-button {
+                font-size: 1.3rem;
+            }
+            .cart-count {
+                min-width: 1.1em;
+                height: 1.1em;
+                font-size: 0.7rem;
+            }
+
+            .shop-page {
+                padding: var(--spacing-sm);
+                margin: var(--spacing-md) auto;
+            }
+
+            .sidebar {
+                padding: var(--spacing-sm);
+            }
+
+            .shop-toolbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--spacing-sm);
+                margin-bottom: var(--spacing-md);
+            }
+            .sort-options {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .sort-options select {
+                flex: 1;
+                margin-left: var(--spacing-sm);
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr; /* Single column on very small screens */
+                gap: var(--spacing-md);
+            }
+            .product-card-info {
+                padding: var(--spacing-sm);
+            }
+            .product-card-title {
+                font-size: 1.1rem;
+            }
+            .product-card-price {
+                font-size: 1.2rem;
+            }
+            .product-card-actions {
+                flex-direction: column;
+                gap: var(--spacing-xs);
+            }
+
+            .modal-content {
+                padding: var(--spacing-sm);
+                max-height: 95vh;
+            }
+            .close-modal {
+                font-size: 1.5rem;
+                top: var(--spacing-xs);
+                right: var(--spacing-xs);
+            }
+            .product-info h2 {
+                font-size: 1.5rem;
+            }
+            .product-info .product-price {
+                font-size: 1.4rem;
+            }
+            .product-images .main-image {
+                max-height: 250px;
+            }
+            .thumbnail-nav .thumbnail {
+                width: 60px;
+                height: 60px;
+            }
+
+            .cart-panel {
+                width: 100%; /* Full width cart on mobile */
+                border-radius: 0;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-lg);
+            }
+            .newsletter-form button {
+                width: auto; /* Revert button width */
+            }
+        }
+    </style>
 </head>
 <body>
-  <div id="app" class="wrap" role="application" aria-label="Rare Pendants shop">
+    <!-- Google Analytics/Tag Manager Placeholder -->
+    <!--
+    <script async src="https://www.googletagmanager.com/gtag/js?id=YOUR_GA_TRACKING_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'YOUR_GA_TRACKING_ID');
+    </script>
+    -->
 
-    <header class="site-header" role="banner">
-      <a href="#" class="brand" aria-label="Rare Pendants home">
-        <div class="logo" aria-hidden="true">RP</div>
-        <div>
-          <h1>Rare Pendants</h1>
-          <p class="muted">Curated vintage &amp; souvenir pendants</p>
+    <!-- Backdrop overlay for modals and off-canvas elements -->
+    <div class="backdrop" id="backdrop" aria-hidden="true"></div>
+
+    <header class="main-header">
+        <div class="header-content">
+            <a href="#" class="logo">The Heritage Trove</a>
+            <nav class="main-nav" aria-label="Main navigation">
+                <ul class="nav-links">
+                    <li><a href="#">Shop</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Search..." aria-label="Search products by keyword">
+                    <button class="icon-button" aria-label="Initiate search">🔍</button>
+                </div>
+                <button class="icon-button" aria-label="View Wishlist">♡ <span class="wishlist-count sr-only">(0 items)</span></button>
+                <button class="icon-button cart-toggle" aria-label="View shopping cart">🛒 <span class="cart-count" aria-live="polite">0</span></button>
+                <button class="menu-toggle icon-button" aria-label="Toggle navigation menu">☰</button>
+            </div>
         </div>
-      </a>
-
-      <div class="actions" role="region" aria-label="site actions">
-        <div class="search-bar" id="global-search" role="search" aria-label="Search pendants">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35" stroke="#6b6b6b" stroke-width="1.6" stroke-linecap="round"/></svg>
-          <input id="searchInput" type="search" placeholder="Search (e.g. 'Bronze bear Yellowstone 1920')" aria-label="Search products" />
-          <div class="small muted" id="search-hint">press '/' to focus</div>
-        </div>
-
-        <button class="icon-btn" id="wishlistBtn" title="Wishlist (0)" aria-label="Wishlist" aria-pressed="false">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s-7-4.8-9-8.2C1.8 8.9 5.1 4 9.6 6.1 11 7 12 8.1 12 8.1s1-.9 2.4-2 7.8 2.9 6.6 6.7c-2 3.4-9 8.2-9 8.2z" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/></svg>
-        </button>
-
-        <button class="icon-btn" id="cartBtn" aria-label="Shopping cart" title="Cart (0)">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6h15l-2 10H8L6 6z" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/></svg>
-          <span id="cartCount" class="badge" aria-live="polite">0</span>
-        </button>
-      </div>
     </header>
 
-    <main>
-      <div class="controls" role="region" aria-label="Search and filter controls">
-        <aside class="filters" aria-label="Filters">
-          <div class="panel" aria-hidden="false">
-            <div style="display:flex;justify-content:space-between;align-items:center">
-              <strong>Filters</strong>
-              <button id="clearAllFilters" class="small" aria-label="Clear all filters">Clear</button>
+    <main class="shop-page">
+        <aside class="sidebar filters-panel" id="filters-panel" aria-label="Product filters and sorting">
+            <h2>Filters</h2>
+            <div class="filter-group quick-filters">
+                <h3>Quick Filters</h3>
+                <div id="quick-filters-container" class="tags-container" role="group" aria-label="Popular filter tags">
+                    <!-- Quick filter buttons dynamically generated here -->
+                </div>
             </div>
-            <div style="margin-top:10px" class="small muted">Active filters:</div>
-            <div class="filters-summary" id="activeFilters"></div>
-          </div>
 
-          <div class="panel" id="facet-tags">
-            <strong>Quick filters</strong>
-            <div class="chips" id="tagCloud" aria-label="Tag cloud quick filters" role="list"></div>
-          </div>
-
-          <div class="panel facet" aria-labelledby="facet-country">
-            <strong id="facet-country">Country</strong>
-            <div id="facet-Country" class="chips" role="list"></div>
-          </div>
-
-          <div class="panel facet">
-            <strong>Material</strong>
-            <div id="facet-Material" class="chips"></div>
-          </div>
-
-          <div class="panel facet">
-            <strong>Shape</strong>
-            <div id="facet-Shape" class="chips"></div>
-          </div>
-
-          <div class="panel facet">
-            <strong>Condition</strong>
-            <div id="facet-Condition" class="chips"></div>
-          </div>
-
-          <div class="panel">
-            <strong>Year range</strong>
-            <div class="small muted" id="yearRangeLabel">—</div>
-            <input id="yearMin" type="range" min="1800" max="2025" value="1900" />
-            <input id="yearMax" type="range" min="1800" max="2025" value="2020" />
-          </div>
-
-          <div class="panel">
-            <strong>Price (£)</strong>
-            <div class="small muted" id="priceRangeLabel">—</div>
-            <input id="priceMin" type="range" min="0" max="5000" value="0" />
-            <input id="priceMax" type="range" min="0" max="5000" value="5000" />
-          </div>
-
-          <div class="panel">
-            <strong>Sort</strong>
-            <div class="small muted">Sort by:</div>
-            <select id="sortSelect" aria-label="Sort products">
-              <option value="relevance">Relevance</option>
-              <option value="newest">Newest (Year)</option>
-              <option value="priceAsc">Price: Low → High</option>
-              <option value="priceDesc">Price: High → Low</option>
-              <option value="sizeAsc">Size: Small → Large</option>
-            </select>
-          </div>
+            <!-- Dynamic Filters (Country, Material, Shape, Condition, Year, Price) -->
+            <div id="dynamic-filters-container">
+                <!-- Filter categories will be dynamically injected here -->
+            </div>
+            <button class="clear-filters-btn button-secondary" id="clear-all-filters">Clear All Filters</button>
         </aside>
 
-        <section class="results" aria-live="polite">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-            <div>
-              <div class="small muted" id="resultsCount">Loading products…</div>
-              <div style="font-weight:700;font-size:18px" id="resultsTitle">Discover pendants</div>
+        <section class="product-listing" aria-live="polite" aria-relevant="all">
+            <div class="shop-toolbar">
+                <div class="active-filters-summary" id="active-filters-summary" role="status" aria-label="Currently active filters">
+                    <!-- Active filters tags -->
+                </div>
+                <div class="sort-options">
+                    <label for="sort-by" class="sr-only">Sort by:</label>
+                    <select id="sort-by" aria-label="Sort products by">
+                        <option value="relevance">Relevance</option>
+                        <option value="year-desc">Newest</option>
+                        <option value="price-asc">Price: Low to High</option>
+                        <option value="price-desc">Price: High to Low</option>
+                        <option value="size-asc">Size: Small to Large</option>
+                    </select>
+                </div>
             </div>
-
-            <div class="sortbar">
-              <label class="small muted">Show</label>
-              <select id="perPage">
-                <option>9</option><option>18</option><option>36</option>
-              </select>
+            <div class="product-grid" id="product-grid">
+                <p class="loading-message">Loading vintage treasures, please wait...</p>
             </div>
-          </div>
-
-          <div id="grid" class="grid" role="list" aria-label="Product results"></div>
-
-          <div id="noResults" class="center hidden" style="padding:36px;border-radius:12px;background:#fff;margin-top:18px;box-shadow:var(--card-shadow)">
-            <div>
-              <h3>No results</h3>
-              <p class="muted">Try removing filters, searching different terms, or browsing the tag cloud.</p>
-              <div style="margin-top:12px"><button id="tryClear" class="pill">Clear filters</button></div>
+            <div id="no-results" class="no-results-message" style="display: none;">
+                <p>No pendants found matching your criteria.</p>
+                <p>Try adjusting your filters or <button class="clear-filters-btn" type="button">clearing them</button> to see more items.</p>
             </div>
-          </div>
-
         </section>
-      </div>
     </main>
 
-    <!-- Modal overlay product detail -->
-    <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Product details">
-      <div class="modal" role="document">
-        <div class="carousel">
-          <div class="big" id="modalMainImgWrap">
-            <img id="modalMainImg" src="" alt="" />
-          </div>
-          <div class="thumbs" id="modalThumbs" tabindex="0" aria-label="Image thumbnails"></div>
+    <!-- Product Detail Modal -->
+    <div id="product-detail-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-product-title" aria-hidden="true">
+        <div class="modal-content">
+            <button class="close-modal icon-button" aria-label="Close product details">✕</button>
+            <div class="modal-body">
+                <div class="product-images">
+                    <img src="" alt="Product Image" class="main-image">
+                    <div class="image-carousel-nav">
+                        <button class="prev-img" aria-label="Previous image">‹</button>
+                        <button class="next-img" aria-label="Next image">›</button>
+                    </div>
+                    <div class="thumbnail-nav">
+                        <!-- Thumbnails dynamically generated here -->
+                    </div>
+                </div>
+                <div class="product-info">
+                    <h2 id="modal-product-title"></h2>
+                    <p class="product-price"></p>
+                    <p class="product-description"></p>
+                    <h3>Details</h3>
+                    <table class="product-metadata">
+                        <!-- Metadata rows dynamically generated here -->
+                    </table>
+                    <button class="add-to-cart-btn button-primary">Add to Cart</button>
+                    <button class="add-to-wishlist-btn button-secondary">♡ Add to Wishlist</button>
+                </div>
+            </div>
         </div>
-
-        <aside>
-          <div style="display:flex;justify-content:space-between;align-items:start;gap:8px">
-            <div>
-              <h2 id="modalTitle">Pendant</h2>
-              <div class="small muted" id="modalSubtitle">Short subtitle</div>
-            </div>
-            <div><button id="modalClose" class="icon-btn" aria-label="Close details">✕</button></div>
-          </div>
-
-          <div style="margin-top:12px">
-            <div style="font-size:26px;font-weight:700" id="modalPrice">£0</div>
-            <div class="small muted">Includes placeholder VAT of 20%</div>
-            <div style="margin-top:12px">
-              <button id="addToCartModal" class="pill" style="background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:10px;cursor:pointer">Add to cart</button>
-            </div>
-          </div>
-
-          <div class="meta-table" style="margin-top:12px">
-            <h4>Details</h4>
-            <table id="metaTable" style="width:100%;border-collapse:collapse;font-size:13px">
-              <!-- metadata rows inserted dynamically -->
-            </table>
-          </div>
-
-          <div style="margin-top:12px" id="modalDesc">
-            <!-- placeholder description -->
-          </div>
-        </aside>
-      </div>
     </div>
 
-    <!-- Cart drawer simplified -->
-    <div id="cartDrawer" style="position:fixed;right:18px;bottom:18px;background:#fff;border-radius:12px;padding:12px;box-shadow:0 18px 40px rgba(0,0,0,0.12);min-width:320px;display:none;z-index:50">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <strong>Your cart</strong>
-        <button id="closeCart" class="icon-btn" aria-label="Close cart">✕</button>
-      </div>
-      <div id="cartItems" style="margin-top:12px;max-height:260px;overflow:auto"></div>
-      <div style="margin-top:12px;border-top:1px dashed rgba(0,0,0,0.06);padding-top:12px">
-        <div style="display:flex;justify-content:space-between"><div>Subtotal</div><div id="cartSubtotal">£0</div></div>
-        <div style="display:flex;justify-content:space-between"><div>VAT (20%)</div><div id="cartVAT">£0</div></div>
-        <div style="display:flex;justify-content:space-between;font-weight:700"><div>Total</div><div id="cartTotal">£0</div></div>
-        <div style="margin-top:12px;display:flex;gap:8px">
-          <button id="checkoutBtn" class="pill" style="flex:1;background:var(--accent);color:#fff;border:none">Checkout</button>
-          <button id="clearCart" class="pill" style="flex:1">Clear</button>
+    <!-- Cart Sidebar/Modal -->
+    <div id="cart-sidebar" class="sidebar cart-panel" role="dialog" aria-modal="true" aria-labelledby="cart-title" aria-hidden="true">
+        <div class="cart-header">
+            <h2 id="cart-title">Your Cart</h2>
+            <button class="close-cart icon-button" aria-label="Close cart">✕</button>
         </div>
-      </div>
+        <div class="cart-items" id="cart-items">
+            <p class="empty-cart-message">Your cart is empty.</p>
+        </div>
+        <div class="cart-summary">
+            <p>Subtotal: <span id="cart-subtotal">£0.00</span></p>
+            <p>VAT (20% est.): <span id="cart-vat">£0.00</span></p>
+            <p class="cart-total">Total: <span id="cart-total">£0.00</span></p>
+            <button class="checkout-btn button-primary">Proceed to Checkout</button>
+            <p class="cart-disclaimer">Shipping calculated at checkout.</p>
+        </div>
     </div>
 
-    <footer role="contentinfo">
-      <div class="footer-grid">
-        <div>
-          <strong>Rare Pendants</strong>
-          <p class="small muted">Curated collection — small-batch vintage pendants.</p>
-          <p class="small">Contact: hello@rarependants.example</p>
-        </div>
-        <div>
-          <strong>Newsletter</strong>
-          <form id="newsletter" onsubmit="return false;" style="display:flex;gap:8px;margin-top:8px">
-            <input type="email" id="newsletterEmail" placeholder="email@example.com" style="padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)" required />
-            <button class="pill" style="background:var(--accent);color:#fff;border:none">Subscribe</button>
-          </form>
-          <div style="margin-top:8px" class="small muted">We send occasional rare finds and restocks.</div>
-        </div>
-        <div>
-          <strong>Shipping & returns</strong>
-          <p class="small muted">Standard shipping 3–8 business days. Returns accepted within 14 days.</p>
-        </div>
-      </div>
+    <!-- Checkout Mockup (in-page) -->
+    <section id="checkout-page" class="checkout-page" style="display: none;" aria-labelledby="checkout-title">
+        <h1 id="checkout-title">Checkout</h1>
+        <form class="checkout-form">
+            <h2>Shipping Information</h2>
+            <div class="form-group">
+                <label for="full-name">Full Name</label>
+                <input type="text" id="full-name" required aria-required="true" autocomplete="name">
+            </div>
+            <div class="form-group">
+                <label for="address-line1">Address Line 1</label>
+                <input type="text" id="address-line1" required aria-required="true" autocomplete="street-address">
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" required aria-required="true" autocomplete="address-level2">
+            </div>
+            <div class="form-group">
+                <label for="postcode">Postcode</label>
+                <input type="text" id="postcode" required aria-required="true" autocomplete="postal-code">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" required aria-required="true" autocomplete="email">
+            </div>
+            <h2>Payment (Mock)</h2>
+            <p>Payment processing is simulated. No real transactions occur.</p>
+            <button type="submit" class="button-primary place-order-btn">Place Order (Mock)</button>
+            <button type="button" class="button-secondary back-to-shop-btn">Continue Shopping</button>
+        </form>
+    </section>
 
-      <div style="margin-top:18px;border-top:1px solid rgba(0,0,0,0.04);padding-top:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap">
-        <div class="small muted">© <span id="yearNow"></span> Rare Pendants — All rights reserved</div>
-        <div style="display:flex;gap:12px;align-items:center">
-          <a href="#" class="small muted">Privacy</a>
-          <a href="#" class="small muted">Terms</a>
+    <footer class="main-footer">
+        <div class="footer-grid">
+            <div class="footer-section contact-info">
+                <h3>Contact Us</h3>
+                <p>Email: <a href="mailto:info@heritagetrove.com">info@heritagetrove.com</a></p>
+                <p>Phone: +44 123 456 7890</p>
+            </div>
+            <div class="footer-section newsletter-signup">
+                <h3>Stay Connected</h3>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Your email address" aria-label="Enter email for newsletter">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+            <div class="footer-section social-media">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#" aria-label="Visit us on Facebook">FB</a>
+                    <a href="#" aria-label="Visit us on Instagram">IG</a>
+                    <a href="#" aria-label="Visit us on Pinterest">PI</a>
+                </div>
+            </div>
+            <div class="footer-section legal-links">
+                <h3>Information</h3>
+                <ul>
+                    <li><a href="#">Shipping & Returns</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
         </div>
-      </div>
+        <div class="copyright">
+            <p>&copy; 2023 The Heritage Trove. All rights reserved.</p>
+        </div>
     </footer>
 
-  </div>
-
-  <!-- Main JS — all vanilla, no external libs -->
-  <script>
-    /************************************************************************
-     * Rare Pendants — single-file prototype
-     *
-     * Key decisions / notes:
-     * - CSV is fetched from the provided public URL; response is cached in sessionStorage
-     * - If fetch fails (CORS or network), a small fallback dataset will be used and a friendly message shown
-     * - Fuzzy search: simple tokenized fuzzy scoring (no external lib) — good for demo and fast on small datasets.
-     * - Image lazy-load + blur-up: images start with tiny inline SVG placeholder, then real src in data-src; when they load we remove blur.
-     * - Accessibility: modal traps focus minimally, ARIA labels, keyboard shortcuts: '/' focuses search, Esc closes modal/drawer
-     * - To change fonts/colors: update the root CSS variables near top of file, and the Google Fonts link.
-     ************************************************************************/
-
-
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-<script>
-const CORS_PROXY = "https://cors.isomorphic-git.org/";
-const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnfNO_iKVoyd-PW7vMXMaPaArLZWHVLXF_kGLwSWADIQBA_NEp2fFksheh4y-BBPk7kgkV8hwK6T9n/pub?output=csv";
-
-
-    (function(){
-      // ---------- Configuration ----------
-      const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSnfNO_iKVoyd-PW7vMXMaPaArLZWHVLXF_kGLwSWADIQBA_NEp2fFksheh4y-BBPk7kgkV8hwK6T9n/pub?output=csv';
-      const CACHE_KEY = 'rp_csv_cache_v1';
-      const CACHE_TTL_MS = 1000 * 60 * 60 * 24; // 24h caching in session
-      const FALLBACK_NOTICE = 'Could not fetch the live CSV (CORS or network issue). Using local fallback data. If you control the document, enable "Publish to web" and ensure CORS is allowed.';
-      const DEFAULT_PER_PAGE = 9;
-      const VAT_RATE = 0.2; // placeholder VAT
-      // ---------- DOM refs ----------
-      const grid = document.getElementById('grid');
-      const resultsCount = document.getElementById('resultsCount');
-      const resultsTitle = document.getElementById('resultsTitle');
-      const noResults = document.getElementById('noResults');
-      const tryClear = document.getElementById('tryClear');
-      const searchInput = document.getElementById('searchInput');
-      const perPageSelect = document.getElementById('perPage');
-      const cartBtn = document.getElementById('cartBtn');
-      const cartCount = document.getElementById('cartCount');
-      const cartDrawer = document.getElementById('cartDrawer');
-      const cartItemsEl = document.getElementById('cartItems');
-      const cartSubtotalEl = document.getElementById('cartSubtotal');
-      const cartVATEl = document.getElementById('cartVAT');
-      const cartTotalEl = document.getElementById('cartTotal');
-      const checkoutBtn = document.getElementById('checkoutBtn');
-      const clearCartBtn = document.getElementById('clearCart');
-      const wishlistBtn = document.getElementById('wishlistBtn');
-      const tagCloudEl = document.getElementById('tagCloud');
-      const activeFiltersEl = document.getElementById('activeFilters');
-      const overlay = document.getElementById('overlay');
-      const modalClose = document.getElementById('modalClose');
-      const modalTitle = document.getElementById('modalTitle');
-      const modalSubtitle = document.getElementById('modalSubtitle');
-      const modalPrice = document.getElementById('modalPrice');
-      const modalMainImg = document.getElementById('modalMainImg');
-      const modalThumbs = document.getElementById('modalThumbs');
-      const metaTable = document.getElementById('metaTable');
-      const modalDesc = document.getElementById('modalDesc');
-      const addToCartModal = document.getElementById('addToCartModal');
-      const clearAllFiltersBtn = document.getElementById('clearAllFilters');
-      const tryClearBtn = document.getElementById('tryClear');
-      const resultsCountText = resultsCount;
-      const resultsGrid = grid;
-      const perPage = perPageSelect;
-      const sortSelect = document.getElementById('sortSelect');
-
-      // Facet elements
-      const facetContainers = {
-        'Country(s) of origin': document.getElementById('facet-Country'),
-        'Material': document.getElementById('facet-Material'),
-        'Shape': document.getElementById('facet-Shape'),
-        'Condition': document.getElementById('facet-Condition')
-      };
-      const yearMinEl = document.getElementById('yearMin');
-      const yearMaxEl = document.getElementById('yearMax');
-      const yearRangeLabel = document.getElementById('yearRangeLabel');
-      const priceMinEl = document.getElementById('priceMin');
-      const priceMaxEl = document.getElementById('priceMax');
-      const priceRangeLabel = document.getElementById('priceRangeLabel');
-
-      // ---------- State ----------
-      let products = []; // loaded product objects
-      let filtered = []; // current results
-      let facets = {}; // counts for facets
-      let active = {
-        text: '',
-        facets: {
-          'Country(s) of origin': new Set(),
-          'Material': new Set(),
-          'Shape': new Set(),
-          'Condition': new Set()
-        },
-        year: [1800, 2025],
-        price: [0, 5000],
-        sort: 'relevance',
-        perPage: DEFAULT_PER_PAGE,
-        page: 1
-      };
-
-      // Cart & wishlist state in localStorage
-      const CART_KEY = 'rp_cart_v1';
-      const WISH_KEY = 'rp_wish_v1';
-
-      // Accessibility helpers: minimal focus trap for modal
-      function trapFocus(container){
-        const focusable = container.querySelectorAll('button, a, input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        const first = focusable[0];
-        const last = focusable[focusable.length-1];
-        function handler(e){
-          if(e.key === 'Tab'){
-            if(e.shiftKey && document.activeElement === first){
-              e.preventDefault();
-              last.focus();
-            } else if(!e.shiftKey && document.activeElement === last){
-              e.preventDefault();
-              first.focus();
-            }
-          } else if(e.key === 'Escape'){
-            closeModal();
-          }
-        }
-        container.addEventListener('keydown', handler);
-        return ()=>container.removeEventListener('keydown', handler);
-      }
-
-      // ---------------- CSV parsing ----------------
-      function parseCSV(text){
-        // Simple CSV parser that handles commas and quoted strings.
-        const lines = text.trim().split(/\r?\n/).map(l=>l.trim());
-        if(lines.length === 0) return [];
-        const headers = splitCSVLine(lines[0]);
-        const cols = headers.map(h=>h.trim());
-        const rows = [];
-        for(let i=1;i<lines.length;i++){
-          if(!lines[i]) continue;
-          const cells = splitCSVLine(lines[i]);
-          const obj = {};
-          for(let j=0;j<cols.length;j++){
-            obj[cols[j]] = (cells[j] !== undefined) ? cells[j].trim() : '';
-          }
-          rows.push(obj);
-        }
-        return rows;
-      }
-      function splitCSVLine(line){
-        // naive CSV splitter: supports quoted commas
-        const cells = [];
-        let cur = '', inQuotes = false;
-        for(let i=0;i<line.length;i++){
-          const ch = line[i];
-          if(ch === '"' ){
-            if(inQuotes && line[i+1] === '"'){ cur += '"'; i++; } // escaped quote
-            else inQuotes = !inQuotes;
-            continue;
-          }
-          if(ch === ',' && !inQuotes){
-            cells.push(cur);
-            cur = '';
-          } else cur += ch;
-        }
-        cells.push(cur);
-        return cells;
-      }
-
-      // Map CSV row to our product model (safe handling of missing cells)
-      function mapRowToProduct(row, idx){
-        const get = (k)=> (row[k] !== undefined && row[k] !== null) ? row[k].trim() : '';
-        const priceRaw = (get('Price (£)') || '').replace(/[£, ]/g,'');
-        const price = parseFloat(priceRaw) || 0;
-        const sizeRaw = (get('Size (cm)') || '').replace(/[^\d.]/g,'');
-        const size = parseFloat(sizeRaw) || null;
-        const yearStr = get('Year(s)') || '';
-        // parse first year if range
-        let year = null;
-        if(yearStr){
-          const m = yearStr.match(/(\d{4})/);
-          year = m ? parseInt(m[1],10) : null;
-        }
-
-        // images
-        const imgFront = get('Image front') || '';
-        const imgBack  = get('Image back') || '';
-
-        const titleParts = [];
-        if(get('Material')) titleParts.push(get('Material'));
-        if(get('Shape')) titleParts.push(get('Shape'));
-        if(get('Animal')) titleParts.push(get('Animal'));
-        if(get('City / Landmark')) titleParts.push(get('City / Landmark'));
-        const title = titleParts.length ? titleParts.join(' — ') : (get('Person') || 'Vintage Pendant');
-
-        // Build product object
-        return {
-          id: 'p' + (idx+1),
-          raw: row,
-          title,
-          price,
-          year,
-          size,
-          images: { front: imgFront, back: imgBack },
-          // standardize fields for searching & facets
-          fields: {
-            country: get('Country(s) of origin'),
-            city: get('City / Landmark'),
-            years: get('Year(s)'),
-            initials: get('Initial(s)'),
-            symbols: get('Symbol(s)'),
-            person: get('Person'),
-            purpose: get('Purpose'),
-            animal: get('Animal'),
-            sport: get('Sport'),
-            material: get('Material'),
-            shape: get('Shape'),
-            size: get('Size (cm)'),
-            condition: get('Condition')
-          },
-          description: generatePlaceholderDescription(get('Material'), get('City / Landmark'), get('Year(s)'), get('Animal'), get('Person')),
-          createdAt: year || 1900 // for sorting by newest
+    <script>
+        // === Global State & Constants ===
+        const CSV_URL = 'https://raw.githubusercontent.com/Stepzach/pdesport/refs/heads/main/Pendants%20-%20Sheet1.csv';
+        const FADE_IN_CLASS = 'fade-in';
+        const CATEGORIES = {
+            'Country(s) of origin': 'Country',
+            'Material': 'Material',
+            'Shape': 'Shape',
+            'Condition': 'Condition',
+            'Year(s)': 'Year',
+            'Price (£)': 'Price'
         };
-      }
-
-      // Placeholder product description generator
-      function generatePlaceholderDescription(material, landmark, years, animal, person){
-        const parts = [];
-        parts.push(`A thoughtfully curated vintage pendant${material ? ' crafted in ' + material : ''}.`);
-        if(landmark) parts.push(`Collected from ${landmark} as a small memento.`);
-        if(years) parts.push(`Dating to ${years}.`);
-        if(animal) parts.push(`Motif: ${animal}.`);
-        if(person) parts.push(`Associated with: ${person}.`);
-        parts.push('Condition: vintage with character — images show patina and wear. Each pendant is unique.');
-        return parts.join(' ');
-      }
-
-      // ---------- Fetch + cache CSV ----------
-      async function fetchCSVWithCache(){
-        // Check session cache
-        try{
-          const cached = sessionStorage.getItem(CACHE_KEY);
-          if(cached){
-            const obj = JSON.parse(cached);
-            if(Date.now() - obj.ts < CACHE_TTL_MS){
-              console.info('Using cached CSV');
-              return {text: obj.text, fromCache: true};
-            }
-          }
-        }catch(e){ /* ignore parse errors */ }
-
-        // Fetch
-        try{
-          const r = await fetch(CORS_PROXY + CSV_URL);
-          if(!r.ok) throw new Error('Network response not ok: ' + r.status);
-          const text = await r.text();
-          // store in sessionStorage
-          try{ 
-            sessionStorage.setItem(CACHE_KEY, JSON.stringify({ts: Date.now(), text}));
-          }catch(e){ /* ignore storage errors */ }
-          return {text, fromCache:false};
-        } catch(err){
-          console.warn('Fetch CSV failed', err);
-          return {error: err};
-        }
-      }
-
-      // ---------- Fuzzy-ish search ----------
-      function tokenize(s){
-        if(!s) return [];
-        return s.toString().toLowerCase().split(/[\s,\/\-\_\.]+/).filter(Boolean);
-      }
-      function scoreProductForQuery(prod, query){
-        // simple scoring:
-        // + tokens matched in important fields: title, material, animal, person, purpose, symbols, country, city, initials
-        if(!query || !query.trim()) return 1; // relevance baseline
-        const qtokens = tokenize(query);
-        let score = 0;
-        const searchable = [
-          prod.title,
-          prod.fields.material,
-          prod.fields.animal,
-          prod.fields.person,
-          prod.fields.purpose,
-          prod.fields.symbols,
-          prod.fields.country,
-          prod.fields.city,
-          prod.fields.initials,
-          prod.fields.years,
-          prod.fields.shape
-        ].join(' | ');
-        const stokens = tokenize(searchable);
-        qtokens.forEach(qt=>{
-          // exact token match increases score
-          if(stokens.includes(qt)) score += 4;
-          else {
-            // partial matches
-            for(const t of stokens){
-              if(t.includes(qt) || qt.includes(t)) { score += 2; break; }
-              // small fuzzy: edit distance within 1-2 (cheap)
-              if(Math.abs(t.length - qt.length) <= 2 && t.indexOf(qt[0]) === 0) { score += 1; break; }
-            }
-          }
-        });
-        // boost by recency (year) slightly
-        if(prod.year) score += Math.max(0, (prod.year - 1900)/200);
-        return score;
-      }
-
-      // ---------- Filtering pipeline ----------
-      function applyFiltersAndSearch(){
-        const q = active.text.trim();
-        const results = [];
-        const yearMin = active.year[0], yearMax = active.year[1];
-        const priceMin = active.price[0], priceMax = active.price[1];
-        products.forEach(p=>{
-          // facet filters
-          for(const facetKey of Object.keys(active.facets)){
-            const sel = active.facets[facetKey];
-            if(sel.size === 0) continue;
-            // map facetKey to product field name
-            let prodVal = '';
-            if(facetKey === 'Country(s) of origin') prodVal = p.fields.country;
-            else prodVal = p.fields[facetKey.toLowerCase()] || '';
-            // some fields are comma separated - check any selected present
-            const tokens = tokenize(prodVal);
-            let match = false;
-            for(const v of sel){
-              if(tokens.includes(v.toLowerCase())) { match = true; break; }
-            }
-            if(!match) return; // skip product
-          }
-
-          // year range filter
-          if(p.year){
-            if(p.year < yearMin || p.year > yearMax) return;
-          } else {
-            // if no year and user has narrowed range, keep item unless range is restrictive
-            if(yearMin > 1800 || yearMax < 2025) {
-              // treat missing year as pass-through unless user actively narrowed far
-              // For demo, allow pass
-            }
-          }
-
-          // price filter
-          if(p.price < priceMin || p.price > priceMax) return;
-
-          // text search scoring (relevance)
-          const score = scoreProductForQuery(p, q);
-          if(q && score < 1) return;
-          results.push({p, score});
-        });
-
-        // sort
-        const sort = active.sort;
-        if(sort === 'relevance'){
-          results.sort((a,b)=>b.score - a.score);
-        } else if(sort === 'newest'){
-          results.sort((a,b)=> (b.p.createdAt || 0) - (a.p.createdAt || 0));
-        } else if(sort === 'priceAsc'){
-          results.sort((a,b)=> a.p.price - b.p.price);
-        } else if(sort === 'priceDesc'){
-          results.sort((a,b)=> b.p.price - a.p.price);
-        } else if(sort === 'sizeAsc'){
-          results.sort((a,b)=> (a.p.size || 0) - (b.p.size || 0));
-        }
-
-        // Save filtered and render
-        filtered = results.map(r=>r.p);
-        renderResults();
-      }
-
-      // ---------- Rendering ----------
-      function renderResults(){
-        // pagination/perPage
-        const per = parseInt(active.perPage,10) || DEFAULT_PER_PAGE;
-        const total = filtered.length;
-        resultsCountText.textContent = `${total} result${total!==1?'s':''}`;
-        // grid cleared and re-populated
-        grid.innerHTML = '';
-        if(total === 0){
-          noResults.classList.remove('hidden');
-          resultsTitle.textContent = 'No matches';
-          return;
-        } else {
-          noResults.classList.add('hidden');
-          resultsTitle.textContent = 'Discover pendants';
-        }
-
-        // create cards (show first per results for demo)
-        const toShow = filtered.slice(0, per);
-        toShow.forEach(prod => {
-          const el = createCard(prod);
-          grid.appendChild(el);
-        });
-
-        // update facets counts
-        computeFacetCounts();
-        renderActiveFilters();
-      }
-
-      function createCard(prod){
-        const li = document.createElement('article');
-        li.className = 'card';
-        li.setAttribute('role','listitem');
-        li.tabIndex = 0;
-        li.dataset.id = prod.id;
-
-        // image wrapper
-        const imgwrap = document.createElement('div');
-        imgwrap.className = 'imgwrap';
-        const img = document.createElement('img');
-        // low-res SVG placeholder as src; real URL in data-src to lazily load
-        img.src = tinyPlaceholderSVG(240,240);
-        img.dataset.src = prod.images.front || prod.images.back || '';
-        img.alt = prod.title;
-        img.loading = 'lazy';
-        img.className = 'img-placeholder';
-        imgwrap.appendChild(img);
-
-        // info
-        const info = document.createElement('div');
-        info.innerHTML = `<div class="title">${escapeHtml(prod.title)}</div>
-                          <div class="meta">${escapeHtml(shortMeta(prod))}</div>`;
-
-        const row = document.createElement('div');
-        row.className = 'row';
-        const price = document.createElement('div');
-        price.className = 'price';
-        price.textContent = '£' + (prod.price || 0).toFixed(2);
-        row.appendChild(price);
-
-        const actions = document.createElement('div');
-        actions.style.display = 'flex'; actions.style.gap = '8px';
-        const viewBtn = document.createElement('button');
-        viewBtn.className = 'pill';
-        viewBtn.textContent = 'View';
-        viewBtn.onclick = ()=> openModalForProduct(prod.id);
-
-        const wishBtn = document.createElement('button');
-        wishBtn.className = 'pill';
-        wishBtn.textContent = '♡';
-        wishBtn.title = 'Add to wishlist';
-        wishBtn.onclick = (e)=>{ e.stopPropagation(); toggleWishlist(prod.id); updateWishlistUI(); };
-
-        actions.appendChild(viewBtn);
-        actions.appendChild(wishBtn);
-        row.appendChild(actions);
-
-        li.appendChild(imgwrap);
-        li.appendChild(info);
-        li.appendChild(row);
-
-        // click opens modal
-        li.addEventListener('click', ()=> openModalForProduct(prod.id));
-        li.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') openModalForProduct(prod.id); });
-
-        // lazy load image when element inserted into DOM
-        observeImageLoading(img);
-
-        return li;
-      }
-
-      function escapeHtml(s){
-        return (s||'').replace(/[&<>"']/g, function(m){
-          return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]);
-        });
-      }
-      function shortMeta(p){
-        const parts = [];
-        if(p.fields.material) parts.push(p.fields.material);
-        if(p.fields.shape) parts.push(p.fields.shape);
-        if(p.fields.animal) parts.push(p.fields.animal);
-        if(p.year) parts.push(p.year);
-        return parts.join(' • ');
-      }
-
-      // tiny inline SVG placeholder generator (data URL)
-      function tinyPlaceholderSVG(w,h){
-        const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${w}' height='${h}'><rect width='100%' height='100%' fill='#f3f3f3'/></svg>`;
-        return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
-      }
-
-      // IntersectionObserver to lazy load and blur-up
-      const io = new IntersectionObserver((entries)=>{
-        entries.forEach(entry=>{
-          if(!entry.isIntersecting) return;
-          const img = entry.target;
-          if(img.dataset.src){
-            img.src = img.dataset.src;
-            img.addEventListener('load', ()=>{
-              img.classList.remove('img-placeholder');
-              img.classList.add('img-ready');
-            }, {once:true});
-            img.removeAttribute('data-src');
-          }
-          io.unobserve(img);
-        });
-      }, {rootMargin:'200px'});
-
-      function observeImageLoading(img){
-        io.observe(img);
-      }
-
-      // ---------- Modal ----------
-      let untrap= null;
-      function openModalForProduct(id){
-        const prod = products.find(p=>p.id === id) || filtered.find(p=>p.id===id);
-        if(!prod) return;
-        // populate modal
-        modalTitle.textContent = prod.title;
-        modalSubtitle.textContent = `${prod.fields.city || prod.fields.country || ''} • ${prod.fields.shape || ''}`;
-        modalPrice.textContent = '£' + (prod.price || 0).toFixed(2);
-        modalDesc.textContent = prod.description || 'A rare vintage pendant.';
-        // images
-        modalThumbs.innerHTML = '';
-        const front = prod.images.front;
-        const back = prod.images.back;
-        const mainImg = modalMainImg;
-        mainImg.src = tinyPlaceholderSVG(600,600);
-        if(front) {
-          mainImg.dataset.src = front;
-          mainImg.alt = prod.title + ' front';
-        } else if(back) {
-          mainImg.dataset.src = back;
-          mainImg.alt = prod.title + ' image';
-        } else {
-          mainImg.dataset.src = '';
-          mainImg.alt = prod.title;
-        }
-        // show thumbnails
-        [front, back].filter(Boolean).forEach((url, i)=>{
-          const t = document.createElement('img');
-          t.src = tinyPlaceholderSVG(80,80);
-          t.dataset.src = url;
-          t.style.width = '64px'; t.style.height='64px'; t.style.objectFit='contain';
-          t.style.borderRadius='8px'; t.style.cursor='pointer';
-          t.addEventListener('click', ()=> {
-            mainImg.src = tinyPlaceholderSVG(600,600);
-            mainImg.dataset.src = url;
-            observeImageLoading(mainImg);
-          });
-          observeImageLoading(t);
-          modalThumbs.appendChild(t);
-        });
-        // meta table
-        metaTable.innerHTML = '';
-        for(const k in prod.fields){
-          const tr = document.createElement('tr');
-          tr.innerHTML = `<td style="padding:6px 8px;width:36%"><strong>${escapeHtml(k)}</strong></td><td style="padding:6px 8px">${escapeHtml(prod.fields[k]||'—')}</td>`;
-          metaTable.appendChild(tr);
-        }
-        // add to cart handler
-        addToCartModal.onclick = ()=> { addToCart(prod.id,1); openCart(); };
-
-        overlay.setAttribute('aria-hidden','false');
-        overlay.focus();
-        untrap = trapFocus(overlay);
-        // lazy load main image
-        observeImageLoading(modalMainImg);
-
-        // close on backdrop click
-        overlay.addEventListener('click', overlayClickHandler);
-      }
-      function overlayClickHandler(e){
-        if(e.target === overlay) closeModal();
-      }
-      function closeModal(){
-        overlay.setAttribute('aria-hidden','true');
-        overlay.removeEventListener('click', overlayClickHandler);
-        if(untrap) { untrap(); untrap = null; }
-      }
-      modalClose.addEventListener('click', closeModal);
-
-      // ---------- Facets UI ----------
-      function computeFacetsFromProducts(){
-        // compute lists of unique values for facets
-        const sets = {
-          'Country(s) of origin': new Map(),
-          'Material': new Map(),
-          'Shape': new Map(),
-          'Condition': new Map()
-        };
-        products.forEach(p=>{
-          const add = (map, raw) => {
-            if(!raw) return;
-            // split multi-value values by comma / semicolon / slash
-            raw.split(/[,;\/]/).map(s=>s.trim()).filter(Boolean).forEach(s=>{
-              const key = s;
-              map.set(key, (map.get(key) || 0) + 1);
-            });
-          };
-          add(sets['Country(s) of origin'], p.fields.country);
-          add(sets['Material'], p.fields.material);
-          add(sets['Shape'], p.fields.shape);
-          add(sets['Condition'], p.fields.condition);
-        });
-        facets = sets;
-      }
-
-      function renderFacetLists(){
-        // render chips
-        for(const [facetName, container] of Object.entries(facetContainers)){
-          container.innerHTML = '';
-          const map = facets[facetName];
-          if(!map) continue;
-          // sort by count desc
-          const arr = Array.from(map.entries()).sort((a,b)=>b[1]-a[1]);
-          arr.forEach(([label,count])=>{
-            const chip = document.createElement('button');
-            chip.className = 'chip';
-            chip.textContent = `${label} (${count})`;
-            chip.addEventListener('click', ()=> {
-              toggleFacetSelection(facetName, label);
-            });
-            container.appendChild(chip);
-          });
-        }
-      }
-
-      function computeFacetCounts(){
-        // compute counts for current filtered set and update UI chips to show counts
-        // For simplicity we re-run counts on filtered list
-        const counts = {
-          'Country(s) of origin': new Map(),
-          'Material': new Map(),
-          'Shape': new Map(),
-          'Condition': new Map()
-        };
-        filtered.forEach(p=>{
-          const add = (map, raw) => {
-            if(!raw) return;
-            raw.split(/[,;\/]/).map(s=>s.trim()).filter(Boolean).forEach(s=>{
-              map.set(s, (map.get(s) || 0) + 1);
-            });
-          };
-          add(counts['Country(s) of origin'], p.fields.country);
-          add(counts['Material'], p.fields.material);
-          add(counts['Shape'], p.fields.shape);
-          add(counts['Condition'], p.fields.condition);
-        });
-        // update chip displays (if chips exist)
-        for(const [facetName, container] of Object.entries(facetContainers)){
-          const map = counts[facetName] || new Map();
-          // update chip buttons text / enable/disable
-          Array.from(container.children).forEach(btn=>{
-            const txt = btn.textContent.split(' (')[0];
-            const c = map.get(txt) || 0;
-            btn.textContent = `${txt} (${c})`;
-            btn.disabled = c === 0;
-            btn.style.opacity = c===0?0.5:1;
-            // active class
-            if(active.facets[facetName].has(txt)) btn.classList.add('active'); else btn.classList.remove('active');
-          });
-        }
-      }
-
-      function toggleFacetSelection(facetName, label){
-        const set = active.facets[facetName];
-        if(set.has(label)) set.delete(label); else set.add(label);
-        applyFiltersAndSearch();
-      }
-
-      function renderActiveFilters(){
-        // show pills for each active filter
-        activeFiltersEl.innerHTML = '';
-        for(const [facetName, set] of Object.entries(active.facets)){
-          for(const v of set){
-            const pill = document.createElement('div');
-            pill.className = 'filter-pill';
-            pill.innerHTML = `<span>${facetName.split('(')[0].trim()}: ${v}</span><button style="border:none;background:transparent;cursor:pointer" aria-label="Remove filter">✕</button>`;
-            pill.querySelector('button').addEventListener('click', ()=> {
-              set.delete(v); applyFiltersAndSearch();
-            });
-            activeFiltersEl.appendChild(pill);
-          }
-        }
-        // year & price
-        if(active.year[0] !== 1800 || active.year[1] !== 2025){
-          const pill = document.createElement('div');
-          pill.className = 'filter-pill';
-          pill.innerHTML = `<span>Year: ${active.year[0]} — ${active.year[1]}</span><button style="border:none;background:transparent;cursor:pointer" aria-label="Remove filter">✕</button>`;
-          pill.querySelector('button').addEventListener('click', ()=> {
-            active.year = [1800,2025]; yearMinEl.value = 1800; yearMaxEl.value = 2025; applyFiltersAndSearch();
-          });
-          activeFiltersEl.appendChild(pill);
-        }
-        if(active.price[0] !== 0 || active.price[1] !== 5000){
-          const pill = document.createElement('div');
-          pill.className = 'filter-pill';
-          pill.innerHTML = `<span>Price: £${active.price[0]} — £${active.price[1]}</span><button style="border:none;background:transparent;cursor:pointer" aria-label="Remove filter">✕</button>`;
-          pill.querySelector('button').addEventListener('click', ()=> {
-            active.price = [0,5000]; priceMinEl.value=0; priceMaxEl.value=5000; applyFiltersAndSearch();
-          });
-          activeFiltersEl.appendChild(pill);
-        }
-      }
-
-      // ---------- Tag cloud quick filters ----------
-      function buildTagCloud(){
-        // pick some common tags from facets (material, animal, purpose keywords)
-        const tagSet = new Map();
-        products.forEach(p=>{
-          ['material','animal','purpose','shape','person'].forEach(k=>{
-            const val = p.fields[k];
-            if(!val) return;
-            val.split(/[,;\/]/).map(s=>s.trim()).filter(Boolean).forEach(s=>{
-              tagSet.set(s, (tagSet.get(s) || 0) + 1);
-            });
-          });
-        });
-        // sort by frequency and pick top 18
-        const arr = Array.from(tagSet.entries()).sort((a,b)=>b[1]-a[1]).slice(0,18);
-        tagCloudEl.innerHTML = '';
-        arr.forEach(([label,count])=>{
-          const b = document.createElement('button');
-          b.className = 'chip';
-          b.textContent = label;
-          b.addEventListener('click', ()=> {
-            // when clicking a tag, we toggle an appropriate facet if possible, else use search
-            // try to find matching facet
-            let foundFacet = null;
-            for(const f of Object.keys(active.facets)){
-              // if product facet contains this label at all in entire products set, use facet
-              const facetMap = facets[f];
-              if(facetMap && facetMap.has(label)) { foundFacet = f; break; }
-            }
-            if(foundFacet){
-              toggleFacetSelection(foundFacet, label);
-            } else {
-              // otherwise put into text search
-              active.text = label;
-              searchInput.value = label;
-              debouncedSearchChange();
-            }
-          });
-          tagCloudEl.appendChild(b);
-        });
-      }
-
-      // ---------- Cart & Wishlist ----------
-      function getCart(){
-        try{
-          return JSON.parse(localStorage.getItem(CART_KEY) || '[]');
-        }catch(e){ return []; }
-      }
-      function saveCart(c){
-        localStorage.setItem(CART_KEY, JSON.stringify(c));
-      }
-      function addToCart(id, qty=1){
-        const cart = getCart();
-        const row = cart.find(r=>r.id===id);
-        if(row) row.qty += qty; else cart.push({id,qty});
-        saveCart(cart);
-        updateCartUI();
-      }
-      function updateCartUI(){
-        const cart = getCart();
-        const count = cart.reduce((s,r)=>s+r.qty,0);
-        cartCount.textContent = count;
-        // update drawer if open
-        if(cartDrawer.style.display !== 'none'){
-          renderCartDrawer();
-        }
-      }
-      function renderCartDrawer(){
-        const cart = getCart();
-        cartItemsEl.innerHTML = '';
-        let subtotal = 0;
-        if(cart.length === 0) cartItemsEl.innerHTML = '<div class="small muted">Your cart is empty</div>';
-        cart.forEach(item=>{
-          const p = products.find(pp=>pp.id===item.id) || {title:'Unknown', price:0};
-          const row = document.createElement('div');
-          row.style.display='flex';row.style.justifyContent='space-between';row.style.alignItems='center';row.style.gap='8px';row.style.marginBottom='8px';
-          row.innerHTML = `<div><div style="font-weight:600">${escapeHtml(p.title)}</div><div class="small muted">£${(p.price||0).toFixed(2)}</div></div>`;
-          const controls = document.createElement('div');
-          controls.style.display='flex';controls.style.gap='8px';controls.style.alignItems='center';
-          const q = document.createElement('input'); q.type='number'; q.value = item.qty; q.min=1; q.style.width='56px';
-          q.addEventListener('change', ()=> {
-            item.qty = parseInt(q.value,10) || 1;
-            saveCart(cart);
-            renderCartDrawer(); updateCartUI();
-          });
-          const del = document.createElement('button'); del.className='pill'; del.textContent='Remove';
-          del.addEventListener('click', ()=> {
-            const idx = cart.findIndex(x=>x.id===item.id);
-            if(idx>=0) cart.splice(idx,1);
-            saveCart(cart); renderCartDrawer(); updateCartUI();
-          });
-          controls.appendChild(q); controls.appendChild(del);
-          row.appendChild(controls);
-          cartItemsEl.appendChild(row);
-          subtotal += (p.price || 0) * item.qty;
-        });
-        const vat = subtotal * VAT_RATE;
-        const total = subtotal + vat;
-        cartSubtotalEl.textContent = '£' + subtotal.toFixed(2);
-        cartVATEl.textContent = '£' + vat.toFixed(2);
-        cartTotalEl.textContent = '£' + total.toFixed(2);
-      }
-      function openCart(){
-        cartDrawer.style.display = 'block';
-        renderCartDrawer();
-      }
-      cartBtn.addEventListener('click', ()=> {
-        openCart();
-      });
-      document.getElementById('closeCart').addEventListener('click', ()=> cartDrawer.style.display = 'none');
-      checkoutBtn.addEventListener('click', ()=> {
-        // simple mock checkout navigation — leads to a static mock checkout page in same file (generated)
-        window.location.href = '#checkout-mock';
-        alert('This is a mock checkout. In production you would redirect to your payment provider.');
-      });
-      clearCartBtn.addEventListener('click', ()=> {
-        localStorage.removeItem(CART_KEY); updateCartUI(); renderCartDrawer();
-      });
-
-      // Wishlist
-      function getWish(){
-        try{ return JSON.parse(localStorage.getItem(WISH_KEY) || '[]'); }catch(e){ return []; }
-      }
-      function saveWish(w){ localStorage.setItem(WISH_KEY, JSON.stringify(w)); }
-      function toggleWishlist(id){
-        const w = getWish();
-        const idx = w.indexOf(id);
-        if(idx>=0) w.splice(idx,1); else w.push(id);
-        saveWish(w); updateWishlistUI();
-      }
-      function updateWishlistUI(){
-        const w = getWish();
-        wishlistBtn.setAttribute('aria-pressed', w.length>0 ? 'true' : 'false');
-        wishlistBtn.title = `Wishlist (${w.length})`;
-      }
-
-      // ---------- UI events ----------
-      // search debounce
-      let searchTimer = null;
-      function debouncedSearchChange(){
-        clearTimeout(searchTimer);
-        searchTimer = setTimeout(()=>{
-          active.text = searchInput.value;
-          applyFiltersAndSearch();
-        }, 300);
-      }
-      searchInput.addEventListener('input', debouncedSearchChange);
-      // keyboard shortcut for search '/'
-      window.addEventListener('keydown', (e)=>{
-        if(e.key === '/' && document.activeElement !== searchInput) { e.preventDefault(); searchInput.focus(); }
-        else if(e.key === 'Escape') {
-          // close modal or cart if open
-          if(overlay.getAttribute('aria-hidden') === 'false') closeModal();
-          if(cartDrawer.style.display === 'block') cartDrawer.style.display = 'none';
-        }
-      });
-
-      // facets toggle buttons (delegated)
-      clearAllFiltersBtn.addEventListener('click', ()=>{
-        for(const k of Object.keys(active.facets)) active.facets[k].clear();
-        active.year = [1800,2025]; yearMinEl.value=1800; yearMaxEl.value=2025;
-        active.price = [0,5000]; priceMinEl.value=0; priceMaxEl.value=5000;
-        applyFiltersAndSearch();
-      });
-      tryClearBtn.addEventListener('click', ()=> {
-        for(const k of Object.keys(active.facets)) active.facets[k].clear();
-        active.text = '';
-        searchInput.value='';
-        active.year = [1800,2025]; yearMinEl.value=1800; yearMaxEl.value=2025;
-        active.price = [0,5000]; priceMinEl.value=0; priceMaxEl.value=5000;
-        applyFiltersAndSearch();
-      });
-
-      // year range sliders sync (simple UX: two sliders)
-      function updateYearRange(){
-        let min = Math.min(parseInt(yearMinEl.value,10), parseInt(yearMaxEl.value,10));
-        let max = Math.max(parseInt(yearMinEl.value,10), parseInt(yearMaxEl.value,10));
-        active.year = [min,max];
-        yearRangeLabel.textContent = `${min} — ${max}`;
-        applyFiltersAndSearch();
-      }
-      yearMinEl.addEventListener('input', updateYearRange);
-      yearMaxEl.addEventListener('input', updateYearRange);
-
-      // Price range
-      function updatePriceRange(){
-        let min = Math.min(parseInt(priceMinEl.value,10), parseInt(priceMaxEl.value,10));
-        let max = Math.max(parseInt(priceMinEl.value,10), parseInt(priceMaxEl.value,10));
-        active.price = [min,max];
-        priceRangeLabel.textContent = `£${min} — £${max}`;
-        applyFiltersAndSearch();
-      }
-      priceMinEl.addEventListener('input', updatePriceRange);
-      priceMaxEl.addEventListener('input', updatePriceRange);
-
-      // perPage and sort changes
-      perPageSelect.addEventListener('change', ()=>{
-        active.perPage = parseInt(perPageSelect.value,10) || DEFAULT_PER_PAGE;
-        applyFiltersAndSearch();
-      });
-      sortSelect.addEventListener('change', ()=>{
-        active.sort = sortSelect.value;
-        applyFiltersAndSearch();
-      });
-
-      // tag cloud click handled in buildTagCloud
-
-      // ---------- Initialization ----------
-      async function init(){
-        document.getElementById('yearNow').textContent = new Date().getFullYear();
-
-        // load CSV
-        let csvResponse = await fetchCSVWithCache();
-        let rows = [];
-        if(csvResponse && csvResponse.text){
-          try{
-            rows = parseCSV(csvResponse.text);
-            // Map rows to products
-            products = rows.map((r,i)=> mapRowToProduct(r,i));
-            if(products.length === 0) throw new Error('No rows parsed');
-          } catch(e){
-            console.warn('Parsing CSV failed', e);
-            notifyFallback(FALLBACK_NOTICE);
-            loadFallback();
-          }
-        } else {
-          notifyFallback(FALLBACK_NOTICE);
-          loadFallback();
-        }
-
-        // compute facets
-        computeFacetsFromProducts();
-        renderFacetLists();
-        buildTagCloud();
-
-        // set year/price ranges based on data
-        const years = products.map(p=>p.year).filter(Boolean);
-        const minY = years.length ? Math.min(...years) : 1800;
-        const maxY = years.length ? Math.max(...years) : new Date().getFullYear();
-        yearMinEl.min = 1800; yearMinEl.max = maxY;
-        yearMaxEl.min = minY; yearMaxEl.max = maxY;
-        yearMinEl.value = minY; yearMaxEl.value = maxY;
-        active.year = [minY,maxY];
-        yearRangeLabel.textContent = `${minY} — ${maxY}`;
-
-        const prices = products.map(p=>p.price||0);
-        const pmin = prices.length ? Math.floor(Math.min(...prices)) : 0;
-        const pmax = prices.length ? Math.ceil(Math.max(...prices)) : 5000;
-        priceMinEl.min = 0; priceMinEl.max = Math.max(5000,pmax);
-        priceMaxEl.min = 0; priceMaxEl.max = Math.max(5000,pmax);
-        priceMinEl.value = 0; priceMaxEl.value = Math.max(5000,pmax);
-        active.price = [0, Math.max(5000,pmax)];
-        priceRangeLabel.textContent = `£${active.price[0]} — £${active.price[1]}`;
-
-        // initial apply
-        active.perPage = DEFAULT_PER_PAGE;
-        applyFiltersAndSearch();
-
-        // restore cart/wishlist UI
-        updateCartUI();
-        updateWishlistUI();
-
-        // render fallback notice if necessary
-        if(csvResponse && csvResponse.error){
-          showNotice('Could not fetch live CSV — using fallback sample data.');
-        }
-      }
-
-      function notifyFallback(msg){
-        console.warn(msg);
-      }
-
-      // fallback sample products
-      function loadFallback(){
-        const sample = [
-          {
-            id:'p-s1', title:'Bronze Circle — Bear — Yellowstone', price:85.00, year:1927, size:2.8,
-            images:{front:'https://dummyimage.com/800x800/efe8e0/322a22&text=Bronze+Bear', back:'https://dummyimage.com/800x800/efe8e0/322a22&text=Back'},
-            fields:{country:'USA', 'city / landmark':'Yellowstone', material:'Bronze', shape:'Circle', animal:'Bear', condition:'Good'}
-          },
-          {
-            id:'p-s2', title:'Silver Oval — Ship — Liverpool', price:120.00, year:1952, size:3.4,
-            images:{front:'https://dummyimage.com/800x800/edf3f0/112d2a&text=Silver+Ship', back:'https://dummyimage.com/800x800/edf3f0/112d2a&text=Back'},
-            fields:{country:'UK', 'city / landmark':'Liverpool', material:'Silver', shape:'Oval', animal:'', condition:'Fair'}
-          },
-          {
-            id:'p-s3', title:'Brass Heart — Initials A.B. — Paris', price:230.00, year:1901, size:2.0,
-            images:{front:'https://dummyimage.com/800x800/f7f2ef/2f2b29&text=Heart', back:'https://dummyimage.com/800x800/f7f2ef/2f2b29&text=Back'},
-            fields:{country:'France', 'city / landmark':'Paris', material:'Brass', shape:'Heart', animal:'', condition:'Good'}
-          }
+        const TEXT_SEARCH_FIELDS = [
+            'Country(s) of origin', 'City / Landmark', 'Year(s)', 'Initial(s)', 'Symbol(s)',
+            'Person', 'Purpose', 'Animal', 'Sport', 'Material', 'Shape', 'Condition'
         ];
-        // map to expected product model for demo compatibility
-        products = sample.map((s,i)=>({
-          id: s.id,
-          raw: {},
-          title: s.title,
-          price: s.price,
-          year: s.year,
-          size: s.size,
-          images: s.images,
-          fields: {
-            country: s.fields.country || '',
-            'City / Landmark': s.fields['city / landmark'] || '',
-            material: s.fields.material || '',
-            shape: s.fields.shape || '',
-            animal: s.fields.animal || '',
-            condition: s.fields.condition || '',
-            purpose: '',
-            person: '',
-            symbols: '',
-            initials: ''
-          },
-          description: 'Placeholder description: ' + s.title,
-          createdAt: s.year
-        }));
-      }
 
-      // small user notice
-      function showNotice(msg){
-        // simple alert for demo — could be converted to in-page toast
-        console.info(msg);
-      }
+        let allProducts = [];
+        let filteredAndSortedProducts = [];
+        let currentFilters = {
+            search: '',
+            categories: {}, // e.g., { 'Country': ['Italy', 'France'], 'Material': ['Bronze'] }
+            yearRange: [], // [min, max]
+            priceRange: [], // [min, max]
+            quickFilter: ''
+        };
+        let currentSort = 'relevance';
 
-      // ---------- Helper utilities ----------
-      function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
+        // Cart & Wishlist
+        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
 
-      // ---------- Simple CSV row normalization after parsing (if we used real CSV) ----------
-      // map CSV columns to standard keys: (per requirement)
-      // Country(s) of origin, City / Landmark, Year(s), Initial(s), Symbol(s), Person, Purpose, Animal, Sport, Material, Shape, Size (cm), Condition, Price (£), Image front, Image back.
-      // We'll map them in mapRowToProduct above; that will be run for parsed CSV.
+        // DOM Elements
+        const productGrid = document.getElementById('product-grid');
+        const searchInput = document.getElementById('search-input');
+        const filtersPanel = document.getElementById('filters-panel');
+        const dynamicFiltersContainer = document.getElementById('dynamic-filters-container');
+        const quickFiltersContainer = document.getElementById('quick-filters-container');
+        const sortBySelect = document.getElementById('sort-by');
+        const activeFiltersSummary = document.getElementById('active-filters-summary');
+        const noResultsMessage = document.getElementById('no-results');
+        const clearAllFiltersBtn = document.getElementById('clear-all-filters');
+        const loadingMessage = document.querySelector('.loading-message');
 
-      // ---------- Init ----------
-      init();
+        const productDetailModal = document.getElementById('product-detail-modal');
+        const modalProductName = document.getElementById('modal-product-title');
+        const modalProductPrice = productDetailModal.querySelector('.product-price');
+        const modalProductDescription = productDetailModal.querySelector('.product-description');
+        const modalMetadataTable = productDetailModal.querySelector('.product-metadata');
+        const modalMainImage = productDetailModal.querySelector('.product-images .main-image');
+        const modalThumbnailNav = productDetailModal.querySelector('.thumbnail-nav');
+        const modalPrevBtn = productDetailModal.querySelector('.prev-img');
+        const modalNextBtn = productDetailModal.querySelector('.next-img');
+        const addToCartModalBtn = productDetailModal.querySelector('.add-to-cart-btn');
+        const addToWishlistModalBtn = productDetailModal.querySelector('.add-to-wishlist-btn');
 
-      // ---------- Expose some functions for console debugging (optional) ----------
-      window.RarePendants = {
-        products, applyFiltersAndSearch, addToCart, getCart
-      };
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const cartToggleBtn = document.querySelector('.cart-toggle');
+        const cartCloseBtn = cartSidebar.querySelector('.close-cart');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartSubtotalSpan = document.getElementById('cart-subtotal');
+        const cartVATSpan = document.getElementById('cart-vat');
+        const cartTotalSpan = document.getElementById('cart-total');
+        const cartCountSpan = document.querySelector('.cart-count');
+        const cartCheckoutBtn = cartSidebar.querySelector('.checkout-btn');
+        const emptyCartMessage = cartItemsContainer.querySelector('.empty-cart-message');
 
-    })();
-  </script>
-  
-</body>
-</html>
+        const checkoutPage = document.getElementById('checkout-page');
+        const checkoutForm = checkoutPage.querySelector('.checkout-form');
+        const backToShopBtn = checkoutPage.querySelector('.back-to-shop-btn');
+
+        const backdrop = document.getElementById('backdrop');
+
+        // Debounce function
+        const debounce = (func, delay) => {
+            let timeout;
+            return function(...args) {
+                const context = this;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), delay);
+            };
+        };
+
+        // === Product Data Fetching & Processing ===
+        async function fetchProducts() {
+            try {
+                const response = await fetch(CSV_URL);
+                const csvText = await response.text();
+                return parseCSV(csvText);
+            } catch (error) {
+                console.error("Error fetching or parsing product data:", error);
+                productGrid.innerHTML = '<p class="loading-message">Failed to load products. Please try again later.</p>';
+                return [];
+            }
+        }
+
+        function parseCSV(csvText) {
+            const rows = csvText.trim().split('\n');
+            // Headers: clean up names by removing quotes and extra spaces
+            const headers = rows[0].split(',').map(h => h.trim().replace(/"/g, ''));
+
+            const products = rows.slice(1).map((row, index) => {
+                // Robust CSV splitting to handle commas within quoted strings
+                const values = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
+                // Clean values by removing quotes
+                const cleanedValues = values.map(v => v.trim().replace(/^"|"$/g, ''));
+
+                let product = {};
+                headers.forEach((header, i) => {
+                    product[header] = cleanedValues[i] || '';
+                });
+
+                // Type conversions and cleaning
+                product['Price (£)'] = parseFloat(product['Price (£)'].replace(/[^0-9.]/g, '')) || 0;
+                product['Year(s)'] = parseInt(product['Year(s)']) || 0;
+                product['Size (cm)'] = parseFloat(product['Size (cm)'].replace(/[^0-9.]/g, '')) || 0;
+
+                // Generate a simple unique ID for each product if not present
+                product.id = `product-${Date.now()}-${index}`;
+
+                // Generate a placeholder description
+                const titleKeywords = [
+                    product['Material'], product['Shape'], product['Symbol(s)'], product['City / Landmark']
+                ].filter(Boolean).slice(0, 3).join(' - ');
+                product.derivedTitle = product['Material'] || 'Vintage' + (titleKeywords ? ' - ' + titleKeywords : '');
+                if (!product.derivedTitle.trim()) {
+                    product.derivedTitle = 'Exquisite Vintage Pendant';
+                }
+
+                // Placeholder description
+                const material = product['Material'] || 'a unique alloy';
+                const shape = product['Shape'] || 'classic form';
+                const country = product['Country(s) of origin'] || 'an unrecorded origin';
+                const year = product['Year(s)'] || 'an earlier era';
+                product.description = `This exquisite vintage pendant, a testament to timeless craftsmanship, features a captivating ${shape} design. Crafted from ${material}, it evokes a rich sense of history and allure. Originating from ${country} around ${year}, this piece carries stories from the past, making it a truly unique acquisition. Its intricate details and aged patina add to its singular charm, perfect for collectors or as a distinctive personal statement.`;
+
+
+                return product;
+            });
+            return products;
+        }
+
+        // === Product Rendering ===
+        function renderProductCards(products) {
+            productGrid.innerHTML = '';
+            if (products.length === 0) {
+                noResultsMessage.style.display = 'block';
+                return;
+            }
+            noResultsMessage.style.display = 'none';
+
+            products.forEach(product => {
+                const card = document.createElement('article');
+                card.classList.add('product-card');
+                card.setAttribute('data-id', product.id);
+                card.tabIndex = 0; // Make card keyboard focusable
+                card.setAttribute('role', 'button');
+                card.setAttribute('aria-label', `View details for ${product.derivedTitle}`);
+
+                card.innerHTML = `
+                    <div class="image-container">
+                        <img data-src="${product['Image front']}" alt="${product.derivedTitle} - Front View" loading="lazy">
+                    </div>
+                    <div class="product-card-info">
+                        <h3 class="product-card-title">${product.derivedTitle}</h3>
+                        <p class="product-card-meta">${product['Material']} • ${product['Shape']}</p>
+                        <p class="product-card-price">£${product['Price (£)'].toFixed(2)}</p>
+                        <div class="product-card-actions">
+                            <button class="button-primary view-details-btn">View</button>
+                            <button class="button-secondary add-to-wishlist-btn" data-product-id="${product.id}">♡ Wishlist</button>
+                        </div>
+                    </div>
+                `;
+                productGrid.appendChild(card);
+            });
+
+            // Lazy load images with Intersection Observer for better control (optional, but good for blur-up/advanced lazy load)
+            const lazyImages = productGrid.querySelectorAll('img[data-src]');
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.add(FADE_IN_CLASS);
+                        observer.unobserve(img);
+                    }
+                });
+            }, { rootMargin: '0px 0px 200px 0px' }); // Load when 200px from viewport
+
+            lazyImages.forEach(img => imageObserver.observe(img));
+
+            // Attach event listeners for detail modal and wishlist from new cards
+            productGrid.querySelectorAll('.product-card').forEach(card => {
+                const productId = card.dataset.id;
+                card.querySelector('.view-details-btn').addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent card click from firing twice
+                    openProductDetail(productId);
+                });
+                card.addEventListener('click', () => openProductDetail(productId)); // For card area click
+                card.querySelector('.add-to-wishlist-btn').addEventListener('click', (
