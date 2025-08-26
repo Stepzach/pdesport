@@ -1,0 +1,1492 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Rare Pendants — Vintage & Curated</title>
+  <meta name="description" content="Rare Pendants — a curated selection of vintage pendants & souvenirs. Elegant, minimal, progressive shopping experience." />
+  <!-- Open Graph / Social placeholders -->
+  <meta property="og:title" content="Rare Pendants — Vintage & Curated" />
+  <meta property="og:description" content="A curated selection of vintage pendants & souvenirs." />
+  <meta property="og:image" content="" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Google Fonts (change here to alter brand fonts) -->
+  <!-- Fonts used: 'Playfair Display' for headings (luxury serif), 'Inter' for UI. -->
+  <!-- To change the aesthetic: swap Playfair for another serif and Inter for a geometric sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================
+       Theme tokens — change colors here
+       ========================= */
+    :root{
+      --bg: #fff;
+      --muted: #707070;
+      --text: #111;
+      --accent: #1b5a46; /* deep green for luxury / call-to-action */
+      --accent-2: #6e8b7a;
+      --surface: #f8f7f6;
+      --card-shadow: 0 8px 20px rgba(16,20,24,0.06);
+      --glass: rgba(255,255,255,0.6);
+      --radius: 14px;
+      --radius-sm: 8px;
+      --max-width: 1200px;
+      --transition: 300ms cubic-bezier(.2,.9,.2,1);
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+
+    /* Basic reset */
+    *{box-sizing:border-box}
+    html,body,#app{height:100%}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    /* Layout */
+    .wrap{
+      max-width:var(--max-width);
+      margin:36px auto;
+      padding:24px;
+    }
+
+    header.site-header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:20px;
+    }
+    .brand{
+      display:flex;
+      gap:14px;
+      align-items:center;
+      text-decoration:none;
+      color:inherit;
+    }
+    .logo{
+      width:56px;height:56px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      border-radius:12px;
+      display:grid;place-items:center;
+      color:#fff;font-weight:700;
+      font-family:'Playfair Display', serif;
+      font-size:20px;
+      box-shadow:var(--card-shadow);
+    }
+    .brand h1{
+      margin:0;font-family:'Playfair Display', serif;font-weight:400;
+      font-size:18px;
+      letter-spacing:0.4px;
+    }
+    .brand p{margin:0;font-size:12px;color:var(--muted)}
+
+    /* Header actions */
+    .actions{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .search-bar{
+      background:var(--surface);
+      border-radius:999px;
+      padding:8px 12px;
+      display:flex;align-items:center;gap:8px;
+      min-width:240px;
+      border:1px solid rgba(0,0,0,0.04);
+    }
+    .search-bar input{
+      border:0;background:transparent;outline:0;font-size:14px;
+    }
+    .icon-btn{
+      background:transparent;border:0;padding:8px;border-radius:8px; cursor:pointer;
+      display:inline-grid;place-items:center;
+    }
+    .icon-btn:hover{background:rgba(0,0,0,0.03)}
+    .badge{
+      font-size:12px;padding:2px 6px;border-radius:999px;background:var(--accent);color:#fff;
+      min-width:28px;text-align:center;
+    }
+
+    /* Main layout */
+    .controls{
+      display:flex;
+      gap:20px;
+      align-items:flex-start;
+      margin-bottom:22px;
+    }
+    .filters{
+      width:300px;
+      min-width:240px;
+      background:transparent;
+      padding:10px 8px;
+      border-radius:12px;
+    }
+    .filters .panel{
+      background:#fff;border-radius:12px;padding:12px;margin-bottom:12px;box-shadow:var(--card-shadow);
+    }
+    .results{
+      flex:1;
+    }
+
+    /* Grid */
+    .grid{
+      display:grid;
+      gap:18px;
+      grid-template-columns:repeat(3, 1fr);
+    }
+    .card{
+      background:#fff;border-radius:12px;padding:12px;box-shadow:var(--card-shadow);
+      display:flex;flex-direction:column;gap:10px;transition:transform var(--transition),box-shadow var(--transition);
+      cursor:pointer;
+    }
+    .card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(16,20,24,0.08)}
+    .card .imgwrap{
+      aspect-ratio:1/1;padding:8px;border-radius:10px;overflow:hidden;display:grid;place-items:center;background:linear-gradient(180deg,#fbfbfb,#f4f4f4);
+      position:relative;
+    }
+    .card img{
+      max-width:100%;max-height:100%;object-fit:contain;display:block;transition:filter 400ms ease, transform 400ms ease;
+      transform-origin:center center;
+    }
+    /* blur-up placeholder while image loads */
+    .img-placeholder{
+      filter:blur(10px) saturate(.9) contrast(.9);
+      transform:scale(1.03);
+      transition:filter 500ms var(--transition), transform 500ms var(--transition);
+    }
+    .img-ready{filter:blur(0) saturate(1) contrast(1);transform:scale(1)}
+    .meta{font-size:13px;color:var(--muted)}
+    .title{font-weight:600}
+
+    /* Card actions row */
+    .row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .price{font-weight:700}
+    .pill{padding:6px 8px;border-radius:999px;border:1px solid rgba(0,0,0,0.06);font-size:13px}
+
+    /* Modal overlay */
+    .overlay{
+      position:fixed;inset:0;background:rgba(7,7,8,0.5);display:none;place-items:center;padding:24px;z-index:60;
+    }
+    .overlay[aria-hidden="false"]{display:grid}
+    .modal{
+      width:100%;max-width:980px;background:#fff;border-radius:16px;padding:18px;box-shadow:0 28px 80px rgba(14,18,20,0.6);
+      display:grid;grid-template-columns:1fr 360px;gap:18px;max-height:92vh;overflow:auto;
+    }
+    .modal .carousel{background:var(--surface);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px}
+    .carousel .big{
+      aspect-ratio:1/1;border-radius:12px;overflow:hidden;display:grid;place-items:center;background:#fff;
+    }
+    .carousel .thumbs{display:flex;gap:8px;overflow:auto;padding-bottom:6px}
+    .modal .meta-table{background:#fff;padding:12px;border-radius:12px;box-shadow:var(--card-shadow)}
+
+    /* Filters UI */
+    .facet{display:flex;flex-direction:column;gap:8px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{padding:6px 10px;border-radius:999px;border:1px solid rgba(0,0,0,0.06);cursor:pointer}
+    .chip.active{background:var(--accent);color:#fff;border-color:transparent;box-shadow:0 8px 20px rgba(27,90,70,0.08)}
+    .small{font-size:12px;color:var(--muted)}
+
+    /* Footer */
+    footer{margin-top:40px;padding:28px 24px;background:linear-gradient(180deg, #fbfbfb, #fff);border-top:1px solid rgba(0,0,0,0.04)}
+    .footer-grid{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+
+    /* Responsive breakpoints */
+    @media (max-width:1200px){
+      .wrap{padding:18px}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .controls{flex-direction:column}
+      .filters{width:100%}
+      .modal{grid-template-columns:1fr}
+    }
+    @media (max-width:900px){
+      .grid{grid-template-columns:repeat(1,1fr)}
+      header.site-header{flex-direction:column;align-items:flex-start;gap:12px}
+      .actions{width:100%;justify-content:space-between}
+    }
+    @media (max-width:600px){
+      .brand h1{font-size:16px}
+      .search-bar{min-width:unset;width:100%}
+      .modal{padding:12px}
+      .modal .thumbs{gap:6px}
+    }
+
+    /* utility */
+    .muted{color:var(--muted)}
+    .center{display:grid;place-items:center}
+    .sr-only{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+    .hidden{display:none}
+
+    /* small forms */
+    input[type="range"]{width:100%}
+    .sortbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .filters-summary{display:flex;gap:8px;flex-wrap:wrap}
+    .filter-pill{background:#fff;padding:6px 8px;border-radius:999px;border:1px solid rgba(0,0,0,0.06);display:flex;gap:8px;align-items:center}
+
+  </style>
+
+  <!-- Analytics placeholder (commented) -->
+  <!--
+  <script>
+    // Google Analytics / Tag Manager placeholder:
+    // Insert your GA or GTM snippet here.
+  </script>
+  -->
+
+</head>
+<body>
+  <div id="app" class="wrap" role="application" aria-label="Rare Pendants shop">
+
+    <header class="site-header" role="banner">
+      <a href="#" class="brand" aria-label="Rare Pendants home">
+        <div class="logo" aria-hidden="true">RP</div>
+        <div>
+          <h1>Rare Pendants</h1>
+          <p class="muted">Curated vintage &amp; souvenir pendants</p>
+        </div>
+      </a>
+
+      <div class="actions" role="region" aria-label="site actions">
+        <div class="search-bar" id="global-search" role="search" aria-label="Search pendants">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35" stroke="#6b6b6b" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <input id="searchInput" type="search" placeholder="Search (e.g. 'Bronze bear Yellowstone 1920')" aria-label="Search products" />
+          <div class="small muted" id="search-hint">press '/' to focus</div>
+        </div>
+
+        <button class="icon-btn" id="wishlistBtn" title="Wishlist (0)" aria-label="Wishlist" aria-pressed="false">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s-7-4.8-9-8.2C1.8 8.9 5.1 4 9.6 6.1 11 7 12 8.1 12 8.1s1-.9 2.4-2 7.8 2.9 6.6 6.7c-2 3.4-9 8.2-9 8.2z" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/></svg>
+        </button>
+
+        <button class="icon-btn" id="cartBtn" aria-label="Shopping cart" title="Cart (0)">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6h15l-2 10H8L6 6z" stroke="#333" stroke-width="1.2" stroke-linejoin="round"/></svg>
+          <span id="cartCount" class="badge" aria-live="polite">0</span>
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <div class="controls" role="region" aria-label="Search and filter controls">
+        <aside class="filters" aria-label="Filters">
+          <div class="panel" aria-hidden="false">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <strong>Filters</strong>
+              <button id="clearAllFilters" class="small" aria-label="Clear all filters">Clear</button>
+            </div>
+            <div style="margin-top:10px" class="small muted">Active filters:</div>
+            <div class="filters-summary" id="activeFilters"></div>
+          </div>
+
+          <div class="panel" id="facet-tags">
+            <strong>Quick filters</strong>
+            <div class="chips" id="tagCloud" aria-label="Tag cloud quick filters" role="list"></div>
+          </div>
+
+          <div class="panel facet" aria-labelledby="facet-country">
+            <strong id="facet-country">Country</strong>
+            <div id="facet-Country" class="chips" role="list"></div>
+          </div>
+
+          <div class="panel facet">
+            <strong>Material</strong>
+            <div id="facet-Material" class="chips"></div>
+          </div>
+
+          <div class="panel facet">
+            <strong>Shape</strong>
+            <div id="facet-Shape" class="chips"></div>
+          </div>
+
+          <div class="panel facet">
+            <strong>Condition</strong>
+            <div id="facet-Condition" class="chips"></div>
+          </div>
+
+          <div class="panel">
+            <strong>Year range</strong>
+            <div class="small muted" id="yearRangeLabel">—</div>
+            <input id="yearMin" type="range" min="1800" max="2025" value="1900" />
+            <input id="yearMax" type="range" min="1800" max="2025" value="2020" />
+          </div>
+
+          <div class="panel">
+            <strong>Price (£)</strong>
+            <div class="small muted" id="priceRangeLabel">—</div>
+            <input id="priceMin" type="range" min="0" max="5000" value="0" />
+            <input id="priceMax" type="range" min="0" max="5000" value="5000" />
+          </div>
+
+          <div class="panel">
+            <strong>Sort</strong>
+            <div class="small muted">Sort by:</div>
+            <select id="sortSelect" aria-label="Sort products">
+              <option value="relevance">Relevance</option>
+              <option value="newest">Newest (Year)</option>
+              <option value="priceAsc">Price: Low → High</option>
+              <option value="priceDesc">Price: High → Low</option>
+              <option value="sizeAsc">Size: Small → Large</option>
+            </select>
+          </div>
+        </aside>
+
+        <section class="results" aria-live="polite">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <div>
+              <div class="small muted" id="resultsCount">Loading products…</div>
+              <div style="font-weight:700;font-size:18px" id="resultsTitle">Discover pendants</div>
+            </div>
+
+            <div class="sortbar">
+              <label class="small muted">Show</label>
+              <select id="perPage">
+                <option>9</option><option>18</option><option>36</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="grid" class="grid" role="list" aria-label="Product results"></div>
+
+          <div id="noResults" class="center hidden" style="padding:36px;border-radius:12px;background:#fff;margin-top:18px;box-shadow:var(--card-shadow)">
+            <div>
+              <h3>No results</h3>
+              <p class="muted">Try removing filters, searching different terms, or browsing the tag cloud.</p>
+              <div style="margin-top:12px"><button id="tryClear" class="pill">Clear filters</button></div>
+            </div>
+          </div>
+
+        </section>
+      </div>
+    </main>
+
+    <!-- Modal overlay product detail -->
+    <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Product details">
+      <div class="modal" role="document">
+        <div class="carousel">
+          <div class="big" id="modalMainImgWrap">
+            <img id="modalMainImg" src="" alt="" />
+          </div>
+          <div class="thumbs" id="modalThumbs" tabindex="0" aria-label="Image thumbnails"></div>
+        </div>
+
+        <aside>
+          <div style="display:flex;justify-content:space-between;align-items:start;gap:8px">
+            <div>
+              <h2 id="modalTitle">Pendant</h2>
+              <div class="small muted" id="modalSubtitle">Short subtitle</div>
+            </div>
+            <div><button id="modalClose" class="icon-btn" aria-label="Close details">✕</button></div>
+          </div>
+
+          <div style="margin-top:12px">
+            <div style="font-size:26px;font-weight:700" id="modalPrice">£0</div>
+            <div class="small muted">Includes placeholder VAT of 20%</div>
+            <div style="margin-top:12px">
+              <button id="addToCartModal" class="pill" style="background:var(--accent);color:#fff;border:none;padding:10px 14px;border-radius:10px;cursor:pointer">Add to cart</button>
+            </div>
+          </div>
+
+          <div class="meta-table" style="margin-top:12px">
+            <h4>Details</h4>
+            <table id="metaTable" style="width:100%;border-collapse:collapse;font-size:13px">
+              <!-- metadata rows inserted dynamically -->
+            </table>
+          </div>
+
+          <div style="margin-top:12px" id="modalDesc">
+            <!-- placeholder description -->
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- Cart drawer simplified -->
+    <div id="cartDrawer" style="position:fixed;right:18px;bottom:18px;background:#fff;border-radius:12px;padding:12px;box-shadow:0 18px 40px rgba(0,0,0,0.12);min-width:320px;display:none;z-index:50">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <strong>Your cart</strong>
+        <button id="closeCart" class="icon-btn" aria-label="Close cart">✕</button>
+      </div>
+      <div id="cartItems" style="margin-top:12px;max-height:260px;overflow:auto"></div>
+      <div style="margin-top:12px;border-top:1px dashed rgba(0,0,0,0.06);padding-top:12px">
+        <div style="display:flex;justify-content:space-between"><div>Subtotal</div><div id="cartSubtotal">£0</div></div>
+        <div style="display:flex;justify-content:space-between"><div>VAT (20%)</div><div id="cartVAT">£0</div></div>
+        <div style="display:flex;justify-content:space-between;font-weight:700"><div>Total</div><div id="cartTotal">£0</div></div>
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button id="checkoutBtn" class="pill" style="flex:1;background:var(--accent);color:#fff;border:none">Checkout</button>
+          <button id="clearCart" class="pill" style="flex:1">Clear</button>
+        </div>
+      </div>
+    </div>
+
+    <footer role="contentinfo">
+      <div class="footer-grid">
+        <div>
+          <strong>Rare Pendants</strong>
+          <p class="small muted">Curated collection — small-batch vintage pendants.</p>
+          <p class="small">Contact: hello@rarependants.example</p>
+        </div>
+        <div>
+          <strong>Newsletter</strong>
+          <form id="newsletter" onsubmit="return false;" style="display:flex;gap:8px;margin-top:8px">
+            <input type="email" id="newsletterEmail" placeholder="email@example.com" style="padding:8px;border-radius:8px;border:1px solid rgba(0,0,0,0.06)" required />
+            <button class="pill" style="background:var(--accent);color:#fff;border:none">Subscribe</button>
+          </form>
+          <div style="margin-top:8px" class="small muted">We send occasional rare finds and restocks.</div>
+        </div>
+        <div>
+          <strong>Shipping & returns</strong>
+          <p class="small muted">Standard shipping 3–8 business days. Returns accepted within 14 days.</p>
+        </div>
+      </div>
+
+      <div style="margin-top:18px;border-top:1px solid rgba(0,0,0,0.04);padding-top:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap">
+        <div class="small muted">© <span id="yearNow"></span> Rare Pendants — All rights reserved</div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <a href="#" class="small muted">Privacy</a>
+          <a href="#" class="small muted">Terms</a>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Main JS — all vanilla, no external libs -->
+  <script>
+    /************************************************************************
+     * Rare Pendants — single-file prototype
+     *
+     * Key decisions / notes:
+     * - CSV is fetched from the provided public URL; response is cached in sessionStorage
+     * - If fetch fails (CORS or network), a small fallback dataset will be used and a friendly message shown
+     * - Fuzzy search: simple tokenized fuzzy scoring (no external lib) — good for demo and fast on small datasets.
+     * - Image lazy-load + blur-up: images start with tiny inline SVG placeholder, then real src in data-src; when they load we remove blur.
+     * - Accessibility: modal traps focus minimally, ARIA labels, keyboard shortcuts: '/' focuses search, Esc closes modal/drawer
+     * - To change fonts/colors: update the root CSS variables near top of file, and the Google Fonts link.
+     ************************************************************************/
+
+
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<script>
+const CORS_PROXY = "https://cors.isomorphic-git.org/";
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnfNO_iKVoyd-PW7vMXMaPaArLZWHVLXF_kGLwSWADIQBA_NEp2fFksheh4y-BBPk7kgkV8hwK6T9n/pub?output=csv";
+
+
+    (function(){
+      // ---------- Configuration ----------
+      const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSnfNO_iKVoyd-PW7vMXMaPaArLZWHVLXF_kGLwSWADIQBA_NEp2fFksheh4y-BBPk7kgkV8hwK6T9n/pub?output=csv';
+      const CACHE_KEY = 'rp_csv_cache_v1';
+      const CACHE_TTL_MS = 1000 * 60 * 60 * 24; // 24h caching in session
+      const FALLBACK_NOTICE = 'Could not fetch the live CSV (CORS or network issue). Using local fallback data. If you control the document, enable "Publish to web" and ensure CORS is allowed.';
+      const DEFAULT_PER_PAGE = 9;
+      const VAT_RATE = 0.2; // placeholder VAT
+      // ---------- DOM refs ----------
+      const grid = document.getElementById('grid');
+      const resultsCount = document.getElementById('resultsCount');
+      const resultsTitle = document.getElementById('resultsTitle');
+      const noResults = document.getElementById('noResults');
+      const tryClear = document.getElementById('tryClear');
+      const searchInput = document.getElementById('searchInput');
+      const perPageSelect = document.getElementById('perPage');
+      const cartBtn = document.getElementById('cartBtn');
+      const cartCount = document.getElementById('cartCount');
+      const cartDrawer = document.getElementById('cartDrawer');
+      const cartItemsEl = document.getElementById('cartItems');
+      const cartSubtotalEl = document.getElementById('cartSubtotal');
+      const cartVATEl = document.getElementById('cartVAT');
+      const cartTotalEl = document.getElementById('cartTotal');
+      const checkoutBtn = document.getElementById('checkoutBtn');
+      const clearCartBtn = document.getElementById('clearCart');
+      const wishlistBtn = document.getElementById('wishlistBtn');
+      const tagCloudEl = document.getElementById('tagCloud');
+      const activeFiltersEl = document.getElementById('activeFilters');
+      const overlay = document.getElementById('overlay');
+      const modalClose = document.getElementById('modalClose');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalSubtitle = document.getElementById('modalSubtitle');
+      const modalPrice = document.getElementById('modalPrice');
+      const modalMainImg = document.getElementById('modalMainImg');
+      const modalThumbs = document.getElementById('modalThumbs');
+      const metaTable = document.getElementById('metaTable');
+      const modalDesc = document.getElementById('modalDesc');
+      const addToCartModal = document.getElementById('addToCartModal');
+      const clearAllFiltersBtn = document.getElementById('clearAllFilters');
+      const tryClearBtn = document.getElementById('tryClear');
+      const resultsCountText = resultsCount;
+      const resultsGrid = grid;
+      const perPage = perPageSelect;
+      const sortSelect = document.getElementById('sortSelect');
+
+      // Facet elements
+      const facetContainers = {
+        'Country(s) of origin': document.getElementById('facet-Country'),
+        'Material': document.getElementById('facet-Material'),
+        'Shape': document.getElementById('facet-Shape'),
+        'Condition': document.getElementById('facet-Condition')
+      };
+      const yearMinEl = document.getElementById('yearMin');
+      const yearMaxEl = document.getElementById('yearMax');
+      const yearRangeLabel = document.getElementById('yearRangeLabel');
+      const priceMinEl = document.getElementById('priceMin');
+      const priceMaxEl = document.getElementById('priceMax');
+      const priceRangeLabel = document.getElementById('priceRangeLabel');
+
+      // ---------- State ----------
+      let products = []; // loaded product objects
+      let filtered = []; // current results
+      let facets = {}; // counts for facets
+      let active = {
+        text: '',
+        facets: {
+          'Country(s) of origin': new Set(),
+          'Material': new Set(),
+          'Shape': new Set(),
+          'Condition': new Set()
+        },
+        year: [1800, 2025],
+        price: [0, 5000],
+        sort: 'relevance',
+        perPage: DEFAULT_PER_PAGE,
+        page: 1
+      };
+
+      // Cart & wishlist state in localStorage
+      const CART_KEY = 'rp_cart_v1';
+      const WISH_KEY = 'rp_wish_v1';
+
+      // Accessibility helpers: minimal focus trap for modal
+      function trapFocus(container){
+        const focusable = container.querySelectorAll('button, a, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        const first = focusable[0];
+        const last = focusable[focusable.length-1];
+        function handler(e){
+          if(e.key === 'Tab'){
+            if(e.shiftKey && document.activeElement === first){
+              e.preventDefault();
+              last.focus();
+            } else if(!e.shiftKey && document.activeElement === last){
+              e.preventDefault();
+              first.focus();
+            }
+          } else if(e.key === 'Escape'){
+            closeModal();
+          }
+        }
+        container.addEventListener('keydown', handler);
+        return ()=>container.removeEventListener('keydown', handler);
+      }
+
+      // ---------------- CSV parsing ----------------
+      function parseCSV(text){
+        // Simple CSV parser that handles commas and quoted strings.
+        const lines = text.trim().split(/\r?\n/).map(l=>l.trim());
+        if(lines.length === 0) return [];
+        const headers = splitCSVLine(lines[0]);
+        const cols = headers.map(h=>h.trim());
+        const rows = [];
+        for(let i=1;i<lines.length;i++){
+          if(!lines[i]) continue;
+          const cells = splitCSVLine(lines[i]);
+          const obj = {};
+          for(let j=0;j<cols.length;j++){
+            obj[cols[j]] = (cells[j] !== undefined) ? cells[j].trim() : '';
+          }
+          rows.push(obj);
+        }
+        return rows;
+      }
+      function splitCSVLine(line){
+        // naive CSV splitter: supports quoted commas
+        const cells = [];
+        let cur = '', inQuotes = false;
+        for(let i=0;i<line.length;i++){
+          const ch = line[i];
+          if(ch === '"' ){
+            if(inQuotes && line[i+1] === '"'){ cur += '"'; i++; } // escaped quote
+            else inQuotes = !inQuotes;
+            continue;
+          }
+          if(ch === ',' && !inQuotes){
+            cells.push(cur);
+            cur = '';
+          } else cur += ch;
+        }
+        cells.push(cur);
+        return cells;
+      }
+
+      // Map CSV row to our product model (safe handling of missing cells)
+      function mapRowToProduct(row, idx){
+        const get = (k)=> (row[k] !== undefined && row[k] !== null) ? row[k].trim() : '';
+        const priceRaw = (get('Price (£)') || '').replace(/[£, ]/g,'');
+        const price = parseFloat(priceRaw) || 0;
+        const sizeRaw = (get('Size (cm)') || '').replace(/[^\d.]/g,'');
+        const size = parseFloat(sizeRaw) || null;
+        const yearStr = get('Year(s)') || '';
+        // parse first year if range
+        let year = null;
+        if(yearStr){
+          const m = yearStr.match(/(\d{4})/);
+          year = m ? parseInt(m[1],10) : null;
+        }
+
+        // images
+        const imgFront = get('Image front') || '';
+        const imgBack  = get('Image back') || '';
+
+        const titleParts = [];
+        if(get('Material')) titleParts.push(get('Material'));
+        if(get('Shape')) titleParts.push(get('Shape'));
+        if(get('Animal')) titleParts.push(get('Animal'));
+        if(get('City / Landmark')) titleParts.push(get('City / Landmark'));
+        const title = titleParts.length ? titleParts.join(' — ') : (get('Person') || 'Vintage Pendant');
+
+        // Build product object
+        return {
+          id: 'p' + (idx+1),
+          raw: row,
+          title,
+          price,
+          year,
+          size,
+          images: { front: imgFront, back: imgBack },
+          // standardize fields for searching & facets
+          fields: {
+            country: get('Country(s) of origin'),
+            city: get('City / Landmark'),
+            years: get('Year(s)'),
+            initials: get('Initial(s)'),
+            symbols: get('Symbol(s)'),
+            person: get('Person'),
+            purpose: get('Purpose'),
+            animal: get('Animal'),
+            sport: get('Sport'),
+            material: get('Material'),
+            shape: get('Shape'),
+            size: get('Size (cm)'),
+            condition: get('Condition')
+          },
+          description: generatePlaceholderDescription(get('Material'), get('City / Landmark'), get('Year(s)'), get('Animal'), get('Person')),
+          createdAt: year || 1900 // for sorting by newest
+        };
+      }
+
+      // Placeholder product description generator
+      function generatePlaceholderDescription(material, landmark, years, animal, person){
+        const parts = [];
+        parts.push(`A thoughtfully curated vintage pendant${material ? ' crafted in ' + material : ''}.`);
+        if(landmark) parts.push(`Collected from ${landmark} as a small memento.`);
+        if(years) parts.push(`Dating to ${years}.`);
+        if(animal) parts.push(`Motif: ${animal}.`);
+        if(person) parts.push(`Associated with: ${person}.`);
+        parts.push('Condition: vintage with character — images show patina and wear. Each pendant is unique.');
+        return parts.join(' ');
+      }
+
+      // ---------- Fetch + cache CSV ----------
+      async function fetchCSVWithCache(){
+        // Check session cache
+        try{
+          const cached = sessionStorage.getItem(CACHE_KEY);
+          if(cached){
+            const obj = JSON.parse(cached);
+            if(Date.now() - obj.ts < CACHE_TTL_MS){
+              console.info('Using cached CSV');
+              return {text: obj.text, fromCache: true};
+            }
+          }
+        }catch(e){ /* ignore parse errors */ }
+
+        // Fetch
+        try{
+          const r = await fetch(CORS_PROXY + CSV_URL);
+          if(!r.ok) throw new Error('Network response not ok: ' + r.status);
+          const text = await r.text();
+          // store in sessionStorage
+          try{ 
+            sessionStorage.setItem(CACHE_KEY, JSON.stringify({ts: Date.now(), text}));
+          }catch(e){ /* ignore storage errors */ }
+          return {text, fromCache:false};
+        } catch(err){
+          console.warn('Fetch CSV failed', err);
+          return {error: err};
+        }
+      }
+
+      // ---------- Fuzzy-ish search ----------
+      function tokenize(s){
+        if(!s) return [];
+        return s.toString().toLowerCase().split(/[\s,\/\-\_\.]+/).filter(Boolean);
+      }
+      function scoreProductForQuery(prod, query){
+        // simple scoring:
+        // + tokens matched in important fields: title, material, animal, person, purpose, symbols, country, city, initials
+        if(!query || !query.trim()) return 1; // relevance baseline
+        const qtokens = tokenize(query);
+        let score = 0;
+        const searchable = [
+          prod.title,
+          prod.fields.material,
+          prod.fields.animal,
+          prod.fields.person,
+          prod.fields.purpose,
+          prod.fields.symbols,
+          prod.fields.country,
+          prod.fields.city,
+          prod.fields.initials,
+          prod.fields.years,
+          prod.fields.shape
+        ].join(' | ');
+        const stokens = tokenize(searchable);
+        qtokens.forEach(qt=>{
+          // exact token match increases score
+          if(stokens.includes(qt)) score += 4;
+          else {
+            // partial matches
+            for(const t of stokens){
+              if(t.includes(qt) || qt.includes(t)) { score += 2; break; }
+              // small fuzzy: edit distance within 1-2 (cheap)
+              if(Math.abs(t.length - qt.length) <= 2 && t.indexOf(qt[0]) === 0) { score += 1; break; }
+            }
+          }
+        });
+        // boost by recency (year) slightly
+        if(prod.year) score += Math.max(0, (prod.year - 1900)/200);
+        return score;
+      }
+
+      // ---------- Filtering pipeline ----------
+      function applyFiltersAndSearch(){
+        const q = active.text.trim();
+        const results = [];
+        const yearMin = active.year[0], yearMax = active.year[1];
+        const priceMin = active.price[0], priceMax = active.price[1];
+        products.forEach(p=>{
+          // facet filters
+          for(const facetKey of Object.keys(active.facets)){
+            const sel = active.facets[facetKey];
+            if(sel.size === 0) continue;
+            // map facetKey to product field name
+            let prodVal = '';
+            if(facetKey === 'Country(s) of origin') prodVal = p.fields.country;
+            else prodVal = p.fields[facetKey.toLowerCase()] || '';
+            // some fields are comma separated - check any selected present
+            const tokens = tokenize(prodVal);
+            let match = false;
+            for(const v of sel){
+              if(tokens.includes(v.toLowerCase())) { match = true; break; }
+            }
+            if(!match) return; // skip product
+          }
+
+          // year range filter
+          if(p.year){
+            if(p.year < yearMin || p.year > yearMax) return;
+          } else {
+            // if no year and user has narrowed range, keep item unless range is restrictive
+            if(yearMin > 1800 || yearMax < 2025) {
+              // treat missing year as pass-through unless user actively narrowed far
+              // For demo, allow pass
+            }
+          }
+
+          // price filter
+          if(p.price < priceMin || p.price > priceMax) return;
+
+          // text search scoring (relevance)
+          const score = scoreProductForQuery(p, q);
+          if(q && score < 1) return;
+          results.push({p, score});
+        });
+
+        // sort
+        const sort = active.sort;
+        if(sort === 'relevance'){
+          results.sort((a,b)=>b.score - a.score);
+        } else if(sort === 'newest'){
+          results.sort((a,b)=> (b.p.createdAt || 0) - (a.p.createdAt || 0));
+        } else if(sort === 'priceAsc'){
+          results.sort((a,b)=> a.p.price - b.p.price);
+        } else if(sort === 'priceDesc'){
+          results.sort((a,b)=> b.p.price - a.p.price);
+        } else if(sort === 'sizeAsc'){
+          results.sort((a,b)=> (a.p.size || 0) - (b.p.size || 0));
+        }
+
+        // Save filtered and render
+        filtered = results.map(r=>r.p);
+        renderResults();
+      }
+
+      // ---------- Rendering ----------
+      function renderResults(){
+        // pagination/perPage
+        const per = parseInt(active.perPage,10) || DEFAULT_PER_PAGE;
+        const total = filtered.length;
+        resultsCountText.textContent = `${total} result${total!==1?'s':''}`;
+        // grid cleared and re-populated
+        grid.innerHTML = '';
+        if(total === 0){
+          noResults.classList.remove('hidden');
+          resultsTitle.textContent = 'No matches';
+          return;
+        } else {
+          noResults.classList.add('hidden');
+          resultsTitle.textContent = 'Discover pendants';
+        }
+
+        // create cards (show first per results for demo)
+        const toShow = filtered.slice(0, per);
+        toShow.forEach(prod => {
+          const el = createCard(prod);
+          grid.appendChild(el);
+        });
+
+        // update facets counts
+        computeFacetCounts();
+        renderActiveFilters();
+      }
+
+      function createCard(prod){
+        const li = document.createElement('article');
+        li.className = 'card';
+        li.setAttribute('role','listitem');
+        li.tabIndex = 0;
+        li.dataset.id = prod.id;
+
+        // image wrapper
+        const imgwrap = document.createElement('div');
+        imgwrap.className = 'imgwrap';
+        const img = document.createElement('img');
+        // low-res SVG placeholder as src; real URL in data-src to lazily load
+        img.src = tinyPlaceholderSVG(240,240);
+        img.dataset.src = prod.images.front || prod.images.back || '';
+        img.alt = prod.title;
+        img.loading = 'lazy';
+        img.className = 'img-placeholder';
+        imgwrap.appendChild(img);
+
+        // info
+        const info = document.createElement('div');
+        info.innerHTML = `<div class="title">${escapeHtml(prod.title)}</div>
+                          <div class="meta">${escapeHtml(shortMeta(prod))}</div>`;
+
+        const row = document.createElement('div');
+        row.className = 'row';
+        const price = document.createElement('div');
+        price.className = 'price';
+        price.textContent = '£' + (prod.price || 0).toFixed(2);
+        row.appendChild(price);
+
+        const actions = document.createElement('div');
+        actions.style.display = 'flex'; actions.style.gap = '8px';
+        const viewBtn = document.createElement('button');
+        viewBtn.className = 'pill';
+        viewBtn.textContent = 'View';
+        viewBtn.onclick = ()=> openModalForProduct(prod.id);
+
+        const wishBtn = document.createElement('button');
+        wishBtn.className = 'pill';
+        wishBtn.textContent = '♡';
+        wishBtn.title = 'Add to wishlist';
+        wishBtn.onclick = (e)=>{ e.stopPropagation(); toggleWishlist(prod.id); updateWishlistUI(); };
+
+        actions.appendChild(viewBtn);
+        actions.appendChild(wishBtn);
+        row.appendChild(actions);
+
+        li.appendChild(imgwrap);
+        li.appendChild(info);
+        li.appendChild(row);
+
+        // click opens modal
+        li.addEventListener('click', ()=> openModalForProduct(prod.id));
+        li.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') openModalForProduct(prod.id); });
+
+        // lazy load image when element inserted into DOM
+        observeImageLoading(img);
+
+        return li;
+      }
+
+      function escapeHtml(s){
+        return (s||'').replace(/[&<>"']/g, function(m){
+          return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]);
+        });
+      }
+      function shortMeta(p){
+        const parts = [];
+        if(p.fields.material) parts.push(p.fields.material);
+        if(p.fields.shape) parts.push(p.fields.shape);
+        if(p.fields.animal) parts.push(p.fields.animal);
+        if(p.year) parts.push(p.year);
+        return parts.join(' • ');
+      }
+
+      // tiny inline SVG placeholder generator (data URL)
+      function tinyPlaceholderSVG(w,h){
+        const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${w}' height='${h}'><rect width='100%' height='100%' fill='#f3f3f3'/></svg>`;
+        return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+      }
+
+      // IntersectionObserver to lazy load and blur-up
+      const io = new IntersectionObserver((entries)=>{
+        entries.forEach(entry=>{
+          if(!entry.isIntersecting) return;
+          const img = entry.target;
+          if(img.dataset.src){
+            img.src = img.dataset.src;
+            img.addEventListener('load', ()=>{
+              img.classList.remove('img-placeholder');
+              img.classList.add('img-ready');
+            }, {once:true});
+            img.removeAttribute('data-src');
+          }
+          io.unobserve(img);
+        });
+      }, {rootMargin:'200px'});
+
+      function observeImageLoading(img){
+        io.observe(img);
+      }
+
+      // ---------- Modal ----------
+      let untrap= null;
+      function openModalForProduct(id){
+        const prod = products.find(p=>p.id === id) || filtered.find(p=>p.id===id);
+        if(!prod) return;
+        // populate modal
+        modalTitle.textContent = prod.title;
+        modalSubtitle.textContent = `${prod.fields.city || prod.fields.country || ''} • ${prod.fields.shape || ''}`;
+        modalPrice.textContent = '£' + (prod.price || 0).toFixed(2);
+        modalDesc.textContent = prod.description || 'A rare vintage pendant.';
+        // images
+        modalThumbs.innerHTML = '';
+        const front = prod.images.front;
+        const back = prod.images.back;
+        const mainImg = modalMainImg;
+        mainImg.src = tinyPlaceholderSVG(600,600);
+        if(front) {
+          mainImg.dataset.src = front;
+          mainImg.alt = prod.title + ' front';
+        } else if(back) {
+          mainImg.dataset.src = back;
+          mainImg.alt = prod.title + ' image';
+        } else {
+          mainImg.dataset.src = '';
+          mainImg.alt = prod.title;
+        }
+        // show thumbnails
+        [front, back].filter(Boolean).forEach((url, i)=>{
+          const t = document.createElement('img');
+          t.src = tinyPlaceholderSVG(80,80);
+          t.dataset.src = url;
+          t.style.width = '64px'; t.style.height='64px'; t.style.objectFit='contain';
+          t.style.borderRadius='8px'; t.style.cursor='pointer';
+          t.addEventListener('click', ()=> {
+            mainImg.src = tinyPlaceholderSVG(600,600);
+            mainImg.dataset.src = url;
+            observeImageLoading(mainImg);
+          });
+          observeImageLoading(t);
+          modalThumbs.appendChild(t);
+        });
+        // meta table
+        metaTable.innerHTML = '';
+        for(const k in prod.fields){
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td style="padding:6px 8px;width:36%"><strong>${escapeHtml(k)}</strong></td><td style="padding:6px 8px">${escapeHtml(prod.fields[k]||'—')}</td>`;
+          metaTable.appendChild(tr);
+        }
+        // add to cart handler
+        addToCartModal.onclick = ()=> { addToCart(prod.id,1); openCart(); };
+
+        overlay.setAttribute('aria-hidden','false');
+        overlay.focus();
+        untrap = trapFocus(overlay);
+        // lazy load main image
+        observeImageLoading(modalMainImg);
+
+        // close on backdrop click
+        overlay.addEventListener('click', overlayClickHandler);
+      }
+      function overlayClickHandler(e){
+        if(e.target === overlay) closeModal();
+      }
+      function closeModal(){
+        overlay.setAttribute('aria-hidden','true');
+        overlay.removeEventListener('click', overlayClickHandler);
+        if(untrap) { untrap(); untrap = null; }
+      }
+      modalClose.addEventListener('click', closeModal);
+
+      // ---------- Facets UI ----------
+      function computeFacetsFromProducts(){
+        // compute lists of unique values for facets
+        const sets = {
+          'Country(s) of origin': new Map(),
+          'Material': new Map(),
+          'Shape': new Map(),
+          'Condition': new Map()
+        };
+        products.forEach(p=>{
+          const add = (map, raw) => {
+            if(!raw) return;
+            // split multi-value values by comma / semicolon / slash
+            raw.split(/[,;\/]/).map(s=>s.trim()).filter(Boolean).forEach(s=>{
+              const key = s;
+              map.set(key, (map.get(key) || 0) + 1);
+            });
+          };
+          add(sets['Country(s) of origin'], p.fields.country);
+          add(sets['Material'], p.fields.material);
+          add(sets['Shape'], p.fields.shape);
+          add(sets['Condition'], p.fields.condition);
+        });
+        facets = sets;
+      }
+
+      function renderFacetLists(){
+        // render chips
+        for(const [facetName, container] of Object.entries(facetContainers)){
+          container.innerHTML = '';
+          const map = facets[facetName];
+          if(!map) continue;
+          // sort by count desc
+          const arr = Array.from(map.entries()).sort((a,b)=>b[1]-a[1]);
+          arr.forEach(([label,count])=>{
+            const chip = document.createElement('button');
+            chip.className = 'chip';
+            chip.textContent = `${label} (${count})`;
+            chip.addEventListener('click', ()=> {
+              toggleFacetSelection(facetName, label);
+            });
+            container.appendChild(chip);
+          });
+        }
+      }
+
+      function computeFacetCounts(){
+        // compute counts for current filtered set and update UI chips to show counts
+        // For simplicity we re-run counts on filtered list
+        const counts = {
+          'Country(s) of origin': new Map(),
+          'Material': new Map(),
+          'Shape': new Map(),
+          'Condition': new Map()
+        };
+        filtered.forEach(p=>{
+          const add = (map, raw) => {
+            if(!raw) return;
+            raw.split(/[,;\/]/).map(s=>s.trim()).filter(Boolean).forEach(s=>{
+              map.set(s, (map.get(s) || 0) + 1);
+            });
+          };
+          add(counts['Country(s) of origin'], p.fields.country);
+          add(counts['Material'], p.fields.material);
+          add(counts['Shape'], p.fields.shape);
+          add(counts['Condition'], p.fields.condition);
+        });
+        // update chip displays (if chips exist)
+        for(const [facetName, container] of Object.entries(facetContainers)){
+          const map = counts[facetName] || new Map();
+          // update chip buttons text / enable/disable
+          Array.from(container.children).forEach(btn=>{
+            const txt = btn.textContent.split(' (')[0];
+            const c = map.get(txt) || 0;
+            btn.textContent = `${txt} (${c})`;
+            btn.disabled = c === 0;
+            btn.style.opacity = c===0?0.5:1;
+            // active class
+            if(active.facets[facetName].has(txt)) btn.classList.add('active'); else btn.classList.remove('active');
+          });
+        }
+      }
+
+      function toggleFacetSelection(facetName, label){
+        const set = active.facets[facetName];
+        if(set.has(label)) set.delete(label); else set.add(label);
+        applyFiltersAndSearch();
+      }
+
+      function renderActiveFilters(){
+        // show pills for each active filter
+        activeFiltersEl.innerHTML = '';
+        for(const [facetName, set] of Object.entries(active.facets)){
+          for(const v of set){
+            const pill = document.createElement('div');
+            pill.className = 'filter-pill';
+            pill.innerHTML = `<span>${facetName.split('(')[0].trim()}: ${v}</span><button style="border:none;background:transparent;cursor:pointer" aria-label="Remove filter">✕</button>`;
+            pill.querySelector('button').addEventListener('click', ()=> {
+              set.delete(v); applyFiltersAndSearch();
+            });
+            activeFiltersEl.appendChild(pill);
+          }
+        }
+        // year & price
+        if(active.year[0] !== 1800 || active.year[1] !== 2025){
+          const pill = document.createElement('div');
+          pill.className = 'filter-pill';
+          pill.innerHTML = `<span>Year: ${active.year[0]} — ${active.year[1]}</span><button style="border:none;background:transparent;cursor:pointer" aria-label="Remove filter">✕</button>`;
+          pill.querySelector('button').addEventListener('click', ()=> {
+            active.year = [1800,2025]; yearMinEl.value = 1800; yearMaxEl.value = 2025; applyFiltersAndSearch();
+          });
+          activeFiltersEl.appendChild(pill);
+        }
+        if(active.price[0] !== 0 || active.price[1] !== 5000){
+          const pill = document.createElement('div');
+          pill.className = 'filter-pill';
+          pill.innerHTML = `<span>Price: £${active.price[0]} — £${active.price[1]}</span><button style="border:none;background:transparent;cursor:pointer" aria-label="Remove filter">✕</button>`;
+          pill.querySelector('button').addEventListener('click', ()=> {
+            active.price = [0,5000]; priceMinEl.value=0; priceMaxEl.value=5000; applyFiltersAndSearch();
+          });
+          activeFiltersEl.appendChild(pill);
+        }
+      }
+
+      // ---------- Tag cloud quick filters ----------
+      function buildTagCloud(){
+        // pick some common tags from facets (material, animal, purpose keywords)
+        const tagSet = new Map();
+        products.forEach(p=>{
+          ['material','animal','purpose','shape','person'].forEach(k=>{
+            const val = p.fields[k];
+            if(!val) return;
+            val.split(/[,;\/]/).map(s=>s.trim()).filter(Boolean).forEach(s=>{
+              tagSet.set(s, (tagSet.get(s) || 0) + 1);
+            });
+          });
+        });
+        // sort by frequency and pick top 18
+        const arr = Array.from(tagSet.entries()).sort((a,b)=>b[1]-a[1]).slice(0,18);
+        tagCloudEl.innerHTML = '';
+        arr.forEach(([label,count])=>{
+          const b = document.createElement('button');
+          b.className = 'chip';
+          b.textContent = label;
+          b.addEventListener('click', ()=> {
+            // when clicking a tag, we toggle an appropriate facet if possible, else use search
+            // try to find matching facet
+            let foundFacet = null;
+            for(const f of Object.keys(active.facets)){
+              // if product facet contains this label at all in entire products set, use facet
+              const facetMap = facets[f];
+              if(facetMap && facetMap.has(label)) { foundFacet = f; break; }
+            }
+            if(foundFacet){
+              toggleFacetSelection(foundFacet, label);
+            } else {
+              // otherwise put into text search
+              active.text = label;
+              searchInput.value = label;
+              debouncedSearchChange();
+            }
+          });
+          tagCloudEl.appendChild(b);
+        });
+      }
+
+      // ---------- Cart & Wishlist ----------
+      function getCart(){
+        try{
+          return JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+        }catch(e){ return []; }
+      }
+      function saveCart(c){
+        localStorage.setItem(CART_KEY, JSON.stringify(c));
+      }
+      function addToCart(id, qty=1){
+        const cart = getCart();
+        const row = cart.find(r=>r.id===id);
+        if(row) row.qty += qty; else cart.push({id,qty});
+        saveCart(cart);
+        updateCartUI();
+      }
+      function updateCartUI(){
+        const cart = getCart();
+        const count = cart.reduce((s,r)=>s+r.qty,0);
+        cartCount.textContent = count;
+        // update drawer if open
+        if(cartDrawer.style.display !== 'none'){
+          renderCartDrawer();
+        }
+      }
+      function renderCartDrawer(){
+        const cart = getCart();
+        cartItemsEl.innerHTML = '';
+        let subtotal = 0;
+        if(cart.length === 0) cartItemsEl.innerHTML = '<div class="small muted">Your cart is empty</div>';
+        cart.forEach(item=>{
+          const p = products.find(pp=>pp.id===item.id) || {title:'Unknown', price:0};
+          const row = document.createElement('div');
+          row.style.display='flex';row.style.justifyContent='space-between';row.style.alignItems='center';row.style.gap='8px';row.style.marginBottom='8px';
+          row.innerHTML = `<div><div style="font-weight:600">${escapeHtml(p.title)}</div><div class="small muted">£${(p.price||0).toFixed(2)}</div></div>`;
+          const controls = document.createElement('div');
+          controls.style.display='flex';controls.style.gap='8px';controls.style.alignItems='center';
+          const q = document.createElement('input'); q.type='number'; q.value = item.qty; q.min=1; q.style.width='56px';
+          q.addEventListener('change', ()=> {
+            item.qty = parseInt(q.value,10) || 1;
+            saveCart(cart);
+            renderCartDrawer(); updateCartUI();
+          });
+          const del = document.createElement('button'); del.className='pill'; del.textContent='Remove';
+          del.addEventListener('click', ()=> {
+            const idx = cart.findIndex(x=>x.id===item.id);
+            if(idx>=0) cart.splice(idx,1);
+            saveCart(cart); renderCartDrawer(); updateCartUI();
+          });
+          controls.appendChild(q); controls.appendChild(del);
+          row.appendChild(controls);
+          cartItemsEl.appendChild(row);
+          subtotal += (p.price || 0) * item.qty;
+        });
+        const vat = subtotal * VAT_RATE;
+        const total = subtotal + vat;
+        cartSubtotalEl.textContent = '£' + subtotal.toFixed(2);
+        cartVATEl.textContent = '£' + vat.toFixed(2);
+        cartTotalEl.textContent = '£' + total.toFixed(2);
+      }
+      function openCart(){
+        cartDrawer.style.display = 'block';
+        renderCartDrawer();
+      }
+      cartBtn.addEventListener('click', ()=> {
+        openCart();
+      });
+      document.getElementById('closeCart').addEventListener('click', ()=> cartDrawer.style.display = 'none');
+      checkoutBtn.addEventListener('click', ()=> {
+        // simple mock checkout navigation — leads to a static mock checkout page in same file (generated)
+        window.location.href = '#checkout-mock';
+        alert('This is a mock checkout. In production you would redirect to your payment provider.');
+      });
+      clearCartBtn.addEventListener('click', ()=> {
+        localStorage.removeItem(CART_KEY); updateCartUI(); renderCartDrawer();
+      });
+
+      // Wishlist
+      function getWish(){
+        try{ return JSON.parse(localStorage.getItem(WISH_KEY) || '[]'); }catch(e){ return []; }
+      }
+      function saveWish(w){ localStorage.setItem(WISH_KEY, JSON.stringify(w)); }
+      function toggleWishlist(id){
+        const w = getWish();
+        const idx = w.indexOf(id);
+        if(idx>=0) w.splice(idx,1); else w.push(id);
+        saveWish(w); updateWishlistUI();
+      }
+      function updateWishlistUI(){
+        const w = getWish();
+        wishlistBtn.setAttribute('aria-pressed', w.length>0 ? 'true' : 'false');
+        wishlistBtn.title = `Wishlist (${w.length})`;
+      }
+
+      // ---------- UI events ----------
+      // search debounce
+      let searchTimer = null;
+      function debouncedSearchChange(){
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(()=>{
+          active.text = searchInput.value;
+          applyFiltersAndSearch();
+        }, 300);
+      }
+      searchInput.addEventListener('input', debouncedSearchChange);
+      // keyboard shortcut for search '/'
+      window.addEventListener('keydown', (e)=>{
+        if(e.key === '/' && document.activeElement !== searchInput) { e.preventDefault(); searchInput.focus(); }
+        else if(e.key === 'Escape') {
+          // close modal or cart if open
+          if(overlay.getAttribute('aria-hidden') === 'false') closeModal();
+          if(cartDrawer.style.display === 'block') cartDrawer.style.display = 'none';
+        }
+      });
+
+      // facets toggle buttons (delegated)
+      clearAllFiltersBtn.addEventListener('click', ()=>{
+        for(const k of Object.keys(active.facets)) active.facets[k].clear();
+        active.year = [1800,2025]; yearMinEl.value=1800; yearMaxEl.value=2025;
+        active.price = [0,5000]; priceMinEl.value=0; priceMaxEl.value=5000;
+        applyFiltersAndSearch();
+      });
+      tryClearBtn.addEventListener('click', ()=> {
+        for(const k of Object.keys(active.facets)) active.facets[k].clear();
+        active.text = '';
+        searchInput.value='';
+        active.year = [1800,2025]; yearMinEl.value=1800; yearMaxEl.value=2025;
+        active.price = [0,5000]; priceMinEl.value=0; priceMaxEl.value=5000;
+        applyFiltersAndSearch();
+      });
+
+      // year range sliders sync (simple UX: two sliders)
+      function updateYearRange(){
+        let min = Math.min(parseInt(yearMinEl.value,10), parseInt(yearMaxEl.value,10));
+        let max = Math.max(parseInt(yearMinEl.value,10), parseInt(yearMaxEl.value,10));
+        active.year = [min,max];
+        yearRangeLabel.textContent = `${min} — ${max}`;
+        applyFiltersAndSearch();
+      }
+      yearMinEl.addEventListener('input', updateYearRange);
+      yearMaxEl.addEventListener('input', updateYearRange);
+
+      // Price range
+      function updatePriceRange(){
+        let min = Math.min(parseInt(priceMinEl.value,10), parseInt(priceMaxEl.value,10));
+        let max = Math.max(parseInt(priceMinEl.value,10), parseInt(priceMaxEl.value,10));
+        active.price = [min,max];
+        priceRangeLabel.textContent = `£${min} — £${max}`;
+        applyFiltersAndSearch();
+      }
+      priceMinEl.addEventListener('input', updatePriceRange);
+      priceMaxEl.addEventListener('input', updatePriceRange);
+
+      // perPage and sort changes
+      perPageSelect.addEventListener('change', ()=>{
+        active.perPage = parseInt(perPageSelect.value,10) || DEFAULT_PER_PAGE;
+        applyFiltersAndSearch();
+      });
+      sortSelect.addEventListener('change', ()=>{
+        active.sort = sortSelect.value;
+        applyFiltersAndSearch();
+      });
+
+      // tag cloud click handled in buildTagCloud
+
+      // ---------- Initialization ----------
+      async function init(){
+        document.getElementById('yearNow').textContent = new Date().getFullYear();
+
+        // load CSV
+        let csvResponse = await fetchCSVWithCache();
+        let rows = [];
+        if(csvResponse && csvResponse.text){
+          try{
+            rows = parseCSV(csvResponse.text);
+            // Map rows to products
+            products = rows.map((r,i)=> mapRowToProduct(r,i));
+            if(products.length === 0) throw new Error('No rows parsed');
+          } catch(e){
+            console.warn('Parsing CSV failed', e);
+            notifyFallback(FALLBACK_NOTICE);
+            loadFallback();
+          }
+        } else {
+          notifyFallback(FALLBACK_NOTICE);
+          loadFallback();
+        }
+
+        // compute facets
+        computeFacetsFromProducts();
+        renderFacetLists();
+        buildTagCloud();
+
+        // set year/price ranges based on data
+        const years = products.map(p=>p.year).filter(Boolean);
+        const minY = years.length ? Math.min(...years) : 1800;
+        const maxY = years.length ? Math.max(...years) : new Date().getFullYear();
+        yearMinEl.min = 1800; yearMinEl.max = maxY;
+        yearMaxEl.min = minY; yearMaxEl.max = maxY;
+        yearMinEl.value = minY; yearMaxEl.value = maxY;
+        active.year = [minY,maxY];
+        yearRangeLabel.textContent = `${minY} — ${maxY}`;
+
+        const prices = products.map(p=>p.price||0);
+        const pmin = prices.length ? Math.floor(Math.min(...prices)) : 0;
+        const pmax = prices.length ? Math.ceil(Math.max(...prices)) : 5000;
+        priceMinEl.min = 0; priceMinEl.max = Math.max(5000,pmax);
+        priceMaxEl.min = 0; priceMaxEl.max = Math.max(5000,pmax);
+        priceMinEl.value = 0; priceMaxEl.value = Math.max(5000,pmax);
+        active.price = [0, Math.max(5000,pmax)];
+        priceRangeLabel.textContent = `£${active.price[0]} — £${active.price[1]}`;
+
+        // initial apply
+        active.perPage = DEFAULT_PER_PAGE;
+        applyFiltersAndSearch();
+
+        // restore cart/wishlist UI
+        updateCartUI();
+        updateWishlistUI();
+
+        // render fallback notice if necessary
+        if(csvResponse && csvResponse.error){
+          showNotice('Could not fetch live CSV — using fallback sample data.');
+        }
+      }
+
+      function notifyFallback(msg){
+        console.warn(msg);
+      }
+
+      // fallback sample products
+      function loadFallback(){
+        const sample = [
+          {
+            id:'p-s1', title:'Bronze Circle — Bear — Yellowstone', price:85.00, year:1927, size:2.8,
+            images:{front:'https://dummyimage.com/800x800/efe8e0/322a22&text=Bronze+Bear', back:'https://dummyimage.com/800x800/efe8e0/322a22&text=Back'},
+            fields:{country:'USA', 'city / landmark':'Yellowstone', material:'Bronze', shape:'Circle', animal:'Bear', condition:'Good'}
+          },
+          {
+            id:'p-s2', title:'Silver Oval — Ship — Liverpool', price:120.00, year:1952, size:3.4,
+            images:{front:'https://dummyimage.com/800x800/edf3f0/112d2a&text=Silver+Ship', back:'https://dummyimage.com/800x800/edf3f0/112d2a&text=Back'},
+            fields:{country:'UK', 'city / landmark':'Liverpool', material:'Silver', shape:'Oval', animal:'', condition:'Fair'}
+          },
+          {
+            id:'p-s3', title:'Brass Heart — Initials A.B. — Paris', price:230.00, year:1901, size:2.0,
+            images:{front:'https://dummyimage.com/800x800/f7f2ef/2f2b29&text=Heart', back:'https://dummyimage.com/800x800/f7f2ef/2f2b29&text=Back'},
+            fields:{country:'France', 'city / landmark':'Paris', material:'Brass', shape:'Heart', animal:'', condition:'Good'}
+          }
+        ];
+        // map to expected product model for demo compatibility
+        products = sample.map((s,i)=>({
+          id: s.id,
+          raw: {},
+          title: s.title,
+          price: s.price,
+          year: s.year,
+          size: s.size,
+          images: s.images,
+          fields: {
+            country: s.fields.country || '',
+            'City / Landmark': s.fields['city / landmark'] || '',
+            material: s.fields.material || '',
+            shape: s.fields.shape || '',
+            animal: s.fields.animal || '',
+            condition: s.fields.condition || '',
+            purpose: '',
+            person: '',
+            symbols: '',
+            initials: ''
+          },
+          description: 'Placeholder description: ' + s.title,
+          createdAt: s.year
+        }));
+      }
+
+      // small user notice
+      function showNotice(msg){
+        // simple alert for demo — could be converted to in-page toast
+        console.info(msg);
+      }
+
+      // ---------- Helper utilities ----------
+      function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
+
+      // ---------- Simple CSV row normalization after parsing (if we used real CSV) ----------
+      // map CSV columns to standard keys: (per requirement)
+      // Country(s) of origin, City / Landmark, Year(s), Initial(s), Symbol(s), Person, Purpose, Animal, Sport, Material, Shape, Size (cm), Condition, Price (£), Image front, Image back.
+      // We'll map them in mapRowToProduct above; that will be run for parsed CSV.
+
+      // ---------- Init ----------
+      init();
+
+      // ---------- Expose some functions for console debugging (optional) ----------
+      window.RarePendants = {
+        products, applyFiltersAndSearch, addToCart, getCart
+      };
+
+    })();
+  </script>
+  
+</body>
+</html>
