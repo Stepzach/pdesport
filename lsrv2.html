@@ -1749,13 +1749,14 @@ position: absolute !important;
     margin-right: auto;">
     
     <div class="pill-banner" id="pillBanner">
+       <button class="play-btn" id="playBtn">▶</button>
   <img src="https://stepzach.github.io//leedstestradio/ab6765630000ba8a51445deb0fe8b8c4b173e6a1.jpeg" alt="Thumbnail" class="thumbnail">
   <div class="pill-content">
     <!-- TOP ROW -->
     <div class="pill-top-row">
       <span class="pill-title">...Loading</span>
       <span class="on-air"><span class="pulse-dot"></span>On Air</span>
-      <button class="play-btn" id="playBtn">▶</button>
+     
     </div>
 
     <!-- BOTTOM ROW -->
@@ -3101,4 +3102,23 @@ document.addEventListener('DOMContentLoaded', () => {
     font-weight: bold;
   }
    }
+   
+    @media (max-width: 849px) {
+  
+
+   .pill-banner img.thumbnail {
+    width: 40px;
+    height: 40px;
+    
+  }
+  .pill-banner {
+   border-radius: 0px !important;
+    margin: 0px 0px !important;
+    width: 100% !important;
+    border: none !important;
+    border-bottom: solid 2px black !important;
+    
+  }
+   }
+   
 </style>
