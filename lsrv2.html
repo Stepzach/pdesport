@@ -1756,23 +1756,67 @@ position: absolute !important;
       } 
       .pill-banner {
    background: rgb(205, 50, 50) !important;
+   align-items: center;
     
       } 
       
-      .hero-section,
-      .hero-img-wrapper {
+      .hero-section {
    height:55vh;
+   
     
       } 
+      .hero-img-wrapper {
+   height: calc( 55vh - 45px );
+   
+    
+      } 
+      
+       .hero-section {
+  padding-top: 45px;
+    
+      } 
+      
       .top-row .title,
-       .top-row .menu {
+       .top-row .menu,
+       .pill-description {
    display: none !important;
   
     
       } 
+        .pill-banne {
+      position: fixed;
+    
+    display: flex
+;
+    align-items: center;
+    gap: 1rem;
+    background: rgb(205, 50, 50) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+   
+    padding: 0.75rem 0.75rem;
+    z-index: 9999;
+    transition: all 0.3s ease;
+    width:100%;
+    border-bottom: solid 2px black;
+     z-index: 200;
+     height:45px;
       
       }
+      .pill-banne span {
+     
+     z-index: 201;
       
+      }
+       .pill-banne:before {
+   content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+    pointer-events: none;
+    
+      } 
+         }
       
       
   </style>
@@ -1799,6 +1843,33 @@ position: absolute !important;
     </div>
   </div>
 </div>
+
+
+
+ <div class="pill-banne" style=" background: rgb(205, 50, 50) !important;">
+ 
+  <div class="pill-content" >
+   
+    <div class="pill-top-row">
+     <div class="title" style="font-size:20px;" onclick="window.location.href='https://zacharystephens.info/lsrv2'" style="cursor:pointer">Leeds Student Radio</div>
+     <div class="menu" style="font-size:30px; margin: 0; padding: 0;" id="menuButton" aria-haspopup="true" aria-expanded="false">☰</div>
+     
+    </div>
+
+    <!-- BOTTOM ROW -->
+    <div class="pill-description" id="pillDescription">
+      ...Loading
+      <span class="show-more" id="toggleDescription"></span>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
 <div class="pill-banner" id="pillBanner1">
   <!-- CURRENT SHOW -->
   <div class="pill-section current-show">
