@@ -1808,10 +1808,9 @@ position: absolute !important;
       
       }
       
-      .bottom-right p  {
+      .bottom-right  {
      
-     font-size: 20px;
-     margin:0;
+    display:none;
       
       }
       
@@ -1958,6 +1957,8 @@ z-index: 1000;
  left:20px;
   font-size: 8.5rem; /* size of the certificate */
   animation: rotateScale 5s ease-in-out infinite;
+  color : rgb(234 66 66);
+  text-shadow: 3px 3px 0 black;
  
 }
 
@@ -1972,6 +1973,7 @@ z-index: 1000;
   width: 130px; /* so text wraps nicely inside icon */
   color: white; /* or whatever fits */
   pointer-events: none;
+   text-shadow: 0px 0px 0 black;
 }
 
 /* Animation */
@@ -2178,7 +2180,7 @@ const menuBtn = document.getElementById("menuMOB");
 </div>
 
        <div class="award-badge">
-  <i fill="gold" class="fa-solid fa-certificate"></i>
+  <i class="fa-solid fa-certificate"></i>
   <span class="award-text">Officially the UK's best student radio 2023 & 2024!</span>
 </div>
 
