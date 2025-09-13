@@ -1355,9 +1355,7 @@ pill-link {
     transition: background 0.3s ease;
   }
 
-  .play-btn:hover {
-    background: #0056b3;
-  }
+ 
 
   @media (max-width: 600px) {
     .pill-description.truncated {
@@ -1959,7 +1957,7 @@ z-index: 1000;
     margin-right: auto;">
     
     <div class="pill-banner" id="pillBanner">
-       <button class="play-btn" id="playBtn">▶</button>
+       <button class="play-btn" id="playBtn"><i class="fa-solid fa-play"></i></button>
   <img src="https://stepzach.github.io//leedstestradio/ab6765630000ba8a51445deb0fe8b8c4b173e6a1.jpeg" alt="Thumbnail" class="thumbnail">
   <div class="pill-content">
     <!-- TOP ROW -->
@@ -1986,7 +1984,7 @@ z-index: 1000;
    <div class="pill-top-row">
   <div class="title" style="font-size:20px; cursor:pointer;" 
        onclick="window.location.href='https://zacharystephens.info/lsrv2'">
-    Leeds Student Radio
+    <b>Leeds Student Radio</b>
   </div>
  <div class="menu" id="menuMOB" aria-haspopup="true" aria-expanded="false">
   <span></span>
@@ -3274,7 +3272,8 @@ document.addEventListener('DOMContentLoaded', () => {
       let playing = false;
       playBtn.addEventListener('click', () => {
         playing = !playing;
-        playBtn.textContent = playing ? '⏸' : '▶';
+      playBtn.innerHTML = playing ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
+
       });
     }
   });
@@ -3291,7 +3290,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Function to update all buttons' icons
   function updateButtons() {
     playButtons.forEach(btn => {
-      btn.textContent = playing ? '⏸' : '▶';
+      btn.innerHTML = playing ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
     });
   }
 
