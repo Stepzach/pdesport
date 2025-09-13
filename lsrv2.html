@@ -1950,6 +1950,39 @@ z-index: 1000;
     transform: rotate(-45deg);
     bottom: 11px;
   }
+  
+  
+  .award-badge {
+  position: absolute;
+ top:200px;
+ left:20px;
+  font-size: 8.5rem; /* size of the certificate */
+  animation: rotateScale 5s ease-in-out infinite;
+ 
+}
+
+.award-badge .award-text {
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.12em; /* relative to icon size */
+  font-weight: bold;
+  text-align: center;
+  width: 130px; /* so text wraps nicely inside icon */
+  color: white; /* or whatever fits */
+  pointer-events: none;
+}
+
+/* Animation */
+@keyframes rotateScale {
+  0%   { transform: rotate(0deg) scale(1); }
+  25%  { transform: rotate(3deg) scale(1.05); }
+  50%  { transform: rotate(0deg) scale(1); }
+  75%  { transform: rotate(-3deg) scale(0.95); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
   </style>
 </head>
 <body style="    max-width: 1500px;
@@ -2144,7 +2177,12 @@ const menuBtn = document.getElementById("menuMOB");
 
 </div>
 
-       
+       <div class="award-badge">
+  <i fill="gold" class="fa-solid fa-certificate"></i>
+  <span class="award-text">Officially the UK's best student radio 2023 & 2024!</span>
+</div>
+
+
       <div class="bottom-right">
         <p>Officially the UK's best student radio 2023 & 2024!</p>
       
