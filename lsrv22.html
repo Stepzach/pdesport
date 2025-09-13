@@ -1,0 +1,3452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Leeds Student Radio</title>
+    <meta content="Officially the UK's Best Student Station 2024" name="description">
+   
+    <meta content="Leeds Student Radio" property="twitter:title">
+    <meta content="Student Radio" property="twitter:description">
+    <meta property="og:type" content="website">
+    <meta content="summary_large_image" name="twitter:card">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta charset="UTF-8" />
+  <meta property="og:image" content="https://github.com/Stepzach/leedstestradio/blob/main/IMG_4527.jpeg?raw=true">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+ <meta property="og:title" content="Leeds Student Radio">
+    <meta property="og:description" content="Officially the UK's Best Student Station 2024">
+    <meta property="og:url" content="https://thisislsr.com">
+  
+   <link rel="icon" href="https://github.com/Stepzach/leedstestradio/blob/main/ab6765630000ba8a51445deb0fe8b8c4b173e6a1.ico?raw=true" type="image/x-icon">
+    <link rel="icon" href="https://github.com/Stepzach/leedstestradio/blob/main/ab6765630000ba8a51445deb0fe8b8c4b173e6a1.jpeg?raw=true" type="image/jpeg">
+    <link rel="apple-touch-icon" href="https://github.com/Stepzach/leedstestradio/blob/main/ab6765630000ba8a51445deb0fe8b8c4b173e6a1.jpeg?raw=true">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ 
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: auto;
+      font-family: "obviously-narrow", sans-serif;
+font-weight: 400;
+font-style: normal;
+      background-color: rgb(205, 50, 50);
+    }
+
+    .pill-banner {
+      max-width: 100%;
+    
+      background-color: rgb(148 14 14) !important;
+     border: solid 2px black;
+     
+      border-radius: 14px !important;
+      text-transform: uppercase;
+      margin: 16px 20px;
+    
+      
+     
+    }
+      .pill-banner p {
+        
+      
+       
+      }
+
+
+    .hero-section {
+   
+      position: relative;
+       height: calc(var(--vh, 1vh) * 100 - 150px);
+       max-height:650px;
+     margin: 30px 28px;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+ .hero-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+  filter: brightness(0.95);
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.hero-img.active {
+  opacity: 1;
+}
+
+.hero-img-wrapper {
+  height: calc(var(--vh, 1vh) * 100 - 150px);
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  border: solid 2px black;
+}
+
+.hero-img-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 35%),
+              linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 25%);
+  z-index: 1;
+  border-radius: 14px;
+  pointer-events: none;
+}
+
+.carousel {
+  position: relative;
+  height: 100%;
+}
+
+/* Arrows */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.2);
+  color: whitesmoke;
+  border: none;
+  font-size: 1.5rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+  opacity:0.8;
+}
+
+.arrow:hover {
+  background: rgba(0, 0, 0, 0.6);
+  opacity:1;
+}
+
+.arrow.left {
+  left: 10px;
+}
+
+.arrow.right {
+  right: 10px;
+}
+    .desktop-video {
+    display: block;
+  }
+
+  .mobile-video {
+    display: none;
+  }
+
+  @media screen and (max-width: 550px) {
+    .desktop-video {
+      display: none;
+    }
+
+    .mobile-video {
+      display: block;
+    }
+  }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  @media screen and (min-width: 768px) {
+  
+    .menu-tabs {
+     justify-content: center;
+  }
+   .pill-banner {
+   width: calc(100% - 42px) !important;
+  
+}
+}
+
+    .top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      color: whitesmoke;
+      font-weight: bold;
+      font-size: 1.25rem;
+      
+    }
+
+    .top-row .menu {
+      font-size: 2.5rem;
+      cursor: pointer;
+      line-height:2.2rem;
+      transition: color 0.8s ease;
+    }
+
+    .bottom-right {
+      align-self: flex-end;
+      text-align: right;
+      color: whitesmoke;
+      max-width: 90%;
+      z-index:100;
+    }
+
+    .bottom-right p {
+      margin-bottom: 12px;
+        font-size: 2rem;
+        max-width:400px;
+    }
+
+    .bottom-right button {
+      padding: 10px 20px;
+      border: 2px solid white;
+      background-color: transparent;
+      color: white;
+      border-radius: 999px;
+      font-weight: 600;
+       font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .bottom-right button:hover {
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #67645e;
+    }
+     .title {
+        font-size: 2.5rem;
+      }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .top-row {
+        flex-direction: row;
+        font-size: 1rem;
+      }
+
+      .bottom-right {
+        align-self: flex-start !important;
+        text-align: left;
+       
+      }
+
+      .bottom-right p {
+         font-size: 1.8rem;
+      }
+
+      .bottom-right button {
+        width: 100%;
+        max-width: 190px;
+        padding: 10px 0px;
+         font-size: 1rem;
+      }
+       .title {
+        font-size: 1.8rem;
+      }
+       .top-row .menu {
+      
+      line-height:1.5rem;
+    }
+     .pill-banner {
+       
+         margin: 12px 12px;
+       
+    }
+     .hero-section {
+    
+     
+     margin: 12px 12px;
+    
+    }
+    }
+
+    @media (max-width: 480px) {
+     
+
+      .overlay {
+        padding: 16px;
+      }
+
+      .top-row {
+        font-size: 0.9rem;
+      }
+
+      .bottom-right p {
+        font-size: 1.5rem;
+       
+       
+      }
+       .top-row .menu {
+     
+      line-height:1.1rem;
+    }
+        .bottom-right button {
+        width: 100%;
+        max-width: 170px;
+        padding: 10px 0px;
+         font-size: 0.9rem;
+      }
+       .title {
+        font-size: 1.5rem;
+      }
+    }
+   .footer {
+  
+  background-color: rgb(149, 13, 13);
+  border: solid 2px black;
+  max-width:100% !important;
+  padding: 32px 24px 16px;
+  margin: 16px 24px;
+  border-radius: 14px;
+ 
+
+   color: whitesmoke;
+  
+   
+}
+
+
+.footer-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+ 
+  
+}
+
+.footer1 {
+  
+  background-color: rgb(149, 13, 13);
+  border: solid 2px black;
+  max-width:100% !important;
+  padding: 0;
+  margin: 16px 12px;
+  border-radius: 14px;
+
+
+   color: whitesmoke;
+  
+   
+}
+.footer10 {
+  
+  background-color: rgb(149, 13, 13);
+  border: solid 2px black;
+  max-width:100% !important;
+  padding: 0;
+  margin: 16px 12px;
+  border-radius: 14px;
+
+
+   color: whitesmoke;
+  
+   
+}
+
+.footer-section h4 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-section li {
+  margin-top: 12px;
+}
+
+.footer-section a {
+  text-decoration: none;
+   color: whitesmoke;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+      font-size: max(.825rem + .2vw, .925vw);
+    line-height: 150%;
+    letter-spacing: .02em;
+}
+
+.footer-section a:hover {
+text-decoration: underline;
+  
+}
+
+.icon {
+  font-size: 1.1rem;
+}
+
+.footer-bottom {
+  border-top: 1px solid #ccc;
+  margin-top: 24px;
+  padding-top: 12px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: whitesmoke;
+}
+ 
+ @media (max-width: 768px) {
+ .footer {
+ 
+  margin: 12px 12px;
+
+  }
+  
+   
+}
+
+.sliding-menu {
+  position: absolute;
+  top: -2px;
+  left:0;
+  width: 100%;
+  height: 0px;
+  background-color: rgb(149, 13, 13);
+  border: solid 2px black;
+  z-index: 1;
+  transition: height 1.5s cubic-bezier(0.5, 0, 0.1, 1); /* Strong slow-fast-slow */
+  border-radius: 14px 14px 0 0;
+
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+ 
+}
+
+/* When menu is active */
+.sliding-menu.open {
+top: 0px;
+  height: 100%;
+  pointer-events: auto;
+ transition: height 1.1s cubic-bezier(0.5, 0.2, 0.1, 1);
+ }
+
+/* Keep title above menu */
+.title {
+  position: relative;
+  z-index: 2;
+  transition: color 0.8s ease !important;
+}
+
+/* Keep menu button above sliding menu */
+#menuButton {
+  position: relative;
+  z-index: 2;
+   transition: all 0.4s ease;
+}
+.title.menu-open {
+  color: whitesmoke !important;
+   transition: height 0.8s ease;
+}
+   .menu.menu-open {
+  color: whitesmoke !important;
+   transition: height 0.8s ease;
+}
+
+
+   .sliding-content {
+  opacity: 0;
+  transform: translateY(-40px);
+  transition: opacity 1.4s ease, transform 1.4s ease;
+  padding: 80px 24px;
+    overflow-x: auto;
+}
+
+
+/* Reveal content when menu opens */
+.sliding-menu.open .sliding-content {
+  opacity: 1;
+  transform: translateY(0);
+      overflow-y: hidden;
+}
+
+.sliding-menu nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+   
+}
+
+.sliding-menu nav ul li {
+  margin-bottom: 16px;
+  
+}
+
+.sliding-menu nav ul li a {
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: #67645e;
+  font-weight: bold;
+}
+.menu-tabs {
+  display: flex;
+          justify-content: center;
+  gap: 24px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin-bottom: 24px;
+   padding-bottom: 10px;
+  white-space: nowrap; /* Prevents wrapping */
+  overflow-x: auto;     /* Enables horizontal scrolling */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+ 
+
+  
+}
+
+.menu-tabs::-webkit-scrollbar {
+  display: none;
+}
+.menu-tabs .tab {
+  cursor: pointer;
+  position: relative;
+  color: #67645e;
+  
+  
+}
+
+.menu-tabs .tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background-color: #67645e;
+}
+
+.pill-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pill {
+ position: relative;
+  display: flex;
+  align-items: center; 
+  background: white;
+  padding: 12px 16px;
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  max-width:500px;
+  padding-right: 42px;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 1.6s ease, transform 1.6s ease;
+
+}
+
+
+
+.pill.show {
+  opacity: 1;
+  transform: translateY(0);
+ 
+  
+}
+.pill.hide {
+  opacity: 0;
+  transform: translateY(10px); /* animate downward on hide */
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+
+pill-link {
+  text-decoration: none !important;
+  display: inline-block;
+  cursor: pointer;
+}
+.pill img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  margin-right: 16px;
+}
+
+.pill-text {
+  color: #67645e;
+  text-decoration: none;
+  
+}
+
+.pill-text h4 {
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 500;
+  
+  
+}
+
+.pill-text p {
+  margin: 4px 0 0 0;
+  font-size: 0.9rem;
+  color: #8a7e7e;
+}
+.menu-tabs.dragging {
+  cursor: grabbing;
+  user-select: none;
+}
+
+@keyframes jerk-left {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-30px); }
+  100% { transform: translateX(0); }
+}
+
+.menu-tabs.jerk {
+  animation: jerk-left 0.5s ease-in-out;
+}
+
+.pill-tags {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.pill-tag {
+  font-size: 10px;
+  color: white;
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+.pill-logo {
+ position: absolute;
+ top:6px;
+ right:-12px;
+  width: 14px;
+  height: 14px;
+  border-radius: 100% !important;
+  object-fit: contain;
+}
+.pill:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.desktop-nav {
+  display: none;
+  gap: 1rem;
+}
+   
+
+ 
+/* Show only on wider screens */
+@media (min-width: 768px) {
+ 
+  .menu {
+    display: none;
+  }
+
+  .title {
+    order: 1; /* move to left */
+    margin-left:20px;
+  }
+
+  .desktop-nav {
+    display: flex;
+    order: 2;
+      font-size:1rem;
+    margin-top:10px;
+    margin-right:20px;
+     transition: color 0.8s ease !important;
+  }
+
+  .nav-item {
+    cursor: pointer;
+    position: relative;
+    z-index:2;
+  }
+  
+
+ .desktop-nav.item-open {
+  color: #67645e !important;
+  transition: color 0.8s ease !important;
+}
+
+ .nav-item.item-open {
+  text-decoration: underline;
+   text-decoration-thickness: 2px; /* Thicker underline */
+  text-underline-offset: 5px;     /* More space between text and underline */
+ 
+} 
+ 
+#nav-item:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px; /* Thicker underline */
+  text-underline-offset: 5px;     /* More space between text and underline */
+ 
+   transition: underline 0.8s ease !important;
+}
+
+ 
+
+ 
+}
+@media (min-width: 998px) {
+ .desktop-nav {
+  font-size:1.2rem;
+  }
+   .sliding-content {
+  
+  padding: 130px 24px;
+  
+}
+   }
+   
+   @media screen and (min-width: 768px) {
+  
+
+  .pill {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+    padding: 16px;
+    padding-right: 16px;
+    box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .pill:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+  .pill img {
+    width: 100px;
+    height: 100px;
+    margin: 0 0 12px 0;
+  }
+
+  .pill-text {
+    margin-top: 4px;
+  }
+
+  .pill-text h4 {
+    font-size: 1rem;
+  }
+
+  .pill-text p {
+    font-size: 0.85rem;
+  }
+
+  .pill-tags {
+    top: 8px;
+    right: 8px;
+  }
+
+  .pill-logo {
+    top: 8px;
+    right: 8px;
+    width: 26px !important;
+    height: 26px !important;
+  }
+}
+
+    @media screen and (min-width: 768px) {
+  
+  .sliding-menu  {
+      max-height: 250px !important;
+  }
+       }
+       
+        @media screen and (max-width: 767px) {
+  
+  .sliding-menu  {
+      max-height: 200px !important;
+  }
+       }
+
+@media screen and (min-width: 1100px) {
+  
+  
+  
+.menu-tabs {
+    
+    margin-bottom: 44px;
+  
+}
+}
+ #footerlarge {
+   display: none
+  }
+  #footerlarger {
+   display: none;
+   
+  }
+  
+  #footerlline {
+   display: none;
+  }
+  #footerline {
+   display: none;
+  }
+@media (min-width: 655px) {
+.footer-bottom {
+   margin-top:0px;
+  }
+  #footerlarge {
+   display: block;
+   
+  }
+  #footerline {
+   display: block;
+   
+   
+   
+  }
+   #footerlarge p {
+  
+   width:220px;
+   margin-left:auto;
+   margin-right: auto;
+   
+  
+   
+  }
+  .marginsfoot {
+  margin-bottom:24px;
+  }
+  
+   }
+   
+   @media (min-width: 1000px) {
+.footer-bottom {
+   margin-top:0px;
+  }
+ 
+  #footerlarger {
+   display: block;
+   width:20%;
+  
+   
+   
+  }
+  #footerlline {
+   display: block;
+   
+   
+   
+  }
+   #footerlarge {
+  
+   width:20%;
+   
+  }
+  #footerlarge p {
+  
+   width:210px;
+   margin-left:auto;
+   margin-right: auto;
+   
+  
+   
+  }
+  .l30per {
+  
+   width:30%;
+   
+   
+  }
+  .marginsfoot {
+  margin-bottom:24px;
+  }
+  
+   }
+  .footimg {
+  width:230px; 
+  position: relative; 
+  left:-15px; 
+  top:10px; 
+ 
+   }
+   
+    @media (min-width: 1160px) {
+.footimg {
+  width:270px; 
+  position: relative; 
+  left:-15px; 
+  top:10px; 
+ 
+   }
+  }
+  
+  @media (min-width: 481px) {
+  .sliding-menu {
+  
+  
+  
+  
+   }
+  }
+  
+   @media (min-width: 768px) {
+  .sliding-menu {
+  
+  height: 0px;
+  top:-2px;
+  
+  
+   }
+  }
+  
+  .carousel-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.carousel-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 16px;
+  margin: 0px 28px;
+    
+    scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+   scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  
+}
+
+
+
+.image-card {
+  position: relative;
+  flex: 1 1 calc(33.333% - 16px);
+  overflow: hidden;
+  min-width: 100px;
+   aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  border: solid 2px black;
+ 
+}
+.image-card:before{
+  content: "";
+  position: absolute;
+  inset: 0;    
+  
+  pointer-events: none;
+  z-index: 2;
+  border-radius: 1px;
+  background: linear-gradient(
+               to bottom,
+               rgba(0,0,0,0.0) 0%,
+               rgba(0,0,0,0) 20%,
+               rgba(0,0,0,0.2) 70%,
+               rgba(0,0,0,0.7) 100%
+             );
+}
+
+
+.image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 0.5s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  
+}
+ 
+
+
+
+
+
+.tag {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: whitesmoke;
+  color: rgb(149, 13, 13);
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 20px;
+  z-index: 2;
+}
+
+.text {
+  position: absolute;
+  bottom: 10px;
+  left: 20px;
+  right: 20px;
+ 
+ line-height:1.1em;
+  color: whitesmoke;
+  z-index: 2;
+  transition: opacity 0.3s ease;
+  
+}
+
+
+
+
+.view-pill {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  width:90%;
+  transform: translateX(-50%);
+  background: white;
+  color: #67645e;
+  padding: 10px 20px;
+  border-radius: 999px;
+
+  transition: bottom 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+  z-index: 3;
+  cursor: pointer;
+  text-align:center;
+}
+.view-pill:hover {
+  background: #67645e;
+  color: white;
+  transition: background 0.4s ease, color 0.4s ease, top 0.4s ease, opacity 0.4s ease;
+}
+
+
+.image-card:hover .view-pill {
+  bottom: 20px;
+  opacity: 1;
+}
+.carousel-dots {
+  position: absolute;
+ top:20px;
+ left:25px;
+ height:12px;
+  display:none;
+  text-align: center;
+  margin-top: -10px;
+  z-index:100;
+}
+
+.carousel-dots .dot {
+  display: inline-block;
+  height: 7px;
+  width: 7px;
+  margin: 0 3px;
+  background-color: whitesmoke;
+  opacity: 0.6;
+  border-radius: 50%; 
+  transition: background 0.3s;
+}
+
+.carousel-dots .dot.active {
+  height: 11px;
+  width: 11px;
+ 
+}
+.dot.active {
+  position: relative;
+  top:2px;
+  
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .image-card {
+     flex: 1 1 calc(50% - 32px);
+  }
+ .carousel-track {
+        margin: 0px 12px;
+    }
+   
+
+}
+@media (max-width: 700px) {
+  .image-card {
+  position: relative;
+  flex: 0 0 85%;
+  max-width: 85%;
+  aspect-ratio: 1 / 1;
+  border-radius: 10px;
+  overflow: hidden;
+  min-width: 250px;
+  scroll-snap-align: start;
+}
+.carousel-dots {
+ display:block;
+}
+.carousel-track::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+.image-card:hover .text {
+  opacity: 1;
+}
+.image-card:hover .hover-img {
+  opacity: 0;
+  
+}
+
+.image-card:hover .default-img {
+  opacity: 1;
+}
+.image-card:hover .view-pill {
+  
+  opacity: 0;
+}
+
+ 
+}
+
+.form-container {
+      position: relative;
+      width: 350px;
+     
+      
+    }
+    @media (max-width: 768px) {
+  .form-container {
+      position: relative;
+      min-width: 280px;
+      max-width: 300px;
+      
+    }
+      }
+      
+       @media (max-width: 568px) {
+  .form-container {
+      position: relative;
+      min-width: 260px;
+      max-width: 290px;
+      
+    }
+      }
+       
+       @media (max-width: 468px) {
+  .form-container {
+      position: relative;
+      min-width: 240px;
+      max-width: 280px;
+      
+    }
+      }
+
+    .form {
+      display: flex;
+      align-items: center;
+      background: white;
+      border-radius: 25px;
+      padding: 0.5rem 1rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .lock-icon {
+      font-size: 1rem;
+      margin-right: 8px;
+      color: #888;
+    }
+
+    input[type="text"] {
+      border: none;
+      outline: none;
+      flex: 1;
+      font-size: 1rem;
+      padding: 0.5rem;
+    }
+
+    button {
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      color: #67645e;
+      cursor: pointer;
+    }
+
+    .error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.error-message.visible {
+  opacity: 1;
+}
+    
+.pill-banner {
+  position: sticky;
+  top: 0rem;
+  display: flex;
+  align-items: flex-start; /* top align so rows work */
+  gap: 1rem;
+  background: white;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  border-radius: 50px;
+  padding: 0.75rem 0.75rem;
+  z-index: 9999;
+  transition: all 0.3s ease;
+ 
+}
+
+.pill-content {
+  flex: 1; /* take up remaining space */
+  display: flex;
+  flex-direction: column;
+  color: whitesmoke;
+}
+
+.pill-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* keeps title/air left, button right */
+  gap: 0.5rem;
+}
+
+.pill-title {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.on-air {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: lightgreen;
+  font-weight: bold;
+}
+
+.pill-description {
+  font-size: 0.85rem;
+  color: whitesmoke !important;
+  margin-top: 0.2rem;
+  max-width: 100%;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  text-transform: none;
+}
+
+.show-more {
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 0.3rem;
+  font-size: 0.75rem;
+  color: whitesmoke !important;
+}
+
+.pill-banner.shrink .pill-description {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+  .pill-banner img.thumbnail {
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+  }
+
+  .pill-banner.shrink img.thumbnail {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+  }
+
+  .pill-content {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    
+  }
+
+  .pill-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .pill-title {
+    font-weight: bold;
+    font-size: 0.9rem;
+   
+  }
+
+  .on-air {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+    color: lightgreen;
+    font-weight: bold;
+  }
+
+  .pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: lightgreen;
+    border-radius: 50%;
+    animation: pulse 5s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.6; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  .pill-description {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 0.2rem;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  max-width: 100%;
+}
+
+.show-more {
+  text-decoration: underline;
+  cursor: pointer;
+  margin-left: 0.3rem;
+  font-size: 0.75rem;
+  color: blue;
+}
+
+.pill-banner.shrink .pill-description {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+
+ 
+  .play-btn {
+    background: whitesmoke;
+    color: rgb(149, 13, 13);
+    
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.3s ease;
+  }
+
+ 
+
+  @media (max-width: 600px) {
+    .pill-description.truncated {
+      display: inline;
+     
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }   
+   @media (min-width: 850px) {
+   .pill-banner img.thumbnail {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    object-fit: cover;
+    transition: all 0.3s ease;
+  }
+  .pill-title {
+    font-weight: bold;
+    font-size: 1.15rem;
+   
+  }
+  .pill-description {
+  font-size: 0.95rem;
+  color: #555;
+  margin-top: 0.5rem;
+  max-width: 90%;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+ .on-air {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    
+    font-weight: bold;
+  }
+     
+   .play-btn {
+    
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
+    cursor: pointer;
+    flex-shrink: 1;
+    transition: background 0.3s ease;
+  }
+    .pill-banner.shrink img.thumbnail {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+  }
+  
+   }
+   
+   /* Two-column layout for wide screens */
+@media (min-width: 1100px) {
+  .pill-banner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+   
+    max-height:145px;
+  }
+  
+ 
+
+  .pill-section {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  /* Play button aligned with thumbnail */
+  .current-show {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .current-show .play-btn {
+    align-self: center; /* align with thumbnail vertically */
+    margin-left: auto;
+  }
+
+  /* Up Next label styling */
+  .up-next-label {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: orange;
+  }
+}
+@media (max-width: 1099px) {
+    #pillBanner1 {
+    display: none !important;
+     
+  }
+}
+@media (min-width: 1100px) {
+    #pillBanner {
+    display: none !important;
+     
+  }
+}
+ .unique-nav-list {
+  margin: 0;
+ 
+  overflow-y: none !important;
+  padding: 6px;
+  color: whitesmoke !important;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns */
+  gap: 8px; /* space between items */
+  list-style: none; /* optional: remove bullets */
+ 
+}
+
+.unique-nav-list li {
+overflow: none !important;
+  display: block; /* ensures each li takes up its cell */
+}
+
+.unique-nav-link {
+overflow: none !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  padding: 1px 16px;
+  color: whitesmoke !important;
+  font-weight: 600;
+  font-size: 18px !important;
+}
+
+.unique-listen-link {
+  color: whitesmoke;
+  border-color: rgba(6,182,212,0.18);
+}
+
+.unique-apply-link {
+  color: whitesmoke;
+}
+
+@media (min-width: 1000px) {
+    #careerss,
+     .footer1 {
+    display:none;
+}
+}
+   
+
+   .footer-section1 {
+  position: relative;
+  color: whitesmoke;
+  overflow: hidden !important;
+}
+
+.footer-section1 h4 {
+position: absolute !important;
+ 
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+   z-index: 2;
+   margin-left:22px;
+}
+ .footer-section10 {
+  position: relative;
+  color: whitesmoke;
+  overflow: hidden !important;
+}
+
+.footer-section10 h4 {
+position: absolute !important;
+ 
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+   z-index: 2;
+   margin-left:22px;
+}
+
+
+.image-container {
+  position: relative;
+  
+  width: 100%;
+  margin: 0 !important;
+   overflow: hidden !important;
+}
+
+.image-container img {
+  width: 100%;
+  display: block;
+  height:250px;
+  object-fit:cover;
+  object-position: center;
+  border-radius:14px;
+  
+  
+}
+.image-container2 {
+  position: relative;
+  
+  width: 100%;
+  margin: 0 !important;
+   overflow: hidden !important;
+}
+
+.image-container2 img {
+  width: 100%;
+  display: block;
+  height:250px;
+  object-fit:cover;
+  object-position: center;
+  border-radius:14px;
+  
+  
+}
+
+
+
+.podcast-links {
+  position: absolute !important;
+  bottom: 1.5rem;
+  left:50%;
+  transform: translate(-50%);
+  margin: 0;
+  z-index: 2;
+}
+
+
+.image-container::before {
+ content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 75%),
+              linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 25%);
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 14px;
+   overflow: hidden !important;
+}
+
+.image-container2::before {
+ content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 75%),
+              linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, transparent 20%);
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 14px;
+   overflow: hidden !important;
+}
+@media (min-width: 655px) {
+  .footer-wrapper {
+    display: flex;
+    gap: 0px;
+  }
+  #book2 {
+   display: none;
+  }
+  
+  /* Optional: make them share width equally */
+  #careerss, .footer1 {
+    flex: 1 1 0;
+  }
+  
+}
+@media (min-width: 655px)  and (max-width: 768px) {
+ 
+  .footer1 {
+  margin-left:5px !important;
+  margin-right:14px !important;
+  margin-top:12px !important;
+   margin-bottom:12px !important;
+}
+ #book21 {
+   margin-top: 0 !important;
+  }
+}
+@media (min-width: 769px) {
+ 
+  .footer1 {
+  margin-left:-5px !important;
+  margin-right:24px !important;
+}
+}
+
+
+.bottom-rightb {
+    padding: 8px 16px;
+    border: 2px solid white;
+    background-color: transparent;
+    color: white;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    margin-top:10px;
+    transition: all 0.3s ease;
+    }
+    
+    
+    @media (min-width: 655px) and (max-width: 999px) {
+  #book21 {
+    margin-top: 0;
+    margin-left: 14px !important;
+  }
+}
+
+     @media (min-width: 769px) {
+  #book21 {
+   
+   margin-left:22px !important;
+   
+    
+  
+  
+    } }
+    
+    @media (max-width: 999px) {
+  .footer10 {
+    display: none;
+    
+  }
+  }
+  
+   @media (min-width: 1000px) {
+  #book21,
+  
+  
+  .image-container2 {
+    display: block !important;
+   
+    
+  } }
+   @media (min-width: 1000px) {
+  .footer10 {
+   
+    width:50% !important;
+    
+  
+   } }
+   
+    @media (min-width: 1000px) {
+  #book21 {
+   
+   margin-left:26px !important;
+   margin-right:5px !important;
+    
+  
+  
+    } }
+    
+     @media (min-width: 1000px) {
+  .footer10 {
+   
+   margin-right:26px !important;
+   width: calc(50% - 26px)  !important;
+    
+  
+  
+    } }
+     @media (max-width: 335px) {
+    .title {
+    font-size:20px;
+      } }
+      
+      
+      @media (max-width: 849px) {
+   .pill-banner:before {
+   content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 40%), linear-gradient(to bottom, rgba(0, 0, 0, 0.0) 0%, transparent 35%);
+    z-index: 1;
+    pointer-events: none;
+    
+      } 
+      .pill-banner {
+   background: rgb(205, 50, 50) !important;
+   align-items: center;
+   height:64px !important;
+   position: fixed;
+    
+      } 
+      
+      .hero-section {
+   height:55vh;
+   
+    
+      } 
+      .hero-img-wrapper {
+   height: calc( 55vh - 109px );
+   
+    
+      } 
+      
+       .hero-section {
+  padding-top: 109px;
+    
+      } 
+      
+      .top-row .title,
+       .top-row .menu,
+       .pill-description {
+   display: none !important;
+  
+    
+      } 
+        .pill-banne {
+      position: fixed;
+    top:64px !important;
+    display: flex
+;
+    align-items: center;
+    gap: 1rem;
+    background: rgb(205, 50, 50) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+   
+    padding: 0.75rem 0.75rem;
+    z-index: 9999;
+    transition: all 0.3s ease;
+    width:100%;
+    border-bottom: solid 2px black;
+     z-index: 20000000;
+     height:45px;
+      
+      }
+      .pill-banne span {
+     
+     z-index: 201;
+      
+      }
+      
+      .bottom-right,
+      .arrow {
+     
+    display:none !important;
+      
+      }
+      
+         }
+      
+      /* Fullscreen menu hidden by default */
+.fullscreen-menu {
+  position: fixed;
+  top: 107px !important;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgb(205, 50, 50);
+ border-top: solid 2px black;
+  color: white;
+  
+  justify-content: center;
+  align-items: start;
+  transform: translateX(100%);
+  transition: transform 0.5s ease-in-out;
+  z-index: 00;
+}
+ .fullscreen-menu:before {
+   content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 70%), linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, transparent 15%);
+    z-index: -1;
+    pointer-events: none;
+    
+      } 
+
+.fullscreen-menu ul {
+  list-style: none;
+  
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  z-index: 1000;
+ 
+}
+
+.fullscreen-menu li {
+z-index: 1000;
+  opacity: 0;
+  transform: translateX(50px);
+  margin: 15px 0;
+  font-size: 2rem;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+   border-bottom: solid 2px black;
+   padding-bottom: 15px;
+   
+}
+
+.fullscreen-menu a {
+  text-decoration: none;
+  color: white;
+  margin-left: 10%;
+  font-size: 25px;
+  z-index: 1000;
+}
+
+/* Active state */
+.fullscreen-menu.active {
+  transform: translateX(0);
+}
+
+.fullscreen-menu.active li {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Staggered animation */
+.fullscreen-menu.active li:nth-child(1) { transition-delay: 0.1s; }
+.fullscreen-menu.active li:nth-child(2) { transition-delay: 0.3s; }
+.fullscreen-menu.active li:nth-child(3) { transition-delay: 0.5s; }
+.fullscreen-menu.active li:nth-child(4) { transition-delay: 0.7s; }
+.fullscreen-menu.active li:nth-child(5) { transition-delay: 0.9s; }
+
+/* Style for ☰ button */
+#menuMOB {
+  font-size: 30px;
+  cursor: pointer;
+  user-select: none;
+}
+ .menu {
+    width: 30px;
+    height: 24px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Hide ☰ text */
+  .menu::before {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background: white;
+    top: 3px;
+    transition: 0.3s;
+  }
+
+  .menu::after {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background: white;
+    bottom: 3px;
+    transition: 0.3s;
+  }
+
+  .menu span {
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background: white;
+    transition: 0.3s;
+  }
+
+  /* Animate into X */
+  .menu.open span {
+    opacity: 0;
+  }
+
+  .menu.open::before {
+    transform: rotate(45deg);
+    top: 11px;
+  }
+
+  .menu.open::after {
+    transform: rotate(-45deg);
+    bottom: 11px;
+  }
+  
+  
+  .award-badge {
+  position: absolute;
+ top: calc( 109px + 21vh );
+ left:22px;
+  font-size: 8.5rem; /* size of the certificate */
+  animation: rotateScale 5s ease-in-out infinite;
+  color : rgb(234 66 66);
+  text-shadow: 3px 3px 0 black;
+  z-index:3;
+ 
+}
+
+.award-badge .award-text {
+  position: absolute;
+  top: 55%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.13em; /* relative to icon size */
+  font-weight: bold;
+  text-align: center;
+  width: 130px; /* so text wraps nicely inside icon */
+  color: white; /* or whatever fits */
+  pointer-events: none;
+   text-shadow: 0px 0px 0 black;
+    z-index:2;
+}
+
+/* Animation */
+@keyframes rotateScale {
+  0%   { transform: rotate(0deg) scale(1); }
+  25%  { transform: rotate(3deg) scale(1.05); }
+  50%  { transform: rotate(0deg) scale(1); }
+  75%  { transform: rotate(-3deg) scale(0.95); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+  </style>
+  <link rel="stylesheet" href="https://use.typekit.net/kjs5jae.css">
+</head>
+
+<body style="    max-width: 1500px;
+    margin-left: auto;
+    margin-right: auto;">
+    
+    <div class="pill-banner" id="pillBanner">
+       <button class="play-btn" id="playBtn"><i class="fa-solid fa-play"></i></button>
+  <img src="https://stepzach.github.io//leedstestradio/ab6765630000ba8a51445deb0fe8b8c4b173e6a1.jpeg" alt="Thumbnail" class="thumbnail">
+  <div class="pill-content">
+    <!-- TOP ROW -->
+    <div class="pill-top-row">
+      <span class="pill-title" >...Loading</span>
+      <span class="on-air" ><span class="pulse-dot"></span>On Air</span>
+     
+    </div>
+
+    <!-- BOTTOM ROW -->
+    <div class="pill-description" id="pillDescription">
+      ...Loading
+      <span class="show-more" id="toggleDescription"></span>
+    </div>
+  </div>
+</div>
+
+
+
+ <div class="pill-banne" style=" background: rgb(205, 50, 50) !important;">
+ 
+  <div class="pill-content" >
+   
+   <div class="pill-top-row">
+  <div class="title" style="font-size:20px; cursor:pointer; font-family: 'obviously-narrow', sans-serif;
+font-weight: 600;
+font-style: normal;" 
+       onclick="window.location.href='https://zacharystephens.info/lsrv2'">
+    LEEDS STUDENT RADIO
+  </div>
+ <div class="menu" id="menuMOB" aria-haspopup="true" aria-expanded="false">
+  <span></span>
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<!-- Fullscreen Menu -->
+<div id="fullscreenMenu" class="fullscreen-menu">
+  <ul>
+    <li><a href="#"><u>Home</u></a></li>
+    <li><a href="#">Schedule</a></li>
+    <li><a href="#">Listen</a></li>
+    <li><a href="#">About</a></li>
+    <li style="border:none; margin-top:26px; width:100%;     display: flex
+;
+    justify-content: center; gap:10%;">
+            
+              <a href="https://www.instagram.com/thisislsr/" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-instagram"></i></a>
+               <a href="https://www.facebook.com/thisislsr" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-facebook"></i></a>
+                <a href="https://www.tiktok.com/@thisislsr" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-tiktok"></i></a>
+              <a href="https://twitter.com/thisislsr" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-twitter"></i></a>
+        
+  </li>
+    </ul>
+</div>
+
+    <!-- BOTTOM ROW -->
+    <div class="pill-description" id="pillDescription">
+      ...Loading
+      <span class="show-more" id="toggleDescription"></span>
+    </div>
+  </div>
+</div>
+
+
+<script>
+const menuBtn = document.getElementById("menuMOB");
+  const fullscreenMenu = document.getElementById("fullscreenMenu");
+
+  menuBtn.addEventListener("click", () => {
+    fullscreenMenu.classList.toggle("active");
+    menuBtn.classList.toggle("open"); // toggle animation
+
+    // Toggle aria-expanded for accessibility
+    const expanded = menuBtn.getAttribute("aria-expanded") === "true";
+    menuBtn.setAttribute("aria-expanded", !expanded);
+  });
+</script>
+
+
+
+
+
+<div class="pill-banner" id="pillBanner1">
+  <!-- CURRENT SHOW -->
+  <div class="pill-section current-show">
+    <img src="https://stepzach.github.io//leedstestradio/ab6765630000ba8a51445deb0fe8b8c4b173e6a1.jpeg" alt="Thumbnail" class="thumbnail">
+
+    <div class="pill-content">
+      <!-- TOP ROW -->
+      <div class="pill-top-row">
+        <span class="pill-title">...Loading</span>
+        <span class="on-air"><span class="pulse-dot"></span>On Air</span>
+      </div>
+
+      <!-- BOTTOM ROW -->
+      <div class="pill-description" id="pillDescription">
+        ...Loading
+        <span class="show-more" id="toggleDescription"></span>
+      </div>
+    </div>
+
+    <!-- Play Button (moved out for alignment control) -->
+    <button class="play-btn" id="playBtn">▶</button>
+  </div>
+
+  <!-- UP NEXT SHOW -->
+  <div class="pill-section up-next">
+    <img src="https://stepzach.github.io//leedstestradio/ab6765630000ba8a51445deb0fe8b8c4b173e6a1.jpeg" class="thumbnail">
+    <div class="pill-content">
+      <!-- TOP ROW -->
+      <div class="pill-top-row">
+        <span class="pill-title">...Loading</span>
+        <span class="up-next-label">⏳ Up Next</span>
+      </div>
+
+      <!-- BOTTOM ROW -->
+      <div class="pill-description">
+       ...Loading
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="hero-section">
+<div class="hero-img-wrapper">
+  <div class="carousel">
+    <img class="hero-img active" src="https://stepzach.github.io/leedstestradio/316c00_e270ed388b21449d9bdd56622dbeb4ec~mv2.jpg.webp" alt="Slide 1">
+    <img class="hero-img" src="https://lh3.googleusercontent.com/u/0/d/18Tg2OocMQiJBQoRyVNegp6GFcqocijv7=w2940-h1680-iv1" alt="Slide 2">
+    <img class="hero-img" src="https://stepzach.github.io/leedstestradio/316c00_97fbd91f59754425949fd7a851336bf6~mv2.jpg.webp" alt="Slide 3">
+
+    <!-- Arrows -->
+    <button class="arrow left">&#10094;</button>
+    <button class="arrow right">&#10095;</button>
+  </div>
+</div>
+    <div class="overlay">
+     <div class="top-row"> 
+  
+  <div class="title" onclick="window.location.href='https://zacharystephens.info/lsrv2'" style="cursor:pointer">Leeds Student Radio</div>
+       <div class="menu" id="menuButton" aria-haspopup="true" aria-expanded="false">☰</div>
+
+  <!-- Desktop Navigation -->
+  <div class="desktop-nav">
+    <div class="nav-item projects"   onclick="window.location.href='https://zacharystephens.info/lsrv2s'" id="nav-item">SCHEDULE</div>
+    <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/lsrv2l'" >LISTEN</div>
+    <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/lsrv2g'" >APPLY</div>
+     <div class="nav-item" id="nav-item" onclick="window.location.href='https://zacharystephens.info/lsrv2a'" >ABOUT</div>
+  </div>
+</div>
+
+      
+      <div class="sliding-menu" id="slidingMenu">
+ <div class="sliding-content">
+  <div class="menu-tabs">
+  <nav class="unique-nav-card" aria-label="Main actions">
+    <ul class="unique-nav-list">
+      <li><a class="unique-nav-link unique-schedule-link" href="https://zacharystephens.info/lsrv2s"><span class="unique-nav-icon" aria-hidden="true"></span>Schedule</a></li>
+      <li><a class="unique-nav-link unique-listen-link" href="https://zacharystephens.info/lsrv2l"><span class="unique-nav-icon" aria-hidden="true"></span>Listen</a></li>
+      <li><a class="unique-nav-link unique-apply-link" href="https://zacharystephens.info/lsrv2g"><span class="unique-nav-icon" aria-hidden="true"></span>GET INVOLVED</a></li>
+       <li><a class="unique-nav-link unique-apply-link" href="https://zacharystephens.info/lsrv2a"><span class="unique-nav-icon" aria-hidden="true"></span>About</a></li>
+    </ul>
+  </nav>
+   <!-- <span class="tab active" data-category="featured">FEATURED</span>
+    <span class="tab" data-category="university">UNI COURSEWORK</span>
+     <span class="tab" data-category="personal">PERSONAL PROJECTS</span>
+    <span class="tab" data-category="website">WEBSITES</span> -->
+   
+  </div>
+
+  <div class="pill-container" id="">
+    <!-- Pills will be injected here -->
+   <div class="form-container">
+  
+  <form id="password-form">
+   
+  </form>
+ 
+</div>
+
+
+  
+  
+  </div>
+ 
+</div>
+
+</div>
+
+
+
+      <div class="bottom-right">
+        <p>Officially the UK's best student radio 2023 & 2024!</p>
+      
+
+      </div>
+    </div>
+  </div>
+  
+       <div class="award-badge">
+  <i class="fa-solid fa-certificate"></i>
+  <span class="award-text" >Officially the UK's best student radio 2023 - 2024!</span>
+  <style>
+  
+  
+  </style>
+  
+</div>
+ <div class="carousel-container">
+  <div class="carousel-track" id="carouselTrack">
+  
+   <div class="image-card">
+    <img src="https://lh3.googleusercontent.com/u/0/d/1OfLVtIsaaGFcSz3NdCOTmee1RyTVrx_U=w2940-h1680-iv1" alt="LSR" class="default-img">
+   
+    <div class="tag">Weekdays 9-11am</div>
+    <div class="text">
+     
+      <p >Every week day 9-11am, four presenters wake up the students of Leeds with pop music and culture</p>
+    </div>
+   
+  </div>
+  
+  <div class="image-card" style="cursor: pointer;" onclick="window.open('https://www.tiktok.com/@bbcradio1/video/7481743748381117718', '_blank')">
+    <img src="https://stepzach.github.io/pdesport/tiktok-thumbnail.png" alt="Image 1" class="default-img" style="    object-fit: cover;
+    object-position: top; scale:1.05">
+   
+    <div class="tag">Watch on Tiktok <span class="icon" style="font-size:0;"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
+  <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"></path>
+</svg></span></div>
+    <div class="text">
+    
+      <p>BBC Radio 1 Suprises Leeds Student Radio with JADE</p>
+    </div>
+   
+  </div>
+
+  <div class="image-card" >
+    <img src="https://lh3.googleusercontent.com/u/0/d/1LlFqrd-zYd523gDWh0IXQkvDPfA_uGWK=w2940-h1680-iv1" alt="Image 2" class="default-img">
+    
+    <div class="tag">Every Friday 1-2pm</div>
+    <div class="text">
+    
+      <p>Weekly rundown of the world's biggest stories, every friday 1-2pm</p>
+    </div>
+   
+  </div>
+
+ 
+  
+</div>
+
+  <div class="carousel-dots" id="carouselDots"></div>
+  
+  
+  <div class="footer-wrapper">
+  <footer class="footer" id="careerss">
+    <div class="footer-content">
+      <div class="footer-section">  
+        <h4 style="margin-top: -10px;">Brought To you by our Sponsor:</h4>
+        <img src="https://stepzach.github.io/leedstestradio/316c00_e85e432bbd2e4e15a926db384684cf02~mv2.png.avif" width="100%" style="max-width:600px">
+        <p>Discover, develop and decide your future with appointments, events and vacancies.<br><u>Find out more</u></p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="footer1">
+    <div class="footer-section1">
+      <h4>LATEST PODCAST</h4>
+      <div class="image-container">
+        <img src="https://i.scdn.co/image/ab6765630000ba8a0d529ceb5b75392d6f8ae63e" alt="Podcast">
+      </div>
+
+      <div class="podcast-links" style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
+        <a href="https://open.spotify.com/your-podcast-link" target="_blank" rel="noopener" 
+           style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" 
+               alt="Spotify" style="width: 28px; height: 28px; margin-right: 8px;">
+          <span><b>Listen on Spotify</b></span>
+        </a>
+        <a href="https://soundcloud.com/your-soundcloud-link" target="_blank" rel="noopener" 
+           style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+          <img src="https://cdn.worldvectorlogo.com/logos/soundcloud-2.svg" 
+               alt="SoundCloud" style="width: 28px; height: 28px; margin-right: 8px;">
+          <span><b>Listen on SoundCloud</b></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+ <div class="footer-wrapper">
+ 
+ 
+ <div class="footer1" id="book21" style="height:400px">
+    <div class="footer-section1" style="height:400px">
+      <h4>BOOK STUDIO 2</h4>
+      <div class="image-container2" style="height:400px">
+        <img src="https://lh3.googleusercontent.com/u/0/d/17uovn0s5rAa14vC9GfKN23FlvdsuBQn5=w2940-h1680-iv1" alt="Podcast" style="height:400px">
+      </div>
+
+      <div class="podcast-links" style="margin-top: 10px; width:90%;">
+        <a href="https://calendly.com/leedsstudentradio/bookstudio2" target="_blank" rel="noopener" 
+           style=" align-items: center; text-decoration: none; color: inherit;">
+         
+          <span><b>If you'd like to record your podcast or make use of our CDJs/Turntable, LSR's Studio 2 is available for our members to book out.</b></span>
+        </a> <br>
+       <button class="bottom-rightb" onclick="window.open('https://calendly.com/leedsstudentradio/bookstudio2', '_blank')">
+  Make a booking
+</button>
+ <p style="font-size:0.85em; line-height:1.1em !important; opacity:0.8; padding-top:1px;"><br>PLEASE NOTE: You must have received training and be an LSR member to use our booking system.</p>
+      </div>
+      
+    </div>
+  </div>
+
+ <div class="footer10" style="height:400px">
+    <div class="footer-section10" style="height:400px">
+      <h4>LATEST PODCAST</h4>
+      <div class="image-container" style="height:400px">
+        <img src="https://i.scdn.co/image/ab6765630000ba8a0d529ceb5b75392d6f8ae63e" alt="Podcast" style="height:400px">
+      </div>
+
+      <div class="podcast-links" style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
+        <a href="https://open.spotify.com/show/36MV4v6eQjy2dOlDTezLoA?si=be44a1986d7448bd&nd=1&dlsi=51cc85551eb3439f" target="_blank" rel="noopener" 
+           style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" 
+               alt="Spotify" style="width: 28px; height: 28px; margin-right: 8px;">
+          <span><b>Listen on Spotify</b></span>
+        </a>
+        <a href="https://soundcloud.com/thisislsr" target="_blank" rel="noopener" 
+           style="display: flex; align-items: center; text-decoration: none; color: inherit;">
+          <img src="https://cdn.worldvectorlogo.com/logos/soundcloud-2.svg" 
+               alt="SoundCloud" style="width: 28px; height: 28px; margin-right: 8px;">
+          <span><b>Listen on SoundCloud</b></span>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  
+</div>
+
+
+
+
+<style>
+.footer {
+  position: relative; /* needed for ::before to be positioned correctly */
+  background: transparent;
+  border-radius: 14px; /* match pseudo element radius */
+  overflow: hidden;    /* keeps gradient inside rounded corners */
+}
+
+.footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 60%),
+    linear-gradient(to bottom, rgba(0,0,0,0.0) 0%, transparent 25%);
+  z-index: 1;
+  pointer-events: none;
+}
+.footer > * {
+  position: relative; /* keeps text above gradient */
+  z-index: 2;
+}
+
+</style>
+
+<footer class="footer">
+  <div class="footer-content">
+
+    <div class="footer-section" id="footerlarger" >
+      
+      <p>
+Discover, develop and decide your future with appointments, events and vacancies</p>
+      <div style="height:1px; width: 1px;" ><img class="footimg" src="https://stepzach.github.io/leedstestradio/316c00_e85e432bbd2e4e15a926db384684cf02~mv2.png.avif">
+    </div>  </div>
+     <div class="footer-section"  id="footerlline" style="
+    border-left: 1px solid #ccc;">
+      
+      <ul>
+        <li style="margin-top: 0;"></li>
+      </ul>
+    </div>
+    
+    <div class="footer-section">
+     <h4>NAVIGATE</h4>
+      <ul>
+       <li><a href="https://zacharystephens.info/lsrv2s">Schedule</a></li>
+        <li><a href="https://zacharystephens.info/lsrv2l">Listen</a></li>
+        <li><a href="https://zacharystephens.info/lsrv2g" class="marginsfoot">Get Involved</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-section">
+      <h4>SOCIAL</h4>
+      <ul>
+       
+        <li><a href="https://www.instagram.com/thisislsr/" target="_blank"><span class="icon"><i class="fa fa-instagram"></i></span> Instagram</a></li>
+         <li><a href="https://www.tiktok.com/@thisislsr" target="_blank"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
+  <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
+</svg></span> TikTok</a></li>
+        <li><a href="https://www.facebook.com/thisislsr" target="_blank"><span class="icon"><i class="fa fa-facebook"></i></span> Facebook</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-section" id="offifoot">
+      <h4>OFFICIAL</h4>
+      <ul>
+        <li><a href="https://zacharystephens.info/lsrv2a">About</a></li>
+        <li><a href="#">Awards</a></li>
+        <li><a href="mailto:info@thisislsr.com">Contact</a></li>
+      </ul>
+ 
+    </div>
+    <div class="footer-section"  id="footerline" style="
+    border-left: 1px solid #ccc;">
+      
+      <ul>
+        <li style="margin-top: 0;"></li>
+      </ul>
+    </div>
+    
+    <div class="footer-section"  id="footerlarge" >
+      
+      <ul> 
+        <li style="
+    margin-top: 0;
+"><p>Leeds Student Radio is a student radio station broadcasting every day during term time, from the heart of Leeds University</p></li>
+      <li id="disclaimer-trigger"><p style="cursor: pointer"><u>Disclaimer</u></p></li>
+
+<!-- Popup Modal -->
+<div id="disclaimer-modal" class="modala">
+  <div class="modal-contenta">
+    <span class="closea">&times;</span>
+    <p>
+      DISCLAIMER: As a student media group, Leeds Student Radio (LSR) provides students with the tools to learn journalistic practices as they go. Leeds University Union (LUU) is not liable for opinions or views expressed in this broadcast, which are also not necessarily reflective of LSR or LUU as whole organisations. Please do not take opinions expressed in the following broadcasts as fact, and always use external, reputable media sources to supplement discussions of current affairs on LSR. Enjoy the show.
+    </p>
+  </div>
+</div>
+
+       
+      </ul>
+    </div>
+    <style>
+      .modala {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0; 
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+}
+
+.modal-contenta {
+  background-color: rgb(205, 50, 50);
+  margin: 15% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  color:whitesmoke;
+  border: solid black 2px;
+}
+      .modal-contenta p {
+  
+  width: 95% !important;
+ 
+}
+
+.closea {
+  float: right;
+  font-size: 32px;
+  font-weight: bold;
+  cursor: pointer;
+  border: solid 2px black;
+  border-radius:50%;
+  width: 40px; 
+  height:40px;
+      background: rgb(149 13 13 / 64%);
+  text-align: center;
+      line-height: 1;
+  
+}
+</style>
+    <script>
+
+      const trigger = document.getElementById('disclaimer-trigger');
+const modal   = document.getElementById('disclaimer-modal');
+const closeBtn = modal.querySelector('.closea');
+
+trigger.addEventListener('click', () => {
+  modal.style.display = 'block';
+});
+
+closeBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+  if (e.target == modal) {
+    modal.style.display = 'none';
+  }
+});
+
+  </script>
+  </div>
+  <div class="footer-bottom">
+    <p>© Leeds Student Radio 2025</p>
+  </div>
+</footer>
+
+</body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script>
+/** ====== Config ====== **/
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRoXcefXiUOFuRnA6DpheBwR2CJ4Zs09o68IG9in3w2WwncXybxsbVDWwQY6u6MSpmFDiRrx83MO8M3/pub?output=csv"; // change to your published CSV link
+const A_IS_EVEN_ISO_WEEK = true;
+
+const FALLBACK_SHOW = {
+  title: "No Show Live",
+  description: "We're currently off air. Stay tuned for the next broadcast.",
+  cover_image_url: "https://stepzach.github.io//leedstestradio/ab6765630000ba8a51445deb0fe8b8c4b173e6a1.jpeg"
+};
+
+const FALLBACK_NEXT = {
+  title: "No Show Scheduled",
+  description: "No upcoming shows are scheduled at the moment.",
+  cover_image_url: "https://stepzach.github.io//leedstestradio/ab6765630000ba8a51445deb0fe8b8c4b173e6a1.jpeg"
+};
+
+/** ====== Helpers ====== **/
+function isoWeekNumber(d) {
+  const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  const dayNum = (date.getUTCDay() + 6) % 7;
+  date.setUTCDate(date.getUTCDate() + 3 - dayNum);
+  const firstThursday = new Date(Date.UTC(date.getUTCFullYear(), 0, 4));
+  const diff = date - firstThursday;
+  return 1 + Math.round(diff / (7 * 24 * 3600 * 1000));
+}
+
+function getWeekTypeAB(date) {
+  const wk = isoWeekNumber(date);
+  const isEven = wk % 2 === 0;
+  return (A_IS_EVEN_ISO_WEEK ? (isEven ? "B" : "A") : (isEven ? "A" : "B"));
+}
+
+function timeToMinutes(t) {
+  if (!t) return NaN;
+  const [h, m] = t.trim().split(":").map(Number);
+  return h * 60 + (m || 0);
+}
+
+function currentDayTokens(date) {
+  const long = date.toLocaleString("en-GB", { weekday: "long" });
+  const short = long.slice(0, 3);
+  const dayIndex = (date.getDay() + 6) % 7;
+  const isWeekday = dayIndex <= 4;
+  return { long, short, isWeekday };
+}
+
+function matchesDay(showDayRaw, date) {
+  if (!showDayRaw) return false;
+  const val = String(showDayRaw).trim().toLowerCase();
+  const { long, short, isWeekday } = currentDayTokens(date);
+  const longL = long.toLowerCase();
+  const shortL = short.toLowerCase();
+  if (val === longL || val === shortL) return true;
+  if (val === "daily" || val === "every day") return true;
+  if (["weekday", "weekdays", "every weekday", "mon-fri", "m-f"].includes(val)) {
+    return isWeekday;
+  }
+  if (["weekend", "weekends", "sat-sun"].includes(val)) {
+    return !isWeekday;
+  }
+  return false;
+}
+
+function withinSlot(nowMin, startMin, endMin) {
+  if (isNaN(startMin) || isNaN(endMin)) return false;
+  if (startMin <= endMin) {
+    return nowMin >= startMin && nowMin < endMin;
+  } else {
+    return nowMin >= startMin || nowMin < endMin;
+  }
+}
+
+function applyShowToSection(sectionSelector, show, labelText, isLive, labelSelector = ".on-air") {
+  const section = document.querySelector(sectionSelector);
+  if (!section) return;
+  const titleElem = section.querySelector(".pill-title");
+  const descElem = section.querySelector(".pill-description");
+  const imgElem = section.querySelector(".thumbnail");
+
+  const title = show.title || show["Title"];
+  const desc = show.description || show["Description"];
+  const img = show.cover_image_url || show["cover image url"] || show["Cover Image Url"] || show["Cover Image URL"];
+
+  if (titleElem) titleElem.textContent = title;
+  if (descElem) descElem.firstChild ? descElem.firstChild.textContent = desc : descElem.textContent = desc;
+  if (imgElem) imgElem.src = img;
+
+  const labelElem = section.querySelector(labelSelector);
+  if (labelElem) {
+    if (isLive) {
+      labelElem.innerHTML = `<span class="pulse-dot"></span>${labelText}`;
+    } else {
+      labelElem.textContent = labelText;
+    }
+  }
+
+  // Special: Update description toggle fullText for first banner
+  if (sectionSelector === "#pillBanner") {
+    setBannerDescription(desc);
+  }
+}
+
+function normalizeRows(rows) {
+  return rows.map(r => {
+    const o = {};
+    Object.keys(r).forEach(k => {
+      o[k.trim().toLowerCase().replace(/\s+/g, '_')] = (r[k] ?? "").toString().trim();
+    });
+    return o;
+  });
+}
+
+function findCurrentShow(rows) {
+  const now = new Date();
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+  const weekType = getWeekTypeAB(now);
+  return rows.find(show => {
+    const dayOK = matchesDay(show.day_of_week, now);
+    if (!dayOK) return false;
+    const wt = (show.week_type || "").toUpperCase();
+    const weekOK = !wt || wt === "*" || wt === "ALL" || wt === weekType;
+    if (!weekOK) return false;
+    return withinSlot(nowMinutes, timeToMinutes(show.start_time), timeToMinutes(show.end_time));
+  });
+}
+
+function findNextShow(rows) {
+  const now = new Date();
+  const nowMinutes = now.getHours() * 60 + now.getMinutes();
+  const weekType = getWeekTypeAB(now);
+  const candidates = rows.filter(show => {
+    const dayOK = matchesDay(show.day_of_week, now);
+    if (!dayOK) return false;
+    const wt = (show.week_type || "").toUpperCase();
+    const weekOK = !wt || wt === "*" || wt === "ALL" || wt === weekType;
+    if (!weekOK) return false;
+    return timeToMinutes(show.start_time) > nowMinutes;
+  }).sort((a, b) => timeToMinutes(a.start_time) - timeToMinutes(b.start_time));
+  return candidates[0] || null;
+}
+
+/** ====== Description Toggle for Banner 1 ====== **/
+const description = document.getElementById('pillDescription');
+const toggleBtn = document.getElementById('toggleDescription');
+
+let expanded = false;
+let fullText = (description.textContent || '').trim();
+
+// Ensure there's a leading text node before the button
+let textNode = description.firstChild;
+if (!textNode || textNode.nodeType !== Node.TEXT_NODE) {
+  textNode = document.createTextNode('');
+  description.insertBefore(textNode, toggleBtn || null);
+}
+
+// Hidden measurer that copies the description's font styles
+const measurer = document.createElement('span');
+Object.assign(measurer.style, {
+  position: 'absolute',
+  visibility: 'hidden',
+  whiteSpace: 'nowrap',
+  top: '-9999px',
+  left: '-9999px'
+});
+document.body.appendChild(measurer);
+
+function textWidth(str) {
+  const cs = getComputedStyle(description);
+  measurer.style.font = cs.font;
+  measurer.style.letterSpacing = cs.letterSpacing;
+  measurer.style.textTransform = cs.textTransform;
+  measurer.textContent = str;
+  return measurer.getBoundingClientRect().width;
+}
+
+function truncateToPixelWidth(text, maxPx) {
+  if (textWidth(text) <= maxPx) {
+    return { text, cut: false };
+  }
+  // Binary search for longest prefix that fits with "..."
+  let lo = 0, hi = text.length, best = '...';
+  while (lo <= hi) {
+    const mid = (lo + hi) >> 1;
+    const candidate = text.slice(0, mid).trimEnd() + '...';
+    if (textWidth(candidate) <= maxPx) {
+      best = candidate;
+      lo = mid + 1;
+    } else {
+      hi = mid - 1;
+    }
+  }
+  return { text: best, cut: true };
+}
+
+function updateDescription() {
+  // Choose limit based on screen size
+  const maxWidthPx = window.innerWidth <= 600 ? 320 : 900;
+
+  if (!expanded) {
+    const { text, cut } = truncateToPixelWidth(fullText, maxWidthPx);
+    textNode.textContent = text;
+    if (cut) {
+      toggleBtn.textContent = ' More';
+      toggleBtn.style.display = 'inline';
+      toggleBtn.setAttribute('aria-hidden', 'false');
+    } else {
+      toggleBtn.textContent = '';
+      toggleBtn.style.display = 'none';
+      toggleBtn.setAttribute('aria-hidden', 'true');
+    }
+  } else {
+    textNode.textContent = fullText;
+    const wasTruncated = textWidth(fullText) > maxWidthPx;
+    toggleBtn.textContent = wasTruncated ? ' Less' : '';
+    toggleBtn.style.display = wasTruncated ? 'inline' : 'none';
+    toggleBtn.setAttribute('aria-hidden', wasTruncated ? 'false' : 'true');
+  }
+}
+
+toggleBtn.addEventListener('click', () => {
+  expanded = !expanded;
+  toggleBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+  updateDescription();
+});
+
+window.addEventListener('resize', updateDescription);
+
+function setBannerDescription(newText) {
+  fullText = (newText || '').trim();
+  expanded = false;
+  updateDescription();
+}
+
+// Initial render
+updateDescription();
+/** ====== Fetch + Update ====== **/
+function fetchAndUpdate() {
+  Papa.parse(SHEET_CSV_URL, {
+    download: true,
+    header: true,
+    skipEmptyLines: "greedy",
+    complete: function(res) {
+      if (!res || !res.data || !res.data.length) return;
+      const rows = normalizeRows(res.data);
+
+     // First banner (original, current show)
+const current1 = findCurrentShow(rows);
+if (current1) {
+  applyShowToSection("#pillBanner", current1, "On Air", true);
+  // Update Media Session ONLY for current show
+  updateMediaSession(current1);
+} else {
+  applyShowToSection("#pillBanner", FALLBACK_SHOW, "Off Air", false);
+  updateMediaSession(FALLBACK_SHOW);
+}
+
+// Second banner (current + up next)
+const current2 = current1; // always just current1 for consistency
+if (current2) {
+  applyShowToSection("#pillBanner1 .current-show", current2, "On Air", true, ".on-air");
+} else {
+  applyShowToSection("#pillBanner1 .current-show", FALLBACK_SHOW, "Off Air", false, ".on-air");
+}
+
+const next = findNextShow(rows);
+if (next) {
+  applyShowToSection("#pillBanner1 .up-next", next, "⏳ Up Next", false, ".up-next-label");
+} else {
+  applyShowToSection("#pillBanner1 .up-next", FALLBACK_NEXT, "⏳ Up Next", false, ".up-next-label");
+}
+
+    }
+  });
+}
+function updateMediaSession(show) {
+  if (!show || !('mediaSession' in navigator)) return;
+  const title = show.title || show["Title"] || "Live Stream";
+  const img = show.cover_image_url || show["cover image url"] || show["Cover Image Url"] || show["Cover Image URL"] || "default-artwork.jpg";
+
+  requestAnimationFrame(() => {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: title,
+      artist: 'Leeds Student Radio',
+      album: '',
+      artwork: [
+        { src: img, sizes: '96x96',   type: 'image/jpeg' },
+        { src: img, sizes: '128x128', type: 'image/jpeg' },
+        { src: img, sizes: '256x256', type: 'image/jpeg' },
+        { src: img, sizes: '512x512', type: 'image/jpeg' }
+      ]
+    });
+
+    navigator.mediaSession.setActionHandler('play', () => audio.play());
+    navigator.mediaSession.setActionHandler('pause', () => audio.pause());
+  });
+}
+
+fetchAndUpdate();
+setInterval(fetchAndUpdate, 60000);
+</script>
+<script>
+  // Set --vh to the initial viewport height and don't update it again
+  (function () {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  })();
+const menuButton = document.getElementById("menuButton");
+const slidingMenu = document.getElementById("slidingMenu");
+const overlay = document.querySelector(".title");
+const menu = document.querySelector(".menu");
+const projectsHover = document.getElementById("projectsHover");
+const nav = document.querySelector(".desktop-nav"); 
+const nav2 = document.querySelector(".nav-item");
+
+let menuOpen = false;
+
+// MOBILE: Click menu toggle
+menuButton.addEventListener("click", () => {
+  menuOpen = !menuOpen;
+
+  if (menuOpen) {
+    slidingMenu.classList.add("open");
+    menuButton.innerHTML = '<span style="display:block; padding-top:5px; padding-left:4px; font-size: 2.2rem;">✕</span>';
+
+    setTimeout(() => {
+      overlay.classList.add("menu-open");
+      menu.classList.add("menu-open");
+    
+    }, 50);
+  } else {
+    slidingMenu.classList.remove("open");
+    menuButton.textContent = "☰";
+
+    setTimeout(() => {
+      overlay.classList.remove("menu-open");
+      menu.classList.remove("menu-open");
+    }, 1000);
+  }
+});
+
+// DESKTOP: Hover to show/hide menu with class-based control
+if (window.innerWidth >= 768 && projectsHover) {
+  let hoverTimeout;
+
+  const openMenu = () => {
+    slidingMenu.classList.add("open");
+     setTimeout(() => {
+    overlay.classList.add("menu-open");
+    menu.classList.add("menu-open");
+      nav.classList.add("item-open");
+       nav2.classList.add("item-open");
+       }, 50);
+  };
+
+  const closeMenu = () => {
+    slidingMenu.classList.remove("open");
+    setTimeout(() => {
+    overlay.classList.remove("menu-open");
+    menu.classList.remove("menu-open");
+     nav.classList.remove("item-open");
+     nav2.classList.remove("item-open");
+       }, 1000);
+  
+  };
+
+  projectsHover.addEventListener("mouseenter", () => {
+    clearTimeout(hoverTimeout);
+    openMenu();
+  });
+
+  projectsHover.addEventListener("mouseleave", () => {
+    hoverTimeout = setTimeout(() => {
+      if (!slidingMenu.matches(":hover")) {
+        closeMenu();
+      }
+    }, 200);
+  });
+
+  slidingMenu.addEventListener("mouseenter", () => {
+    clearTimeout(hoverTimeout);
+    openMenu();
+  });
+
+  slidingMenu.addEventListener("mouseleave", () => {
+    closeMenu();
+  });
+}
+// TOUCH DEVICE: Click to toggle menu on #projectsHover
+if ('ontouchstart' in window && projectsHover) {
+  let touchMenuOpen = false;
+
+  projectsHover.addEventListener("click", () => {
+    touchMenuOpen = !touchMenuOpen;
+
+    if (touchMenuOpen) {
+      slidingMenu.classList.add("open");
+      overlay.classList.add("menu-open");
+      menu.classList.add("menu-open");
+    } else {
+      slidingMenu.classList.remove("open");
+      overlay.classList.remove("menu-open");
+      menu.classList.remove("menu-open");
+    }
+  });
+}
+
+// On window resize: reset to default state if switching to desktop
+window.addEventListener('resize', () => {
+  if (window.innerWidth >= 768) {
+    menuButton.textContent = "☰";
+    slidingMenu.classList.remove("open");
+    overlay.classList.remove("menu-open");
+    menu.classList.remove("menu-open");
+     nav.classList.remove("item-open");
+     nav2.classList.remove("item-open");
+    menuOpen = false;
+  }
+});
+
+  const pillContainer = document.getElementById("pillContainer");
+  const tabs = document.querySelectorAll(".tab");
+
+  const pillData = {
+  
+   featured: [
+     
+      
+    
+     
+      ],
+    
+    
+    
+    university: [
+     { title: "LIBRARY LIVE SEATING MAP", caption: "Service Design Project", img: "https://github.com/Stepzach/DesignPortfolio/blob/main/Image%2060.png?raw=true",
+       link: "https://github.com/Stepzach/DesignPortfolio/blob/main/ServiceDesignPORTFOLIO.pdf",
+       },
+      
+      { title: "SMART SECURITY SYSTEM INTERFACE", caption: "Electronics Project on Arduino", img: "https://github.com/Stepzach/DesignPortfolio/blob/main/IMG_5700-min.jpeg?raw=true",
+       link: "https://zacharystephens.info/Washing-Project1elec.pdf",
+       tags: [
+        { text: "C++", color: "#67645e" }
+       
+      ]}, 
+      
+       { title: "PRESENTATION TO TAIT TOWERS", caption: "Solution proposition, after visiting their warehouse", img: "https://github.com/Stepzach/DesignPortfolio/blob/main/IMG_5702-min.jpeg?raw=true",
+         link: "https://zacharystephens.info/TaitPresentation.pdf",
+      tags: [
+        { type: "logo", src: "https://media.licdn.com/dms/image/v2/D4E0BAQGAOMFDbRl8Mg/company-logo_200_200/company-logo_200_200/0/1719258433497/tait_towers_logo?e=2147483647&v=beta&t=pgXn4jQw1VTtbaURo8v_wFdrSyvFEl3Y2dZ57YDZvvk" }
+      ]},
+     
+    ],
+    website: [
+      { title: "BAD B!TCH DUBZ", caption: "Women-led record label and DJ collective based in Bristol", img: "https://ugc.production.linktr.ee/c3af7b23-afcc-4093-94fe-a56bf3d5b691_IMG-9572.jpeg?io=true&size=avatar-v3_0",  link: "https://badbitchdubz.co.uk/", },
+      
+       
+      { title: "LEEDS STUDENTS RADIO", caption: "Officially the UK's best student radio 2023 & 2024",  link: "https://www.thisislsr.com/",
+      img: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAMAAABF0y+mAAAAdVBMVEW2DQW1AACyAACzAAC2CwC0AAC/Pjzqy8rkv77boaDy3d3YmZfeqajoxcTjt7bKa2mxAADDUE7////04+P8+vnPf33Wj47ShoWuAADhsbDNeni8Mi/Uionv19bdp6e4HhnHYF7BSke5JCD47e3Kc3HEVlPHYmDqAzGvAAABCElEQVR4Ac3QBYLDIBAFUBgycRr641rv/Y+4Q5W9QX8UHq5+L5rM8ycyRCZSypB8+WlxkpqnZXleUGRKa+2ucg/cA84b1ZDU5B5flPTExiO3QFcA/ZBjnHbArL9IKUY3WFjB3slr4QATZIb7NfPIZLGZAHewAzMZ59ElKALkCsgnYiU4DQfgGAyraAPQTEawaYDaqQAVzaPwSRBiFIUov0Q1/IKmM5r/SI4VlUgF++GCigOk9XJl80I3IqUXDkTkVmzDIJv1SDeAogdiXdc87gCbAPvnPhsZ94k+RycCjP7gF6YUiYwbzd0i6Wbt7uV2c4qn7qR13MnZivIjMgMbo5V8WN6axX4uf1gvFqo3LKsUAAAAAElFTkSuQmCC" },
+      { title: "THE GRYPHON", 
+      caption: "The Official Newspaper of the University of Leeds, since 1897", 
+       link: "https://www.thegryphon.co.uk/",
+       img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3sEAGHRuuR_Qd1LrYE7lBrKF4iLZicloVOA&s" },
+     
+    ],
+    personal: [
+      { title: "MINI CROSSWORD GAME", 
+      caption: "5x5 Crossword with leaderboard", 
+      img: "https://github.com/Stepzach/DesignPortfolio/blob/main/IMG_5703-min.jpeg?raw=true", 
+       link: "https://zacharystephens.info/nytmini.pdf",
+        tags: [
+        { text: "JS", color: "#67645e" }
+      ]},
+      
+      { title: "CIRCULAR PIZZA BOX", 
+      caption: "Prototyping experiment",  
+      link: "https://zacharystephens.info/pizza.pdf", 
+      img: "https://github.com/Stepzach/DesignPortfolio/blob/main/IMG_5704-min.jpeg?raw=true" },
+      
+      { title: "LOGO DESIGNS",  
+      link: "https://zacharystephens.info/logodes.pdf", 
+      caption: "For various Uni of Leeds societies", 
+      img: "https://github.com/Stepzach/DesignPortfolio/blob/main/IMG_5705-min.jpeg?raw=true" },
+      
+      { title: "MENU RE-DESIGN", 
+      caption: "For Okan (a Japanese restaurant I used to work at)", 
+      link: "https://zacharystephens.info/menuokan.pdf", 
+      img: "https://github.com/Stepzach/DesignPortfolio/blob/main/IMG_5707-min.jpeg?raw=true" }
+    
+    ]
+  };
+
+function renderPills(category) {
+  const oldPills = pillContainer.querySelectorAll('.pill');
+
+  // If there are pills already, fade them out first
+  if (oldPills.length > 0) {
+    oldPills.forEach(pill => pill.classList.remove('show'));
+    oldPills.forEach(pill => pill.classList.add('hide'));
+
+    // Wait for fade-out to finish before replacing
+    setTimeout(() => {
+      showNewPills(category);
+    }, 400); // Match CSS transition duration
+  } else {
+    showNewPills(category);
+  }
+}
+
+function showNewPills(category) {
+  pillContainer.innerHTML = pillData[category].map((pill, index) => `
+    <a href="${pill.link}" class="pill-link" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">
+      <div class="pill" data-index="${index}">
+        <div class="pill-tags">
+          ${(pill.tags || []).map(tag => {
+            if (tag.type === "logo") {
+              return `<img class="pill-logo" src="${tag.src}" alt="logo" />`;
+            } else {
+              return `<span class="pill-tag" style="background-color: ${tag.color || 'gray'}">${tag.text}</span>`;
+            }
+          }).join('')}
+        </div>
+        <img src="${pill.img}" alt="${pill.title}">
+        <div class="pill-text">
+          <h4>${pill.title}</h4>
+          <p>${pill.caption}</p>
+        </div>
+      </div>
+    </a>
+  `).join('');
+
+  // Fade in new pills
+  const newPills = pillContainer.querySelectorAll('.pill');
+  newPills.forEach((pill, i) => {
+    setTimeout(() => {
+      pill.classList.add('show');
+    }, i * 100); // Optional stagger
+  });
+}
+
+
+
+
+  tabs.forEach(tab => {
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      renderPills(tab.dataset.category);
+    });
+  });
+function setupTabInteractions() {
+  const isDesktop = window.innerWidth >= 769;
+
+  tabs.forEach(tab => {
+    // Remove any previous listeners by cloning
+    const newTab = tab.cloneNode(true);
+    tab.parentNode.replaceChild(newTab, tab);
+  });
+
+  const updatedTabs = document.querySelectorAll(".tab");
+
+  updatedTabs.forEach(tab => {
+    const activateTab = () => {
+      updatedTabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      renderPills(tab.dataset.category);
+    };
+
+    if (isDesktop) {
+      tab.addEventListener("mouseenter", activateTab);
+    } else {
+      tab.addEventListener("click", activateTab);
+    }
+  });
+}
+
+// Run on load and resize
+window.addEventListener("DOMContentLoaded", setupTabInteractions);
+window.addEventListener("resize", setupTabInteractions);
+
+  // Load default pills
+  renderPills("featured");
+  const menuTabs = document.querySelector('.menu-tabs');
+
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  menuTabs.addEventListener('mousedown', (e) => {
+    isDown = true;
+    menuTabs.classList.add('dragging');
+    startX = e.pageX - menuTabs.offsetLeft;
+    scrollLeft = menuTabs.scrollLeft;
+  });
+
+  menuTabs.addEventListener('mouseleave', () => {
+    isDown = false;
+    menuTabs.classList.remove('dragging');
+  });
+
+  menuTabs.addEventListener('mouseup', () => {
+    isDown = false;
+    menuTabs.classList.remove('dragging');
+  });
+
+  menuTabs.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - menuTabs.offsetLeft;
+    const walk = (x - startX) * 2; // adjust scroll speed multiplier here
+    menuTabs.scrollLeft = scrollLeft - walk;
+  });
+</script>
+
+<!--<script>
+document.getElementById('menuButton').addEventListener('click', () => {
+  if (window.innerWidth <= 520) {
+    setTimeout(() => {
+      const menu = document.querySelector('.menu-tabs');
+      menu.classList.add('jerk');
+
+      // Remove the class after animation ends so it can trigger again next time
+      menu.addEventListener('animationend', function handler() {
+        menu.classList.remove('jerk');
+        menu.removeEventListener('animationend', handler);
+      });
+    }, 2000); // 4 seconds
+  }
+});
+
+</script>-->
+<script>
+  const track = document.getElementById('carouselTrack');
+  const dotsContainer = document.getElementById('carouselDots');
+  const cards = track.querySelectorAll('.image-card');
+
+  // Create dots and add click listeners
+  cards.forEach((_, index) => {
+    const dot = document.createElement('span');
+    dot.classList.add('dot');
+    if (index === 0) dot.classList.add('active');
+    
+    dot.addEventListener('click', () => {
+      const cardWidth = cards[0].offsetWidth + 20; // includes gap
+      track.scrollTo({
+        left: index * cardWidth,
+        behavior: 'smooth'
+      });
+    });
+
+    dotsContainer.appendChild(dot);
+  });
+
+  const dots = dotsContainer.querySelectorAll('.dot');
+
+  // Update active dot on scroll
+  track.addEventListener('scroll', () => {
+    const scrollLeft = track.scrollLeft;
+    const cardWidth = cards[0].offsetWidth + 20;
+    const index = Math.round(scrollLeft / cardWidth);
+
+    dots.forEach(dot => dot.classList.remove('active'));
+    if (dots[index]) {
+      dots[index].classList.add('active');
+    }
+  });
+</script>
+<script>
+  document.getElementById('password-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const errorMessage = document.getElementById('error-message');
+
+    // Add the 'visible' class to fade in the error
+    errorMessage.classList.add('visible');
+  });
+  
+  const banner = document.getElementById('pillBanner');
+const description = document.getElementById('pillDescription');
+const toggleBtn = document.getElementById('toggleDescription');
+const playBtn = document.getElementById('playBtn');
+
+let lastScrollTop = 0;
+let expanded = false;
+const fullText = description.childNodes[0].textContent.trim();
+
+function updateDescription() {
+  if (window.innerWidth <= 600 && !expanded) {
+    const words = fullText.split(' ');
+    if (words.length > 12) {
+      description.childNodes[0].textContent = words.slice(0, 12).join(' ') + '...';
+      toggleBtn.textContent = 'More';
+    } else {
+      toggleBtn.textContent = '';
+    }
+  } else {
+    description.childNodes[0].textContent = fullText;
+    toggleBtn.textContent = expanded ? 'Less' : '';
+  }
+}
+
+toggleBtn.addEventListener('click', () => {
+  expanded = !expanded;
+  updateDescription();
+});
+
+updateDescription();
+window.addEventListener('resize', updateDescription);
+
+// Scroll shrink effect
+window.addEventListener('scroll', () => {
+  const st = window.scrollY || document.documentElement.scrollTop;
+  if (st > lastScrollTop + 10) {
+    banner.classList.add('shrink');
+  } else if (st < lastScrollTop - 10) {
+    banner.classList.remove('shrink');
+  }
+  lastScrollTop = st <= 0 ? 0 : st;
+});
+
+// Play/Pause
+let playing = false;
+playBtn.addEventListener('click', () => {
+  playing = !playing;
+  playBtn.textContent = playing ? '⏸' : '▶';
+});
+document.addEventListener("DOMContentLoaded", function () {
+  const pillBanner = document.querySelector(".pill-banner");
+  const heroSection = document.querySelector(".hero-section");
+
+  if (pillBanner && heroSection) {
+    // Get the height of .pill-banner
+    const pillHeight = pillBanner.offsetHeight;
+    const extraSpace = 20; // Fixed value in px you want to add
+
+    // Apply margin-top to .hero-section
+    heroSection.style.marginTop = (pillHeight + extraSpace) + "px";
+  }
+});
+
+</script>
+<script>
+const slides = document.querySelectorAll('.hero-img');
+const prevBtn = document.querySelector('.arrow.left');
+const nextBtn = document.querySelector('.arrow.right');
+let current = 0;
+let autoPlay = setInterval(nextSlide, 4000);
+
+function showSlide(index) {
+  slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
+}
+
+function nextSlide() {
+  current = (current + 1) % slides.length;
+  showSlide(current);
+}
+
+function prevSlide() {
+  current = (current - 1 + slides.length) % slides.length;
+  showSlide(current);
+}
+
+nextBtn.addEventListener('click', () => {
+  nextSlide();
+  resetAutoPlay();
+});
+
+prevBtn.addEventListener('click', () => {
+  prevSlide();
+  resetAutoPlay();
+});
+
+function resetAutoPlay() {
+  clearInterval(autoPlay);
+  autoPlay = setInterval(nextSlide, 8000);
+}
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const banners = document.querySelectorAll('.pill-banner');
+
+  banners.forEach(banner => {
+    const descriptionEl = banner.querySelector('.pill-description');
+    const toggleBtn = banner.querySelector('.show-more');
+    const playBtn = banner.querySelector('.play-btn');
+
+   
+
+   
+
+    // Scroll shrink effect
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', () => {
+      const st = window.scrollY || document.documentElement.scrollTop;
+      if (st > lastScrollTop + 10) {
+        banner.classList.add('shrink');
+      } else if (st < lastScrollTop - 10) {
+        banner.classList.remove('shrink');
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    });
+
+    // Play/Pause toggle
+    if (playBtn) {
+      let playing = false;
+      playBtn.addEventListener('click', () => {
+        playing = !playing;
+      playBtn.innerHTML = playing ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
+
+      });
+    }
+  });
+});
+</script>
+<script>
+  const streamUrl = "https://streamer.radio.co/s986435880/listen";
+  const audio = new Audio(streamUrl);
+  let playing = false;
+
+  // Select all play buttons
+  const playButtons = document.querySelectorAll('.play-btn');
+
+  // Function to update all buttons' icons
+  function updateButtons() {
+    playButtons.forEach(btn => {
+      btn.innerHTML = playing ? '<i class="fa-solid fa-pause"></i>' : '<i class="fa-solid fa-play"></i>';
+    });
+  }
+
+  // Add click event to each button
+  playButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (!playing) {
+        audio.play().catch(err => console.error("Playback failed:", err));
+      } else {
+        audio.pause();
+      }
+      playing = !playing;
+      updateButtons();
+    });
+  });
+
+  // Sync buttons if audio ends
+  audio.addEventListener('ended', () => {
+    playing = false;
+    updateButtons();
+  });
+</script>
+
+
+<style>
+   @media (max-width: 1099px) {
+ 
+  
+  
+  }
+
+     @media (max-width: 1099px) {
+ 
+  
+ 
+  }
+
+     @media (max-width: 849px) {
+ 
+  
+ 
+  }
+
+      @media (max-width: 768px) {
+ 
+  
+  
+  }
+
+     @media (max-width: 335px) {
+ 
+  
+  
+      
+  }
+  @media  (max-width: 768px) {
+.pill-banner {
+    
+    width: calc(100% - 24px);
+    
+    }
+    }
+
+ 
+  .off-air {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+     color: grey important;     
+    font-weight: bold;
+  }
+   @media (min-width: 850px) {
+  
+ .off-air {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+     color: grey important;     
+    
+    font-weight: bold;
+  }
+   }
+   
+    @media (max-width: 849px) {
+  
+
+   .pill-banner img.thumbnail {
+    width: 40px;
+    height: 40px;
+    
+  }
+  .pill-banner {
+   border-radius: 0px !important;
+    margin: 0px 0px !important;
+    width: 100% !important;
+    border: none !important;
+    border-bottom: solid 2px black !important;
+    
+  }
+   }
+   
+</style>
