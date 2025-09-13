@@ -1758,6 +1758,7 @@ position: absolute !important;
    background: rgb(205, 50, 50) !important;
    align-items: center;
    height:64px !important;
+   position: fixed;
     
       } 
       
@@ -1767,13 +1768,13 @@ position: absolute !important;
     
       } 
       .hero-img-wrapper {
-   height: calc( 55vh - 45px );
+   height: calc( 55vh - 109px );
    
     
       } 
       
        .hero-section {
-  padding-top: 45px;
+  padding-top: 109px;
     
       } 
       
@@ -1786,7 +1787,7 @@ position: absolute !important;
       } 
         .pill-banne {
       position: fixed;
-    
+    top:64px !important;
     display: flex
 ;
     align-items: center;
@@ -1806,6 +1807,13 @@ position: absolute !important;
       .pill-banne span {
      
      z-index: 201;
+      
+      }
+      
+      .bottom-right p  {
+     
+     font-size: 20px;
+     margin:0;
       
       }
       
@@ -1883,6 +1891,7 @@ z-index: 1000;
 .fullscreen-menu.active li:nth-child(2) { transition-delay: 0.3s; }
 .fullscreen-menu.active li:nth-child(3) { transition-delay: 0.5s; }
 .fullscreen-menu.active li:nth-child(4) { transition-delay: 0.7s; }
+.fullscreen-menu.active li:nth-child(5) { transition-delay: 0.9s; }
 
 /* Style for ☰ button */
 #menuMOB {
@@ -1931,7 +1940,7 @@ z-index: 1000;
     ☰
   </div>
 </div>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer">
 <!-- Fullscreen Menu -->
 <div id="fullscreenMenu" class="fullscreen-menu">
   <ul>
@@ -1939,7 +1948,17 @@ z-index: 1000;
     <li><a href="#">Schedule</a></li>
     <li><a href="#">Listen</a></li>
     <li><a href="#">About</a></li>
-  </ul>
+    <li style="border:none; margin-top:26px; width:100%;     display: flex
+;
+    justify-content: center; gap:10%;">
+            
+              <a href="https://www.instagram.com/thisislsr/" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-instagram"></i></a>
+               <a href="https://www.facebook.com/thisislsr" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-facebook"></i></a>
+                <a href="https://www.tiktok.com/@thisislsr" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-tiktok"></i></a>
+              <a href="https://twitter.com/thisislsr" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-twitter"></i></a>
+        
+  </li>
+    </ul>
 </div>
 
     <!-- BOTTOM ROW -->
