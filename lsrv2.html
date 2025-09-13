@@ -1821,7 +1821,7 @@ position: absolute !important;
   background: rgb(205, 50, 50);
  border-top: solid 2px black;
   color: white;
-  display: flex;
+  
   justify-content: center;
   align-items: start;
   transform: translateX(100%);
@@ -1833,13 +1833,14 @@ position: absolute !important;
     position: absolute;
     inset: 0;
     background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 70%), linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, transparent 15%);
-    z-index: 1;
+    z-index: -1;
     pointer-events: none;
     
       } 
 
 .fullscreen-menu ul {
   list-style: none;
+  
   padding: 0;
   margin: 0;
   text-align: left;
@@ -1851,15 +1852,20 @@ position: absolute !important;
 z-index: 1000;
   opacity: 0;
   transform: translateX(50px);
-  margin: 20px 0;
+  margin: 15px 0;
   font-size: 2rem;
   transition: transform 0.5s ease, opacity 0.5s ease;
    border-bottom: solid 2px black;
+   padding-bottom: 15px;
+   
 }
 
 .fullscreen-menu a {
   text-decoration: none;
   color: white;
+  margin-left: 10%;
+  font-size: 25px;
+  z-index: 1000;
 }
 
 /* Active state */
