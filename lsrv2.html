@@ -1899,7 +1899,59 @@ z-index: 1000;
   cursor: pointer;
   user-select: none;
 }
+ .menu {
+    width: 30px;
+    height: 24px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
+  /* Hide ☰ text */
+  .menu::before {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background: white;
+    top: 3px;
+    transition: 0.3s;
+  }
+
+  .menu::after {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background: white;
+    bottom: 3px;
+    transition: 0.3s;
+  }
+
+  .menu span {
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background: white;
+    transition: 0.3s;
+  }
+
+  /* Animate into X */
+  .menu.open span {
+    opacity: 0;
+  }
+
+  .menu.open::before {
+    transform: rotate(45deg);
+    top: 11px;
+  }
+
+  .menu.open::after {
+    transform: rotate(-45deg);
+    bottom: 11px;
+  }
   </style>
 </head>
 <body style="    max-width: 1500px;
@@ -1936,15 +1988,15 @@ z-index: 1000;
        onclick="window.location.href='https://zacharystephens.info/lsrv2'">
     Leeds Student Radio
   </div>
-  <div class="menu" id="menuMOB" aria-haspopup="true" aria-expanded="false">
-    ☰
-  </div>
+ <div class="menu" id="menuMOB" aria-haspopup="true" aria-expanded="false">
+  <span></span>
+</div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer">
 <!-- Fullscreen Menu -->
 <div id="fullscreenMenu" class="fullscreen-menu">
   <ul>
-    <li><a href="#">Home</a></li>
+    <li><a href="#"><u>Home</u></a></li>
     <li><a href="#">Schedule</a></li>
     <li><a href="#">Listen</a></li>
     <li><a href="#">About</a></li>
@@ -1971,11 +2023,12 @@ z-index: 1000;
 
 
 <script>
-  const menuBtn = document.getElementById("menuMOB");
+const menuBtn = document.getElementById("menuMOB");
   const fullscreenMenu = document.getElementById("fullscreenMenu");
 
   menuBtn.addEventListener("click", () => {
     fullscreenMenu.classList.toggle("active");
+    menuBtn.classList.toggle("open"); // toggle animation
 
     // Toggle aria-expanded for accessibility
     const expanded = menuBtn.getAttribute("aria-expanded") === "true";
