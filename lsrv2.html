@@ -1953,12 +1953,13 @@ z-index: 1000;
   
   .award-badge {
   position: absolute;
- top:200px;
- left:20px;
+ top: calc( 109px + 21vh );
+ right:22px;
   font-size: 8.5rem; /* size of the certificate */
   animation: rotateScale 5s ease-in-out infinite;
   color : rgb(234 66 66);
   text-shadow: 3px 3px 0 black;
+  z-index:3;
  
 }
 
@@ -1974,6 +1975,7 @@ z-index: 1000;
   color: white; /* or whatever fits */
   pointer-events: none;
    text-shadow: 0px 0px 0 black;
+    z-index:2;
 }
 
 /* Animation */
@@ -2179,10 +2181,6 @@ const menuBtn = document.getElementById("menuMOB");
 
 </div>
 
-       <div class="award-badge">
-  <i class="fa-solid fa-certificate"></i>
-  <span class="award-text">Officially the UK's best student radio 2023 & 2024!</span>
-</div>
 
 
       <div class="bottom-right">
@@ -2192,6 +2190,11 @@ const menuBtn = document.getElementById("menuMOB");
       </div>
     </div>
   </div>
+  
+       <div class="award-badge">
+  <i class="fa-solid fa-certificate"></i>
+  <span class="award-text">Officially the UK's best student radio 2023 & 2024!</span>
+</div>
  <div class="carousel-container">
   <div class="carousel-track" id="carouselTrack">
   
