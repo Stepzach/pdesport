@@ -37,7 +37,7 @@
       font-family: "obviously-narrow", sans-serif;
 font-weight: 400;
 font-style: normal;
-      background-color: rgb(205, 50, 50);
+      background-color: darkred;
     }
 
     .pill-banner {
@@ -305,7 +305,7 @@ font-style: normal;
     }
    .footer {
   
-  background-color: rgb(149, 13, 13);
+   background: rgb(205, 50, 50) !important;
   border: solid 2px black;
   max-width:100% !important;
   padding: 32px 24px 16px;
@@ -1960,22 +1960,38 @@ z-index: 1000;
  left:25px;
   font-size: 7rem; /* size of the certificate */
   animation: rotateScale 5s ease-in-out infinite;
-  color : rgb(234 66 66);
-  text-shadow: 3px 3px 0 black;
+  color : rgb(205, 50, 50) !important;
+  
   z-index:3;
  
 }
+ .award-badge2 {
+  position: absolute;
+ top: 108px;
+ left:25px;
+  font-size: 7rem; /* size of the certificate */
+  animation: rotateScale 5s ease-in-out infinite;
+  color : black;
+  
+  scale: 1.1;
+  opacity:0.7;
+  z-index: 2;
+ 
+}
+ 
+ 
 
 .award-badge .award-text {
   position: absolute;
   top: 55%; 
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 0.12em; /* relative to icon size */
-  font-weight: bold;
+  font-size: 0.13em; /* relative to icon size */
+  font-weight: 500;
+  line-height:1em;
   text-align: center;
   width: 80px; /* so text wraps nicely inside icon */
-  color: white; /* or whatever fits */
+  color: whitesmoke; /* or whatever fits */
   pointer-events: none;
    text-shadow: 0px 0px 0 black;
     z-index:2;
@@ -2207,6 +2223,17 @@ const menuBtn = document.getElementById("menuMOB");
   </style>
   
 </div>
+
+<div class="award-badge2">
+  <i class="fa-solid fa-certificate"></i>
+ 
+  
+  
+
+  
+</div>
+
+
  <div class="carousel-container">
   <div class="carousel-track" id="carouselTrack">
   
