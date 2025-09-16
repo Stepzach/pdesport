@@ -155,6 +155,20 @@
     }
   }
 
+ @media screen and (max-width: 849px) {
+
+    .hero-img-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.0) 0%, transparent 35%),
+              linear-gradient(to bottom, rgba(0,0,0,0.0) 0%, transparent 25%);
+  z-index: 1;
+  border-radius: 14px;
+  pointer-events: none;
+}
+
+   V 
     .overlay {
       position: absolute;
       top: 0;
@@ -2220,12 +2234,12 @@ const menuBtn = document.getElementById("menuMOB");
   <div class="carousel-track" id="carouselTrack">
   
    <div class="image-card">
-    <img src="https://lh3.googleusercontent.com/u/0/d/1OfLVtIsaaGFcSz3NdCOTmee1RyTVrx_U=w2940-h1680-iv1" alt="LSR" class="default-img">
+    <img src="https://github.com/Stepzach/pdesport/blob/main/Screenshot%202025-09-16%20at%2021.52.58.png?raw=true" style="object-fit:cover !important; filter: brightness(0.7);" alt="LSR" class="default-img">
    
-    <div class="tag">Weekdays 9-11am</div>
+    <div class="tag">See more on Insta <i class="fab fa-instagram" style="width:11px"></i></div>
     <div class="text">
      
-      <p>Every week day 9-11am, four presenters wake up the students of Leeds with pop music and culture</p>
+      <p>Our 2025/26 committee officially announced on Instagram!</p>
     </div>
    
   </div>
