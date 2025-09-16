@@ -1256,7 +1256,7 @@ pill-link {
 }
     
 .pill-banner {
-  position: fixed;
+  position: sticky;
   top: 0rem;
   display: flex;
   align-items: flex-start; /* top align so rows work */
@@ -1304,7 +1304,7 @@ pill-link {
   margin-top: 0.2rem;
   max-width: 100%;
   transition: max-height 0.3s ease, opacity 0.3s ease;
- text-transform: none;
+  text-transform: none;
 }
 
 .show-more {
@@ -1417,9 +1417,7 @@ pill-link {
     transition: background 0.3s ease;
   }
 
-  .play-btn:hover {
-    background: #0056b3;
-  }
+ 
 
   @media (max-width: 600px) {
     .pill-description.truncated {
@@ -1429,9 +1427,6 @@ pill-link {
       text-overflow: ellipsis;
     }
   }   
-  
-  
-  
    @media (min-width: 850px) {
    .pill-banner img.thumbnail {
     width: 100px;
@@ -1452,9 +1447,6 @@ pill-link {
   max-width: 90%;
   transition: max-height 0.3s ease, opacity 0.3s ease;
 }
- 
-  
-  
  .on-air {
     display: flex;
     align-items: center;
@@ -1463,6 +1455,7 @@ pill-link {
     
     font-weight: bold;
   }
+     
    .play-btn {
     
     width: 40px;
@@ -1483,31 +1476,17 @@ pill-link {
   
    }
    
-   @media (min-width: 655px) and (max-width:768px) {
-#foottttest {
-    margin-left:15px !important;
-    margin-top:0px !important;
-  }
-  }
-  @media (min-width: 769px) and (max-width:999px) {
-#foottttest {
-    margin-left:25px !important;
-    margin-top:-12px !important;
-  }
-  }
    /* Two-column layout for wide screens */
 @media (min-width: 1100px) {
   .pill-banner {
     display: grid;
     grid-template-columns: 1fr 1fr;
     align-items: center;
-    position: fixed;
+   
     max-height:145px;
   }
   
-  .hero-section  {
-   margin-top:159px !important;
-  }
+ 
 
   .pill-section {
     display: flex;
@@ -1814,15 +1793,298 @@ position: absolute !important;
   .footer10 {
    
    margin-right:26px !important;
-   width: calc(50% - 34px)  !important;
+   width: calc(50% - 26px)  !important;
     
   
   
     } }
+     @media (min-width: 850px) {
+    .pill-banne,
+    .menu {
+    display: none !important;
+     } }
+    
+    
      @media (max-width: 335px) {
     .title {
     font-size:20px;
       } }
+      
+      
+      
+      
+      
+         @media (max-width: 849px) {
+   .pill-banner:before {
+   content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, transparent 40%), linear-gradient(to bottom, rgba(0, 0, 0, 0.0) 0%, transparent 35%);
+    z-index: 1;
+    pointer-events: none;
+    
+      } 
+      .pill-banner {
+   background: rgb(205, 50, 50) !important;
+   align-items: center;
+   height:64px !important;
+   position: fixed;
+    
+      } 
+      
+      .hero-section {
+  
+   
+    
+      } 
+      .hero-img-wrapper {
+   height: calc( 55vh - 109px );
+   
+    
+      } 
+      
+       .hero-section {
+  padding-top: 109px;
+    
+      } 
+      
+      .top-row .title,
+       .top-row .menu,
+       .pill-description {
+   display: none !important;
+  
+    
+      }  
+      
+      
+      @media (max-width: 849px) {
+.pill-banner {
+border-radius: 0px !important;
+margin: 0px 0px !important;
+width: 100% !important;
+border: none !important;
+border-bottom: solid 2px black !important;
+      
+       }  
+       
+       .pill-banner img.thumbnail {
+width: 40px;
+height: 40px;
+
+        }  
+      
+      
+        }  
+      
+       
+        .pill-banne {
+      position: fixed;
+    top:64px !important;
+    display: flex
+;
+    align-items: center;
+    gap: 1rem;
+    background: rgb(205, 50, 50) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+   
+    padding: 0.75rem 0.75rem;
+    z-index: 9999;
+    transition: all 0.3s ease;
+    width:100%;
+    border-bottom: solid 2px black;
+     z-index: 20000000;
+     height:45px;
+      
+      }
+      .pill-banne span {
+     
+     z-index: 201;
+      
+      }
+      
+     
+      .arrow {
+     
+    display:none !important;
+      
+      }
+      
+         }
+         
+         
+      
+      /* Fullscreen menu hidden by default */
+.fullscreen-menu {
+  position: fixed;
+  top: 107px !important;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgb(205, 50, 50);
+ border-top: solid 2px black;
+  color: white;
+  
+  justify-content: center;
+  align-items: start;
+  transform: translateX(100%);
+  transition: transform 0.5s ease-in-out;
+  z-index: 00;
+}
+ .fullscreen-menu:before {
+   content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 70%), linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, transparent 15%);
+    z-index: -1;
+    pointer-events: none;
+    
+      } 
+
+.fullscreen-menu ul {
+  list-style: none;
+  
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  z-index: 1000;
+ 
+}
+
+.fullscreen-menu li {
+z-index: 1000;
+  opacity: 0;
+  transform: translateX(50px);
+  margin: 15px 0;
+  font-size: 2rem;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+   border-bottom: solid 2px black;
+   padding-bottom: 15px;
+   
+}
+
+.fullscreen-menu a {
+  text-decoration: none;
+  color: white;
+  margin-left: 10%;
+  font-size: 25px;
+  z-index: 1000;
+}
+
+/* Active state */
+.fullscreen-menu.active {
+  transform: translateX(0);
+}
+
+.fullscreen-menu.active li {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Staggered animation */
+.fullscreen-menu.active li:nth-child(1) { transition-delay: 0.1s; }
+.fullscreen-menu.active li:nth-child(2) { transition-delay: 0.3s; }
+.fullscreen-menu.active li:nth-child(3) { transition-delay: 0.5s; }
+.fullscreen-menu.active li:nth-child(4) { transition-delay: 0.7s; }
+.fullscreen-menu.active li:nth-child(5) { transition-delay: 0.9s; }
+
+/* Style for ☰ button */
+#menuMOB {
+  font-size: 30px;
+  cursor: pointer;
+  user-select: none;
+}
+ .menu {
+    width: 30px;
+    height: 24px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Hide ☰ text */
+  .menu::before {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background: white;
+    top: 3px;
+    transition: 0.3s;
+  }
+
+  .menu::after {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background: white;
+    bottom: 3px;
+    transition: 0.3s;
+  }
+
+  .menu span {
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    background: white;
+    transition: 0.3s;
+  }
+
+  /* Animate into X */
+  .menu.open span {
+    opacity: 0;
+  }
+
+  .menu.open::before {
+    transform: rotate(45deg);
+    top: 11px;
+  }
+
+  .menu.open::after {
+    transform: rotate(-45deg);
+    bottom: 11px;
+  }
+  
+  
+  .award-badge {
+  position: absolute;
+ top: calc( 109px + 21vh );
+ left:22px;
+  font-size: 8.5rem; /* size of the certificate */
+  animation: rotateScale 5s ease-in-out infinite;
+  color : rgb(234 66 66);
+  text-shadow: 3px 3px 0 black;
+  z-index:3;
+ 
+}
+
+.award-badge .award-text {
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0.12em; /* relative to icon size */
+  font-weight: bold;
+  text-align: center;
+  width: 130px; /* so text wraps nicely inside icon */
+  color: white; /* or whatever fits */
+  pointer-events: none;
+   text-shadow: 0px 0px 0 black;
+    z-index:2;
+}
+
+/* Animation */
+@keyframes rotateScale {
+  0%   { transform: rotate(0deg) scale(1); }
+  25%  { transform: rotate(3deg) scale(1.05); }
+  50%  { transform: rotate(0deg) scale(1); }
+  75%  { transform: rotate(-3deg) scale(0.95); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+  
   </style>
 </head>
 <body style="    max-width: 1500px;
@@ -1830,13 +2092,14 @@ position: absolute !important;
     margin-right: auto;">
     
     <div class="pill-banner" id="pillBanner">
+       <button class="play-btn" id="playBtn"><i class="fa-solid fa-play"></i></button>
   <img src="https://stepzach.github.io//leedstestradio/ab6765630000ba8a51445deb0fe8b8c4b173e6a1.jpeg" alt="Thumbnail" class="thumbnail">
   <div class="pill-content">
     <!-- TOP ROW -->
     <div class="pill-top-row">
       <span class="pill-title">...Loading</span>
       <span class="on-air"><span class="pulse-dot"></span>On Air</span>
-      <button class="play-btn" id="playBtn">▶</button>
+     
     </div>
 
     <!-- BOTTOM ROW -->
@@ -1846,6 +2109,71 @@ position: absolute !important;
     </div>
   </div>
 </div>
+
+
+
+ <div class="pill-banne" style=" background: rgb(205, 50, 50) !important;">
+ 
+  <div class="pill-content" >
+   
+   <div class="pill-top-row">
+  <div class="title" style="font-size:20px; cursor:pointer;" 
+       onclick="window.location.href='https://zacharystephens.info/lsrv2'">
+    <b>Leeds Student Radio</b>
+  </div>
+ <div class="menu" id="menuMOB" aria-haspopup="true" aria-expanded="false">
+  <span></span>
+</div>
+</div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+<!-- Fullscreen Menu -->
+<div id="fullscreenMenu" class="fullscreen-menu">
+  <ul>
+    <li><a onclick="window.location.href='https://zacharystephens.info/lsrv2'">Home</a></li>
+    <li><a onclick="window.location.href='https://zacharystephens.info/lsrv2s'">Schedule</a></li>
+    <li><a onclick="window.location.href='https://zacharystephens.info/lsrv2l'">Listen</a></li>
+      <li><a onclick="window.location.href='https://zacharystephens.info/lsrv2g'"><u>Get Involved</u></a></li>
+    <li><a onclick="window.location.href='https://zacharystephens.info/lsrv2a'">About</a></li>
+    <li style="border:none; margin-top:26px; width:100%;     display: flex
+;
+    justify-content: center; gap:10%;">
+            
+              <a href="https://www.instagram.com/thisislsr/" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-instagram"></i></a>
+               <a href="https://www.facebook.com/thisislsr" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-facebook"></i></a>
+                <a href="https://www.tiktok.com/@thisislsr" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-tiktok"></i></a>
+              <a href="https://twitter.com/thisislsr" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-twitter"></i></a>
+        
+  </li>
+    </ul>
+</div>
+
+    <!-- BOTTOM ROW -->
+    <div class="pill-description" id="pillDescription">
+      ...Loading
+      <span class="show-more" id="toggleDescription"></span>
+    </div>
+  </div>
+</div>
+
+
+<script>
+const menuBtn = document.getElementById("menuMOB");
+  const fullscreenMenu = document.getElementById("fullscreenMenu");
+
+  menuBtn.addEventListener("click", () => {
+    fullscreenMenu.classList.toggle("active");
+    menuBtn.classList.toggle("open"); // toggle animation
+
+    // Toggle aria-expanded for accessibility
+    const expanded = menuBtn.getAttribute("aria-expanded") === "true";
+    menuBtn.setAttribute("aria-expanded", !expanded);
+  });
+</script>
+
+
+
+
+
 <div class="pill-banner" id="pillBanner1">
   <!-- CURRENT SHOW -->
   <div class="pill-section current-show">
@@ -1886,6 +2214,7 @@ position: absolute !important;
     </div>
   </div>
 </div>
+
 
 
   <div class="hero-section">
@@ -4015,46 +4344,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 <style>
-   @media (max-width: 1099px) {
+   @media (max-width: 849px) {
  
   
   .hero-section  {
-   margin-top:159px !important;
+   margin-top:40px !important;
+    padding-top:88px !important;
   }
+  
+  .sliding-menu  {
+  display: none;
+  }
+  
+  .overlay {
+position: absolute;
+top: 30px
+  }
+   .playerzz {
+margin-top: 130px !important;
+}
   }
 
-     @media (max-width: 1099px) {
- 
-  
-  .hero-section  {
-   margin-top:159px !important;
-  }
-  }
-
-     @media (max-width: 849px) {
- 
-  
-  .hero-section  {
-   margin-top:129px !important;
-  }
-  }
-
-      @media (max-width: 768px) {
- 
-  
-  .hero-section  {
-   margin-top:119px !important;
-  }
-  }
-
-     @media (max-width: 335px) {
- 
-  
-  .hero-section  {
-   margin-top:139px !important;
-  }
-      
-  }
+   
   @media  (max-width: 768px) {
 .pill-banner {
     
@@ -4082,5 +4393,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     font-weight: bold;
   }
+  
+ 
+
+
    }
 </style>
