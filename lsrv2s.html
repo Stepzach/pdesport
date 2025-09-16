@@ -331,7 +331,7 @@
     }
    .footer {
   
-  background-color: rgb(149, 13, 13);
+
   border: solid 2px black;
   max-width:100% !important;
   padding: 32px 24px 16px;
@@ -1239,12 +1239,12 @@ pill-link {
 }
     
 .pill-banner {
-  position: fixed;
+  position: sticky;
   top: 0rem;
   display: flex;
   align-items: flex-start; /* top align so rows work */
   gap: 1rem;
-  background: white;
+  background: rgb(205, 50, 50) !important;
   box-shadow: 0 4px 20px rgba(0,0,0,0.15);
   border-radius: 50px;
   padding: 0.75rem 0.75rem;
@@ -1252,6 +1252,22 @@ pill-link {
   transition: all 0.3s ease;
  
 }
+  
+
+           @media screen and (min-width: 850px) {   
+.pill-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 35%),
+     linear-gradient(to bottom, rgba(0,0,0,0.0) 0%, transparent 25%);
+           
+  z-index: 1;
+  border-radius: 14px;
+  pointer-events: none;
+}
+    }        
+
 
 .pill-content {
   flex: 1; /* take up remaining space */
@@ -1470,9 +1486,6 @@ pill-link {
     max-height:145px;
   }
   
-  .hero-section  {
-   margin-top:159px !important;
-  }
   
 
   /* Vertical divider between columns */
@@ -1850,7 +1863,7 @@ position: absolute !important;
               <a href="https://www.instagram.com/thisislsr/" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-instagram"></i></a>
                <a href="https://www.facebook.com/thisislsr" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-facebook"></i></a>
                 <a href="https://www.tiktok.com/@thisislsr" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-tiktok"></i></a>
-              <a href="https://twitter.com/thisislsr" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-twitter"></i></a>
+           
         
   </li>
     </ul>
@@ -2858,7 +2871,8 @@ display:none;
      
     </div>
   </div>
- 
+   </div>
+    
  <script>
   const defaultCsvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRoXcefXiUOFuRnA6DpheBwR2CJ4Zs09o68IG9in3w2WwncXybxsbVDWwQY6u6MSpmFDiRrx83MO8M3/pub?output=csv';
 
@@ -3264,7 +3278,7 @@ fetchCSV(defaultCsvUrl);
 <style>
 .footer {
   position: relative; /* needed for ::before to be positioned correctly */
-  background: transparent;
+  background: transparent !important;
   border-radius: 14px; /* match pseudo element radius */
   overflow: hidden;    /* keeps gradient inside rounded corners */
   margin-left:0;
@@ -3345,11 +3359,11 @@ Discover, develop and decide your future with appointments, events and vacancies
       <h4>SOCIAL</h4>
       <ul>
        
-        <li><a href="https://www.instagram.com/thisislsr/" target="_blank"><span class="icon"><i class="fa fa-instagram"></i></span> Instagram</a></li>
+        <li><a href="https://www.instagram.com/thisislsr/" target="_blank"><span class="icon"><i class="fab fa-instagram"></i></span> Instagram</a></li>
          <li><a href="https://www.tiktok.com/@thisislsr" target="_blank"><span class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-tiktok" viewBox="0 0 16 16">
   <path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3z"/>
 </svg></span> TikTok</a></li>
-        <li><a href="https://www.facebook.com/thisislsr" target="_blank"><span class="icon"><i class="fa fa-facebook"></i></span> Facebook</a></li>
+        <li><a href="https://www.facebook.com/thisislsr" target="_blank"><span class="icon"><i class="fab fa-facebook"></i></span> Facebook</a></li>
       </ul>
     </div>
     
@@ -4381,9 +4395,7 @@ document.addEventListener('DOMContentLoaded', () => {
    @media (max-width: 1099px) {
  
   
-  .hero-section  {
-   margin-top:159px !important;
-  }
+ 
   }
 
      @media (max-width: 1099px) {
@@ -4551,10 +4563,12 @@ document.addEventListener('DOMContentLoaded', () => {
       width: 100%;
      
       padding: 24px;
+     
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
+
   @media screen and (min-width: 768px) {
   
     .menu-tabs {
@@ -6501,5 +6515,10 @@ margin-top: 130px !important;
     
     }
     }
-
+ @media screen and (max-width: 849px) {
+    .overlay {
+      padding-left: 0 !important;
+padding-right: 0 !important;
+       }
+    }
 </style>
