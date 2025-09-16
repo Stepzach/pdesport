@@ -2595,7 +2595,7 @@ function applyShowToSection(sectionSelector, show, labelText, isLive, labelSelec
 
   const title = show.title || show["Title"];
   const desc = show.description || show["Description"];
-  const img = show.cover_image_url || show["cover image url"] || show["Cover Image Url"] || show["Cover Image URL"];
+  const img = show.cover_image_url || show["https://stepzach.github.io//leedstestradio/ab6765630000ba8a51445deb0fe8b8c4b173e6a1.jpeg"] || show["https://stepzach.github.io//leedstestradio/ab6765630000ba8a51445deb0fe8b8c4b173e6a1.jpeg"] || show["https://stepzach.github.io//leedstestradio/ab6765630000ba8a51445deb0fe8b8c4b173e6a1.jpeg"];
 
   if (titleElem) titleElem.textContent = title;
   if (descElem) descElem.firstChild ? descElem.firstChild.textContent = desc : descElem.textContent = desc;
@@ -2739,7 +2739,7 @@ toggleBtn.addEventListener('click', () => {
   updateDescription();
 });
 
-window.addEventListener('resize', updateDescription);
+
 
 function setBannerDescription(newText) {
   fullText = (newText || '').trim();
@@ -3091,7 +3091,7 @@ function setupTabInteractions() {
 
 // Run on load and resize
 window.addEventListener("DOMContentLoaded", setupTabInteractions);
-window.addEventListener("resize", setupTabInteractions);
+
 
   // Load default pills
   renderPills("featured");
@@ -3220,7 +3220,7 @@ toggleBtn.addEventListener('click', () => {
 });
 
 updateDescription();
-window.addEventListener('resize', updateDescription);
+
 
 // Scroll shrink effect
 window.addEventListener('scroll', () => {
