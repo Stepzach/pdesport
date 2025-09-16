@@ -1199,7 +1199,7 @@ pill-link {
   display: flex;
   align-items: flex-start; /* top align so rows work */
   gap: 1rem;
-  background: white;
+  background: rgb(205, 50, 50) !important;
   box-shadow: 0 4px 20px rgba(0,0,0,0.15);
   border-radius: 50px;
   padding: 0.75rem 0.75rem;
@@ -1207,6 +1207,21 @@ pill-link {
   transition: all 0.3s ease;
  
 }
+  
+
+           @media screen and (min-width: 850px) {   
+.pill-banner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 35%),
+     linear-gradient(to bottom, rgba(0,0,0,0.0) 0%, transparent 25%);
+           
+  z-index: 1;
+  border-radius: 14px;
+  pointer-events: none;
+}
+    } 
 
 .pill-content {
   flex: 1; /* take up remaining space */
@@ -2051,7 +2066,7 @@ z-index: 1000;
               <a href="https://www.instagram.com/thisislsr/" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-instagram"></i></a>
                <a href="https://www.facebook.com/thisislsr" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-facebook"></i></a>
                 <a href="https://www.tiktok.com/@thisislsr" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-tiktok"></i></a>
-              <a href="https://twitter.com/thisislsr" style="margin-left:0%; font-size:32px;" target="_blank" class=""><i class="fab fa-twitter"></i></a>
+           
         
   </li>
     </ul>
@@ -2266,13 +2281,13 @@ const menuBtn = document.getElementById("menuMOB");
       </div>
 
       <div class="podcast-links" style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px;">
-        <a href="https://open.spotify.com/your-podcast-link" target="_blank" rel="noopener" 
+        <a href="https://open.spotify.com/show/36MV4v6eQjy2dOlDTezLoA?si=be44a1986d7448bd&nd=1&dlsi=51cc85551eb3439f" target="_blank" rel="noopener" 
            style="display: flex; align-items: center; text-decoration: none; color: inherit;">
           <img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg" 
                alt="Spotify" style="width: 28px; height: 28px; margin-right: 8px;">
           <span><b>Listen on Spotify</b></span>
         </a>
-        <a href="https://soundcloud.com/your-soundcloud-link" target="_blank" rel="noopener" 
+        <a href="https://soundcloud.com/thisislsr" target="_blank" rel="noopener" 
            style="display: flex; align-items: center; text-decoration: none; color: inherit;">
           <img src="https://cdn.worldvectorlogo.com/logos/soundcloud-2.svg" 
                alt="SoundCloud" style="width: 28px; height: 28px; margin-right: 8px;">
