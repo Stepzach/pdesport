@@ -677,9 +677,23 @@ pill-link {
   display: none;
   gap: 1rem;
 }
-   
+   @media (min-width: 850px) {
+.desktop-nav {
+    display: flex;
+    order: 2;
+      font-size:1rem;
+    margin-top:10px;
+    margin-right:20px;
+     transition: color 0.8s ease !important;
+  }
+  }
 
- 
+     @media (max-width: 849px) {
+.desktop-nav {
+    display: none  !important;
+
+  }
+  }
 /* Show only on wider screens */
 @media (min-width: 768px) {
  
@@ -692,14 +706,7 @@ pill-link {
     margin-left:20px;
   }
 
-  .desktop-nav {
-    display: flex;
-    order: 2;
-      font-size:1rem;
-    margin-top:10px;
-    margin-right:20px;
-     transition: color 0.8s ease !important;
-  }
+  
 
   .nav-item {
     cursor: pointer;
@@ -2847,10 +2854,59 @@ display:none;
      height: 1410px !important;
     
      }
+         }
+      @media (max-width: 849px) {
+    .hero-img-wrapper {
+
+     display: none !important;
+    
+     }
+     .scheduleRootdiv {
+   
+   margin-top:0px !important;
+     }
+      .hero-section {
+       margin-left:0px !important;
+    margin-right:0px !important;
+       }
+      }
+      
      
-     
+      @media (min-width: 850px) {
+      
+      .scheduleRootdiv {
+   z-index: 1000 !important;
+   margin-top: -1100px !important;
+     }
+      .scheduleRootdiv h1 {
+      z-index: 10000 !important;
+      }
+      .hero-section{
+
+        z-index: 0 !important;
+       }
+      
+        .hero-img-wrapper:before {
+
+        z-index: -1 !important;
+       }
+      .scheduleRootdiv {
+       margin-left:12px !important;
+    margin-right:12px !important;
+       }
+        }
+       @media (min-width: 901px) {
+      
+      .scheduleRootdiv {
+   
+   margin-top: -1300px !important;
+     }
+      }
   </style>
-  <div class="scheduleRootdiv" style="margin:30px 0 8px; z-index:2;">
+ 
+</div>
+ 
+  <div class="scheduleRootdiv" style="margin:30px 0 8px; z-index:11112;">
 
   <h1 style="margin:0px 0 8px;">Schedule</h1>
 
@@ -2961,7 +3017,7 @@ function createPopup(){
     Object.assign(popup.style, {
       position: 'fixed', top: 0, left: 0,
       width: '100vw', height: '100vh',
-      background: 'rgba(0,0,0,0.09)',
+      background: 'rgba(0,0,0,0.59)',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -2994,11 +3050,10 @@ function createPopup(){
      ">
    
 
-    
 
   <button id="closePopup" style="
-    position: absolute !important; top: 12px !important; right: 16px!important; 
-    border: solid 2px black !important; border-radius: 50% !important; font-size: 38px; font-weight: bold; 
+    position: absolute !important; top: 12px !important; padding-bottom: 2px; right: 16px!important; 
+    border: solid 2px black !important; border-radius: 50% !important; font-size: 34px; font-weight: bold; 
     color: whitesmoke; cursor: pointer; background: rgb(149 13 13 / 64%);
   width:45px !important; height:45px !important; line-height: 0;" aria-label="Close popup">&times;</button>
 
@@ -3269,8 +3324,6 @@ fetchCSV(defaultCsvUrl);
   document.head.appendChild(style);
 </script>
 
-</div>
- 
 </div>
 
 
@@ -4401,9 +4454,7 @@ document.addEventListener('DOMContentLoaded', () => {
      @media (max-width: 1099px) {
  
   
-  .hero-section  {
-   margin-top:159px !important;
-  }
+  
   }
 
      @media (max-width: 849px) {
@@ -6537,4 +6588,10 @@ margin-top: 130px !important;
 padding-right: 0 !important;
        }
     }
+    
+    
+     
+     
+     
+     
 </style>
