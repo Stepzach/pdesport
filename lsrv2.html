@@ -24,7 +24,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
- 
+ <link rel="stylesheet" href="https://use.typekit.net/kjs5jae.css">
   <style>
     * {
       margin: 0;
@@ -34,7 +34,8 @@
 
     body, html {
       height: auto;
-      font-family: 'Helvetica Neue', sans-serif;
+     font-family: "organetto-variable", sans-serif;
+font-variation-settings: "wght" 40, "wdth" 50;
       background-color: rgb(205, 50, 50);
     }
 
@@ -242,12 +243,22 @@
         font-size: 2.5rem;
       }
 
+
     /* Responsive Design */
     @media (max-width: 768px) {
       .top-row {
         flex-direction: row;
         font-size: 1rem;
       }
+
+     .hero-img-wrapper:before {
+content: "";
+position: absolute;
+inset: 0;
+background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 40%), linear-gradient(to bottom, rgba(0, 0, 0, 0.0) 0%, transparent 35%);
+z-index: 1;
+pointer-events: none;
+}
 
       .bottom-right {
         align-self: flex-start !important;
@@ -256,7 +267,8 @@
       }
 
       .bottom-right p {
-         font-size: 1.8rem;
+         font-size: 1.2rem;
+        margin: 0 !important;
       }
 
       .bottom-right button {
@@ -296,11 +308,7 @@
         font-size: 0.9rem;
       }
 
-      .bottom-right p {
-        font-size: 1.5rem;
-       
-       
-      }
+      
        .top-row .menu {
      
       line-height:1.1rem;
@@ -323,7 +331,7 @@
   padding: 32px 24px 16px;
   margin: 16px 24px;
   border-radius: 14px;
-  font-family: 'Helvetica Neue', sans-serif;
+
 
    color: whitesmoke;
   
@@ -347,7 +355,7 @@
   padding: 0;
   margin: 16px 12px;
   border-radius: 14px;
-  font-family: 'Helvetica Neue', sans-serif;
+
 
    color: whitesmoke;
   
@@ -361,7 +369,7 @@
   padding: 0;
   margin: 16px 12px;
   border-radius: 14px;
-  font-family: 'Helvetica Neue', sans-serif;
+
 
    color: whitesmoke;
   
@@ -1844,7 +1852,7 @@ position: absolute !important;
       
       }
       
-      .bottom-right,
+     
       .arrow {
      
     display:none !important;
@@ -2036,8 +2044,8 @@ z-index: 1000;
   <div class="pill-content">
     <!-- TOP ROW -->
     <div class="pill-top-row">
-      <span class="pill-title">...Loading</span>
-      <span class="on-air"><span class="pulse-dot"></span>On Air</span>
+      <span class="pill-title" style="font-variation-settings: 'wght' 30, 'wdth' 40;" >...Loading</span>
+      <span class="on-air" style="font-variation-settings: 'wght' 10, 'wdth' 40;" ><span class="pulse-dot"></span>On Air</span>
      
     </div>
 
@@ -2056,7 +2064,7 @@ z-index: 1000;
   <div class="pill-content" >
    
    <div class="pill-top-row">
-  <div class="title" style="font-size:20px; cursor:pointer;" 
+  <div class="title" style="font-size:20px; cursor:pointer; font-variation-settings: 'wght' 50, 'wdth' 65;" 
        onclick="window.location.href='https://zacharystephens.info/lsrv2'">
     <b>Leeds Student Radio</b>
   </div>
@@ -2067,8 +2075,9 @@ z-index: 1000;
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer">
 <!-- Fullscreen Menu -->
 <div id="fullscreenMenu" class="fullscreen-menu">
-  <ul>
-    <li><a onclick="window.location.href='https://zacharystephens.info/lsrv2'"><u>Home</u></a></li>
+  <ul style="font-variation-settings: 'wght' 40, 'wdth' 80;">
+    <li><a onclick="window.location.href='https://zacharystephens.info/lsrv2'" 
+><u>Home</u></a></li>
     <li><a onclick="window.location.href='https://zacharystephens.info/lsrv2s'">Schedule</a></li>
     <li><a onclick="window.location.href='https://zacharystephens.info/lsrv2l'">Listen</a></li>
        <li><a onclick="window.location.href='https://zacharystephens.info/lsrv2g'">Get Involved</a></li>
@@ -2121,8 +2130,8 @@ const menuBtn = document.getElementById("menuMOB");
     <div class="pill-content">
       <!-- TOP ROW -->
       <div class="pill-top-row">
-        <span class="pill-title">...Loading</span>
-        <span class="on-air"><span class="pulse-dot"></span>On Air</span>
+        <span class="pill-title" style="font-variation-settings: 'wght' 30, 'wdth' 40;" >...Loading</span>
+        <span class="on-air" style="font-variation-settings: 'wght' 10, 'wdth' 40;" ><span class="pulse-dot"></span>On Air</span>
       </div>
 
       <!-- BOTTOM ROW -->
@@ -2222,7 +2231,7 @@ const menuBtn = document.getElementById("menuMOB");
 
 
       <div class="bottom-right">
-        <p>Officially the UK's best student radio 2023 & 2024!</p>
+        <p>Officially the UK's best <br> student radio 2023 & 2024!</p>
       
 
       </div>
@@ -2239,7 +2248,7 @@ const menuBtn = document.getElementById("menuMOB");
     <div class="tag">See more on Insta <i class="fab fa-instagram" style="width:11px"></i></div>
     <div class="text">
      
-      <p>Our 2025/26 committee officially announced on Instagram!</p>
+      <p  style="font-variation-settings: 'wght' 20, 'wdth' 60;" >Our 2025/26 committee officially announced on Instagram!</p>
     </div>
    
   </div>
@@ -2253,7 +2262,7 @@ const menuBtn = document.getElementById("menuMOB");
 </svg></span></div>
     <div class="text">
     
-      <p>BBC Radio 1 Suprises Leeds Student Radio with JADE</p>
+      <p  style="font-variation-settings: 'wght' 20, 'wdth' 60;">BBC Radio 1 Suprises Leeds Student Radio with JADE</p>
     </div>
    
   </div>
@@ -2264,7 +2273,7 @@ const menuBtn = document.getElementById("menuMOB");
     <div class="tag">Every Friday 1-2pm</div>
     <div class="text">
     
-      <p>Weekly rundown of the world's biggest stories, every friday 1-2pm</p>
+      <p  style="font-variation-settings: 'wght' 20, 'wdth' 60;">Weekly rundown of the world's biggest stories, every friday 1-2pm</p>
     </div>
    
   </div>
@@ -2279,10 +2288,10 @@ const menuBtn = document.getElementById("menuMOB");
   <div class="footer-wrapper">
   <footer class="footer" id="careerss">
     <div class="footer-content">
-      <div class="footer-section">  
+      <div class="footer-section">   
         <h4 style="margin-top: -10px;">Brought To you by our Sponsor:</h4>
         <img src="https://stepzach.github.io/leedstestradio/316c00_e85e432bbd2e4e15a926db384684cf02~mv2.png.avif" width="100%" style="max-width:600px">
-        <p>Discover, develop and decide your future with appointments, events and vacancies.<br><u>Find out more</u></p>
+        <p style="font-variation-settings: 'wght' 20, 'wdth' 40;">Discover, develop and decide your future with appointments, events and vacancies.<br><span style="cursor: pointer;" onclick="window.open('https://mycareer.leeds.ac.uk/unauth', '_blank')"><u><b>Find out more</b></u></span></p>
       </div>
     </div>
   </footer>
@@ -3471,5 +3480,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
   }
    }
-   
+     @media (min-width: 1100px) {
+       .title {
+   font-variation-settings: "wght" 60, "wdth" 70;
+    }
+   }
 </style>
