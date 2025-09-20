@@ -2803,40 +2803,47 @@ function fetchAndUpdate() {
   Papa.parse(SHEET_CSV_URL, {
     download: true,
     header: true,
-    skipEmptyLines: "greedy",
+    skipEmptyLines: true,
+    worker: false, // force main thread parse
+    chunk: undefined, // disable streaming
     complete: function(res) {
-      if (!res || !res.data || !res.data.length) return;
+      if (!res || !res.data || !res.data.length) {
+        console.warn("No data received from sheet");
+        return;
+      }
       const rows = normalizeRows(res.data);
 
-     // First banner (original, current show)
-const current1 = findCurrentShow(rows);
-if (current1) {
-  applyShowToSection("#pillBanner", current1, "On Air", true);
-  // Update Media Session ONLY for current show
-  updateMediaSession(current1);
-} else {
-  applyShowToSection("#pillBanner", FALLBACK_SHOW, "Off Air", false);
-  updateMediaSession(FALLBACK_SHOW);
-}
+      // First banner (original, current show)
+      const current1 = findCurrentShow(rows);
+      if (current1) {
+        applyShowToSection("#pillBanner", current1, "On Air", true);
+        updateMediaSession(current1); // only update MediaSession for current
+      } else {
+        applyShowToSection("#pillBanner", FALLBACK_SHOW, "Off Air", false);
+        updateMediaSession(FALLBACK_SHOW);
+      }
 
-// Second banner (current + up next)
-const current2 = current1; // always just current1 for consistency
-if (current2) {
-  applyShowToSection("#pillBanner1 .current-show", current2, "On Air", true, ".on-air");
-} else {
-  applyShowToSection("#pillBanner1 .current-show", FALLBACK_SHOW, "Off Air", false, ".on-air");
-}
+      // Second banner (current + up next)
+      const current2 = current1;
+      if (current2) {
+        applyShowToSection("#pillBanner1 .current-show", current2, "On Air", true, ".on-air");
+      } else {
+        applyShowToSection("#pillBanner1 .current-show", FALLBACK_SHOW, "Off Air", false, ".on-air");
+      }
 
-const next = findNextShow(rows);
-if (next) {
-  applyShowToSection("#pillBanner1 .up-next", next, "⏳ Up Next", false, ".up-next-label");
-} else {
-  applyShowToSection("#pillBanner1 .up-next", FALLBACK_NEXT, "⏳ Up Next", false, ".up-next-label");
-}
-
+      const next = findNextShow(rows);
+      if (next) {
+        applyShowToSection("#pillBanner1 .up-next", next, "⏳ Up Next", false, ".up-next-label");
+      } else {
+        applyShowToSection("#pillBanner1 .up-next", FALLBACK_NEXT, "⏳ Up Next", false, ".up-next-label");
+      }
+    },
+    error: function(err) {
+      console.error("Papa.parse error:", err);
     }
   });
 }
+
 function updateMediaSession(show) {
   if (!show || !('mediaSession' in navigator)) return;
   const title = show.title || show["Title"] || "Live Stream";
