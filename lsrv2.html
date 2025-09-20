@@ -2860,8 +2860,11 @@ function updateMediaSession(show) {
   });
 }
 
-fetchAndUpdate();
-setInterval(fetchAndUpdate, 60000);
+document.addEventListener("DOMContentLoaded", () => {
+  fetchAndUpdate();
+  setInterval(fetchAndUpdate, 60000);
+});
+
 </script>
 <script>
   // Set --vh to the initial viewport height and don't update it again
