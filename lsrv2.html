@@ -2055,7 +2055,7 @@ z-index: 1000;
     <!-- TOP ROW -->
     <div class="pill-top-row">
       <span class="pill-title" style="font-variation-settings: 'wght' 30, 'wdth' 40;" >...Loading</span>
-      <span class="on-air" style=" font-family: 'Roboto Mono', sans-serif;"><span class="pulse-dot"></span>On Air</span>
+      <span class="on-air" style=" font-family: 'Roboto Mono', sans-serif;"><span class="pulse-dot"></span></span>
      
     </div>
 
@@ -2074,7 +2074,7 @@ z-index: 1000;
   <div class="pill-content" >
    
    <div class="pill-top-row">
-  <div class="title" style="font-size:20px; cursor:pointer; font-variation-settings: 'wght' 50, 'wdth' 65;" 
+  <div class="title" style="font-size:20px; cursor:pointer; font-variation-settings: 'wght' 65, 'wdth' 65;" 
        onclick="window.location.href='https://zacharystephens.info/lsrv2'">
     <b>LEEDS STUDENT RADIO</b>
   </div>
@@ -2816,7 +2816,7 @@ function fetchAndUpdate() {
       // First banner (original, current show)
       const current1 = findCurrentShow(rows);
       if (current1) {
-        applyShowToSection("#pillBanner", current1, "On Air", true);
+        applyShowToSection("#pillBanner", current1, "", true);
         updateMediaSession(current1); // only update MediaSession for current
       } else {
         applyShowToSection("#pillBanner", FALLBACK_SHOW, "Off Air", false);
