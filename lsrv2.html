@@ -32,9 +32,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
-  <div id="loading-overlay">
-    <img id="loading-logo" src="https://stepzach.github.io//leedstestradio/ab6765630000ba8a51445deb0fe8b8c4b173e6a1.jpeg" alt="Loading Logo">
-  </div>
+  
 
   <style>
     * { 
@@ -3529,54 +3527,6 @@ document.addEventListener('DOMContentLoaded', () => {
   opacity: 0.85 !important;
     }
    }
-   
-     #loading-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgb(180, 15, 15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      transition: opacity 1s ease, visibility 1s ease;
-    }
-
-    /* Logo */
-    #loading-logo {
-      width: 160px;
-      height: 160px;
-      animation: spin-wave 4s ease-in-out 2 forwards;
-    }
-
-    /*
-      Spin with wave motion:
-      - fast at start
-      - slow in middle
-      - fast again at end
-      Runs 2 times, smooth continuous.
-    */
-    @keyframes spin-wave {
-      0%   { transform: rotate(0deg); }
-      50%  { transform: rotate(360deg); }   /* fast */
-       
-     
-     
-     
-    }
-
-    /* Hidden state for fade-out */
-   #loading-overlay {
-  opacity: 1;
-  transition: opacity 1s ease; /* adjust duration if needed */
-}
-
-#loading-overlay.fade-out {
-  opacity: 0 !important;
-  pointer-events: none;
-}
 
 </style>
 
