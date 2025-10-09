@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Interval Timer — Train-Style Beeps</title>
 <style>
-  body {
-    background:#0f1724; color:#e6eef9; font-family:system-ui,-apple-system,sans-serif;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    height:100vh; margin:0; text-align:center;
+  body{
+    background:#0f1724;color:#e6eef9;font-family:system-ui,-apple-system,sans-serif;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    height:100vh;margin:0;text-align:center;
   }
   h1{font-size:1.1rem;color:#9aa9c7;}
   #time{font-size:5rem;font-weight:700;letter-spacing:-2px;margin:10px 0;}
@@ -57,8 +57,8 @@
     if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)();
   }
 
-  // crisp "train door" beep
-  function beep(freq=880,dur=180,vol=0.25){
+  // crisp train-door beep (square wave)
+  function beep(freq=880,dur=180,vol=0.35){
     ensureAudio();
     const now=ctx.currentTime;
     const o=ctx.createOscillator();
@@ -71,25 +71,21 @@
     o.start(now);
     o.stop(now+dur/1000);
   }
-  function longBeep(freq=880,dur=600,vol=0.25){beep(freq,dur,vol);}
+  function longBeep(freq=880,dur=1000,vol=0.45){beep(freq,dur,vol);}
 
   // beep pattern lasting exactly 5 s total
   function beepPattern(endCallback){
-    // 4 short beeps 0–3.2 s, then a 0.8 s long beep finishing at 5 s
     const pattern=[
-      {t:0.0,  type:'short'},
-      {t:1.0,  type:'short'},
-      {t:2.0,  type:'short'},
-      {t:3.0,  type:'short'},
-      {t:4.2,  type:'long'}
+      {t:0.0,type:'short'},
+      {t:1.0,type:'short'},
+      {t:2.0,type:'short'},
+      {t:3.0,type:'short'},
+      {t:4.2,type:'long'}
     ];
     for(const p of pattern){
-      setTimeout(()=>{
-        if(p.type==='short') beep();
-        else longBeep();
-      },p.t*1000);
+      setTimeout(()=>{p.type==='short'?beep():longBeep();},p.t*1000);
     }
-    setTimeout(()=>{ if(endCallback) endCallback(); },5000);
+    setTimeout(()=>{if(endCallback)endCallback();},5000);
   }
 
   function fmt(ms){
@@ -106,6 +102,9 @@
     if(p==='minute') phaseEl.textContent=`Set ${currentSet}: 1 min steady`;
     else phaseEl.textContent=`Set ${currentSet}: 30 s sprint`;
     msgEl.textContent='';
+    if(currentSet===1 && p==='minute'){  // single start beep
+      beep();
+    }
   }
 
   function start(){
@@ -139,7 +138,7 @@
     timeEl.textContent=fmt(rem);
     barEl.style.width=`${(1-rem/dur)*100}%`;
 
-    // start 5-second beep sequence exactly 5 s before end
+    // Start beep sequence exactly 5 s before end
     if(rem<=5000 && !state._beeped){
       state._beeped=true;
       beepPattern(()=>advancePhase());
