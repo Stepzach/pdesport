@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>Interval Timer — 1:00 + 0:30 × 5</title>
+<style>
+  :root{
+    --bg:#0f1724;
+    --panel:#0b1220;
+    --accent:#ffd166;
+    --muted:#9aa9c7;
+    --good:#7bd389;
+    --danger:#ff6b6b;
+  }
+  html,body{height:100%;margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;background:linear-gradient(180deg,var(--bg),#071028);color:#e6eef9}
+  .wrap{
+    max-width:820px;margin:18px auto;padding:18px;
+  }
+  header{display:flex;align-items:center;gap:16px}
+  header h1{font-size:20px;margin:0}
+  .panel{
+    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:16px;padding:18px;margin-top:14px;box-shadow:0 8px 24px rgba(2,6,23,0.6);
+  }
+  .big-timer{
+    display:flex;gap:18px;align-items:center;justify-content:space-between;
+    flex-wrap:wrap;
+  }
+  .time{
+    font-size:84px;font-weight:700;letter-spacing:-2px;
+  }
+  .sub{
+    text-align:right;
+    min-width:200px;
+  }
+  .phase{font-size:18px;color:var(--muted);margin-bottom:6px}
+  .sets{font-size:16px}
+  .message{
+    margin-top:10px;font-size:20px;font-weight:700;color:var(--accent);
+    height:26px;
+  }
+  .controls{display:flex;gap:12px;margin-top:12px;flex-wrap:wrap}
+  button{
+    padding:12px 18px;border-radius:12px;border:0;background:#102035;color:white;font-weight:700;font-size:16px;
+    box-shadow:0 6px 14px rgba(2,6,23,0.5);
+  }
+  button.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);}
+  button.warn{background:var(--danger);}
+  .progress-wrap{margin-top:14px;height:18px;border-radius:12px;background:rgba(255,255,255,0.04);overflow:hidden}
+  .progress{height:100%;width:0;background:linear-gradient(90deg,var(--accent),#ff9f1c)}
+  .small{font-size:13px;color:var(--muted);margin-top:10px}
+  .toggle{display:inline-flex;align-items:center;gap:8px}
+  .footer{margin-top:12px;font-size:13px;color:var(--muted)}
+  /* big touch targets for iPad */
+  .controls button{min-width:130px}
+  @media(max-width:520px){
+    .time{font-size:58px}
+    .sub{min-width:160px}
+    .controls button{min-width:120px;padding:14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Interval Timer — 1:00 + 0:30 × 5</h1>
+  </header>
+
+  <div class="panel" role="application" aria-label="Interval timer">
+    <div class="big-timer">
+      <div>
+        <div id="time" class="time">01:00</div>
+        <div class="message" id="message" aria-live="polite"></div>
+      </div>
+
+      <div class="sub">
+        <div class="phase" id="phase">Phase: Ready</div>
+        <div class="sets">Set: <strong id="setCount">1 / 5</strong></div>
+        <div class="small" id="phaseTimer">—</div>
+        <div style="margin-top:10px">
+          <label class="toggle"><input id="soundToggle" type="checkbox" checked> Sound</label>
+          <label class="toggle" style="margin-left:14px"><input id="voiceToggle" type="checkbox" checked> Voice cues</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls" role="group" aria-label="Controls">
+      <button id="startBtn">Start</button>
+      <button id="pauseBtn" class="secondary">Pause</button>
+      <button id="resetBtn" class="secondary">Reset</button>
+      <button id="skipBtn" class="secondary">Skip Set</button>
+      <button id="soundTest" class="secondary">Test Sound</button>
+    </div>
+
+    <div class="progress-wrap" aria-hidden="true" style="margin-top:18px">
+      <div id="progress" class="progress"></div>
+    </div>
+
+    <div class="footer">
+      <div>Instructions: Press <strong>Start</strong> once to allow sounds on Safari. The timer will run 5 sets of 1:00 then 0:30 automatically. There is a 3-beep countdown before the first set and a 3-countdown before each sprint. "5 seconds to sprint" is announced at 0:05 of the 1:00 timer. A 5s countdown before "STEADY" at the end of the sprint is shown and spoken.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Interval Timer 1:00 -> 0:30 (×5)
+   - Accurate timing using timestamps (performance.now())
+   - WebAudio beeps + SpeechSynthesis voice cues
+*/
+
+(() => {
+  // Configuration
+  const TOTAL_SETS = 5;
+  const MINUTE_MS = 60_000;
+  const SPRINT_MS = 30_000;
+
+  // UI elements
+  const timeEl = document.getElementById('time');
+  const messageEl = document.getElementById('message');
+  const phaseEl = document.getElementById('phase');
+  const setCountEl = document.getElementById('setCount');
+  const progressEl = document.getElementById('progress');
+  const phaseTimerEl = document.getElementById('phaseTimer');
+
+  const startBtn = document.getElementById('startBtn');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const skipBtn = document.getElementById('skipBtn');
+  const soundTest = document.getElementById('soundTest');
+
+  const soundToggle = document.getElementById('soundToggle');
+  const voiceToggle = document.getElementById('voiceToggle');
+
+  // Audio context
+  let audioCtx = null;
+  function ensureAudio() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+  }
+
+  // Beep using WebAudio
+  function beep(freq = 880, duration = 120, type='sine', volume=0.15) {
+    if (!soundToggle.checked) return;
+    ensureAudio();
+    const now = audioCtx.currentTime;
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = type;
+    o.frequency.setValueAtTime(freq, now);
+    g.gain.setValueAtTime(volume, now);
+    g.gain.exponentialRampToValueAtTime(0.001, now + duration/1000);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(now);
+    o.stop(now + duration/1000 + 0.02);
+  }
+
+  // Pocket function: short click beep sequence
+  function beepSequence(count=3, interval=700, freq=880, dur=120, done) {
+    if (!soundToggle.checked) {
+      if (done) setTimeout(done, count * interval);
+      return;
+    }
+    ensureAudio();
+    let i = 0;
+    const play = () => {
+      if (i >= count) { if (done) done(); return; }
+      beep(freq, dur);
+      i++;
+      setTimeout(play, interval);
+    };
+    play();
+  }
+
+  // Speech (if enabled)
+  function speak(text, opts={rate:1, pitch:1}) {
+    if (!voiceToggle.checked) return;
+    if (!window.speechSynthesis) return;
+    const utter = new SpeechSynthesisUtterance(String(text));
+    utter.rate = opts.rate || 1;
+    utter.pitch = opts.pitch || 1;
+    // slight voice selection for iOS may pick default
+    window.speechSynthesis.cancel(); // avoid stacking
+    window.speechSynthesis.speak(utter);
+  }
+
+  // Formatting
+  function formatMs(ms) {
+    const s = Math.ceil(ms/1000);
+    const mm = Math.floor(s/60);
+    const ss = s % 60;
+    return String(mm).padStart(2,'0') + ':' + String(ss).padStart(2,'0');
+  }
+
+  // State machine
+  let state = {
+    running: false,
+    paused: false,
+    currentSet: 1,
+    phase: 'ready', // 'ready', 'minute', 'preSprintCountdown', 'sprint', 'finished'
+    phaseEndTime: null, // performance.now() timestamp when current phase ends
+    remainingMs: 0,
+    lastTick: 0,
+    initialCountdownDone: false // three beep before first start only
+  };
+
+  // Start time for current phase
+  const tickInterval = 100; // ms update
+
+  function setPhase(phase, durationMs) {
+    state.phase = phase;
+    state.phaseEndTime = performance.now() + durationMs;
+    state.lastTick = performance.now();
+    updateUI(true);
+  }
+
+  // Start the whole run or resume
+  function start() {
+    if (!audioCtx) {
+      // unlocking audio context may require a user gesture
+      try { ensureAudio(); if (audioCtx.state === 'suspended') audioCtx.resume(); } catch(e){/*ignore*/}
+    }
+
+    if (!state.initialCountdownDone) {
+      // Play 3-beep countdown then start first minute
+      state.running = true;
+      phaseEl.textContent = 'Starting soon...';
+      messageEl.textContent = '3…2…1';
+      // play three beeps spaced 1s apart, then start minute
+      beepSequence(3, 900, 880, 150, () => {
+        state.initialCountdownDone = true;
+        startMinute();
+      });
+      state.initialCountdownDone = true; // mark to avoid repeating if user hits start again
+      return;
+    }
+
+    if (!state.running) {
+      state.running = true;
+      state.paused = false;
+      // If we have a phaseEndTime set (paused mid-phase), resume by recalculating phaseEndTime
+      if (!state.phaseEndTime && state.phase === 'ready') {
+        // begin minute
+        startMinute();
+      } else if (state.remainingMs && state.phaseEndTime === null) {
+        // paused, resume by setting new end time = now + remainingMs
+        state.phaseEndTime = performance.now() + state.remainingMs;
+      }
+    }
+  }
+
+  function pause() {
+    if (!state.running) return;
+    state.paused = true;
+    state.running = false;
+    // capture remaining
+    if (state.phaseEndTime) {
+      state.remainingMs = Math.max(0, state.phaseEndTime - performance.now());
+      state.phaseEndTime = null;
+    }
+    updateUI();
+  }
+
+  function reset() {
+    state.running = false;
+    state.paused = false;
+    state.currentSet = 1;
+    state.phase = 'ready';
+    state.phaseEndTime = null;
+    state.remainingMs = 0;
+    state.initialCountdownDone = false;
+    messageEl.textContent = '';
+    phaseTimerEl.textContent = '—';
+    progressEl.style.width = '0%';
+    phaseEl.textContent = 'Phase: Ready';
+    setCountEl.textContent = `${state.currentSet} / ${TOTAL_SETS}`;
+    timeEl.textContent = formatMs(MINUTE_MS);
+    // cancel any speech
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+  }
+
+  function skipSet() {
+    // Immediately end current set and jump to next
+    if (state.phase === 'finished') return;
+    // If in minute or sprint, move to next set or finish
+    advanceAfterSprint(); // treat as if sprint just finished
+  }
+
+  // Start one minute phase
+  function startMinute() {
+    state.phase = 'minute';
+    setPhase('minute', MINUTE_MS);
+    phaseEl.textContent = `Phase: 1:00 (Set ${state.currentSet})`;
+    messageEl.textContent = '';
+    updateUI(true);
+  }
+
+  // Begin pre-sprint 3-countdown then start sprint
+  function preSprintCountdownThenSprint() {
+    state.phase = 'preSprintCountdown';
+    // Show 3..2..1 on UI and play beeps at 1s intervals, then start sprint
+    phaseEl.textContent = `Preparing sprint (Set ${state.currentSet})`;
+    messageEl.textContent = '3';
+    // We'll display countdown text updated on each beep
+    let n = 3;
+    beepSequence(3, 900, 1100, 140, () => {
+      messageEl.textContent = '';
+      startSprint();
+    });
+    // Also update message text every 900ms
+    const step = () => {
+      if (n <= 0) return;
+      messageEl.textContent = String(n);
+      n--;
+      if (n > 0) setTimeout(step, 900);
+    };
+    step();
+  }
+
+  function startSprint() {
+    state.phase = 'sprint';
+    setPhase('sprint', SPRINT_MS);
+    phaseEl.textContent = `Phase: Sprint 0:30 (Set ${state.currentSet})`;
+    messageEl.textContent = 'SPRINT!';
+    // Speak "Sprint" briefly
+    speak('Sprint');
+    // clear message after a second
+    setTimeout(()=>{ if (state.phase === 'sprint') messageEl.textContent = ''; }, 1000);
+    updateUI(true);
+  }
+
+  // Called when a sprint finishes: advance set or finish
+  function advanceAfterSprint() {
+    // mark sprint finished (or skip)
+    // Play steady sound and speak
+    if (soundToggle.checked) beep(600, 250, 'sine', 0.18);
+    speak('Steady');
+    // move to next set
+    if (state.currentSet >= TOTAL_SETS) {
+      finishAll();
+    } else {
+      state.currentSet++;
+      setCountEl.textContent = `${state.currentSet} / ${TOTAL_SETS}`;
+      // small pause then start next minute automatically (no initial 3-beep)
+      state.phase = 'minute';
+      // short 700ms gap for user
+      setPhase('minute', MINUTE_MS);
+      phaseEl.textContent = `Phase: 1:00 (Set ${state.currentSet})`;
+      messageEl.textContent = '';
+    }
+  }
+
+  function finishAll() {
+    state.phase = 'finished';
+    state.running = false;
+    state.phaseEndTime = null;
+    timeEl.textContent = '00:00';
+    messageEl.textContent = 'Done ✅';
+    phaseEl.textContent = 'Finished';
+    progressEl.style.width = '100%';
+    speak('Workout complete. Well done.');
+    if (soundToggle.checked) {
+      beepSequence(3, 250, 1200, 120);
+    }
+  }
+
+  // Main tick loop
+  let ticker = null;
+  function startTicker() {
+    if (ticker) return;
+    ticker = setInterval(() => {
+      const now = performance.now();
+      if (!state.running) {
+        // if paused and we still want UI refresh, return
+        return;
+      }
+      if (!state.phaseEndTime) return;
+      let remaining = Math.max(0, state.phaseEndTime - now);
+      // Phase-specific logic
+      if (state.phase === 'minute') {
+        // 5 seconds to sprint announcement at <= 5000ms but only once
+        if (remaining <= 5000 && !state._minuteAnnounced) {
+          state._minuteAnnounced = true;
+          messageEl.textContent = '5 seconds to sprint';
+          speak('Five seconds to sprint');
+          if (soundToggle.checked) beep(900, 90, 'sine', 0.14);
+          setTimeout(()=>{ if (state.phase === 'minute') messageEl.textContent = ''; }, 1200);
+        }
+        // update timer display
+        timeEl.textContent = formatMs(remaining);
+        // progress across the minute
+        const pct = (1 - remaining / MINUTE_MS) * 100;
+        progressEl.style.width = pct + '%';
+        phaseTimerEl.textContent = `Time left in minute: ${formatMs(remaining)}`;
+        // if minute ends
+        if (remaining <= 0.5) {
+          // start pre-sprint countdown
+          state.phaseEndTime = null;
+          state._minuteAnnounced = false;
+          preSprintCountdownThenSprint();
+        }
+      } else if (state.phase === 'preSprintCountdown') {
+        // preSprintCountdown handled by sequences; show a default timer until sprint begins
+        timeEl.textContent = '00:00';
+        progressEl.style.width = '100%';
+        phaseTimerEl.textContent = 'Starting sprint…';
+      } else if (state.phase === 'sprint') {
+        // show remaining, and handle 5-second steady countdown
+        timeEl.textContent = formatMs(remaining);
+        const pct = (1 - remaining / SPRINT_MS) * 100;
+        progressEl.style.width = pct + '%';
+        phaseTimerEl.textContent = `Sprint time left: ${formatMs(remaining)}`;
+
+        // handle 5-second countdown to steady
+        if (remaining <= 5000 && !state._sprint5Announced) {
+          state._sprint5Announced = true;
+          // Start a per-second countdown: 5,4,3,2,1 spoken and beep
+          let n = Math.ceil(remaining / 1000);
+          const countDownTick = () => {
+            if (n <= 0 || state.phase !== 'sprint') return;
+            messageEl.textContent = String(n);
+            speak(String(n));
+            if (soundToggle.checked) beep(1200 - n*80, 90, 'sine', 0.12);
+            n--;
+            setTimeout(countDownTick, 1000);
+          };
+          countDownTick();
+          // final "steady" voice + beep at end is handled when sprint ends in advanceAfterSprint()
+        }
+        if (remaining <= 0.5) {
+          // sprint finished
+          state.phaseEndTime = null;
+          state._sprint5Announced = false;
+          // show steady then advance
+          messageEl.textContent = 'STEADY';
+          // small delay to play steady tone & speak "steady"
+          setTimeout(() => {
+            advanceAfterSprint();
+            messageEl.textContent = '';
+          }, 600);
+        }
+      }
+      state.lastTick = now;
+    }, tickInterval);
+  }
+
+  // UI update helper
+  function updateUI(force) {
+    setCountEl.textContent = `${state.currentSet} / ${TOTAL_SETS}`;
+    if (!state.phaseEndTime && !state.running && state.phase === 'ready') {
+      timeEl.textContent = formatMs(MINUTE_MS);
+      progressEl.style.width = '0%';
+    }
+    if (force) {
+      // ensure ticker is running when timer running
+      if (state.running) startTicker();
+    }
+  }
+
+  // Hook up controls
+  startBtn.addEventListener('click', () => {
+    // resume audio context in some browsers
+    try { if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume(); } catch(e){}
+    start();
+    startTicker();
+    startBtn.disabled = true;
+  });
+  pauseBtn.addEventListener('click', () => {
+    pause();
+    startBtn.disabled = false;
+  });
+  resetBtn.addEventListener('click', () => {
+    reset();
+    startBtn.disabled = false;
+  });
+  skipBtn.addEventListener('click', () => {
+    skipSet();
+  });
+  soundTest.addEventListener('click', () => {
+    // brief test beep + voice
+    beep(1000, 150);
+    speak('Sound test');
+  });
+
+  // initialize
+  reset();
+  // keep a ticker running to allow UI updates while not started? We'll start ticker when user starts.
+  // allow keyboard space to start/pause (optional)
+  window.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+      e.preventDefault();
+      if (state.running) { pause(); startBtn.disabled = false; }
+      else { start(); startTicker(); startBtn.disabled = true; }
+    }
+  });
+
+  // expose a small debug to console
+  window.__intervalTimerState = state;
+})();
+</script>
+</body>
+</html>
