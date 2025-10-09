@@ -1,30 +1,26 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Interval Timer — 1:00 + 0:30 × 5</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Interval Timer — Train-Style Beeps</title>
 <style>
   body {
-    background:#0f1724; color:#e6eef9; font-family:system-ui, -apple-system, sans-serif;
+    background:#0f1724; color:#e6eef9; font-family:system-ui,-apple-system,sans-serif;
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     height:100vh; margin:0; text-align:center;
   }
-  h1 {font-size:1.2rem; color:#9aa9c7;}
-  #time {font-size:5rem; font-weight:700; letter-spacing:-2px; margin:10px 0;}
-  #phase {font-size:1.3rem; margin-bottom:10px;}
-  #message {font-size:1.1rem; color:#ffd166; height:1.2em;}
-  button {
-    background:#16253a; color:white; border:0; border-radius:12px;
-    padding:14px 24px; margin:6px; font-size:1rem;
+  h1{font-size:1.1rem;color:#9aa9c7;}
+  #time{font-size:5rem;font-weight:700;letter-spacing:-2px;margin:10px 0;}
+  #phase{font-size:1.3rem;margin-bottom:8px;}
+  #message{font-size:1.1rem;color:#ffd166;height:1.2em;}
+  button{
+    background:#16253a;color:white;border:0;border-radius:12px;
+    padding:14px 24px;margin:6px;font-size:1rem;
   }
-  .progress {
-    width:80%; height:14px; background:rgba(255,255,255,0.08);
-    border-radius:8px; overflow:hidden; margin:14px auto;
-  }
-  .bar {
-    height:100%; width:0; background:linear-gradient(90deg,#ffd166,#ff9f1c);
-  }
+  .progress{width:80%;height:14px;background:rgba(255,255,255,0.08);
+    border-radius:8px;overflow:hidden;margin:14px auto;}
+  .bar{height:100%;width:0;background:linear-gradient(90deg,#ffd166,#ff9f1c);}
 </style>
 </head>
 <body>
@@ -40,47 +36,60 @@
   </div>
 
 <script>
-(() => {
-  const TOTAL_SETS = 5;
-  const MINUTE_MS = 60_000;
-  const SPRINT_MS = 30_000;
+(()=>{
+  const TOTAL_SETS=5;
+  const MIN_MS=60_000;
+  const SPRINT_MS=30_000;
 
-  const timeEl = document.getElementById('time');
-  const phaseEl = document.getElementById('phase');
-  const msgEl = document.getElementById('message');
-  const barEl = document.getElementById('bar');
-
-  const startBtn = document.getElementById('startBtn');
-  const pauseBtn = document.getElementById('pauseBtn');
-  const resetBtn = document.getElementById('resetBtn');
+  const timeEl=document.getElementById('time');
+  const phaseEl=document.getElementById('phase');
+  const msgEl=document.getElementById('message');
+  const barEl=document.getElementById('bar');
+  const startBtn=document.getElementById('startBtn');
+  const pauseBtn=document.getElementById('pauseBtn');
+  const resetBtn=document.getElementById('resetBtn');
 
   let ctx, running=false, paused=false;
   let currentSet=1, phase='ready', endTime=null, remaining=0;
+  const state={_beeped:false};
 
-  function ensureAudio() {
-    if (!ctx) ctx = new (window.AudioContext||window.webkitAudioContext)();
+  function ensureAudio(){
+    if(!ctx) ctx=new (window.AudioContext||window.webkitAudioContext)();
   }
-  function beep(freq=880, dur=120, vol=0.15) {
+
+  // crisp "train door" beep
+  function beep(freq=880,dur=180,vol=0.25){
     ensureAudio();
-    const o = ctx.createOscillator();
-    const g = ctx.createGain();
-    o.frequency.value=freq;
-    g.gain.value=vol;
+    const now=ctx.currentTime;
+    const o=ctx.createOscillator();
+    const g=ctx.createGain();
+    o.type='square';
+    o.frequency.setValueAtTime(freq,now);
+    g.gain.setValueAtTime(vol,now);
+    g.gain.exponentialRampToValueAtTime(0.0001,now+dur/1000);
     o.connect(g); g.connect(ctx.destination);
-    o.start();
-    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + dur/1000);
-    o.stop(ctx.currentTime + dur/1000 + 0.02);
+    o.start(now);
+    o.stop(now+dur/1000);
   }
-  function longBeep() { beep(880,400,0.18); }
+  function longBeep(freq=880,dur=600,vol=0.25){beep(freq,dur,vol);}
 
-  function beepPattern() {
-    // beep beep beep beep beeeep
-    let t=0;
-    for (let i=0;i<4;i++){
-      setTimeout(()=>beep(), t);
-      t+=600;
+  // beep pattern lasting exactly 5 s total
+  function beepPattern(endCallback){
+    // 4 short beeps 0–3.2 s, then a 0.8 s long beep finishing at 5 s
+    const pattern=[
+      {t:0.0,  type:'short'},
+      {t:1.0,  type:'short'},
+      {t:2.0,  type:'short'},
+      {t:3.0,  type:'short'},
+      {t:4.2,  type:'long'}
+    ];
+    for(const p of pattern){
+      setTimeout(()=>{
+        if(p.type==='short') beep();
+        else longBeep();
+      },p.t*1000);
     }
-    setTimeout(()=>longBeep(), t);
+    setTimeout(()=>{ if(endCallback) endCallback(); },5000);
   }
 
   function fmt(ms){
@@ -93,22 +102,22 @@
   function startPhase(p,dur){
     phase=p;
     endTime=performance.now()+dur;
-    if(p==='minute') phaseEl.textContent=`Set ${currentSet}: 1 min`;
+    state._beeped=false;
+    if(p==='minute') phaseEl.textContent=`Set ${currentSet}: 1 min steady`;
     else phaseEl.textContent=`Set ${currentSet}: 30 s sprint`;
     msgEl.textContent='';
   }
 
   function start(){
-    ensureAudio();
-    ctx.resume?.();
+    ensureAudio(); ctx.resume?.();
     if(!running){
       running=true; paused=false;
-      if(phase==='ready') startPhase('minute',MINUTE_MS);
+      if(phase==='ready') startPhase('minute',MIN_MS);
       if(!ticker) ticker=setInterval(tick,100);
     }
   }
   function pause(){
-    if(!running) return;
+    if(!running)return;
     paused=true; running=false;
     remaining=endTime-performance.now();
     endTime=null;
@@ -118,41 +127,31 @@
     currentSet=1; phase='ready'; endTime=null;
     timeEl.textContent='01:00'; barEl.style.width='0%';
     phaseEl.textContent='Ready'; msgEl.textContent='';
+    state._beeped=false;
   }
 
   let ticker=null;
   function tick(){
-    if(!running||!endTime) return;
+    if(!running||!endTime)return;
     const now=performance.now();
-    let rem=Math.max(0,endTime-now);
+    const rem=Math.max(0,endTime-now);
+    const dur=(phase==='minute'?MIN_MS:SPRINT_MS);
     timeEl.textContent=fmt(rem);
-    let dur=(phase==='minute'?MINUTE_MS:SPRINT_MS);
     barEl.style.width=`${(1-rem/dur)*100}%`;
 
-    // Last 5s pattern
+    // start 5-second beep sequence exactly 5 s before end
     if(rem<=5000 && !state._beeped){
       state._beeped=true;
-      beepPattern();
-      // last beep ends roughly 3s before 0
-      setTimeout(()=>{
-        // when pattern done, move to next phase
-        advancePhase();
-      }, 4*600+500);
+      beepPattern(()=>advancePhase());
     }
   }
 
   function advancePhase(){
     if(phase==='minute'){
-      state._beeped=false;
       startPhase('sprint',SPRINT_MS);
-    } else if(phase==='sprint'){
-      state._beeped=false;
-      if(currentSet>=TOTAL_SETS){
-        finishAll();
-      } else {
-        currentSet++;
-        startPhase('minute',MINUTE_MS);
-      }
+    }else if(phase==='sprint'){
+      if(currentSet>=TOTAL_SETS){finishAll();}
+      else{currentSet++; startPhase('minute',MIN_MS);}
     }
   }
 
@@ -165,8 +164,6 @@
     timeEl.textContent='00:00';
     beepPattern();
   }
-
-  const state={_beeped:false};
 
   startBtn.onclick=()=>{start();startBtn.disabled=true;};
   pauseBtn.onclick=()=>{pause();startBtn.disabled=false;};
