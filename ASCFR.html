@@ -106,6 +106,7 @@
       justify-content: space-between;
       background-color: #f1f0ed;
       z-index:10;
+      border: solid 3px #e30613;
     }
   @media screen and (min-width: 768px) {
   
@@ -344,27 +345,49 @@ text-decoration: underline;
   justify-content: center;
   align-items: center; /* Center content vertically */
   overflow: hidden;
+  width: calc(100% + 6px);
+margin-left: -3px;
+border-left:solid 3px #e30613;
+border-right:solid 3px #e30613;
+border-radius:0;
+
+
 }
 
-/* When menu is active */
+/* When menu is active */ 
 .sliding-menu.open {
   height: 41.5vw;
  
   pointer-events: auto;
  transition: height 0.8s cubic-bezier(0.5, 0.2, 0.1, 1);
  
- 
- background-image: url('https://github.com/Stepzach/pdesport/blob/main/Thierry%20Henry%20-%20FootyRenders.png?raw=true');
+  border-radius:14px;
+
+
+width: calc(100% + 6px);
+margin-left: -3px;
+border:solid 3px #e30613; 
+border-top: none;
+border-top-left-radius: 0;
+border-top-right-radius: 0;
+
+
+ } 
+ .sliding-menu.open:before {
+ content: "";
+  position: absolute;
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  background-image: url('https://github.com/Stepzach/pdesport/blob/main/IMG_6392.png?raw=true');
 background-repeat: no-repeat;
-background-position: -100px 0px;
-
-
-
- }
+background-size: 180%;
+background-position: center -200px;
+z-index:-1;
+opacity:0.6;
+}
 
 @media (max-width: 940px) {
-  .sliding-menu.open {
-    background-image: none;
+  .sliding-menu.open:before {
+    display: none;
   }
 }
 
@@ -1172,7 +1195,7 @@ pill-link {
 
   <div class="pill-banner">
   <p>
-    PROCHAIN MATCH: MANCHESTER UNITED (Dom.), RDV à "The Lions" (75013) à 17:00
+    PROCHAIN MATCH: MANCHESTER UNITED <br>25 JAN à 17:00 à The Lions
     </p>
   </div>
 
@@ -1193,7 +1216,7 @@ pill-link {
     class="hero-video mobile-video"
     autoplay 
     muted
-    loop
+    loop 
     playsinline
     preload="auto"  
   > 
