@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG FALL 2018 - Compact Poster Grid</title>
+    <style>
+        :root {
+            --black: #000;
+            --white: #fff;
+            --font-sans: "Helvetica Neue", Arial, sans-serif;
+            --font-mono: "Courier New", Courier, monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--white);
+            color: var(--black);
+            font-family: var(--font-sans);
+            padding: 1vw;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 24-column grid for extreme precision */
+        .poster-canvas {
+            display: grid;
+            grid-template-columns: repeat(24, 1fr);
+            max-width: 1600px;
+            margin: 0 auto;
+            border-top: 1.5px solid var(--black);
+        }
+
+        /* TYPOGRAPHY RULES */
+        .bold { font-weight: 900; letter-spacing: -0.04em; line-height: 0.85; }
+        .mono { font-family: var(--font-mono); font-size: 0.75vw; line-height: 1.1; letter-spacing: -0.02em; }
+        .huge { font-size: 13vw; }
+        .large { font-size: 8vw; }
+        .medium { font-size: 2.2vw; }
+        .title-text { font-size: 1.8vw; font-weight: 700; line-height: 0.95; }
+
+        /* HEADER SECTION */
+        .header-list { grid-column: 1 / 6; padding-top: 0.5vw; }
+        .header-rpg { grid-column: 6 / 13; font-size: 12vw; margin-top: -2.5vw; border-right: 1px solid #000; height: fit-content; }
+        .header-main-title { grid-column: 13 / 21; padding-left: 1vw; padding-top: 0.5vw; }
+        .header-logo { grid-column: 21 / 25; text-align: right; padding-top: 0.5vw; }
+
+        .sub-nav { 
+            grid-column: 1 / 25; 
+            border-top: 1.5px solid var(--black); 
+            border-bottom: 1.5px solid var(--black);
+            display: flex;
+            justify-content: space-between;
+            padding: 0.2vw 0;
+            margin-top: 0.5vw;
+        }
+
+        /* CONTENT SECTION */
+        .month-name { 
+            grid-column: 1 / 18; 
+            margin-top: -1.5vw; 
+            z-index: 10;
+        }
+
+        /* EVENT 01 */
+        .event-01-meta { grid-column: 1 / 6; grid-row: 4; margin-top: 1vw; }
+        .event-01-super { grid-column: 6 / 12; grid-row: 4; margin-top: 1vw; padding-left: 1vw;}
+        .event-01-title { grid-column: 12 / 19; grid-row: 4; margin-top: 1vw; }
+
+        /* FIG 2 - VERTICAL IMAGE */
+        .fig-2 { grid-column: 18 / 25; grid-row: 3 / 6; padding-left: 1vw; border-left: 1px solid #000; text-align: right; }
+        .fig-2 img { width: 100%; height: 550px; z-index:-1; object-fit:contain; }
+
+        /* EVENT 08 AREA */
+        .date-08 { grid-column: 1 / 5; grid-row: 5; align-self: end; }
+        .fig-1 { grid-column: 3 / 13; grid-row: 5; margin-top: 2vw; }
+        .fig-1 img { width: 100%; height:340px; object-fit:contain;}
+        .event-08-title { grid-column: 1 / 18; grid-row: 6; border-top: 1px solid #000; padding-top: 0.5vw; }
+
+        /* EVENT 15 AREA */
+        .event-15-meta { grid-column: 13 / 19; grid-row: 5; align-self: end; }
+        .date-15 { grid-column: 18 / 24; grid-row: 5 / 7; align-self: end; text-align: right; line-height: 0.7; }
+
+        /* FIG 3 AREA */
+        .fig-3 { grid-column: 7 / 19; grid-row: 6; margin-top: 5vw; }
+        .fig-3 img { width: 100%; z-index:-1; max-height:200px; object-fit:cover;}
+        .fig-3-cap { grid-column: 20 / 25; grid-row: 7; text-align: right; border-bottom: 1px solid #000; padding-bottom: 1vw;}
+
+        /* EVENT 22 AREA */
+        .date-22 { grid-column: 1 / 6; grid-row: 8; align-self: end; }
+        .event-22-meta { grid-column: 6 / 12; grid-row: 8; align-self: end; }
+        .event-22-title { grid-column: 1 / 13; grid-row: 9; border-top: 1px solid #000; padding-top: 0.5vw; }
+
+        /* EVENT 29 AREA */
+        .date-29 { grid-column: 3 / 18; grid-row: 9; align-self: end; text-align: center; }
+        .event-29-meta { grid-column: 18 / 25; grid-row: 9; text-align: right; border-bottom: 1px solid #000; }
+
+        /* PATTERN FOOTER */
+        .footer-pattern { 
+            grid-column: 1 / 25; 
+            height: 12vw; 
+            margin-top: 1vw;
+            background-image: radial-gradient(#000 20%, transparent 20%);
+            background-size: 8px 8px; /* High density dot pattern */
+            border-top: 1px solid #000;
+        }
+
+        sup { font-size: 0.6em; }
+
+        /* RESPONSIVE Adjustments for smaller screens while maintaining "Feel" */
+        @media (max-width: 800px) {
+            .poster-canvas { display: flex; flex-direction: column; }
+            .mono, .title-text, .huge, .large { font-size: 5vw; }
+            .header-rpg { border: none; font-size: 20vw; }
+            .fig-2, .fig-3, .fig-1 { border: none; padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="poster-canvas">
+    <div class="header-list mono">
+        2016-2023 LFCG, London, UK<br>
+         2022 Agreena, London, UK<br>
+        2023-2027 Uni of Leeds, UK<br>
+        2025-2026 Air Liquide, Paris, FR<br>
+       
+    </div>
+    
+    <div class="header-rpg bold">Z.S.</div>
+
+    <div class="header-main-title">
+        <div class="title-text">Product<br>Design<br>Portfolio<br>Website</div>
+        <div class="medium bold" style="margin-top: 0.5vw;">2026</div>
+    </div>
+
+    <div class="header-logo mono">
+        THE UNIVERSITY OF LEEDS<br>
+        <b>product design Bsc</b>
+    </div>
+
+    <div class="sub-nav mono">
+        <span>London, Leeds, Paris</span>
+        <span>Working on something cool? zachstep05@gmail.com</span>
+      
+    </div>
+
+    <div class="month-name bold huge" style="color:#D62828;">LSR</div>
+
+    <div class="fig-2">
+        <img src="https://github.com/Stepzach/pdesport/blob/main/Screenshot%202026-03-10%20at%2011.12.16.png?raw=true" alt="Fig 2">
+        <div class="mono">fig.2</div>
+    </div>
+
+    <div class="event-01-meta">
+        <div class="mono">
+            2024-present<br>
+            <b>University of Leeds</b><br>
+            L.U.U.<br>
+            
+        </div>
+    </div>
+
+    <div class="event-01-super mono">
+        Project:<br>
+        <b>New website</b><br>
+        HTML, CSS, Javascript, Firebase and Sheets
+    </div>
+
+    <div class="event-01-title title-text">
+        The UK's<br>Best Student<br>Radio<br>2023 & 2024<br><sup>SRA Award</sup>
+    </div>
+
+    <div class="date-08 bold large">01</div>
+    <div class="fig-1">
+        <img src="https://github.com/Stepzach/pdesport/blob/main/Screenshot%202026-03-10%20at%2011.34.53-front.png?raw=true" alt="Fig 1">
+        <div class="mono">Homepage screenshot</div>
+    </div>
+
+    <div class="event-08-title title-text" style="text-align: right;">
+        My Love from the Mountain: Cultural Landscapes, Borderland Identities<br>and Consumable Resources of Mount Changbai/Baekdu<sup>fig.1</sup>
+    </div>
+
+    <div class="event-15-meta mono">
+        15<br>
+        <b>Andrea Pinochet</b><br>
+        Visiting Assistant Professor,<br>
+        Department of Architecture<br>
+        <span class="title-text">Material History<sup>fig.3,4</sup></span>
+    </div>
+    
+    <div class="date-15 bold huge">15</div>
+
+    <div class="fig-3">
+        <img src="https://www.thisislsr.com/IMG_8848%20(1).webp" alt="Fig 3">
+    </div>
+
+    <div class="fig-3-cap mono">
+        fig.3 Louis Gillet, arch. 1902-1903. Villa du Docteur Arragon built using Hennebique's Beton Armé method.
+    </div>
+
+    <div class="date-22 bold large">22</div>
+    <div class="event-22-meta mono">
+        <b>LIU Sibei</b><br>
+        PhD Student, Department of Architecture<br>
+        Primary supervisor: Dr. Beisi JIA<br>
+        Co-supervisor: Ms. Minjung MAING
+    </div>
+
+    <div class="event-22-title title-text">
+        Towards a thermal comfortable and walkable pedestrian environment for the urban life of aging people in Hong Kong: an integration of dynamic thermal comfort and walkability factors
+    </div>
+
+    <div class="date-29 bold large">29</div>
+    <div class="event-29-meta mono">
+        <b>LAI Chun Wai Charles</b><br>
+        PhD Candidate, Department of Architecture<br>
+        Primary supervisor: Dr. Eunice SENG<br>
+        Co-supervisor: Dr. Tao ZHU
+        <div class="title-text">Imperial Contestations: Green Island Cement and the Construction of Modernity in HK and SEA, 1930s-1950s</div>
+    </div>
+
+    <div class="footer-pattern"></div>
+</div>
+
+</body>
+</html>
