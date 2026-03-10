@@ -1,1162 +1,1283 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jordan Maise — Product Design Portfolio 2024</title>
-<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --black: #0a0a0a;
-    --white: #f9f7f4;
-    --gray: #888;
-    --light: #e8e5e0;
-    --rule: 1px solid #0a0a0a;
-    --page-padding: clamp(20px, 8vw, 80px); /* Responsive padding */
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Maya Chen — Product Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { font-size: 16px; scroll-behavior: smooth; }
-
-  body {
-    background: #f0f0f0; /* Slightly darker to make "pages" pop */
-    font-family: 'IBM Plex Mono', monospace;
-    color: var(--black);
-    min-height: 100vh;
-    padding: 20px 10px;
-  }
-
-  /* PDF SHADOW EFFECT */
-  .pdf-page {
-    background: var(--white);
-    max-width: 860px;
-    margin: 0 auto 40px auto;
-    padding: var(--page-padding);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    position: relative;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity .8s ease, transform .8s ease;
-    overflow: hidden; /* Prevent SVG bleed */
-  }
-
-  .pdf-page.visible { opacity: 1; transform: translateY(0); }
-
-  /* PAGE NUMBER STAMP - Moved to bottom right relative to padding */
-  .pdf-page::after {
-    content: attr(data-page);
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    color: #aaa;
-    letter-spacing: .15em;
-  }
-
-  /* COVER PAGE */
-  .cover {
-    min-height: clamp(600px, 90vh, 1000px);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-
-  .cover-top {
-    border-bottom: var(--rule);
-    padding-bottom: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 10px;
-    font-size: 9px;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: var(--gray);
-  }
-
-  .cover-main {
-    padding: 40px 0;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .eyebrow {
-    font-size: 10px;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: var(--gray);
-    margin-bottom: 24px;
-  }
-
-  h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(40px, 12vw, 82px);
-    font-weight: 700;
-    line-height: 0.9;
-    margin-bottom: 16px;
-  }
-
-  h1 em { font-style: italic; font-weight: 400; }
-
-  .cover-subtitle {
-    font-size: 10px;
-    letter-spacing: .15em;
-    text-transform: uppercase;
-    color: var(--gray);
-    border-top: var(--rule);
-    padding-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-
-  .cover-portrait {
-    width: 100%;
-    background: var(--black);
-    margin: 30px 0;
-    aspect-ratio: 16 / 9;
-  }
-
-  .portrait-svg { width: 100%; height: 100%; display: block; }
-
-  .cover-bottom {
-    border-top: var(--rule);
-    padding-top: 20px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 20px;
-    font-size: 10px;
-  }
-
-  .cover-bottom-item label {
-    display: block;
-    color: var(--gray);
-    text-transform: uppercase;
-    margin-bottom: 4px;
-    font-size: 8px;
-  }
-
-  /* SECTION HEADERS */
-  .section-header {
-    border-top: 3px solid var(--black);
-    border-bottom: var(--rule);
-    padding: 12px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 40px;
-  }
-
-  .section-label { font-size: 9px; text-transform: uppercase; color: var(--gray); letter-spacing: 0.2em; }
-  .section-num { font-family: 'IM Fell English', serif; font-size: 32px; color: var(--light); }
-
-  h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 36px); line-height: 1.1; margin-bottom: 20px; }
-  h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-style: italic; margin-bottom: 15px; }
-  p { font-size: 13px; line-height: 1.7; color: #333; max-width: 60ch; margin-bottom: 15px; }
-
-  /* ABOUT / GRID LOGIC */
-  .about-grid, .project-body, .contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    margin-bottom: 40px;
-  }
-
-  .stat-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border-top: var(--rule);
-    margin-top: 30px;
-  }
-
-  .stat { padding: 20px 10px; border-right: var(--rule); }
-  .stat:last-child { border-right: none; }
-  .stat-num { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 48px); font-weight: 700; line-height: 1; }
-  .stat-label { font-size: 8px; text-transform: uppercase; color: var(--gray); }
-
-  /* SKILLS */
-  .skills-list {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    border-top: var(--rule);
-  }
-  .skill-item { border-bottom: var(--rule); padding: 12px 0; display: flex; justify-content: space-between; font-size: 11px; }
-  .skill-item:nth-child(odd) { padding-right: 20px; border-right: var(--rule); }
-  .skill-item:nth-child(even) { padding-left: 20px; }
-
-  .skill-bar { width: 60px; height: 2px; background: var(--light); align-self: center; position: relative; }
-  .skill-bar-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--black); }
-
-  /* PROJECTS */
-  .project-hero { width: 100%; aspect-ratio: 16 / 9; background: var(--black); margin-bottom: 30px; }
-  .project-meta {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    border-top: var(--rule); border-bottom: var(--rule);
-    margin-bottom: 30px;
-  }
-  .meta-item { padding: 12px 5px; font-size: 9px; border-right: var(--rule); }
-  .meta-item:last-child { border-right: none; }
-  .meta-item label { display: block; color: var(--gray); font-size: 8px; margin-bottom: 4px; }
-
-  .img-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 30px 0; }
-  .img-block { background: var(--black); width: 100%; height: auto; }
-  .img-block.tall { aspect-ratio: 3/4; }
-  .img-block.wide { aspect-ratio: 4/3; }
-  .img-caption { font-size: 8px; color: var(--gray); text-transform: uppercase; margin-top: 6px; }
-
-  /* TOC */
-  .toc-item {
-    display: flex; gap: 10px; align-items: baseline; padding: 18px 0;
-    border-bottom: var(--rule); cursor: pointer;
-  }
-  .toc-dots { flex: 1; border-bottom: 1px dotted #ccc; height: 1px; }
-  .toc-title { font-family: 'Playfair Display', serif; font-size: 16px; }
-
-  /* MOBILE OVERRIDES */
-  @media (max-width: 700px) {
-    body { padding: 0; }
-    .pdf-page { margin: 0 0 20px 0; box-shadow: none; border-bottom: 1px solid #ddd; }
-    
-    .about-grid, .project-body, .contact-grid, .img-grid-2, .skills-list, .stat-row {
-      grid-template-columns: 1fr;
+    :root {
+      --cream: #F5F0E8;
+      --ink: #1A1612;
+      --rust: #C4441C;
+      --sage: #7A8C6E;
+      --warm-gray: #9C9085;
+      --highlight: #F2C94C;
     }
-    
-    .skill-item:nth-child(odd) { padding-right: 0; border-right: none; }
-    .skill-item:nth-child(even) { padding-left: 0; }
-    
-    .stat { border-right: none; border-bottom: var(--rule); }
-    .project-meta { grid-template-columns: 1fr 1fr; }
-    .meta-item:nth-child(2) { border-right: none; }
-    
-    .project-hero { aspect-ratio: 4 / 3; }
-    
-    #page-nav { display: none; }
-    
-    .pdf-page::after { right: 10px; bottom: 10px; }
-  }
 
-  /* NAV DOTS */
-  #page-nav {
-    position: fixed; right: 20px; top: 50%; transform: translateY(-50%);
-    display: flex; flex-direction: column; gap: 12px; z-index: 100;
-  }
-  .nav-dot { width: 8px; height: 8px; background: #ccc; cursor: pointer; transition: 0.3s; }
-  .nav-dot.active { background: var(--black); transform: scale(1.4); }
+    html { scroll-behavior: smooth; }
 
-  /* QUOTE BLOCK */
-  .quote-block { border-left: 3px solid var(--black); padding: 10px 0 10px 20px; margin: 20px 0; }
-  .quote-block blockquote { font-family: 'IM Fell English', serif; font-style: italic; font-size: 18px; line-height: 1.4; }
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+    }
 
-  .tag { display: inline-block; border: var(--rule); padding: 4px 8px; font-size: 8px; text-transform: uppercase; margin: 4px 4px 0 0; }
-</style>
+    /* Custom Cursor */
+    .cursor {
+      position: fixed;
+      width: 12px; height: 12px;
+      background: var(--rust);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
+      mix-blend-mode: multiply;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 40px; height: 40px;
+      border: 1.5px solid var(--rust);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.18s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s;
+      opacity: 0.5;
+    }
+    body:hover .cursor { opacity: 1; }
+
+    /* Noise texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+      opacity: 0.4;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 48px;
+      mix-blend-mode: multiply;
+    }
+
+    .nav-logo {
+      font-family: 'DM Mono', monospace;
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 2px;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--rust);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 0 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 80px;
+      padding-top: 160px;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(64px, 8vw, 120px);
+      font-weight: 900;
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.4s forwards;
+    }
+
+    .hero-name em {
+      font-style: italic;
+      color: var(--rust);
+    }
+
+    .hero-bio {
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--warm-gray);
+      max-width: 380px;
+      margin-bottom: 48px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.6s forwards;
+    }
+
+    .hero-bio strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.8s forwards;
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 14px 32px;
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: none;
+      transition: background 0.3s, color 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--rust);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: -1;
+    }
+    .btn-primary:hover { background: var(--rust); }
+
+    .btn-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-link span { transition: transform 0.3s ease; display: inline-block; }
+    .btn-link:hover span { transform: translateX(4px); }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      position: relative;
+      padding-top: 120px;
+    }
+
+    .hero-image-block {
+      width: 85%;
+      aspect-ratio: 3/4;
+      background: var(--sage);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      animation: fadeIn 1.2s ease 0.5s forwards;
+    }
+
+    .hero-image-block::after {
+      content: 'photo';
+      position: absolute;
+      bottom: 20px; right: 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+    }
+
+    /* Placeholder gradient for hero image */
+    .hero-img-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #7A8C6E 0%, #5C6B52 40%, #3D4A37 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 32px;
+    }
+
+    .hero-img-label {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 28px;
+      color: rgba(255,255,255,0.3);
+      line-height: 1.2;
+    }
+
+    .floating-tag {
+      position: absolute;
+      background: var(--highlight);
+      padding: 10px 16px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: var(--ink);
+    }
+
+    .tag-1 {
+      top: 140px;
+      left: -30px;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .tag-2 {
+      bottom: 60px;
+      left: -50px;
+      animation: float 4s ease-in-out 1s infinite;
+    }
+
+    .hero-scroll-indicator {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeIn 1s ease 1.5s forwards;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, var(--ink), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+
+    .scroll-text {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--warm-gray);
+      writing-mode: vertical-lr;
+    }
+
+    /* MARQUEE */
+    .marquee-strip {
+      border-top: 1px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+      background: var(--ink);
+      color: var(--cream);
+      padding: 14px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee-inner {
+      display: inline-flex;
+      animation: marquee 20s linear infinite;
+    }
+
+    .marquee-item {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-right: 64px;
+    }
+
+    .marquee-dot {
+      color: var(--rust);
+      margin-right: 64px;
+    }
+
+    /* WORK SECTION */
+    .section-work {
+      padding: 120px 48px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 72px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(26,22,18,0.15);
+    }
+
+    .section-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 12px;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .section-title em { font-style: italic; color: var(--rust); }
+
+    .section-count {
+      font-family: 'Playfair Display', serif;
+      font-size: 80px;
+      font-weight: 900;
+      color: rgba(26,22,18,0.06);
+      line-height: 1;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
+
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      background: var(--ink);
+      aspect-ratio: 4/3;
+      cursor: none;
+      group: true;
+    }
+
+    .project-card:first-child {
+      grid-column: 1 / -1;
+      aspect-ratio: 16/7;
+    }
+
+    .project-bg {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      inset: 0;
+      transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .project-card:hover .project-bg { transform: scale(1.05); }
+
+    .p1 { background: linear-gradient(135deg, #2C3E50 0%, #1a252f 50%, #c0392b 100%); }
+    .p2 { background: linear-gradient(135deg, #8E44AD 0%, #3498DB 100%); }
+    .p3 { background: linear-gradient(135deg, #16A085 0%, #1ABC9C 50%, #2ECC71 100%); }
+    .p4 { background: linear-gradient(135deg, #E67E22 0%, #E74C3C 100%); }
+    .p5 { background: linear-gradient(135deg, #2C3E50 0%, #4CA1AF 100%); }
+
+    .project-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
+      padding: 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      color: white;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .project-card:hover .project-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Always show project info for first card */
+    .project-card:first-child .project-overlay {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .project-tags {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .project-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 4px 10px;
+      color: white;
+      backdrop-filter: blur(4px);
+    }
+
+    .project-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(22px, 3vw, 40px);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .project-subtitle {
+      font-size: 13px;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 20px;
+    }
+
+    .project-arrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--highlight);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ALWAYS VISIBLE project label (non-hover state) */
+    .project-label-static {
+      position: absolute;
+      top: 24px; left: 24px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      background: rgba(0,0,0,0.2);
+      padding: 6px 12px;
+      backdrop-filter: blur(4px);
+    }
+
+    .project-num {
+      position: absolute;
+      top: 24px; right: 24px;
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 900;
+      color: rgba(255,255,255,0.07);
+      line-height: 1;
+    }
+
+    /* ABOUT SECTION */
+    .section-about {
+      padding: 120px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      border-top: 1px solid rgba(26,22,18,0.1);
+    }
+
+    .about-left { position: relative; }
+
+    .about-image {
+      width: 100%;
+      aspect-ratio: 3/4;
+      background: linear-gradient(160deg, #9B8B7A 0%, #7A6B5A 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-image-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: var(--rust);
+      padding: 16px 24px;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 18px;
+      color: white;
+    }
+
+    .about-decoration {
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 120px;
+      height: 120px;
+      border: 2px solid var(--rust);
+      z-index: -1;
+    }
+
+    .about-right {}
+
+    .about-bio {
+      font-size: 17px;
+      line-height: 1.8;
+      color: var(--ink);
+      margin-bottom: 32px;
+    }
+
+    .about-bio strong { font-weight: 500; }
+
+    .about-bio .highlight {
+      background: var(--highlight);
+      padding: 0 4px;
+      font-weight: 500;
+    }
+
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 48px;
+      padding-top: 48px;
+      border-top: 1px solid rgba(26,22,18,0.1);
+    }
+
+    .stat {}
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 48px;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-num em { font-style: italic; color: var(--rust); }
+    .stat-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--warm-gray);
+    }
+
+    /* SKILLS SECTION */
+    .section-skills {
+      padding: 120px 48px;
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 64px;
+    }
+
+    .skill-block {
+      padding: 48px 36px;
+      border: 1px solid rgba(245,240,232,0.08);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease;
+    }
+
+    .skill-block:hover { background: rgba(245,240,232,0.04); }
+
+    .skill-icon {
+      font-size: 32px;
+      margin-bottom: 24px;
+    }
+
+    .skill-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .skill-desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: rgba(245,240,232,0.5);
+    }
+
+    .skill-tools {
+      margin-top: 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .skill-tool {
+      font-family: 'DM Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid rgba(245,240,232,0.2);
+      padding: 4px 10px;
+      color: rgba(245,240,232,0.5);
+    }
+
+    .skill-block-num {
+      position: absolute;
+      top: 16px; right: 20px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: rgba(245,240,232,0.15);
+    }
+
+    /* PROCESS SECTION */
+    .section-process {
+      padding: 120px 48px;
+      border-top: 1px solid rgba(26,22,18,0.1);
+    }
+
+    .process-steps {
+      margin-top: 72px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+
+    .process-step {
+      padding: 40px 32px;
+      border-left: 1px solid rgba(26,22,18,0.12);
+      position: relative;
+    }
+
+    .process-step:first-child { border-left: none; padding-left: 0; }
+
+    .process-step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 64px;
+      font-weight: 900;
+      color: rgba(26,22,18,0.06);
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .process-step-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .process-step-name em { font-style: italic; color: var(--rust); }
+
+    .process-step-desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--warm-gray);
+    }
+
+    /* CONTACT SECTION */
+    .section-contact {
+      padding: 160px 48px;
+      text-align: center;
+      background: linear-gradient(160deg, var(--cream) 0%, #EDE7D9 100%);
+      border-top: 1px solid rgba(26,22,18,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact-bg-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(80px, 15vw, 200px);
+      font-weight: 900;
+      color: rgba(26,22,18,0.04);
+      white-space: nowrap;
+      pointer-events: none;
+      letter-spacing: -0.03em;
+    }
+
+    .contact-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--rust);
+      margin-bottom: 24px;
+    }
+
+    .contact-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(40px, 6vw, 88px);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+
+    .contact-heading em { font-style: italic; color: var(--rust); }
+
+    .contact-sub {
+      font-size: 16px;
+      color: var(--warm-gray);
+      max-width: 500px;
+      margin: 0 auto 48px;
+      line-height: 1.7;
+    }
+
+    .contact-email {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(20px, 3vw, 36px);
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 2px solid var(--rust);
+      padding-bottom: 4px;
+      transition: color 0.3s;
+    }
+    .contact-email:hover { color: var(--rust); }
+
+    .contact-links {
+      margin-top: 48px;
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+    }
+
+    .contact-link {
+      font-family: 'DM Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--warm-gray);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .contact-link:hover { color: var(--rust); }
+
+    /* FOOTER */
+    footer {
+      padding: 32px 48px;
+      background: var(--ink);
+      color: rgba(245,240,232,0.4);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-copy {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+    }
+
+    .footer-back {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      color: rgba(245,240,232,0.4);
+      transition: color 0.3s;
+    }
+    .footer-back:hover { color: var(--rust); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 1; transform: scaleY(1); }
+      50% { opacity: 0.4; transform: scaleY(0.7); }
+    }
+
+    /* Scroll-triggered fade-in */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 0 24px; }
+      .hero-right { display: none; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card:first-child { grid-column: auto; aspect-ratio: 4/3; }
+      .section-about { grid-template-columns: 1fr; padding: 80px 24px; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr 1fr; }
+      .section-work, .section-skills, .section-process, .section-contact { padding: 80px 24px; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- NAV DOTS -->
-<nav id="page-nav">
-  <div class="nav-dot active" data-target="cover" title="Cover"></div>
-  <div class="nav-dot" data-target="toc" title="Contents"></div>
-  <div class="nav-dot" data-target="about" title="About"></div>
-  <div class="nav-dot" data-target="project1" title="Project 01"></div>
-  <div class="nav-dot" data-target="project2" title="Project 02"></div>
-  <div class="nav-dot" data-target="project3" title="Project 03"></div>
-  <div class="nav-dot" data-target="contact" title="Contact"></div>
-</nav>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
 
-<!-- ═══════════════════════════════ COVER ══════════════════════════════════ -->
-<div class="pdf-page cover" data-page="—" id="cover">
-  <div class="cover-top">
-    <span>Product Design Portfolio</span>
-    <span>2026</span>
-    <span>Web version</span>
-  </div>
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Maya Chen ✦</a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 
-  <div class="cover-main">
-    <div class="eyebrow">Selected works — Product &amp; Interaction Design</div>
-    <h1>Zachary<br><em>Stephens</em></h1>
-    <div class="cover-subtitle">
-      <span>Bsc Product Design</span>
-      <span>University of Leeds</span>
-      <span>On placement at Air Liquide</span>
-    </div>
-
-    <!-- SVG COVER ILLUSTRATION: Abstract product forms -->
-    <div class="cover-portrait">
-      <svg class="portrait-svg" viewBox="0 0 700 320" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-        <!-- Grid background -->
-        <defs>
-          <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M40 0H0V40" fill="none" stroke="#1a1a1a" stroke-width=".5"/>
-          </pattern>
-        </defs>
-        <rect width="700" height="320" fill="#0a0a0a"/>
-        <rect width="700" height="320" fill="url(#grid)" opacity=".4"/>
-
-        <!-- Abstract product forms -->
-        <!-- Phone outline -->
-        <rect x="80" y="60" width="90" height="160" rx="12" fill="none" stroke="#f9f7f4" stroke-width="1.5"/>
-        <rect x="90" y="80" width="70" height="120" rx="2" fill="none" stroke="#555" stroke-width=".8"/>
-        <circle cx="125" cy="210" r="6" fill="none" stroke="#f9f7f4" stroke-width="1"/>
-
-        <!-- Watch/wearable -->
-        <rect x="240" y="90" width="70" height="80" rx="18" fill="none" stroke="#f9f7f4" stroke-width="1.5"/>
-        <line x1="255" y1="90" x2="255" y2="70" stroke="#f9f7f4" stroke-width="1.5"/>
-        <line x1="280" y1="90" x2="280" y2="70" stroke="#f9f7f4" stroke-width="1.5"/>
-        <line x1="255" y1="170" x2="255" y2="190" stroke="#f9f7f4" stroke-width="1.5"/>
-        <line x1="280" y1="170" x2="280" y2="190" stroke="#f9f7f4" stroke-width="1.5"/>
-        <circle cx="275" cy="130" r="18" fill="none" stroke="#888" stroke-width=".8"/>
-        <line x1="275" y1="118" x2="275" y2="130" stroke="#888" stroke-width="1.2"/>
-        <line x1="275" y1="130" x2="283" y2="136" stroke="#888" stroke-width="1.2"/>
-
-        <!-- Laptop/tablet isometric-ish -->
-        <polygon points="380,80 520,80 520,200 380,200" fill="none" stroke="#f9f7f4" stroke-width="1.5"/>
-        <polygon points="380,200 520,200 540,220 360,220" fill="none" stroke="#f9f7f4" stroke-width="1.5"/>
-        <rect x="392" y="92" width="116" height="96" fill="none" stroke="#555" stroke-width=".8"/>
-        <line x1="440" y1="220" x2="440" y2="240" stroke="#555" stroke-width=".8"/>
-        <line x1="460" y1="220" x2="460" y2="240" stroke="#555" stroke-width=".8"/>
-
-        <!-- Speaker -->
-        <ellipse cx="610" cy="150" rx="48" ry="48" fill="none" stroke="#f9f7f4" stroke-width="1.5"/>
-        <ellipse cx="610" cy="150" rx="32" ry="32" fill="none" stroke="#555" stroke-width=".8"/>
-        <ellipse cx="610" cy="150" rx="12" ry="12" fill="none" stroke="#888" stroke-width=".8"/>
-        <!-- Sound waves -->
-        <path d="M 660 130 Q 680 150 660 170" fill="none" stroke="#f9f7f4" stroke-width="1" opacity=".6"/>
-        <path d="M 668 118 Q 696 150 668 182" fill="none" stroke="#f9f7f4" stroke-width="1" opacity=".35"/>
-
-        <!-- Dimension lines -->
-        <line x1="80" y1="40" x2="170" y2="40" stroke="#555" stroke-width=".6" stroke-dasharray="3 3"/>
-        <line x1="80" y1="36" x2="80" y2="44" stroke="#555" stroke-width=".6"/>
-        <line x1="170" y1="36" x2="170" y2="44" stroke="#555" stroke-width=".6"/>
-        <text x="125" y="34" fill="#555" font-size="9" font-family="monospace" text-anchor="middle">90mm</text>
-
-        <!-- Annotation labels -->
-        <text x="125" y="248" fill="#888" font-size="8" font-family="monospace" text-anchor="middle" letter-spacing="1">FIG. 01 — MOBILE</text>
-        <text x="275" y="210" fill="#888" font-size="8" font-family="monospace" text-anchor="middle" letter-spacing="1">FIG. 02 — WEARABLE</text>
-        <text x="450" y="254" fill="#888" font-size="8" font-family="monospace" text-anchor="middle" letter-spacing="1">FIG. 03 — COMPUTING</text>
-        <text x="610" y="216" fill="#888" font-size="8" font-family="monospace" text-anchor="middle" letter-spacing="1">FIG. 04 — AUDIO</text>
-      </svg>
-    </div>
-  </div>
-
-  <div class="cover-bottom">
-    <div class="cover-bottom-item">
-      <label>Contact</label>
-      zachstep05@gmail.com
-    </div>
-    <div class="cover-bottom-item">
-      <label>Location</label>
-      London & Paris
-    </div>
-    <div class="cover-bottom-item">
-      <label>Portfolio</label>
-      zachstep05.work
-    </div>
-  </div>
-</div>
-
-<!-- ══════════════════════ TABLE OF CONTENTS ══════════════════════════════ -->
-<div class="pdf-page" data-page="01" id="toc">
-  <div class="section-header">
-    <span class="section-label">Contents</span>
-    <span class="section-num">—</span>
-  </div>
-
-  <h2>Table of<br><em style="font-style:italic; font-weight:400;">Contents</em></h2>
-  <p class="annotation">A selection of product design work from 2022–2024, organized by project type and chronology.</p>
-
-  <div class="toc-list">
-    <div class="toc-item" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
-      <div class="toc-item-left">
-        <span class="toc-num">00</span>
-        <span class="toc-title">About &amp; Approach</span>
-      </div>
-      <div class="toc-dots"></div>
-      <span class="toc-page">02</span>
-    </div>
-    <div class="toc-item" onclick="document.getElementById('project1').scrollIntoView({behavior:'smooth'})">
-      <div class="toc-item-left">
-        <span class="toc-num">01</span>
-        <span class="toc-title">Forma — Health Wearable</span>
-      </div>
-      <div class="toc-dots"></div>
-      <span class="toc-page">03–05</span>
-    </div>
-    <div class="toc-item" onclick="document.getElementById('project2').scrollIntoView({behavior:'smooth'})">
-      <div class="toc-item-left">
-        <span class="toc-num">02</span>
-        <span class="toc-title">Kite — Mobile Finance App</span>
-      </div>
-      <div class="toc-dots"></div>
-      <span class="toc-page">06–08</span>
-    </div>
-    <div class="toc-item" onclick="document.getElementById('project3').scrollIntoView({behavior:'smooth'})">
-      <div class="toc-item-left">
-        <span class="toc-num">03</span>
-        <span class="toc-title">Vessel — Smart Speaker System</span>
-      </div>
-      <div class="toc-dots"></div>
-      <span class="toc-page">09–11</span>
-    </div>
-    <div class="toc-item" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
-      <div class="toc-item-left">
-        <span class="toc-num">—</span>
-        <span class="toc-title">Contact &amp; Resume</span>
-      </div>
-      <div class="toc-dots"></div>
-      <span class="toc-page">12</span>
-    </div>
-  </div>
-
-  <div class="ruled-heavy" style="margin-top:60px;"></div>
-  <p class="annotation" style="font-size:10px; color:#999;">All work © Jordan Maise 2024. Not for redistribution. Prepared for graduate admissions.</p>
-</div>
-
-<!-- ═══════════════════════════ ABOUT ════════════════════════════════════ -->
-<div class="pdf-page" data-page="02" id="about">
-  <div class="section-header">
-    <span class="section-label">Section 00 — About</span>
-    <span class="section-num">00</span>
-  </div>
-
-  <div class="about-grid">
-    <div>
-      <h2>Design<br>Philosophy</h2>
-      <p>I approach product design as a practice of constraint — the belief that meaningful objects and interfaces emerge not from unlimited possibility, but from the careful negotiation of human need, material truth, and technological reality.</p>
-      <p>My work spans physical product and digital interface, often exploring the boundary between them. I am drawn to systems that demand legibility: things that explain themselves through their form, that do not require a manual.</p>
-    </div>
-    <div>
-      <!-- Profile sketch -->
-      <svg viewBox="0 0 280 280" width="100%" style="border:1px solid #0a0a0a;" xmlns="http://www.w3.org/2000/svg">
-        <rect width="280" height="280" fill="#f0ede8"/>
-        <!-- Abstract face/profile using geometric forms -->
-        <circle cx="140" cy="100" r="55" fill="none" stroke="#0a0a0a" stroke-width="1.2"/>
-        <!-- Eyes -->
-        <ellipse cx="122" cy="92" rx="5" ry="7" fill="#0a0a0a"/>
-        <ellipse cx="158" cy="92" rx="5" ry="7" fill="#0a0a0a"/>
-        <!-- Nose bridge line -->
-        <line x1="140" y1="99" x2="140" y2="114" stroke="#0a0a0a" stroke-width="1"/>
-        <!-- Mouth -->
-        <path d="M 126 122 Q 140 132 154 122" fill="none" stroke="#0a0a0a" stroke-width="1.2"/>
-        <!-- Neck -->
-        <line x1="128" y1="153" x2="118" y2="190" stroke="#0a0a0a" stroke-width="1.2"/>
-        <line x1="152" y1="153" x2="162" y2="190" stroke="#0a0a0a" stroke-width="1.2"/>
-        <!-- Shoulders -->
-        <path d="M 60 230 Q 90 190 118 190 L 162 190 Q 190 190 220 230" fill="none" stroke="#0a0a0a" stroke-width="1.2"/>
-        <!-- Ear -->
-        <path d="M 85 95 Q 78 107 85 119" fill="none" stroke="#0a0a0a" stroke-width="1"/>
-        <path d="M 195 95 Q 202 107 195 119" fill="none" stroke="#0a0a0a" stroke-width="1"/>
-        <!-- Hair lines -->
-        <path d="M 92 72 Q 140 45 188 72" fill="none" stroke="#0a0a0a" stroke-width="1.2"/>
-        <!-- Caption -->
-        <text x="140" y="266" fill="#888" font-size="8" font-family="monospace" text-anchor="middle" letter-spacing="1.5">JORDAN MAISE — NEW YORK, 2024</text>
-        <!-- Corner marks -->
-        <line x1="0" y1="10" x2="10" y2="10" stroke="#ccc" stroke-width=".8"/>
-        <line x1="10" y1="0" x2="10" y2="10" stroke="#ccc" stroke-width=".8"/>
-        <line x1="280" y1="10" x2="270" y2="10" stroke="#ccc" stroke-width=".8"/>
-        <line x1="270" y1="0" x2="270" y2="10" stroke="#ccc" stroke-width=".8"/>
-        <line x1="0" y1="270" x2="10" y2="270" stroke="#ccc" stroke-width=".8"/>
-        <line x1="10" y1="280" x2="10" y2="270" stroke="#ccc" stroke-width=".8"/>
-        <line x1="280" y1="270" x2="270" y2="270" stroke="#ccc" stroke-width=".8"/>
-        <line x1="270" y1="280" x2="270" y2="270" stroke="#ccc" stroke-width=".8"/>
-      </svg>
-    </div>
-  </div>
-
-  <div class="stat-row">
-    <div class="stat">
-      <span class="stat-num">12</span>
-      <span class="stat-label">Projects completed</span>
-    </div>
-    <div class="stat">
-      <span class="stat-num">3</span>
-      <span class="stat-label">Industry internships</span>
-    </div>
-    <div class="stat">
-      <span class="stat-num">4</span>
-      <span class="stat-label">Awards received</span>
-    </div>
-  </div>
-
-  <div class="ruled"></div>
-
-  <h3>Tools &amp; Methods</h3>
-  <div class="skills-list">
-    <div class="skill-item">Figma / Sketch<div class="skill-bar"><div class="skill-bar-fill" style="width:95%"></div></div></div>
-    <div class="skill-item">Solidworks / Rhino<div class="skill-bar"><div class="skill-bar-fill" style="width:80%"></div></div></div>
-    <div class="skill-item">Prototyping / Rapid Fab<div class="skill-bar"><div class="skill-bar-fill" style="width:85%"></div></div></div>
-    <div class="skill-item">User Research / Testing<div class="skill-bar"><div class="skill-bar-fill" style="width:90%"></div></div></div>
-    <div class="skill-item">Motion Design / After Effects<div class="skill-bar"><div class="skill-bar-fill" style="width:70%"></div></div></div>
-    <div class="skill-item">Design Systems<div class="skill-bar"><div class="skill-bar-fill" style="width:88%"></div></div></div>
-  </div>
-</div>
-
-<!-- ════════════════════ PROJECT 01: FORMA ═══════════════════════════════ -->
-<div class="pdf-page" data-page="03" id="project1">
-  <div class="section-header">
-    <span class="section-label">Project 01 — Health Wearable</span>
-    <span class="section-num">01</span>
-  </div>
-
-  <!-- Hero SVG: Wearable design -->
-  <div class="project-hero">
-    <svg width="100%" height="100%" viewBox="0 0 700 380" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <rect width="700" height="380" fill="#0a0a0a"/>
-      <defs>
-        <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse">
-          <circle cx="10" cy="10" r=".8" fill="#222"/>
-        </pattern>
-      </defs>
-      <rect width="700" height="380" fill="url(#dots)"/>
-
-      <!-- Main watch body -->
-      <rect x="260" y="80" width="180" height="200" rx="40" fill="none" stroke="#f9f7f4" stroke-width="2"/>
-      <rect x="275" y="95" width="150" height="170" rx="30" fill="none" stroke="#333" stroke-width="1"/>
-      
-      <!-- Band -->
-      <rect x="280" y="30" width="30" height="55" rx="4" fill="none" stroke="#f9f7f4" stroke-width="1.5"/>
-      <rect x="390" y="30" width="30" height="55" rx="4" fill="none" stroke="#f9f7f4" stroke-width="1.5"/>
-      <rect x="280" y="280" width="30" height="60" rx="4" fill="none" stroke="#f9f7f4" stroke-width="1.5"/>
-      <rect x="390" y="280" width="30" height="60" rx="4" fill="none" stroke="#f9f7f4" stroke-width="1.5"/>
-
-      <!-- Screen content -->
-      <circle cx="350" cy="168" r="55" fill="none" stroke="#888" stroke-width=".8"/>
-      <!-- Heart rate graph line -->
-      <polyline points="295,168 310,168 318,148 326,185 334,155 342,178 350,145 358,175 366,155 374,182 382,162 390,168 405,168" 
-        fill="none" stroke="#f9f7f4" stroke-width="1.5"/>
-      <!-- Time display -->
-      <text x="350" y="220" fill="#f9f7f4" font-size="11" font-family="monospace" text-anchor="middle" letter-spacing="3">09:41</text>
-
-      <!-- Crown button -->
-      <rect x="438" y="148" width="14" height="28" rx="5" fill="none" stroke="#f9f7f4" stroke-width="1.5"/>
-
-      <!-- Side views with exploded parts -->
-      <g opacity=".5">
-        <!-- Sensor array bottom -->
-        <rect x="305" y="260" width="90" height="12" rx="3" fill="none" stroke="#f9f7f4" stroke-width="1"/>
-        <circle cx="335" cy="266" r="5" fill="none" stroke="#aaa" stroke-width=".8"/>
-        <circle cx="350" cy="266" r="5" fill="none" stroke="#aaa" stroke-width=".8"/>
-        <circle cx="365" cy="266" r="5" fill="none" stroke="#aaa" stroke-width=".8"/>
-      </g>
-
-      <!-- Annotation lines -->
-      <line x1="438" y1="80" x2="540" y2="50" stroke="#555" stroke-width=".8" stroke-dasharray="3 2"/>
-      <text x="545" y="47" fill="#888" font-size="9" font-family="monospace">AMOLED DISPLAY</text>
-
-      <line x1="305" y1="270" x2="200" y2="300" stroke="#555" stroke-width=".8" stroke-dasharray="3 2"/>
-      <text x="100" y="304" fill="#888" font-size="9" font-family="monospace">PPG SENSORS ×3</text>
-
-      <line x1="452" y1="162" x2="560" y2="162" stroke="#555" stroke-width=".8" stroke-dasharray="3 2"/>
-      <text x="565" y="166" fill="#888" font-size="9" font-family="monospace">DIGITAL CROWN</text>
-
-      <!-- Title -->
-      <text x="60" y="340" fill="#f9f7f4" font-size="32" font-family="'Playfair Display', serif" font-weight="700">Forma</text>
-      <text x="60" y="360" fill="#888" font-size="9" font-family="monospace" letter-spacing="2">HEALTH MONITORING WEARABLE — 2024</text>
-    </svg>
-  </div>
-
-  <div class="project-meta">
-    <div class="meta-item"><label>Category</label>Industrial Design</div>
-    <div class="meta-item"><label>Duration</label>14 weeks</div>
-    <div class="meta-item"><label>Role</label>Lead Designer</div>
-    <div class="meta-item"><label>Status</label>Prototype Stage</div>
-  </div>
-
-  <div class="project-body">
-    <div>
-      <h2>Forma</h2>
-      <span class="tag">Wearable Tech</span>
-      <span class="tag">Health</span>
-      <span class="tag">Physical Product</span>
-      <br><br>
-      <p>Forma addresses a persistent tension in health wearables: the conflict between clinical accuracy and everyday wearability. Most devices optimise for one at the expense of the other.</p>
-      <p>Through twelve weeks of ethnographic research with chronic illness patients and three rounds of physical prototyping, I developed a form language that treats the device as jewellery first and medical instrument second — without compromising sensor performance.</p>
-    </div>
-    <div>
-      <div class="quote-block">
-        <blockquote>"I stopped wearing my tracker because it felt like wearing my diagnosis on my wrist."</blockquote>
-        <cite>Research participant, Type 1 Diabetic, Age 34</cite>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">✦ Product Designer & Systems Thinker</p>
+      <h1 class="hero-name">
+        Making things<br>
+        people <em>actually</em><br>
+        want to use.
+      </h1>
+      <p class="hero-bio">
+        Final-year student at <strong>RISD</strong>. Previously interning at
+        <strong>Figma</strong> and <strong>Linear</strong>.
+        I design at the intersection of clarity and delight — because great UX
+        shouldn't feel like a compromise.
+      </p>
+      <div class="hero-cta">
+        <a href="#work" class="btn-primary">View My Work</a>
+        <a href="#contact" class="btn-link">Let's chat <span>→</span></a>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- Project 01 continued -->
-<div class="pdf-page" data-page="04">
-  <div class="section-header">
-    <span class="section-label">Project 01 — Process</span>
-    <span class="section-num">01</span>
-  </div>
-
-  <h3>Design Process</h3>
-
-  <div class="process-steps">
-    <div class="process-step">
-      <div class="step-num">01</div>
-      <div class="step-content">
-        <h4>Ethnographic Research</h4>
-        <p>Shadowed 8 participants across 3 weeks. Mapped body-worn device friction points through contextual inquiry and diary studies. Identified three primary failure modes: aesthetic dissonance, interaction interruption, and passive surveillance anxiety.</p>
+    <div class="hero-right">
+      <div class="hero-image-block">
+        <div class="hero-img-placeholder">
+          <p class="hero-img-label">Your portrait<br>or hero image<br>goes here</p>
+        </div>
       </div>
+      <div class="floating-tag tag-1">✦ Available for hire — 2025</div>
+      <div class="floating-tag tag-2">Based in Providence, RI</div>
     </div>
-    <div class="process-step">
-      <div class="step-num">02</div>
-      <div class="step-content">
-        <h4>Form Exploration</h4>
-        <p>Generated 40+ thumbnail concepts before converging on three formal directions: the Arc (continuous surface), the Disc (circular face language), and the Plate (flush, minimal). Fabricated foam models at 1:1 scale for wear-testing.</p>
-      </div>
+
+    <div class="hero-scroll-indicator">
+      <div class="scroll-text">Scroll</div>
+      <div class="scroll-line"></div>
     </div>
-    <div class="process-step">
-      <div class="step-num">03</div>
-      <div class="step-content">
-        <h4>Technical Prototyping</h4>
-        <p>Collaborated with electrical engineering students to embed functional PPG sensor arrays into CNC-machined aluminium shells. Validated optical clarity of sensor window geometry against medical-grade benchmarks.</p>
-      </div>
-    </div>
-    <div class="process-step">
-      <div class="step-num">04</div>
-      <div class="step-content">
-        <h4>Interface Design</h4>
-        <p>Developed a companion iOS app using a single-axis navigation paradigm. Health data surfaces only on intentional gesture — countering the surveillance anxiety identified in research.</p>
-      </div>
-    </div>
-  </div>
+  </section>
 
-  <!-- Sketch grid -->
-  <div class="img-grid-2" style="margin-top:40px;">
-    <div>
-      <div class="img-block wide">
-        <svg width="100%" height="100%" viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg">
-          <rect width="280" height="210" fill="#111"/>
-          <!-- Sketch-style watch iterations -->
-          <text x="14" y="20" fill="#666" font-size="8" font-family="monospace" letter-spacing="1">ITERATION A — ARC</text>
-          <ellipse cx="80" cy="105" rx="45" ry="60" fill="none" stroke="#f9f7f4" stroke-width="1" opacity=".8"/>
-          <ellipse cx="80" cy="105" rx="35" ry="50" fill="none" stroke="#555" stroke-width=".7"/>
-          <!-- sketch lines -->
-          <line x1="50" y1="105" x2="110" y2="105" stroke="#555" stroke-width=".5" stroke-dasharray="2 2"/>
-          <line x1="80" y1="75" x2="80" y2="135" stroke="#555" stroke-width=".5" stroke-dasharray="2 2"/>
-
-          <text x="154" y="20" fill="#666" font-size="8" font-family="monospace" letter-spacing="1">ITERATION B — DISC</text>
-          <circle cx="210" cy="105" r="50" fill="none" stroke="#f9f7f4" stroke-width="1" opacity=".8"/>
-          <circle cx="210" cy="105" r="38" fill="none" stroke="#555" stroke-width=".7"/>
-          <circle cx="210" cy="105" r="4" fill="#f9f7f4" opacity=".4"/>
-          <!-- radius lines -->
-          <line x1="210" y1="55" x2="210" y2="155" stroke="#555" stroke-width=".5" stroke-dasharray="2 2"/>
-          <line x1="160" y1="105" x2="260" y2="105" stroke="#555" stroke-width=".5" stroke-dasharray="2 2"/>
-        </svg>
-      </div>
-      <div class="img-caption">Early form explorations — foam models & sketching</div>
-    </div>
-    <div>
-      <div class="img-block wide">
-        <svg width="100%" height="100%" viewBox="0 0 280 210" xmlns="http://www.w3.org/2000/svg">
-          <rect width="280" height="210" fill="#111"/>
-          <text x="14" y="20" fill="#666" font-size="8" font-family="monospace" letter-spacing="1">SELECTED DIRECTION — PLATE</text>
-          <!-- Final form sketch -->
-          <rect x="90" y="45" width="100" height="120" rx="22" fill="none" stroke="#f9f7f4" stroke-width="1.5"/>
-          <!-- Screen area -->
-          <rect x="100" y="60" width="80" height="90" rx="14" fill="none" stroke="#555" stroke-width=".8"/>
-          <!-- Button -->
-          <rect x="188" y="85" width="10" height="20" rx="3" fill="none" stroke="#f9f7f4" stroke-width="1"/>
-          <!-- Measurement annotations -->
-          <line x1="82" y1="45" x2="82" y2="165" stroke="#444" stroke-width=".8"/>
-          <line x1="78" y1="45" x2="86" y2="45" stroke="#444" stroke-width=".8"/>
-          <line x1="78" y1="165" x2="86" y2="165" stroke="#444" stroke-width=".8"/>
-          <text x="72" y="110" fill="#888" font-size="8" font-family="monospace" text-anchor="middle" transform="rotate(-90,72,110)">38mm</text>
-          <line x1="90" y1="174" x2="190" y2="174" stroke="#444" stroke-width=".8"/>
-          <line x1="90" y1="170" x2="90" y2="178" stroke="#444" stroke-width=".8"/>
-          <line x1="190" y1="170" x2="190" y2="178" stroke="#444" stroke-width=".8"/>
-          <text x="140" y="187" fill="#888" font-size="8" font-family="monospace" text-anchor="middle">42mm</text>
-          <!-- Material callout -->
-          <line x1="190" y1="65" x2="240" y2="50" stroke="#444" stroke-width=".5" stroke-dasharray="2 2"/>
-          <text x="242" y="49" fill="#888" font-size="7" font-family="monospace">Grade 5 Ti</text>
-          <line x1="190" y1="135" x2="240" y2="150" stroke="#444" stroke-width=".5" stroke-dasharray="2 2"/>
-          <text x="242" y="153" fill="#888" font-size="7" font-family="monospace">Sapphire Crystal</text>
-        </svg>
-      </div>
-      <div class="img-caption">Final direction — dimensioned sketch, material callouts</div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════ PROJECT 02: KITE ════════════════════════════════ -->
-<div class="pdf-page" data-page="06" id="project2">
-  <div class="section-header">
-    <span class="section-label">Project 02 — Mobile Finance App</span>
-    <span class="section-num">02</span>
-  </div>
-
-  <!-- App UI Hero -->
-  <div class="project-hero">
-    <svg width="100%" height="100%" viewBox="0 0 700 380" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <rect width="700" height="380" fill="#0d0d0d"/>
-      
-      <!-- Three phone screens -->
-      <!-- Screen 1: Dashboard -->
-      <rect x="60" y="30" width="160" height="300" rx="16" fill="#111" stroke="#f9f7f4" stroke-width="1.2"/>
-      <rect x="70" y="50" width="140" height="260" rx="8" fill="#0a0a0a"/>
-      <!-- Status bar -->
-      <text x="80" y="70" fill="#888" font-size="7" font-family="monospace">9:41</text>
-      <text x="180" y="70" fill="#888" font-size="7" font-family="monospace" text-anchor="end">●●●</text>
-      <!-- Balance -->
-      <text x="140" y="105" fill="#f9f7f4" font-size="9" font-family="monospace" text-anchor="middle" letter-spacing="1">TOTAL BALANCE</text>
-      <text x="140" y="128" fill="#f9f7f4" font-size="22" font-family="'Playfair Display', serif" font-weight="700" text-anchor="middle">$4,291</text>
-      <text x="140" y="143" fill="#888" font-size="8" font-family="monospace" text-anchor="middle">.08</text>
-      <!-- Mini bar chart -->
-      <rect x="82" y="200" width="12" height="40" fill="#333"/>
-      <rect x="100" y="190" width="12" height="50" fill="#555"/>
-      <rect x="118" y="175" width="12" height="65" fill="#777"/>
-      <rect x="136" y="185" width="12" height="55" fill="#555"/>
-      <rect x="154" y="160" width="12" height="80" fill="#f9f7f4"/>
-      <text x="140" y="255" fill="#666" font-size="7" font-family="monospace" text-anchor="middle" letter-spacing="1">MONTHLY SPEND</text>
-      <!-- Nav dots -->
-      <circle cx="128" cy="295" r="3" fill="#f9f7f4"/>
-      <circle cx="140" cy="295" r="2" fill="#444"/>
-      <circle cx="152" cy="295" r="2" fill="#444"/>
-      
-      <!-- Screen 2: Send Money -->
-      <rect x="270" y="30" width="160" height="300" rx="16" fill="#111" stroke="#f9f7f4" stroke-width="1.2"/>
-      <rect x="280" y="50" width="140" height="260" rx="8" fill="#0a0a0a"/>
-      <text x="350" y="78" fill="#f9f7f4" font-size="9" font-family="monospace" text-anchor="middle" letter-spacing="1">SEND</text>
-      <!-- Circular amount input -->
-      <circle cx="350" cy="155" r="50" fill="none" stroke="#333" stroke-width="1"/>
-      <circle cx="350" cy="155" r="50" fill="none" stroke="#f9f7f4" stroke-width="2" stroke-dasharray="220 100" stroke-dashoffset="0"/>
-      <text x="350" y="150" fill="#f9f7f4" font-size="18" font-family="'Playfair Display', serif" font-weight="700" text-anchor="middle">$240</text>
-      <text x="350" y="165" fill="#888" font-size="8" font-family="monospace" text-anchor="middle">.00</text>
-      <!-- Keypad dots -->
-      <circle cx="320" cy="235" r="4" fill="#333"/>
-      <circle cx="350" cy="235" r="4" fill="#333"/>
-      <circle cx="380" cy="235" r="4" fill="#333"/>
-      <circle cx="320" cy="255" r="4" fill="#333"/>
-      <circle cx="350" cy="255" r="4" fill="#333"/>
-      <circle cx="380" cy="255" r="4" fill="#333"/>
-      <circle cx="350" cy="275" r="4" fill="#f9f7f4"/>
-      
-      <!-- Screen 3: Transactions -->
-      <rect x="480" y="30" width="160" height="300" rx="16" fill="#111" stroke="#f9f7f4" stroke-width="1.2"/>
-      <rect x="490" y="50" width="140" height="260" rx="8" fill="#0a0a0a"/>
-      <text x="560" y="78" fill="#f9f7f4" font-size="9" font-family="monospace" text-anchor="middle" letter-spacing="1">ACTIVITY</text>
-      <!-- Transaction list -->
-      <line x1="502" y1="100" x2="618" y2="100" stroke="#222" stroke-width=".8"/>
-      <text x="504" y="117" fill="#f9f7f4" font-size="8" font-family="monospace">Whole Foods</text>
-      <text x="616" y="117" fill="#f9f7f4" font-size="8" font-family="monospace" text-anchor="end">-$43.20</text>
-      <line x1="502" y1="126" x2="618" y2="126" stroke="#222" stroke-width=".8"/>
-      <text x="504" y="143" fill="#f9f7f4" font-size="8" font-family="monospace">Spotify</text>
-      <text x="616" y="143" fill="#f9f7f4" font-size="8" font-family="monospace" text-anchor="end">-$9.99</text>
-      <line x1="502" y1="152" x2="618" y2="152" stroke="#222" stroke-width=".8"/>
-      <text x="504" y="169" fill="#888" font-size="8" font-family="monospace">→ Salary</text>
-      <text x="616" y="169" fill="#888" font-size="8" font-family="monospace" text-anchor="end">+$3,200</text>
-      <line x1="502" y1="178" x2="618" y2="178" stroke="#222" stroke-width=".8"/>
-      <text x="504" y="195" fill="#f9f7f4" font-size="8" font-family="monospace">Amazon</text>
-      <text x="616" y="195" fill="#f9f7f4" font-size="8" font-family="monospace" text-anchor="end">-$28.00</text>
-      <line x1="502" y1="204" x2="618" y2="204" stroke="#222" stroke-width=".8"/>
-
-      <!-- Screen label -->
-      <text x="140" y="360" fill="#888" font-size="8" font-family="monospace" text-anchor="middle" letter-spacing="1.5">DASHBOARD</text>
-      <text x="350" y="360" fill="#888" font-size="8" font-family="monospace" text-anchor="middle" letter-spacing="1.5">TRANSFER</text>
-      <text x="560" y="360" fill="#888" font-size="8" font-family="monospace" text-anchor="middle" letter-spacing="1.5">ACTIVITY</text>
-    </svg>
-  </div>
-
-  <div class="project-meta">
-    <div class="meta-item"><label>Category</label>UX / App Design</div>
-    <div class="meta-item"><label>Duration</label>10 weeks</div>
-    <div class="meta-item"><label>Role</label>UX + Visual Design</div>
-    <div class="meta-item"><label>Platform</label>iOS / Android</div>
-  </div>
-
-  <div class="project-body">
-    <div>
-      <h2>Kite</h2>
-      <span class="tag">FinTech</span>
-      <span class="tag">UX Design</span>
-      <span class="tag">Design Systems</span>
-      <br><br>
-      <p>A mobile banking application designed for people who feel excluded by the visual language of traditional finance — the grey gradients, the padlock icons, the small print. Kite is legible, immediate, and treats money as a tool rather than a threat.</p>
-      <p>The central design challenge was making financial complexity feel manageable without hiding it. Every screen was tested against a dual metric: comprehension speed and emotional response.</p>
-    </div>
-    <div>
-      <h3>Key Design Decisions</h3>
-      <p style="font-size:11px; max-width:none;">Monochromatic palette to reduce cognitive noise. Circular input for amounts — a familiar, forgiving gesture. Transaction history as a continuous log, not a categorised report. One primary action per screen, always.</p>
-    </div>
-  </div>
-</div>
-
-<!-- Project 02: UX Process -->
-<div class="pdf-page" data-page="07">
-  <div class="section-header">
-    <span class="section-label">Project 02 — Design System</span>
-    <span class="section-num">02</span>
-  </div>
-
-  <h3>Typography &amp; Spacing System</h3>
-  <p>Kite uses a strict 8px base unit grid with a 4-step typographic scale. All spacing values are multiples of 4px.</p>
-
-  <!-- Design system visual -->
-  <div class="sketch-container">
-    <svg viewBox="0 0 660 280" width="100%" style="border:1px solid #e8e5e0;" xmlns="http://www.w3.org/2000/svg">
-      <rect width="660" height="280" fill="#faf8f5"/>
-      
-      <!-- Type scale -->
-      <text x="24" y="28" fill="#888" font-size="8" font-family="monospace" letter-spacing="1.5">TYPE SCALE</text>
-      <line x1="24" y1="35" x2="300" y2="35" stroke="#e8e5e0" stroke-width="1"/>
-      
-      <text x="24" y="72" fill="#0a0a0a" font-size="32" font-family="'Playfair Display', serif" font-weight="700">Heading 1 — 32px</text>
-      <text x="24" y="106" fill="#0a0a0a" font-size="22" font-family="'Playfair Display', serif" font-style="italic">Heading 2 — 22px</text>
-      <text x="24" y="132" fill="#0a0a0a" font-size="15" font-family="'IBM Plex Mono', monospace">Body — 15px / Mono</text>
-      <text x="24" y="153" fill="#888" font-size="11" font-family="'IBM Plex Mono', monospace">Caption — 11px / Mono</text>
-      <text x="24" y="169" fill="#aaa" font-size="9" font-family="'IBM Plex Mono', monospace" letter-spacing="2">LABEL — 9px / 200 TRACKING</text>
-      
-      <!-- Spacing scale -->
-      <text x="24" y="205" fill="#888" font-size="8" font-family="monospace" letter-spacing="1.5">SPACING SCALE (8PX BASE)</text>
-      <line x1="24" y1="212" x2="300" y2="212" stroke="#e8e5e0" stroke-width="1"/>
-      
-      <rect x="24" y="225" width="4" height="20" fill="#0a0a0a"/>
-      <text x="32" y="241" fill="#888" font-size="8" font-family="monospace">4</text>
-      <rect x="52" y="225" width="8" height="20" fill="#0a0a0a"/>
-      <text x="64" y="241" fill="#888" font-size="8" font-family="monospace">8</text>
-      <rect x="82" y="225" width="16" height="20" fill="#0a0a0a"/>
-      <text x="102" y="241" fill="#888" font-size="8" font-family="monospace">16</text>
-      <rect x="122" y="225" width="24" height="20" fill="#0a0a0a"/>
-      <text x="150" y="241" fill="#888" font-size="8" font-family="monospace">24</text>
-      <rect x="170" y="225" width="32" height="20" fill="#0a0a0a"/>
-      <text x="206" y="241" fill="#888" font-size="8" font-family="monospace">32</text>
-      <rect x="226" y="225" width="48" height="20" fill="#0a0a0a"/>
-      <text x="278" y="241" fill="#888" font-size="8" font-family="monospace">48</text>
-      
-      <!-- Colour palette -->
-      <text x="360" y="28" fill="#888" font-size="8" font-family="monospace" letter-spacing="1.5">COLOUR SYSTEM</text>
-      <line x1="360" y1="35" x2="636" y2="35" stroke="#e8e5e0" stroke-width="1"/>
-      
-      <rect x="360" y="48" width="40" height="40" fill="#0a0a0a"/>
-      <text x="380" y="104" fill="#888" font-size="8" font-family="monospace" text-anchor="middle">Ink</text>
-      <text x="380" y="115" fill="#aaa" font-size="7" font-family="monospace" text-anchor="middle">#0A0A0A</text>
-      
-      <rect x="412" y="48" width="40" height="40" fill="#333"/>
-      <text x="432" y="104" fill="#888" font-size="8" font-family="monospace" text-anchor="middle">Dark</text>
-      <text x="432" y="115" fill="#aaa" font-size="7" font-family="monospace" text-anchor="middle">#333333</text>
-      
-      <rect x="464" y="48" width="40" height="40" fill="#888"/>
-      <text x="484" y="104" fill="#888" font-size="8" font-family="monospace" text-anchor="middle">Mid</text>
-      <text x="484" y="115" fill="#aaa" font-size="7" font-family="monospace" text-anchor="middle">#888888</text>
-      
-      <rect x="516" y="48" width="40" height="40" fill="#e8e5e0"/>
-      <text x="536" y="104" fill="#888" font-size="8" font-family="monospace" text-anchor="middle">Light</text>
-      <text x="536" y="115" fill="#aaa" font-size="7" font-family="monospace" text-anchor="middle">#E8E5E0</text>
-      
-      <rect x="568" y="48" width="40" height="40" fill="#f9f7f4" stroke="#e8e5e0" stroke-width=".5"/>
-      <text x="588" y="104" fill="#888" font-size="8" font-family="monospace" text-anchor="middle">Paper</text>
-      <text x="588" y="115" fill="#aaa" font-size="7" font-family="monospace" text-anchor="middle">#F9F7F4</text>
-
-      <!-- Component examples -->
-      <text x="360" y="145" fill="#888" font-size="8" font-family="monospace" letter-spacing="1.5">COMPONENTS</text>
-      <line x1="360" y1="152" x2="636" y2="152" stroke="#e8e5e0" stroke-width="1"/>
-      
-      <!-- Button primary -->
-      <rect x="360" y="165" width="110" height="36" rx="0" fill="#0a0a0a"/>
-      <text x="415" y="188" fill="#f9f7f4" font-size="9" font-family="monospace" text-anchor="middle" letter-spacing="2">CONFIRM →</text>
-      
-      <!-- Button secondary -->
-      <rect x="484" y="165" width="110" height="36" rx="0" fill="none" stroke="#0a0a0a" stroke-width="1.2"/>
-      <text x="539" y="188" fill="#0a0a0a" font-size="9" font-family="monospace" text-anchor="middle" letter-spacing="2">CANCEL</text>
-      
-      <!-- Input field -->
-      <rect x="360" y="218" width="236" height="36" rx="0" fill="none" stroke="#888" stroke-width=".8"/>
-      <text x="374" y="241" fill="#888" font-size="9" font-family="monospace">Amount</text>
-      <line x1="430" y1="225" x2="430" y2="248" stroke="#0a0a0a" stroke-width="1"/>
-    </svg>
-  </div>
-
-  <div class="ruled"></div>
-  <p class="annotation">The system is documented in a 48-component Figma library, including dark mode variants and accessibility annotations for all interactive elements.</p>
-</div>
-
-<!-- ═══════════════════ PROJECT 03: VESSEL ═══════════════════════════════ -->
-<div class="pdf-page" data-page="09" id="project3">
-  <div class="section-header">
-    <span class="section-label">Project 03 — Smart Speaker System</span>
-    <span class="section-num">03</span>
-  </div>
-
-  <!-- Vessel Hero -->
-  <div class="project-hero">
-    <svg width="100%" height="100%" viewBox="0 0 700 380" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      <rect width="700" height="380" fill="#0a0a0a"/>
-      <defs>
-        <pattern id="fine-grid" width="10" height="10" patternUnits="userSpaceOnUse">
-          <path d="M10 0H0V10" fill="none" stroke="#161616" stroke-width=".5"/>
-        </pattern>
-      </defs>
-      <rect width="700" height="380" fill="url(#fine-grid)"/>
-
-      <!-- Main vessel body - tall cylindrical form -->
-      <ellipse cx="350" cy="90" rx="80" ry="18" fill="none" stroke="#f9f7f4" stroke-width="1.5"/>
-      <line x1="270" y1="90" x2="240" y2="310" stroke="#f9f7f4" stroke-width="1.5"/>
-      <line x1="430" y1="90" x2="460" y2="310" stroke="#f9f7f4" stroke-width="1.5"/>
-      <ellipse cx="350" cy="310" rx="110" ry="24" fill="none" stroke="#f9f7f4" stroke-width="1.5"/>
-      <!-- Inner detail lines -->
-      <ellipse cx="350" cy="130" rx="84" ry="18" fill="none" stroke="#333" stroke-width=".8" stroke-dasharray="4 2"/>
-      <ellipse cx="350" cy="170" rx="88" ry="18" fill="none" stroke="#333" stroke-width=".8" stroke-dasharray="4 2"/>
-      <ellipse cx="350" cy="210" rx="92" ry="20" fill="none" stroke="#333" stroke-width=".8" stroke-dasharray="4 2"/>
-      <ellipse cx="350" cy="250" rx="97" ry="21" fill="none" stroke="#333" stroke-width=".8" stroke-dasharray="4 2"/>
-      <!-- Fabric weave texture suggestion -->
-      <ellipse cx="350" cy="200" rx="90" ry="19" fill="none" stroke="#1e1e1e" stroke-width="8"/>
-
-      <!-- Touch ring indicator at top -->
-      <ellipse cx="350" cy="90" rx="65" ry="14" fill="none" stroke="#f9f7f4" stroke-width=".8" opacity=".4"/>
-      <!-- Pulsing light ring (static suggestion) -->
-      <ellipse cx="350" cy="90" rx="50" ry="11" fill="none" stroke="#f9f7f4" stroke-width="2" opacity=".3"/>
-      <ellipse cx="350" cy="90" rx="35" ry="8" fill="none" stroke="#f9f7f4" stroke-width="3" opacity=".2"/>
-
-      <!-- Sound wave rings emanating -->
-      <ellipse cx="350" cy="90" rx="110" ry="24" fill="none" stroke="#f9f7f4" stroke-width=".8" opacity=".2"/>
-      <ellipse cx="350" cy="90" rx="140" ry="30" fill="none" stroke="#f9f7f4" stroke-width=".6" opacity=".12"/>
-      <ellipse cx="350" cy="90" rx="170" ry="36" fill="none" stroke="#f9f7f4" stroke-width=".4" opacity=".06"/>
-
-      <!-- Side annotation -->
-      <line x1="460" y1="90" x2="580" y2="80" stroke="#444" stroke-width=".8" stroke-dasharray="3 2"/>
-      <text x="585" y="79" fill="#888" font-size="9" font-family="monospace">CAPACITIVE TOUCH RING</text>
-
-      <line x1="460" y1="200" x2="580" y2="200" stroke="#444" stroke-width=".8" stroke-dasharray="3 2"/>
-      <text x="585" y="204" fill="#888" font-size="9" font-family="monospace">WOVEN ACOUSTIC MESH</text>
-
-      <line x1="460" y1="310" x2="580" y2="320" stroke="#444" stroke-width=".8" stroke-dasharray="3 2"/>
-      <text x="585" y="323" fill="#888" font-size="9" font-family="monospace">WEIGHTED BASE / RESONATOR</text>
-
-      <!-- Left annotations -->
-      <line x1="240" y1="90" x2="120" y2="80" stroke="#444" stroke-width=".8" stroke-dasharray="3 2"/>
-      <text x="24" y="79" fill="#888" font-size="9" font-family="monospace">7× MICROPHONE ARRAY</text>
-
-      <line x1="240" y1="200" x2="120" y2="200" stroke="#444" stroke-width=".8" stroke-dasharray="3 2"/>
-      <text x="24" y="204" fill="#888" font-size="9" font-family="monospace">360° SPEAKER CONFIG</text>
-
-      <!-- Title -->
-      <text x="60" y="360" fill="#f9f7f4" font-size="32" font-family="'Playfair Display', serif" font-weight="700">Vessel</text>
-      <text x="60" y="376" fill="#888" font-size="9" font-family="monospace" letter-spacing="2">AMBIENT AUDIO SYSTEM — 2023</text>
-    </svg>
-  </div>
-
-  <div class="project-meta">
-    <div class="meta-item"><label>Category</label>Industrial + Interaction</div>
-    <div class="meta-item"><label>Duration</label>18 weeks</div>
-    <div class="meta-item"><label>Role</label>Solo Project</div>
-    <div class="meta-item"><label>Award</label>IDSA Student Merit</div>
-  </div>
-
-  <div class="project-body">
-    <div>
-      <h2>Vessel</h2>
-      <span class="tag">Consumer Electronics</span>
-      <span class="tag">Audio</span>
-      <span class="tag">Ambient Computing</span>
-      <br><br>
-      <p>Vessel is a study in restraint. The brief was to design a smart home audio device that disappears when not in active use — that becomes part of the room rather than a declaration of technology.</p>
-      <p>The form draws from ceramic vessel traditions: the organic taper, the weighted base, the material humility. The interface is touch and voice — no screen, no glowing logo, no visual noise. Presence is indicated only by a single light ring at the crown.</p>
-    </div>
-    <div>
-      <div class="quote-block">
-        <blockquote>"Good design, when it works, is invisible."</blockquote>
-        <cite>Dieter Rams — cited as primary reference</cite>
-      </div>
-      <p style="font-size:11px; max-width:none; margin-top:16px;">IDSA Student Merit Award — Consumer Electronics Category, 2023. Shortlisted for Core77 Design Award.</p>
-    </div>
-  </div>
-</div>
-
-<!-- Project 03 outcomes -->
-<div class="pdf-page" data-page="10">
-  <div class="section-header">
-    <span class="section-label">Project 03 — Material &amp; Outcomes</span>
-    <span class="section-num">03</span>
-  </div>
-
-  <h3>Material Exploration</h3>
-
-  <div class="img-grid-2">
-    <div>
-      <div class="img-block tall">
-        <svg width="100%" height="100%" viewBox="0 0 220 295" xmlns="http://www.w3.org/2000/svg">
-          <rect width="220" height="295" fill="#111"/>
-          <!-- Material sample cards -->
-          <text x="16" y="22" fill="#666" font-size="8" font-family="monospace" letter-spacing="1">MATERIAL STUDIES</text>
-          <rect x="16" y="32" width="80" height="60" fill="#2a2a2a"/>
-          <text x="56" y="108" fill="#666" font-size="7" font-family="monospace" text-anchor="middle">Concrete</text>
-          <rect x="108" y="32" width="80" height="60" fill="#1a1a14"/>
-          <text x="148" y="108" fill="#666" font-size="7" font-family="monospace" text-anchor="middle">Walnut</text>
-          <rect x="16" y="120" width="80" height="60" fill="#363630"/>
-          <text x="56" y="196" fill="#666" font-size="7" font-family="monospace" text-anchor="middle">Ceramic</text>
-          <rect x="108" y="120" width="80" height="60" fill="#1e1e1e" stroke="#333" stroke-width=".5"/>
-          <!-- Woven texture sim -->
-          <line x1="108" y1="120" x2="188" y2="180" stroke="#2a2a2a" stroke-width="1.5"/>
-          <line x1="118" y1="120" x2="188" y2="170" stroke="#2a2a2a" stroke-width="1.5"/>
-          <line x1="128" y1="120" x2="188" y2="160" stroke="#2a2a2a" stroke-width="1.5"/>
-          <line x1="138" y1="120" x2="188" y2="150" stroke="#2a2a2a" stroke-width="1.5"/>
-          <line x1="148" y1="120" x2="188" y2="140" stroke="#2a2a2a" stroke-width="1.5"/>
-          <line x1="158" y1="120" x2="188" y2="130" stroke="#2a2a2a" stroke-width="1.5"/>
-          <text x="148" y="196" fill="#f9f7f4" font-size="7" font-family="monospace" text-anchor="middle">★ Woven Mesh</text>
-
-          <!-- Selected badge -->
-          <rect x="108" y="196" width="80" height="14" fill="#f9f7f4"/>
-          <text x="148" y="207" fill="#0a0a0a" font-size="7" font-family="monospace" text-anchor="middle" letter-spacing="1">SELECTED</text>
-
-          <!-- Final sample -->
-          <text x="16" y="240" fill="#888" font-size="8" font-family="monospace">Final spec:</text>
-          <text x="16" y="254" fill="#f9f7f4" font-size="9" font-family="monospace">Alum. + PET mesh</text>
-          <text x="16" y="268" fill="#666" font-size="8" font-family="monospace">Textured, tactile,</text>
-          <text x="16" y="280" fill="#666" font-size="8" font-family="monospace">acoustically open</text>
-        </svg>
-      </div>
-      <div class="img-caption">Material sample boards — 4 directions evaluated</div>
-    </div>
-    <div>
-      <div class="img-block square">
-        <svg width="100%" height="100%" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
-          <rect width="220" height="220" fill="#111"/>
-          <text x="16" y="22" fill="#666" font-size="8" font-family="monospace" letter-spacing="1">LIGHT RING STATES</text>
-          <!-- State diagrams -->
-          <!-- Idle -->
-          <circle cx="55" cy="80" r="28" fill="none" stroke="#333" stroke-width="1.5"/>
-          <circle cx="55" cy="80" r="22" fill="none" stroke="#222" stroke-width="1"/>
-          <text x="55" y="123" fill="#666" font-size="7" font-family="monospace" text-anchor="middle">IDLE</text>
-
-          <!-- Listening -->
-          <circle cx="160" cy="80" r="28" fill="none" stroke="#f9f7f4" stroke-width="2"/>
-          <circle cx="160" cy="80" r="22" fill="none" stroke="#888" stroke-width="1"/>
-          <circle cx="160" cy="80" r="14" fill="none" stroke="#f9f7f4" stroke-width=".8" opacity=".5"/>
-          <text x="160" y="123" fill="#f9f7f4" font-size="7" font-family="monospace" text-anchor="middle">LISTENING</text>
-
-          <!-- Playing -->
-          <circle cx="55" cy="178" r="28" fill="none" stroke="#888" stroke-width="1.5" stroke-dasharray="6 3"/>
-          <circle cx="55" cy="178" r="22" fill="none" stroke="#555" stroke-width="1"/>
-          <text x="55" y="220" fill="#666" font-size="7" font-family="monospace" text-anchor="middle">PLAYING</text>
-
-          <!-- Error -->
-          <circle cx="160" cy="178" r="28" fill="none" stroke="#f9f7f4" stroke-width="1" opacity=".3"/>
-          <line x1="145" y1="163" x2="175" y2="193" stroke="#f9f7f4" stroke-width="1.5"/>
-          <line x1="175" y1="163" x2="145" y2="193" stroke="#f9f7f4" stroke-width="1.5"/>
-          <text x="160" y="220" fill="#666" font-size="7" font-family="monospace" text-anchor="middle">ERROR</text>
-        </svg>
-      </div>
-      <div class="img-caption">Light ring interaction states — 4-state system</div>
-      <br>
-      <div class="img-block wide">
-        <svg width="100%" height="100%" viewBox="0 0 220 165" xmlns="http://www.w3.org/2000/svg">
-          <rect width="220" height="165" fill="#111"/>
-          <text x="16" y="20" fill="#666" font-size="8" font-family="monospace" letter-spacing="1">SCALE COMPARISON</text>
-          <!-- Room outline -->
-          <rect x="16" y="30" width="188" height="115" fill="none" stroke="#333" stroke-width=".8"/>
-          <!-- Furniture simple shapes -->
-          <rect x="26" y="40" width="70" height="40" fill="#1e1e1e" rx="2"/>
-          <text x="61" y="68" fill="#555" font-size="7" font-family="monospace" text-anchor="middle">SOFA</text>
-          <rect x="110" y="100" width="84" height="35" fill="#1e1e1e" rx="2"/>
-          <text x="152" y="122" fill="#555" font-size="7" font-family="monospace" text-anchor="middle">DINING TABLE</text>
-          <!-- Vessel in room -->
-          <ellipse cx="80" cy="120" rx="8" ry="8" fill="none" stroke="#f9f7f4" stroke-width="1.5"/>
-          <line x1="80" y1="112" x2="80" y2="98" stroke="#f9f7f4" stroke-width=".8" s<ellipse cx="80" cy="120" rx="8" ry="8" fill="none" stroke="#f9f7f4" stroke-width="1.5"/>
-          <line x1="80" y1="112" x2="80" y2="98" stroke="#f9f7f4" stroke-width=".8" />
-          <text x="94" y="118" fill="#f9f7f4" font-size="7" font-family="monospace">VESSEL</text>
-        </svg>
-      </div>
-      <div class="img-caption">Placement study — sound propagation vs footprint</div>
-    </div>
-  </div>
-</div>
-
-<div class="pdf-page backcover" data-page="12" id="contact">
-  <div class="section-header">
-    <span class="section-label">Contact &amp; Final</span>
-    <span class="section-num">—</span>
-  </div>
-
-  <div class="contact-grid">
-    <div>
-      <h2>Let's build<br>something<br><em style="font-style:italic; font-weight:400;">together.</em></h2>
-      <p style="margin-top:24px;">Currently seeking opportunities for Summer 2024 internships and Junior Design roles. Available for freelance projects involving physical/digital hybrid systems.</p>
-    </div>
-    <div style="display: flex; flex-direction: column; gap: 24px;">
-      <div class="contact-item">
-        <label>Email</label>
-        <a href="mailto:jordan.maise@email.com">jordan.maise@email.com</a>
-      </div>
-      <div class="contact-item">
-        <label>Professional</label>
-        <a href="#">LinkedIn / JordanMaise</a>
-      </div>
-      <div class="contact-item">
-        <label>Digital Garden</label>
-        <a href="#">jordanmaise.work</a>
-      </div>
-      <div class="contact-item">
-        <label>Social</label>
-        <a href="#">Instagram / @j.maise.dsgn</a>
-      </div>
+  <!-- MARQUEE -->
+  <div class="marquee-strip">
+    <div class="marquee-inner">
+      <span class="marquee-item">Product Design</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">UX Research</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Design Systems</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Interaction Design</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Prototyping</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Visual Design</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Design Strategy</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Product Design</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">UX Research</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Design Systems</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Interaction Design</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Prototyping</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Visual Design</span>
+      <span class="marquee-dot">✦</span>
+      <span class="marquee-item">Design Strategy</span>
+      <span class="marquee-dot">✦</span>
     </div>
   </div>
 
-  <div class="back-footer">
-    <span>Jordan Maise — Portfolio 2024</span>
-    <span>Designed &amp; Developed by the Author</span>
-    <span>End of Document</span>
-  </div>
-</div>
+  <!-- WORK -->
+  <section class="section-work" id="work">
+    <div class="section-header reveal">
+      <div>
+        <p class="section-label">✦ Selected Work</p>
+        <h2 class="section-title">Projects that<br><em>shipped.</em></h2>
+      </div>
+      <div class="section-count">04</div>
+    </div>
 
-<script>
-  /**
-   * PAGE OBSERVER
-   * Handles the "fade-in and slide" effect as the user scrolls
-   * through the PDF-like pages.
-   */
-  const observerOptions = {
-    threshold: 0.15
-  };
+    <div class="projects-grid">
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        
-        // Update Nav Dots
-        const id = entry.target.getAttribute('id');
-        if (id) {
-          document.querySelectorAll('.nav-dot').forEach(dot => {
-            dot.classList.remove('active');
-            if (dot.getAttribute('data-target') === id) {
-              dot.classList.add('active');
-            }
-          });
+      <div class="project-card reveal">
+        <div class="project-bg p1"></div>
+        <div class="project-label-static">Featured</div>
+        <div class="project-num">01</div>
+        <div class="project-overlay">
+          <div class="project-tags">
+            <span class="project-tag">Product Design</span>
+            <span class="project-tag">UX Research</span>
+            <span class="project-tag">Design Systems</span>
+          </div>
+          <h3 class="project-title">Meridian — Financial Clarity App</h3>
+          <p class="project-subtitle">Making money make sense for first-gen college students.</p>
+          <a href="#" class="project-arrow">View Case Study →</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-bg p2"></div>
+        <div class="project-num">02</div>
+        <div class="project-overlay">
+          <div class="project-tags">
+            <span class="project-tag">Mobile</span>
+            <span class="project-tag">AI/ML</span>
+          </div>
+          <h3 class="project-title">Halo — Health Coaching, Redesigned</h3>
+          <p class="project-subtitle">Internship project: 0 to shipped in 10 weeks.</p>
+          <a href="#" class="project-arrow">View Case Study →</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-bg p3"></div>
+        <div class="project-num">03</div>
+        <div class="project-overlay">
+          <div class="project-tags">
+            <span class="project-tag">Design System</span>
+            <span class="project-tag">Web</span>
+          </div>
+          <h3 class="project-title">Verdant — Design System for B2B SaaS</h3>
+          <p class="project-subtitle">300+ components. One very opinionated token structure.</p>
+          <a href="#" class="project-arrow">View Case Study →</a>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <div class="project-bg p4"></div>
+        <div class="project-num">04</div>
+        <div class="project-overlay">
+          <div class="project-tags">
+            <span class="project-tag">Research</span>
+            <span class="project-tag">Strategy</span>
+          </div>
+          <h3 class="project-title">Civic Tech — Redesigning Voter Registration</h3>
+          <p class="project-subtitle">Pro-bono. A service design project that got real traction.</p>
+          <a href="#" class="project-arrow">View Case Study →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section-about" id="about">
+    <div class="about-left reveal">
+      <div class="about-image">
+        <div style="width:100%;height:100%;background:linear-gradient(160deg,#A89880,#7A6658);display:flex;align-items:center;justify-content:center;">
+          <p style="font-family:'Playfair Display',serif;font-style:italic;font-size:18px;color:rgba(255,255,255,0.3);text-align:center;padding:32px;">Your photo<br>here :)</p>
+        </div>
+        <div class="about-image-label">Hi, I'm Maya — nice to meet you.</div>
+      </div>
+      <div class="about-decoration"></div>
+    </div>
+
+    <div class="about-right reveal">
+      <p class="section-label">✦ About Me</p>
+      <h2 class="section-title" style="margin-bottom:32px;">I design with<br><em>intention.</em></h2>
+
+      <p class="about-bio">
+        I'm a product designer who grew up watching her parents navigate incomprehensible government forms and banking apps — so now I make things that <span class="highlight">actually make sense</span> to real people, not just people who already know how it works.
+      </p>
+      <p class="about-bio">
+        My work lives at the overlap of <strong>rigorous research</strong>, <strong>systems thinking</strong>, and the kind of craft that makes a button feel exactly right. I believe constraints are a gift, white space is a decision, and shipping is a skill.
+      </p>
+      <p class="about-bio" style="color:var(--warm-gray);font-size:15px;">
+        When I'm not in Figma: bouldering, reading about cognitive psychology, and aggressively recommending books to people who didn't ask.
+      </p>
+
+      <div class="about-stats">
+        <div class="stat">
+          <div class="stat-num">3<em>+</em></div>
+          <div class="stat-label">Years of practice</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">12<em>+</em></div>
+          <div class="stat-label">Projects shipped</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Internships completed</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Figma auto-saves</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section-skills" id="skills">
+    <div class="reveal">
+      <p class="section-label" style="color:var(--rust);">✦ What I Bring</p>
+      <h2 class="section-title" style="color:var(--cream);">The full<br><em>stack.</em></h2>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-block reveal">
+        <div class="skill-block-num">01</div>
+        <div class="skill-icon">🔍</div>
+        <h3 class="skill-name">UX Research & Strategy</h3>
+        <p class="skill-desc">I don't guess — I ask, observe, and synthesize. From user interviews to jobs-to-be-done frameworks, I build empathy into every decision.</p>
+        <div class="skill-tools">
+          <span class="skill-tool">User Interviews</span>
+          <span class="skill-tool">Usability Testing</span>
+          <span class="skill-tool">Journey Mapping</span>
+          <span class="skill-tool">JTBD</span>
+        </div>
+      </div>
+
+      <div class="skill-block reveal">
+        <div class="skill-block-num">02</div>
+        <div class="skill-icon">✦</div>
+        <h3 class="skill-name">Product & Interaction Design</h3>
+        <p class="skill-desc">Wireframes to polished UI. I think in flows, not screens — and sweat the micro-interactions that make a product feel alive.</p>
+        <div class="skill-tools">
+          <span class="skill-tool">Figma</span>
+          <span class="skill-tool">Protopie</span>
+          <span class="skill-tool">Principle</span>
+          <span class="skill-tool">Framer</span>
+        </div>
+      </div>
+
+      <div class="skill-block reveal">
+        <div class="skill-block-num">03</div>
+        <div class="skill-icon">⚙️</div>
+        <h3 class="skill-name">Design Systems</h3>
+        <p class="skill-desc">I love building the things that make other design fast. Scalable, well-documented, and actually used by engineers — that's the goal.</p>
+        <div class="skill-tools">
+          <span class="skill-tool">Tokens</span>
+          <span class="skill-tool">Component Libraries</span>
+          <span class="skill-tool">Documentation</span>
+        </div>
+      </div>
+
+      <div class="skill-block reveal">
+        <div class="skill-block-num">04</div>
+        <div class="skill-icon">🌐</div>
+        <h3 class="skill-name">Front-End Fluency</h3>
+        <p class="skill-desc">I can read and write code well enough to have real conversations with engineers — and prototype things that feel real, not fake.</p>
+        <div class="skill-tools">
+          <span class="skill-tool">HTML/CSS</span>
+          <span class="skill-tool">React basics</span>
+          <span class="skill-tool">Swift UI basics</span>
+        </div>
+      </div>
+
+      <div class="skill-block reveal">
+        <div class="skill-block-num">05</div>
+        <div class="skill-icon">📐</div>
+        <h3 class="skill-name">Visual & Brand Design</h3>
+        <p class="skill-desc">Strong opinions about type, color, and composition. Trained in traditional graphic design before jumping into product.</p>
+        <div class="skill-tools">
+          <span class="skill-tool">Typography</span>
+          <span class="skill-tool">Brand Identity</span>
+          <span class="skill-tool">Illustration</span>
+        </div>
+      </div>
+
+      <div class="skill-block reveal">
+        <div class="skill-block-num">06</div>
+        <div class="skill-icon">🤝</div>
+        <h3 class="skill-name">Cross-Functional Collaboration</h3>
+        <p class="skill-desc">Design doesn't happen in isolation. I've worked closely with PMs, engineers, and stakeholders — and genuinely enjoy it.</p>
+        <div class="skill-tools">
+          <span class="skill-tool">Workshops</span>
+          <span class="skill-tool">Stakeholder Mgmt</span>
+          <span class="skill-tool">Critique</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="section-process" id="process">
+    <div class="section-header reveal">
+      <div>
+        <p class="section-label">✦ How I Work</p>
+        <h2 class="section-title">The process<br>behind the<br><em>pixels.</em></h2>
+      </div>
+    </div>
+
+    <div class="process-steps">
+      <div class="process-step reveal">
+        <div class="process-step-num">01</div>
+        <h3 class="process-step-name"><em>Understand</em><br>before you build.</h3>
+        <p class="process-step-desc">Research, competitive analysis, stakeholder alignment. I don't touch Figma until I understand the actual problem.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-step-num">02</div>
+        <h3 class="process-step-name"><em>Explore</em><br>widely & wildly.</h3>
+        <p class="process-step-desc">Sketches. Crazy ideas. 10 directions before committing to one. I push the brief before honoring it.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-step-num">03</div>
+        <h3 class="process-step-name"><em>Test</em><br>early, test often.</h3>
+        <p class="process-step-desc">Paper prototypes to high-fidelity — I validate assumptions with real users at every stage of fidelity.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-step-num">04</div>
+        <h3 class="process-step-name"><em>Ship</em><br>and iterate.</h3>
+        <p class="process-step-desc">Design is never done, just released. I stay close after launch and treat feedback as fuel.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section-contact" id="contact">
+    <div class="contact-bg-text">Let's talk.</div>
+    <p class="contact-label reveal">✦ Get In Touch</p>
+    <h2 class="contact-heading reveal">Got something<br><em>interesting?</em></h2>
+    <p class="contact-sub reveal">
+      I'm currently looking for full-time roles starting Summer 2025, and I'm open to select freelance projects. If you think we'd make something good together — I'd love to hear from you.
+    </p>
+    <a href="mailto:maya@example.com" class="contact-email reveal">maya@example.com</a>
+    <div class="contact-links reveal">
+      <a href="#" class="contact-link">LinkedIn</a>
+      <a href="#" class="contact-link">Dribbble</a>
+      <a href="#" class="contact-link">Read.cv</a>
+      <a href="#" class="contact-link">Resume ↓</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-copy">© 2024 Maya Chen. Designed & built by me.</span>
+    <a href="#" class="footer-back">Back to top ↑</a>
+  </footer>
+
+  <script>
+    // Custom cursor
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+    });
+
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    function animateCursor() {
+      rx = lerp(rx, mx, 0.12);
+      ry = lerp(ry, my, 0.12);
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    document.querySelectorAll('a, button, .project-card').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(2.5)';
+        ring.style.width = '60px';
+        ring.style.height = '60px';
+        ring.style.opacity = '0.3';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+        ring.style.width = '40px';
+        ring.style.height = '40px';
+        ring.style.opacity = '0.5';
+      });
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, 80);
+          observer.unobserve(entry.target);
         }
-      }
-    });
-  }, observerOptions);
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
 
-  document.querySelectorAll('.pdf-page').forEach(page => {
-    observer.observe(page);
-  });
-
-  /**
-   * NAVIGATION
-   * Handles smooth scrolling for the side navigation dots.
-   */
-  document.querySelectorAll('.nav-dot').forEach(dot => {
-    dot.addEventListener('click', () => {
-      const targetId = dot.getAttribute('data-target');
-      const targetElement = document.getElementById(targetId);
-      if (targetElement) {
-        targetElement.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  });
-
-  // Handle click on TOC items (already has inline onclick, but good for backup)
-  function scrollToElement(id) {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  }
-</script>
-
+    reveals.forEach(el => observer.observe(el));
+  </script>
 </body>
 </html>
