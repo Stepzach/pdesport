@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Exhibit 01</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #000000;
+            --border: #e0e0e0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow: hidden; /* Prevent normal scroll for PDF feel */
+        }
+
+        /* The Gallery Frame */
+        .frame {
+            position: fixed;
+            top: 20px; left: 20px; right: 20px; bottom: 20px;
+            border: 1px solid var(--text);
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        /* Navigation Sidebar */
+        nav {
+            position: fixed;
+            left: 50px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 101;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        nav ul { list-style: none; }
+        nav li { margin-bottom: 20px; writing-mode: vertical-rl; rotate: 180deg; }
+        nav a { 
+            text-decoration: none; 
+            color: var(--text); 
+            opacity: 0.3; 
+            transition: 0.3s; 
+        }
+        nav a.active { opacity: 1; font-weight: bold; }
+
+        /* Main Container */
+        main {
+            display: flex;
+            width: 400vw; /* 4 "Pages" */
+            height: 100vh;
+            transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+
+        section {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px;
+        }
+
+        .content-box {
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            font-family: "Times New Roman", Times, serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 200;
+            line-height: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .meta {
+            font-size: 12px;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--text);
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Image Placeholder (The "Art") */
+        .artwork-slot {
+            width: 100%;
+            height: 400px;
+            background: #f5f5f5;
+            border: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-style: italic;
+            color: #999;
+            transition: 0.5s;
+        }
+
+        .artwork-slot:hover {
+            background: #000;
+            color: #fff;
+        }
+
+        .desc {
+            margin-top: 20px;
+            font-size: 14px;
+            line-height: 1.6;
+            max-width: 500px;
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 50px;
+            right: 50px;
+            z-index: 101;
+            display: flex;
+            gap: 20px;
+        }
+
+        button {
+            background: none;
+            border: 1px solid var(--text);
+            padding: 10px 20px;
+            font-family: inherit;
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: var(--text);
+            color: var(--bg);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="frame"></div>
+
+    <nav>
+        <ul>
+            <li><a href="#" class="active" onclick="goTo(0)">Cover</a></li>
+            <li><a href="#" onclick="goTo(1)">Project 01</a></li>
+            <li><a href="#" onclick="goTo(2)">Project 02</a></li>
+            <li><a href="#" onclick="goTo(3)">Index</a></li>
+        </ul>
+    </nav>
+
+    <main id="slider">
+        <section>
+            <div class="content-box">
+                <p style="letter-spacing: 5px; margin-bottom: 10px;">PROTOTYPE_001</p>
+                <h1>DESIGN<br>AS DIALOGUE.</h1>
+                <p class="desc">A collection of industrial and digital artifacts. 2024-2026 Portfolio of [Your Name]. Selected for Admissions Committee Review.</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="content-box">
+                <div class="meta">
+                    <span>CASE STUDY 01</span>
+                    <span>MODULAR CHAIR</span>
+                </div>
+                <div class="artwork-slot">PROJECT_VISUAL_01.JPG</div>
+                <p class="desc">An exploration into brutalist ergonomics. Using only recycled polymer and tension-based joints. 0% adhesives used in construction.</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="content-box">
+                <div class="meta">
+                    <span>CASE STUDY 02</span>
+                    <span>HAPTIC INTERFACE</span>
+                </div>
+                <div class="artwork-slot">PROJECT_VISUAL_02.JPG</div>
+                <p class="desc">Designing for the visually impaired through variable surface friction. A study in tactile feedback systems for public transit.</p>
+            </div>
+        </section>
+
+        <section>
+            <div class="content-box">
+                <h1>CONTACT</h1>
+                <div class="meta">
+                    <span>EMAIL</span>
+                    <span>HELLO@STUDIO.COM</span>
+                </div>
+                <div class="meta">
+                    <span>LINKEDIN</span>
+                    <span>/IN/DESIGNER</span>
+                </div>
+                <p class="desc">Available for Fall 2026 Enrollment and Collaborative Research.</p>
+            </div>
+        </section>
+    </main>
+
+    <div class="controls">
+        <button onclick="prev()">Previous</button>
+        <button onclick="next()">Next</button>
+    </div>
+
+    <script>
+        let currentIdx = 0;
+        const main = document.getElementById('slider');
+        const navLinks = document.querySelectorAll('nav a');
+
+        function updateView() {
+            main.style.transform = `translateX(-${currentIdx * 100}vw)`;
+            navLinks.forEach((link, i) => {
+                link.classList.toggle('active', i === currentIdx);
+            });
+        }
+
+        function next() {
+            if (currentIdx < 3) { currentIdx++; updateView(); }
+        }
+
+        function prev() {
+            if (currentIdx > 0) { currentIdx--; updateView(); }
+        }
+
+        function goTo(idx) {
+            currentIdx = idx;
+            updateView();
+        }
+
+        // Allow keyboard navigation
+        window.addEventListener('keydown', (e) => {
+            if (e.key === "ArrowRight") next();
+            if (e.key === "ArrowLeft") prev();
+        });
+    </script>
+</body>
+</html>
