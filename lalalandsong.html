@@ -1,317 +1,1101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RPG — Research Lunchtime Presentation Series Fall 2018</title>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-<style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MAYA CHEN — PRODUCT DESIGNER 2026</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:ital,wght@0,400;0,600;1,400;1,600&family=Syne+Mono&display=swap" rel="stylesheet"/>
+  <style>
     :root {
-        --black: #000000;
-        --white: #ffffff;
-        --rule: 1.5px solid #000;
-        --rule-thin: 0.5px solid #000;
+      --ink:    #111010;
+      --paper:  #F7F4EF;
+      --rule:   #111010;
+      --red:    #C8001A;
+      --mid:    #888580;
+      --rule-w: 1.5px;
+      --sidebar-w: 2.8rem;
+      --nav-h: 3.2rem;
     }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
 
     body {
-        background: var(--white);
-        color: var(--black);
-        font-family: 'Inter', sans-serif;
-        line-height: 1.1;
-        /* Responsive padding */
-        padding: clamp(10px, 4vw, 40px);
-        -webkit-font-smoothing: antialiased;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Archivo', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
     }
 
-    .grid-container {
-        max-width: 1600px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        border: var(--rule);
+    /* ── CURSOR (desktop only) ── */
+    #cur {
+      position: fixed;
+      width: 8px; height: 8px;
+      background: var(--red);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%,-50%);
+      transition: width .18s, height .18s;
+      mix-blend-mode: multiply;
+    }
+    #cur.big { width: 48px; height: 48px; background: var(--ink); border-radius: 0; }
+    @media (max-width: 960px) {
+      body { cursor: auto; }
+      #cur { display: none; }
     }
 
-    /* HEADER SECTION */
-    header {
-        grid-column: span 12;
-        display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        border-bottom: var(--rule);
+    /* ── VERTICAL SIDEBAR ── */
+    .sidebar {
+      position: fixed;
+      left: 0; top: 0; bottom: 0;
+      width: var(--sidebar-w);
+      border-right: var(--rule-w) solid var(--rule);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 900;
+      background: var(--paper);
+    }
+    .sidebar-text {
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--mid);
+      white-space: nowrap;
+      user-select: none;
+    }
+    .sidebar-dot {
+      width: 6px; height: 6px;
+      background: var(--red);
+      border-radius: 50%;
+      margin: 1.5rem 0;
+      flex-shrink: 0;
     }
 
-    .schedule-brief {
-        grid-column: span 12; /* Full width on mobile */
-        padding: 15px;
-        font-family: 'Space Mono', monospace;
-        font-size: 12px;
-        border-bottom: var(--rule-thin);
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: var(--sidebar-w); right: 0;
+      height: var(--nav-h);
+      border-bottom: var(--rule-w) solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2.5rem;
+      background: var(--paper);
+      z-index: 800;
+    }
+    .nav-logo {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--ink);
+    }
+    .nav-links {
+      display: flex; gap: 2.5rem; list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--mid);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--red); }
+    .nav-index {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: var(--rule-w) solid var(--ink);
+      padding: .35rem .9rem;
+      text-decoration: none;
+      color: var(--ink);
+      transition: background .2s, color .2s;
+      white-space: nowrap;
+    }
+    .nav-index:hover { background: var(--ink); color: var(--paper); }
+
+    /* ── MOBILE NAV HAMBURGER ── */
+    .nav-mobile-menu {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-mobile-menu span {
+      display: block;
+      width: 22px; height: 1.5px;
+      background: var(--ink);
     }
 
-    .main-title {
-        grid-column: span 12;
-        padding: 15px;
-        display: flex;
-        flex-direction: column; /* Stack on mobile */
-        gap: 20px;
+    /* ── MAIN WRAPPER ── */
+    main { margin-left: var(--sidebar-w); padding-top: var(--nav-h); }
+
+    /* ════════════════════════════
+       HERO
+    ════════════════════════════ */
+    .hero {
+      min-height: calc(100vh - var(--nav-h));
+      display: grid;
+      grid-template-rows: 1fr auto;
+      border-bottom: var(--rule-w) solid var(--rule);
+      position: relative;
+      overflow: hidden;
     }
 
-    .main-title h1 {
-        /* Fluid typography: min 32px, max 65px */
-        font-size: clamp(32px, 7vw, 65px);
-        font-weight: 900;
-        letter-spacing: -1px;
-        line-height: 0.9;
-        text-transform: uppercase;
+    .hero-ghost {
+      position: absolute;
+      bottom: -0.15em;
+      left: -0.03em;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(8rem, 28vw, 26rem);
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: var(--rule-w) #d8d4cd;
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -6px;
+      white-space: nowrap;
     }
 
-    .faculty-info {
-        text-align: left;
-        font-size: 10px;
-        text-transform: uppercase;
-        font-weight: 700;
+    .hero-top {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: var(--rule-w) solid var(--rule);
+      position: relative;
+      z-index: 1;
+    }
+    .hero-top-left {
+      padding: 3.5rem 2.5rem 2.5rem;
+      border-right: var(--rule-w) solid var(--rule);
+    }
+    .hero-top-right {
+      padding: 3.5rem 2.5rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
-    /* HERO AREA */
-    .hero-strip {
-        grid-column: span 12;
-        border-bottom: var(--rule);
-        display: flex;
-        flex-direction: column;
+    .eyebrow {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px; height: 1.5px;
+      background: var(--red);
+      flex-shrink: 0;
     }
 
-    .rpg-logo {
-        /* Fluid typography: min 80px, max 220px */
-        font-size: clamp(80px, 18vw, 220px);
-        font-weight: 900;
-        letter-spacing: -0.05em;
-        padding-left: 10px;
-        line-height: 0.8;
+    .hero-name {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(3.2rem, 8vw, 9rem);
+      line-height: 0.88;
+      letter-spacing: -3px;
+      text-transform: uppercase;
+    }
+    .hero-name .italic-line {
+      font-family: 'Archivo', sans-serif;
+      font-weight: 600;
+      font-style: italic;
+      font-size: clamp(1.2rem, 2.5vw, 3rem);
+      letter-spacing: -0.5px;
+      color: var(--red);
+      display: block;
+      margin-top: 0.4em;
+      line-height: 1.1;
     }
 
-    .fall-date {
-        font-size: clamp(30px, 6vw, 70px);
-        font-weight: 700;
-        padding: 15px;
-        text-align: right;
+    .hero-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      border: var(--rule-w) solid var(--ink);
+      padding: .5rem 1rem;
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 2rem;
+      align-self: flex-start;
+    }
+    .pulse {
+      width: 7px; height: 7px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: pulse 2.2s ease infinite;
+      flex-shrink: 0;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.4)} }
+
+    .hero-year {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(4rem, 10vw, 10rem);
+      color: transparent;
+      -webkit-text-stroke: var(--rule-w) var(--ink);
+      line-height: 1;
+      letter-spacing: -4px;
+      margin-bottom: auto;
+    }
+    .hero-meta-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      border-top: var(--rule-w) solid var(--rule);
+      padding-top: 1.5rem;
+    }
+    .hero-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+    }
+    .meta-key {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--mid);
+      flex-shrink: 0;
+    }
+    .meta-val { font-size: 0.78rem; text-align: right; }
+
+    .hero-bottom {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      position: relative;
+      z-index: 1;
+    }
+    .hero-bottom-cell {
+      border-right: var(--rule-w) solid var(--rule);
+      padding: 1.2rem 1.8rem;
+    }
+    .hero-bottom-cell:last-child { border-right: none; }
+    .hbc-label {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 0.4rem;
+    }
+    .hbc-val {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+      line-height: 1;
+    }
+    .hbc-sub { font-size: 0.72rem; color: var(--mid); margin-top: .2rem; }
+
+    /* ── MARQUEE ── */
+    .marquee-band {
+      overflow: hidden;
+      border-bottom: var(--rule-w) solid var(--rule);
+      background: var(--ink);
+      padding: .75rem 0;
+    }
+    .marquee-track {
+      display: flex;
+      white-space: nowrap;
+      animation: march 30s linear infinite;
+    }
+    .marquee-track span {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 0.85rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--paper);
+      padding: 0 2rem;
+      flex-shrink: 0;
+    }
+    .marquee-track .sep { color: var(--red); padding: 0; }
+    @keyframes march { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+    /* ════════════════════════════
+       WORK
+    ════════════════════════════ */
+    #work { border-bottom: var(--rule-w) solid var(--rule); }
+
+    .section-hed {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: baseline;
+      gap: 1.5rem;
+      padding: 2rem 2.5rem;
+      border-bottom: var(--rule-w) solid var(--rule);
+    }
+    .sec-num {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+    .sec-title {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(2rem, 4vw, 4.5rem);
+      text-transform: uppercase;
+      letter-spacing: -2px;
+      line-height: 1;
+    }
+    .sec-count {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 2px;
+      color: var(--mid);
     }
 
-    /* SUB-NAV */
-    .sub-nav {
-        grid-column: span 12;
-        display: grid;
+    /* ── PROJECT ITEMS ── */
+    .project-item {
+      display: grid;
+      grid-template-columns: 4rem 220px 1fr auto;
+      align-items: stretch;
+      gap: 0;
+      border-bottom: var(--rule-w) solid var(--rule);
+      text-decoration: none;
+      color: var(--ink);
+      position: relative;
+      overflow: hidden;
+      transition: background .25s;
+    }
+    .project-item:hover { background: var(--ink); color: var(--paper); }
+    .project-item:hover .pi-tags span { border-color: #444; color: #aaa; }
+    .project-item:hover .pi-arrow { transform: rotate(-45deg); }
+    .project-item:hover .pi-num { color: var(--red); }
+    .project-item:hover .pi-desc { color: #999; }
+    .project-item:hover .pi-thumb-img { transform: scale(1.05); filter: brightness(0.5) grayscale(0.3); }
+    .project-item:hover .pi-thumb-overlay { opacity: 1; }
+
+    .pi-num-col {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-right: var(--rule-w) solid var(--rule);
+      padding: 2.5rem 0;
+    }
+    .pi-num {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      color: #ccc;
+      transition: color .25s;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+    .pi-thumb-col {
+      border-right: var(--rule-w) solid var(--rule);
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      min-height: 180px;
+    }
+    .pi-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      position: relative;
+      overflow: hidden;
+    }
+    .pi-thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s cubic-bezier(.16,1,.3,1), filter .4s ease;
+    }
+    .pi-thumb-overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--red);
+      opacity: 0;
+      mix-blend-mode: multiply;
+      transition: opacity .3s;
+    }
+    .pi-info { padding: 2rem 2.5rem; display: flex; flex-direction: column; justify-content: center; }
+    .pi-title {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(1.6rem, 2.5vw, 2.8rem);
+      line-height: 0.95;
+      letter-spacing: -1.5px;
+      text-transform: uppercase;
+      margin-bottom: .75rem;
+    }
+    .pi-desc {
+      font-size: 0.78rem;
+      line-height: 1.8;
+      color: var(--mid);
+      max-width: 38ch;
+      transition: color .25s;
+    }
+    .pi-tags { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: 1.2rem; }
+    .pi-tags span {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: 1px solid #d0ccc6;
+      padding: .22rem .6rem;
+      color: var(--mid);
+      transition: border-color .25s, color .25s;
+    }
+    .pi-arrow-col {
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pi-arrow { font-size: 1.8rem; transition: transform .3s cubic-bezier(.16,1,.3,1); }
+
+    /* ════════════════════════════
+       ABOUT
+    ════════════════════════════ */
+    #about { border-bottom: var(--rule-w) solid var(--rule); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+    }
+    .about-left {
+      padding: 4rem 2.5rem;
+      border-right: var(--rule-w) solid var(--rule);
+    }
+    .about-right { padding: 4rem 2.5rem; }
+
+    .about-statement {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 3.2rem);
+      line-height: 1.05;
+      letter-spacing: -1.5px;
+      margin-bottom: 2.5rem;
+    }
+    .about-statement .red { color: var(--red); }
+    .about-statement .italic {
+      font-family: 'Archivo', sans-serif;
+      font-style: italic;
+      font-weight: 600;
+    }
+    .about-body {
+      font-size: 0.83rem;
+      line-height: 1.95;
+      color: #555;
+      max-width: 52ch;
+    }
+    .about-body strong { color: var(--ink); font-weight: 600; }
+
+    .info-shelf {
+      border-bottom: var(--rule-w) solid var(--rule);
+      padding-bottom: 2rem;
+      margin-bottom: 2rem;
+    }
+    .info-shelf:last-child { border-bottom: none; margin-bottom: 0; }
+    .shelf-label {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1rem;
+    }
+    .shelf-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: .6rem;
+    }
+    .shelf-row .name { font-size: 0.8rem; }
+    .shelf-row .date {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--mid);
+    }
+
+    .skill-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: var(--rule-w) solid var(--rule);
+      margin-top: .5rem;
+    }
+    .sg-cell {
+      border-right: var(--rule-w) solid var(--rule);
+      border-bottom: var(--rule-w) solid var(--rule);
+      padding: .5rem .8rem;
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--mid);
+      transition: background .2s, color .2s;
+    }
+    .sg-cell:nth-child(even) { border-right: none; }
+    .sg-cell:nth-last-child(-n+2) { border-bottom: none; }
+    .sg-cell:hover { background: var(--ink); color: var(--paper); }
+
+    /* ════════════════════════════
+       AWARDS
+    ════════════════════════════ */
+    .awards-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-bottom: var(--rule-w) solid var(--rule);
+    }
+    .award-cell {
+      padding: 2.5rem;
+      border-right: var(--rule-w) solid var(--rule);
+      position: relative;
+      overflow: hidden;
+    }
+    .award-cell:last-child { border-right: none; }
+    .award-cell::before {
+      content: attr(data-symbol);
+      position: absolute;
+      right: 1rem; bottom: -1rem;
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 6rem;
+      color: #ece8e1;
+      pointer-events: none;
+      line-height: 1;
+    }
+    .award-num {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: .75rem;
+    }
+    .award-name {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 1.1rem;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: .4rem;
+    }
+    .award-org { font-size: 0.72rem; color: var(--mid); }
+
+    /* ════════════════════════════
+       FOOTER
+    ════════════════════════════ */
+    footer {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: end;
+      padding: 3.5rem 2.5rem;
+      gap: 2rem;
+    }
+    .footer-cta {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: clamp(1.4rem, 3vw, 3.5rem);
+      line-height: 0.9;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+    }
+    .footer-cta a {
+      color: var(--ink);
+      text-decoration: none;
+      border-bottom: 3px solid var(--red);
+      transition: color .2s;
+      word-break: break-all;
+    }
+    .footer-cta a:hover { color: var(--red); }
+    .footer-sub {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-top: .75rem;
+    }
+    .footer-stamp {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 4rem;
+      letter-spacing: -3px;
+      color: #e8e3da;
+      text-align: center;
+      line-height: 1;
+      user-select: none;
+    }
+    .footer-links { text-align: right; }
+    .footer-links a {
+      display: block;
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      margin-bottom: .5rem;
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--red); }
+    .footer-copy {
+      font-family: 'Syne Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #bbb;
+      margin-top: 1.5rem;
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .sr { opacity: 0; transform: translateY(24px); transition: opacity .65s ease, transform .65s ease; }
+    .sr.on { opacity: 1; transform: none; }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE — tablet + mobile
+    ══════════════════════════════════════ */
+
+    /* ── TABLET (≤1100px) ── */
+    @media (max-width: 1100px) {
+      .project-item {
+        grid-template-columns: 3rem 160px 1fr auto;
+      }
+      .pi-thumb-col { padding: 1rem; min-height: 140px; }
+    }
+
+    /* ── SMALL TABLET / LARGE PHONE (≤960px) ── */
+    @media (max-width: 960px) {
+      :root {
+        --sidebar-w: 0px;
+        --nav-h: 3.6rem;
+      }
+
+      .sidebar { display: none; }
+
+      nav {
+        left: 0;
+        padding: 0 1.2rem;
+      }
+      .nav-links { display: none; }
+      .nav-index { display: none; }
+      .nav-mobile-menu { display: flex; }
+
+      main { margin-left: 0; }
+
+      /* Hero */
+      .hero { min-height: calc(100svh - var(--nav-h)); }
+      .hero-top { grid-template-columns: 1fr; }
+      .hero-top-left {
+        padding: 2.5rem 1.5rem 2rem;
+        border-right: none;
+        border-bottom: var(--rule-w) solid var(--rule);
+      }
+      .hero-top-right { display: none; }
+      .hero-bottom { grid-template-columns: 1fr 1fr; }
+      .hero-bottom-cell { padding: 1rem 1.2rem; }
+      .hbc-sub { display: none; }
+
+      /* Section headers */
+      .section-hed {
+        padding: 1.5rem;
+        grid-template-columns: auto 1fr auto;
+        gap: 0.75rem;
+      }
+
+      /* Projects — stack on mobile */
+      .project-item {
         grid-template-columns: 1fr;
-        padding: 10px 15px;
-        font-family: 'Space Mono', monospace;
-        font-size: 11px;
-        border-bottom: var(--rule);
-        text-transform: uppercase;
-        gap: 10px;
+        grid-template-rows: auto auto auto;
+      }
+      .pi-num-col {
+        display: none;
+      }
+      .pi-thumb-col {
+        border-right: none;
+        border-bottom: var(--rule-w) solid rgba(17,16,16,0.15);
+        padding: 0;
+        min-height: unset;
+        width: 100%;
+      }
+      .pi-thumb {
+        aspect-ratio: 16/7;
+        width: 100%;
+      }
+      .pi-thumb-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .pi-info {
+        padding: 1.5rem;
+        border-bottom: none;
+      }
+      .pi-arrow-col { display: none; }
+      .pi-title { font-size: clamp(1.8rem, 7vw, 2.6rem); letter-spacing: -1px; }
+
+      /* About */
+      .about-grid { grid-template-columns: 1fr; }
+      .about-left {
+        padding: 3rem 1.5rem;
+        border-right: none;
+        border-bottom: var(--rule-w) solid var(--rule);
+      }
+      .about-right { padding: 3rem 1.5rem; }
+
+      /* Awards */
+      .awards-row { grid-template-columns: 1fr; }
+      .award-cell {
+        border-right: none;
+        border-bottom: var(--rule-w) solid var(--rule);
+      }
+      .award-cell:last-child { border-bottom: none; }
+
+      /* Footer */
+      footer {
+        grid-template-columns: 1fr;
+        padding: 2.5rem 1.5rem;
+        gap: 2rem;
+      }
+      .footer-stamp { display: none; }
+      .footer-links { text-align: left; }
+      .footer-cta { font-size: clamp(1.8rem, 8vw, 3rem); }
     }
 
-    /* MONTH HEADER */
-    .month-header {
-        grid-column: span 12;
-        font-size: clamp(50px, 12vw, 140px);
-        font-weight: 900;
-        letter-spacing: -0.04em;
-        padding: 10px 15px;
-        border-bottom: var(--rule);
-        line-height: 0.8;
+    /* ── PHONE (≤480px) ── */
+    @media (max-width: 480px) {
+      .hero-name { font-size: clamp(2.8rem, 14vw, 4rem); }
+      .hero-ghost { display: none; }
+      .hero-status { font-size: 0.55rem; padding: .4rem .7rem; gap: 0.4rem; }
+      .marquee-track span { font-size: 0.7rem; }
+      .section-hed { padding: 1.2rem 1rem; }
+      .sec-title { font-size: clamp(1.6rem, 7vw, 2.5rem); }
+      .pi-info { padding: 1.2rem 1rem; }
+      .pi-desc { font-size: 0.75rem; }
+      .about-left { padding: 2rem 1rem; }
+      .about-right { padding: 2rem 1rem; }
+      .award-cell { padding: 1.5rem 1rem; }
+      footer { padding: 2rem 1rem; }
+      .hero-bottom-cell { padding: 0.8rem; }
+      .hbc-val { font-size: 1.3rem; }
+      .hero-name .italic-line { font-size: clamp(1rem, 4vw, 1.6rem); }
     }
-
-    /* PRESENTATION GRID */
-    .presentation {
-        grid-column: span 12;
-        border-bottom: var(--rule);
-        display: flex;
-        min-height: 200px;
-    }
-
-    .date-col {
-        font-size: clamp(60px, 10vw, 100px);
-        font-weight: 900;
-        padding: 10px;
-        border-right: var(--rule-thin);
-        line-height: 0.9;
-        min-width: 100px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .content-col {
-        padding: 15px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        flex: 1;
-    }
-
-    .meta { font-size: 12px; margin-bottom: 10px; }
-    .meta b { display: block; text-transform: uppercase; font-size: 14px; margin-bottom: 4px; }
-    .title { font-size: clamp(18px, 3vw, 22px); font-weight: 700; line-height: 1.1; margin-top: 15px; }
-
-    .fig-box {
-        grid-column: span 12;
-        border-bottom: var(--rule);
-        padding: 15px;
-        background: #f0f0f0;
-        display: flex;
-        flex-direction: column;
-        font-size: 10px;
-        font-family: 'Space Mono', monospace;
-    }
-
-    .fig-placeholder {
-        flex-grow: 1;
-        background: #ddd;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: var(--rule-thin);
-        margin-bottom: 10px;
-        min-height: 150px;
-        padding: 20px;
-        text-align: center;
-    }
-
-    /* FOOTER TEXTURE */
-    .footer-texture {
-        grid-column: span 12;
-        height: 80px;
-        background-image: radial-gradient(#000 15%, transparent 16%);
-        background-size: 8px 8px;
-        opacity: 0.8;
-    }
-
-    /* --- DESKTOP REFINEMENTS (768px and up) --- */
-    @media (min-width: 768px) {
-        .schedule-brief { grid-column: span 4; border-bottom: none; border-right: var(--rule); }
-        .main-title { grid-column: span 8; flex-direction: row; justify-content: space-between; }
-        .faculty-info { text-align: right; }
-        
-        .hero-strip { flex-direction: row; align-items: flex-end; justify-content: space-between; }
-        
-        .sub-nav { grid-template-columns: auto auto auto; justify-content: space-between; }
-
-        .presentation { grid-column: span 6; }
-        .presentation:nth-child(odd) { border-right: var(--rule); }
-        
-        .fig-box { grid-column: span 6; }
-        /* Offset logic for the specific grid pattern */
-        .fig-box:nth-of-type(even) { border-right: var(--rule); }
-    }
-</style>
+  </style>
 </head>
 <body>
 
-<div class="grid-container">
-    <header>
-        <div class="schedule-brief">
-            01.11.2018 — Mu Yanjie, Pania<br>
-            08.11.2018 — Lu Xiaoxuan<br>
-            15.11.2018 — Andrea Pinochet<br>
-            22.11.2018 — Liu Sibei<br>
-            29.11.2018 — Lai Chun Wai Charles
-        </div>
-        <div class="main-title">
-            <h1>Research<br>Lunchtime<br>Presentation</h1>
-            <div class="faculty-info">
-                The University of Hong Kong<br>
-                Faculty of Architecture<br>
-                Department of Architecture
-            </div>
-        </div>
-    </header>
+<div id="cur"></div>
 
-    <div class="hero-strip">
-        <div class="rpg-logo">RPG</div>
-        <div class="fall-date">Fall 2018</div>
-    </div>
-
-    <div class="sub-nav">
-        <span>Knowles Building, KB719, 7/F</span>
-        <span>All interested are welcome.</span>
-        <span>Thursdays 13:00 — 14:15</span>
-    </div>
-
-    <div class="month-header">november</div>
-
-    <article class="presentation">
-        <div class="date-col">01</div>
-        <div class="content-col">
-            <div class="meta">
-                <b>MU Yanjie, Pania</b>
-                PhD Candidate, Dept. of Architecture<br>
-                Supervisors: Prof. Weijen WANG, Dr. Tao ZHU
-            </div>
-            <div class="title">The Rise and Fall of Two Temples: Temple Patronage of Suzhou, 1340-1640</div>
-        </div>
-    </article>
-
-    <div class="fig-box">
-        <div class="fig-placeholder">[Landscape Ink Drawing]</div>
-        <span>fig.2 Detail of temple patronage landscape study.</span>
-    </div>
-
-    <article class="presentation">
-        <div class="date-col">08</div>
-        <div class="content-col">
-            <div class="meta">
-                <b>LU Xiaoxuan</b>
-                Assistant Professor, Div. of Landscape Architecture
-            </div>
-            <div class="title">My Love from the Mountain: Cultural Landscapes and Consumable Resources</div>
-        </div>
-    </article>
-
-    <div class="fig-box">
-        <div class="fig-placeholder">[Bottled Water Advertisement]</div>
-        <span>fig.1 Advertisement of South Korean bottled water.</span>
-    </div>
-
-    <article class="presentation">
-        <div class="date-col">15</div>
-        <div class="content-col">
-            <div class="meta">
-                <b>Andrea Pinochet</b>
-                Visiting Assistant Professor, Dept. of Architecture
-            </div>
-            <div class="title">Material History</div>
-        </div>
-    </article>
-
-    <div class="fig-box">
-        <div class="fig-placeholder">[Architectural Construction]</div>
-        <span>fig.3 Villa du Docteur Arragon: Beton Armé method.</span>
-    </div>
-
-    <article class="presentation">
-        <div class="date-col">22</div>
-        <div class="content-col">
-            <div class="meta">
-                <b>LIU Sibei</b>
-                PhD Student, Dept. of Architecture
-            </div>
-            <div class="title">Towards a thermal comfortable and walkable pedestrian environment for aging people</div>
-        </div>
-    </article>
-
-    <article class="presentation">
-        <div class="date-col">29</div>
-        <div class="content-col">
-            <div class="meta">
-                <b>LAI Chun Wai Charles</b>
-                PhD Candidate, Dept. of Architecture
-            </div>
-            <div class="title">Imperial Contestations: Green Island Cement and Modernity, 1930s-1950s</div>
-        </div>
-    </article>
-
-    <div class="footer-texture"></div>
+<div class="sidebar">
+  <span class="sidebar-text">Maya Chen — Product Designer — RISD 2026</span>
+  <div class="sidebar-dot"></div>
+  <span class="sidebar-text">Providence RI → New York</span>
 </div>
 
+<nav>
+  <a href="#" class="nav-logo">Chen Studio</a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#about">Awards</a></li>
+  </ul>
+  <a href="mailto:maya@risd.edu" class="nav-index">Get In Touch ↗</a>
+  <div class="nav-mobile-menu" onclick="this.classList.toggle('open')" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<main>
+
+  <section class="hero">
+    <div class="hero-ghost">ZACH</div>
+    <div class="hero-top">
+      <div class="hero-top-left">
+        <div class="eyebrow">Product Designer — RISD Senior '26</div>
+        <h1 class="hero-name">
+          PRODUCT<br>DESIGNER
+          <span class="italic-line">for complex systems &amp; real people.</span>
+        </h1>
+        <div class="hero-status">
+          <div class="pulse"></div>
+          Available for Internship — Summer 2026
+        </div>
+      </div>
+      <div class="hero-top-right">
+        <div class="hero-year">26</div>
+        <div class="hero-meta-list">
+          <div class="hero-meta-row">
+            <span class="meta-key">Focus</span>
+            <span class="meta-val">Interaction Logic &amp; Accessibility</span>
+          </div>
+          <div class="hero-meta-row">
+            <span class="meta-key">Education</span>
+            <span class="meta-val">RISD Industrial Design</span>
+          </div>
+          <div class="hero-meta-row">
+            <span class="meta-key">Experience</span>
+            <span class="meta-val">Figma '25 · IDEO CoLab '24</span>
+          </div>
+          <div class="hero-meta-row">
+            <span class="meta-key">Location</span>
+            <span class="meta-val">Providence → NYC</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-bottom">
+      <div class="hero-bottom-cell">
+        <p class="hbc-label">Projects</p>
+        <p class="hbc-val">12</p>
+        <p class="hbc-sub">shipped &amp; case-studied</p>
+      </div>
+      <div class="hero-bottom-cell">
+        <p class="hbc-label">Interviews</p>
+        <p class="hbc-val">80+</p>
+        <p class="hbc-sub">field research sessions</p>
+      </div>
+      <div class="hero-bottom-cell">
+        <p class="hbc-label">Awards</p>
+        <p class="hbc-val">3</p>
+        <p class="hbc-sub">incl. Core77 Winner</p>
+      </div>
+      <div class="hero-bottom-cell">
+        <p class="hbc-label">GPA</p>
+        <p class="hbc-val">3.94</p>
+        <p class="hbc-sub">Presidential Scholar</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee-band">
+    <div class="marquee-track">
+      <span>UX Research</span><span class="sep"> ✦ </span>
+      <span>System Design</span><span class="sep"> ✦ </span>
+      <span>Interaction</span><span class="sep"> ✦ </span>
+      <span>High-Fi Prototyping</span><span class="sep"> ✦ </span>
+      <span>Accessibility</span><span class="sep"> ✦ </span>
+      <span>Design Systems</span><span class="sep"> ✦ </span>
+      <span>Field Research</span><span class="sep"> ✦ </span>
+      <span>UX Research</span><span class="sep"> ✦ </span>
+      <span>System Design</span><span class="sep"> ✦ </span>
+      <span>Interaction</span><span class="sep"> ✦ </span>
+      <span>High-Fi Prototyping</span><span class="sep"> ✦ </span>
+      <span>Accessibility</span><span class="sep"> ✦ </span>
+      <span>Design Systems</span><span class="sep"> ✦ </span>
+      <span>Field Research</span><span class="sep"> ✦ </span>
+    </div>
+  </div>
+
+  <section id="work">
+    <div class="section-hed sr">
+      <span class="sec-num">01 / Work</span>
+      <h2 class="sec-title">Selected Projects</h2>
+      <span class="sec-count">003 studies</span>
+    </div>
+
+    <!-- Project 01 -->
+    <a href="#" class="project-item sr">
+      <div class="pi-num-col"><span class="pi-num">01</span></div>
+      <div class="pi-thumb-col">
+        <div class="pi-thumb">
+          <!-- Mental health / calm / soft app UI feel -->
+          <img
+            class="pi-thumb-img"
+            src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?w=600&q=80&fit=crop"
+            alt="Bloom Mental Health project thumbnail"
+            loading="lazy"
+          />
+          <div class="pi-thumb-overlay"></div>
+        </div>
+      </div>
+      <div class="pi-info">
+        <h3 class="pi-title">Bloom Mental Health</h3>
+        <p class="pi-desc">Redesigning crisis support flows for a mobile-first mental health platform. 12 weeks of field research, 40+ user interviews leading to a 34% improvement in task completion.</p>
+        <div class="pi-tags">
+          <span>Mobile</span><span>Research</span><span>Figma</span><span>2025</span>
+        </div>
+      </div>
+      <div class="pi-arrow-col"><span class="pi-arrow">→</span></div>
+    </a>
+
+    <!-- Project 02 -->
+    <a href="#" class="project-item sr">
+      <div class="pi-num-col"><span class="pi-num">02</span></div>
+      <div class="pi-thumb-col">
+        <div class="pi-thumb">
+          <!-- Transit / urban / wayfinding -->
+          <img
+            class="pi-thumb-img"
+            src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&q=80&fit=crop"
+            alt="Waypoint Transit project thumbnail"
+            loading="lazy"
+          />
+          <div class="pi-thumb-overlay"></div>
+        </div>
+      </div>
+      <div class="pi-info">
+        <h3 class="pi-title">Waypoint Transit</h3>
+        <p class="pi-desc">Accessibility-first wayfinding for multi-modal urban transit. WCAG 2.2 compliant from day one. Core77 Student Design Award winner.</p>
+        <div class="pi-tags">
+          <span>Web</span><span>Accessibility</span><span>Logic</span><span>2024</span>
+        </div>
+      </div>
+      <div class="pi-arrow-col"><span class="pi-arrow">→</span></div>
+    </a>
+
+    <!-- Project 03 -->
+    <a href="#" class="project-item sr">
+      <div class="pi-num-col"><span class="pi-num">03</span></div>
+      <div class="pi-thumb-col">
+        <div class="pi-thumb">
+          <!-- Design systems / components / structured UI -->
+          <img
+            class="pi-thumb-img"
+            src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=600&q=80&fit=crop"
+            alt="Form Systems Library project thumbnail"
+            loading="lazy"
+          />
+          <div class="pi-thumb-overlay"></div>
+        </div>
+      </div>
+      <div class="pi-info">
+        <h3 class="pi-title">Form Systems Library</h3>
+        <p class="pi-desc">Enterprise-grade design system for complex data-entry workflows. 80+ components, full token system, built during Figma internship 2025.</p>
+        <div class="pi-tags">
+          <span>Design Systems</span><span>Tokens</span><span>B2B</span><span>2025</span>
+        </div>
+      </div>
+      <div class="pi-arrow-col"><span class="pi-arrow">→</span></div>
+    </a>
+  </section>
+
+  <section id="about">
+    <div class="section-hed sr">
+      <span class="sec-num">02 / About</span>
+      <h2 class="sec-title">The Designer</h2>
+      <span class="sec-count">RISD '26</span>
+    </div>
+    <div class="about-grid">
+      <div class="about-left">
+        <p class="about-statement sr">
+          I build interfaces that<br>
+          prioritise <span class="red italic">utility</span><br>
+          over decoration.
+        </p>
+        <p class="about-body sr">
+          Four years at RISD taught me that good design is never decorative — it's an <strong>argument made visible</strong>. My process is rooted in ethnographic field research, edge-case logic, and systems thinking.
+          <br><br>
+          I care about the person using a product at 2am, stressed, on a slow connection. I've shipped work at <strong>Figma</strong>, run co-design workshops at <strong>IDEO CoLab</strong>, and won a <strong>Core77 Award</strong> for a wayfinding system for visually impaired transit users.
+        </p>
+      </div>
+      <div class="about-right">
+        <div class="info-shelf sr">
+          <p class="shelf-label">Experience</p>
+          <div class="shelf-row">
+            <span class="name">UX Design Intern @ Figma</span>
+            <span class="date">2025</span>
+          </div>
+          <div class="shelf-row">
+            <span class="name">Research Intern @ IDEO CoLab</span>
+            <span class="date">2024</span>
+          </div>
+        </div>
+        <div class="info-shelf sr">
+          <p class="shelf-label">Education</p>
+          <div class="shelf-row">
+            <span class="name">BFA Industrial Design — RISD</span>
+            <span class="date">2026</span>
+          </div>
+          <div class="shelf-row">
+            <span class="name">Presidential Scholar</span>
+            <span class="date">Full Merit</span>
+          </div>
+        </div>
+        <div class="info-shelf sr">
+          <p class="shelf-label">Toolkit</p>
+          <div class="skill-grid">
+            <span class="sg-cell">Figma</span>
+            <span class="sg-cell">Protopie</span>
+            <span class="sg-cell">Framer</span>
+            <span class="sg-cell">HTML / CSS</span>
+            <span class="sg-cell">Research Ops</span>
+            <span class="sg-cell">Accessibility</span>
+            <span class="sg-cell">Design Tokens</span>
+            <span class="sg-cell">User Testing</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="awards-row">
+    <div class="award-cell sr" data-symbol="★">
+      <p class="award-num">Award 01</p>
+      <p class="award-name">Core77 Student<br>Design Award</p>
+      <p class="award-org">Winner — Transportation, 2025</p>
+    </div>
+    <div class="award-cell sr" data-symbol="◆">
+      <p class="award-num">Award 02</p>
+      <p class="award-name">RISD Presidential<br>Scholar</p>
+      <p class="award-org">Full Merit Award — 2022–2026</p>
+    </div>
+    <div class="award-cell sr" data-symbol="▲">
+      <p class="award-num">Award 03</p>
+      <p class="award-name">Figma Community<br>Feature</p>
+      <p class="award-org">Bloom App — 14k Duplicates, 2025</p>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-cta">
+      <p>Let's work<br>together.</p>
+      <a href="mailto:maya@risd.edu">maya@risd.edu</a>
+      <p class="footer-sub">Available June 2026 · Providence → NYC</p>
+    </div>
+    <div class="footer-stamp">MC</div>
+    <div class="footer-links">
+      <a href="#">LinkedIn ↗</a>
+      <a href="#">Read.cv ↗</a>
+      <a href="#">Dribbble ↗</a>
+      <p class="footer-copy">© 2026 Maya Chen — Built with raw HTML/CSS</p>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+  // Custom cursor (desktop only)
+  const cur = document.getElementById('cur');
+  if (window.matchMedia('(pointer:fine)').matches) {
+    document.addEventListener('mousemove', e => {
+      cur.style.left = e.clientX + 'px';
+      cur.style.top  = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => cur.classList.add('big'));
+      el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+    });
+  }
+
+  // Scroll reveal
+  const items = document.querySelectorAll('.sr');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('on'), i * 70);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.06 });
+  items.forEach(el => obs.observe(el));
+</script>
 </body>
 </html>
