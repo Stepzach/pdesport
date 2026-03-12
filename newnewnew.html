@@ -178,15 +178,13 @@
 
         /* ── WORK SECTION ── */
         .projects-section {
-            min-height: 100svh; 
+            min-height: 100svh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            scroll-snap-align: start; /* This keeps the middle section snapping */
-    scroll-snap-stop: always;
             padding: 40px 0; 
-        
-
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
         }
 
         .work-header {
@@ -266,13 +264,8 @@
     display: flex;
     flex-direction: column;
     /* Changed from start to end to prevent the mobile jump */
- 
-}
-        .snap-bottom-target {
-    scroll-snap-align: end;
-    height: 1px;
-    margin-top: -1px;
-    pointer-events: none;
+    scroll-snap-align: end; 
+    scroll-snap-stop: always;
 }
 
         /* ── ABOUT ── */
@@ -486,7 +479,6 @@
             <a href="mailto:zachstep05@gmail.com">zachstep05@gmail.com</a>
             <span class="footer-mono">London, UK</span>
         </footer>
-        <div class="snap-bottom-target"></div>
     </div>
 </div>
 
