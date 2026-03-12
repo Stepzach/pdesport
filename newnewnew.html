@@ -333,11 +333,11 @@
             }
             .hero-photo img {
                 width: auto;
-                max-width: 140px;
+                
                 height: 100%;
                 max-height: 100%;
                 object-fit: cover;
-                object-position: center top;
+                object-position: center;
             }
             .hero-text {
                 padding: 16px 0 24px;
@@ -351,23 +351,69 @@
             .meta-item { padding: 10px 0; }
 
             /* Projects: stack, show image below content */
-            .project {
-                grid-template-columns: 44px 1fr;
-                grid-template-rows: auto auto;
-            }
-            .proj-body { padding: 20px 16px; }
-            .proj-img-col {
-                grid-column: 2;
-                border-left: none;
-                border-top: 1px solid var(--light);
-                padding: 16px 16px 24px;
-                display: block;
-            }
-            .proj-img-col img { max-height: 200px; object-fit: contain; }
+           .project {
+        grid-template-columns: 44px 1fr;
+        grid-template-rows: auto auto;
+    }
 
+    .proj-body { 
+        padding: 20px 16px; 
+    }
+
+    .proj-img-col {
+        /* Change from grid-column: 2 to span both columns */
+        grid-column: 1 / span 2; 
+        border-left: none;
+        border-top: 1px solid var(--light);
+        /* Remove horizontal padding (0) to hit screen edges */
+        padding: 16px 0 24px 0; 
+        display: block;
+    }
+
+    .proj-img-col img { 
+        width: 100%;
+        max-height: none; /* Allow it to scale naturally */
+        object-fit: cover; 
+    }
+
+    /* Adjust the mobile link padding since we removed it from the container */
+    .proj-link-mobile {
+        display: block;
+        margin-top: 20px;
+        padding: 0 16px; /* Re-add some padding so text doesn't hit the edge */
+    }
             .about { grid-template-columns: 1fr; gap: 14px; padding: 52px 0; }
             footer { flex-direction: column; gap: 12px; text-align: center; }
         }
+        
+        /* 1. Hide the link by default (Desktop) */
+.proj-link-mobile {
+    display: none; 
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--black);
+    text-decoration: none;
+    margin-top: 16px;
+    letter-spacing: 0.04em;
+    
+    width: fit-content;
+}
+
+/* 2. Show and style it only on Mobile */
+@media (max-width: 700px) {
+    .proj-link-mobile {
+        display: block; /* Shows it below the image */
+        margin-top: 20px;
+        padding-bottom: 2px;
+    }
+    
+    /* Ensure the column allows vertical stacking of img + link */
+    .proj-img-col {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
     </style>
 </head>
 <body>
@@ -387,26 +433,26 @@
             </h1>
             <div class="hero-meta">
                 <div class="meta-item">
-                    <span class="meta-label">Discipline</span>
-                    <span class="meta-value">Industrial &amp; IxD</span>
+                    <span class="meta-label">Focus</span>
+                    <span class="meta-value">Industrial &amp; Interaction</span>
                 </div>
                 <div class="meta-item">
                     <span class="meta-label">Education</span>
-                    <span class="meta-value">Product Design BSc, Leeds</span>
+                    <span class="meta-value">Product Design BSc, University of Leeds</span>
                 </div>
                 <div class="meta-item">
                     <span class="meta-label">Experience</span>
-                    <span class="meta-value">Air Liquide, 2025–26</span>
+                    <span class="meta-value">Air Liquide, Innovation Campus Paris, 2025–26</span>
                 </div>
                 <div class="meta-item">
                     <span class="meta-label">Location</span>
-                    <span class="meta-value">London, UK</span>
+                    <span class="meta-value">London &amp; Paris</span>
                 </div>
             </div>
         </div>
         <div class="hero-photo">
-            <img src="https://stepzach.github.io/pdesport/IMG_4960.png?raw=true" alt="Zachary Stephens">
-            <p class="photo-caption">Portrait, 2026</p>
+            <img src="https://stepzach.github.io/pdesport/IMG_0822.jpeg?raw=true" alt="Zachary Stephens">
+            <p class="photo-caption">Me at the Olympics (spectator) Paris, 2024</p>
         </div>
         <div class="scroll-indicator">
     <span>Scroll</span>
@@ -425,15 +471,16 @@
         <span class="proj-index">001</span>
         <div class="proj-body">
             <h3 class="proj-title-main">Air Liquide — <em>Exeltop Valve Guard</em></h3>
-            <p class="proj-sub">Industrial product design, 2025–26</p>
+            <p class="proj-sub">Two injection molded shells mounted on 22L gas cylinders. Withstands 1.2m drop</p>
             <div class="proj-tags">
-                <span>Industrial</span>
-                <span>UX Research</span>
                 <span>Prototyping</span>
+                <span>CAD Modelling</span>
+                <span>Simulations</span>
             </div>
         </div>
         <div class="proj-img-col">
             <img src="https://s6.imgcdn.dev/YvIZjv.png" alt="Air Liquide Exeltop">
+            <a href="https://link.com" class="proj-link-mobile">Check it out at: link.com ↗</a>
         </div>
     </div>
 
@@ -441,16 +488,20 @@
         <span class="proj-index">002</span>
         <div class="proj-body">
             <h3 class="proj-title-main">Leeds Student Radio — <em>Website Design</em></h3>
-            <p class="proj-sub">Interaction design, 2025</p>
+            <p class="proj-sub">Built from scratch with HTML, CSS and JS. Using Google sheets to update the content and Google Firebase for the live-chat</p>
             <div class="proj-tags">
-                <span>Web Design</span>
                 <span>UX Research</span>
-                <span>Figma</span>
+                <span>Brand Identity</span>
+              
             </div>
         </div>
+        
         <div class="proj-img-col">
             <img src="https://github.com/Stepzach/pdesport/blob/main/Screenshot%202026-03-10%20at%2011.34.53-front.png?raw=true" alt="Leeds Student Radio">
+            <a href="https://thisislsr.com" class="proj-link-mobile">Check it out at:<u>https://thisislsr.com</u></a>
         </div>
+        
+        
     </div>
 
     <div class="about">
