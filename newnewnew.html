@@ -9,7 +9,12 @@
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { height: 100%; }
-        html { scroll-behavior: smooth; }
+        
+        /* 1. Added Scroll Snap properties to HTML */
+        html { 
+            scroll-behavior: smooth; 
+            scroll-snap-type: y proximity; /* 'proximity' gives that slight assist without forcing it aggressively */
+        }
 
         :root {
             --black: #111;
@@ -29,19 +34,19 @@
         .container { padding: 0 52px; }
 
         /* ── ABOVE-FOLD WRAPPER ── */
-        /* Nav + hero together fill exactly the viewport */
         .above-fold {
-        position: relative;
+            position: relative;
             height: 100svh;
             display: flex;
             flex-direction: column;
+            scroll-snap-align: start; /* 2. Snap target */
         }
 
         /* ── NAV ── */
         nav {
             flex-shrink: 0;
             padding: 28px 0;
-            border-bottom: 1px solid var(--black);
+            padding-bottom: 0px;
             display: flex;
             justify-content: space-between;
             align-items: baseline;
@@ -64,9 +69,8 @@
 
         /* ── HERO ── */
         .hero {
-            flex: 1;           /* fills remaining viewport height */
-            min-height: 0;     /* allows shrinking inside flex */
-          
+            flex: 1;           
+            min-height: 0;      
             display: grid;
             grid-template-columns: 1fr 320px;
             gap: 64px;
@@ -115,11 +119,10 @@
         }
         .hero-photo img {
             width: 100%;
-            max-height: calc(100dvh - 140px); /* never taller than viewport minus nav+padding */
+            max-height: calc(100dvh - 140px);
             object-fit: cover;
             object-position: center top;
             display: block;
-          
         }
         .photo-caption {
             font-family: 'IBM Plex Mono', monospace;
@@ -130,68 +133,81 @@
         }
         
         /* ── SCROLL INDICATOR ── */
-.scroll-indicator {
-    position: absolute;
-    bottom: 32px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    opacity: 0;
-    animation: appear 0.5s 0.8s forwards, float 2s ease-in-out infinite;
-    pointer-events: none; /* Keeps it from interfering with clicks */
-}
+        .scroll-indicator {
+            position: absolute;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            opacity: 0;
+            animation: appear 0.5s 0.8s forwards, float 2s ease-in-out infinite;
+            pointer-events: none; 
+            transition: opacity 0.4s ease; /* Added transition for smooth fade out */
+        }
 
-.scroll-indicator span {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--grey);
-}
+        /* 3. Added hidden class for JS toggle */
+        .scroll-indicator.is-hidden {
+            opacity: 0 !important;
+        }
 
-.arrow {
-    width: 1px;
-    height: 30px;
-    background: var(--grey);
-    position: relative;
-    overflow: hidden;
-}
+        .scroll-indicator span {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--grey);
+        }
 
-/* The "drawn" line animation */
-.arrow::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--black);
-    animation: scrollLine 2s infinite;
-}
+        .arrow {
+            width: 1px;
+            height: 10px;
+            background: var(--grey);
+            position: relative;
+            overflow: hidden;
+        }
 
-@keyframes float {
-    0%, 100% { transform: translate(-50%, 0); }
-    50% { transform: translate(-50%, 10px); }
-}
+        .arrow::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--black);
+            animation: scrollLine 2s infinite;
+        }
 
-@keyframes scrollLine {
-    0% { transform: translateY(-100%); }
-    50%, 100% { transform: translateY(100%); }
-}
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, 0); }
+            50% { transform: translate(-50%, 10px); }
+        }
 
-/* Hide indicator on very small screens if it overlaps text */
-@media (max-width: 700px) {
-    .scroll-indicator {
-        bottom: 20px;
-    }
-}
+        @keyframes scrollLine {
+            0% { transform: translateY(-100%); }
+            50%, 100% { transform: translateY(100%); }
+        }
 
-        /* ── WORK ── */
+        @media (max-width: 700px) {
+            .scroll-indicator {
+                bottom: 20px;
+            }
+        }
+
+        /* ── WORK SECTION ── */
+        .projects-section {
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px 0; 
+            scroll-snap-align: start; /* 4. Snap target */
+        }
+
         .work-header {
-            padding: 52px 0 22px;
+            padding: 0 0 22px;
             display: flex;
             justify-content: space-between;
             align-items: baseline;
@@ -259,14 +275,24 @@
         }
         .proj-img-col img { width: 100%; display: block; filter: grayscale(15%); }
 
+        /* ── BOTTOM FOLD WRAPPER ── */
+        .bottom-fold {
+            min-height: 100svh;
+            display: flex;
+            flex-direction: column;
+            scroll-snap-align: start; /* 5. Snap target */
+        }
+
         /* ── ABOUT ── */
         .about {
-            padding: 88px 0;
-            border-top: 1px solid var(--black);
+            flex: 1; /* Takes remaining height */
+            padding: 40px 0;
+            
             display: grid;
             grid-template-columns: 200px 1fr;
             gap: 72px;
             align-items: start;
+            align-content: center; /* Vertically centers the grid items */
         }
         .about p {
             font-size: clamp(24px, 3vw, 48px);
@@ -317,7 +343,6 @@
         @media (max-width: 700px) {
             .container { padding: 0 20px; }
 
-            /* Hero: stack vertically, photo first, both fit in viewport */
             .hero {
                 grid-template-columns: 1fr;
                 grid-template-rows: auto 1fr;
@@ -333,7 +358,6 @@
             }
             .hero-photo img {
                 width: auto;
-                
                 height: 100%;
                 max-height: 100%;
                 object-fit: cover;
@@ -350,70 +374,58 @@
             .meta-value { font-size: 14px; }
             .meta-item { padding: 10px 0; }
 
-            /* Projects: stack, show image below content */
-           .project {
-        grid-template-columns: 44px 1fr;
-        grid-template-rows: auto auto;
-    }
-
-    .proj-body { 
-        padding: 20px 16px; 
-    }
-
-    .proj-img-col {
-        /* Change from grid-column: 2 to span both columns */
-        grid-column: 1 / span 2; 
-        border-left: none;
-        border-top: 1px solid var(--light);
-        /* Remove horizontal padding (0) to hit screen edges */
-        padding: 16px 0 24px 0; 
-        display: block;
-    }
-
-    .proj-img-col img { 
-        width: 100%;
-        max-height: none; /* Allow it to scale naturally */
-        object-fit: cover; 
-    }
-
-    /* Adjust the mobile link padding since we removed it from the container */
-    .proj-link-mobile {
-        display: block;
-        margin-top: 20px;
-        padding: 0 16px; /* Re-add some padding so text doesn't hit the edge */
-    }
-            .about { grid-template-columns: 1fr; gap: 14px; padding: 52px 0; }
+            .project {
+                grid-template-columns: 44px 1fr;
+                grid-template-rows: auto auto;
+            }
+            .proj-body { 
+                padding: 20px 16px; 
+            }
+            .proj-img-col {
+                grid-column: 1 / span 2; 
+                border-left: none;
+                border-top: 1px solid var(--light);
+                padding: 16px 0 24px 0; 
+                display: block;
+            }
+            .proj-img-col img { 
+                width: 100%;
+                max-height: none;
+                object-fit: cover; 
+            }
+            .proj-link-mobile {
+                display: block;
+                margin-top: 20px;
+                padding: 0 16px;
+            }
+            .about { grid-template-columns: 1fr; gap: 14px; padding: 40px 0; align-content: center; }
             footer { flex-direction: column; gap: 12px; text-align: center; }
         }
         
-        /* 1. Hide the link by default (Desktop) */
-.proj-link-mobile {
-    display: none; 
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--black);
-    text-decoration: none;
-    margin-top: 16px;
-    letter-spacing: 0.04em;
-    
-    width: fit-content;
-}
+        .proj-link-mobile {
+            display: none; 
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            color: var(--black);
+            text-decoration: none;
+            margin-top: 16px;
+            letter-spacing: 0.04em;
+            width: fit-content;
+        }
 
-/* 2. Show and style it only on Mobile */
-@media (max-width: 700px) {
-    .proj-link-mobile {
-        display: block; /* Shows it below the image */
-        margin-top: 20px;
-        padding-bottom: 2px;
-    }
-    
-    /* Ensure the column allows vertical stacking of img + link */
-    .proj-img-col {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-}
+        @media (max-width: 700px) {
+            .proj-link-mobile {
+                display: block;
+                margin-top: 20px;
+                padding-bottom: 2px;
+            }
+            
+            .proj-img-col {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
     </style>
 </head>
 <body>
@@ -442,7 +454,7 @@
                 </div>
                 <div class="meta-item">
                     <span class="meta-label">Experience</span>
-                    <span class="meta-value">Air Liquide, Innovation Campus Paris, 2025–26</span>
+                    <span class="meta-value">Air Liquide, Paris, 2025–2026</span>
                 </div>
                 <div class="meta-item">
                     <span class="meta-label">Location</span>
@@ -452,73 +464,86 @@
         </div>
         <div class="hero-photo">
             <img src="https://stepzach.github.io/pdesport/IMG_0822.jpeg?raw=true" alt="Zachary Stephens">
-            <p class="photo-caption">Me at the Olympics (spectator) Paris, 2024</p>
+            <p class="photo-caption">Me at the Olympics Paris, 2024 (spectator)</p>
         </div>
         <div class="scroll-indicator">
-    <span>Scroll</span>
-    <div class="arrow"></div>
-</div>
+            <span>Scroll</span>
+            <div class="arrow"></div>
+        </div>
     </section>
 </div>
 
 <div class="container">
-    <div class="work-header">
-        <span class="section-label">Selected Work</span>
-        <span class="section-label">02 Projects</span>
-    </div>
+    <div class="projects-section">
+        <div class="work-header">
+            <span class="section-label">Selected Work</span>
+            <span class="section-label">02 Projects</span>
+        </div>
 
-    <div class="project">
-        <span class="proj-index">001</span>
-        <div class="proj-body">
-            <h3 class="proj-title-main">Air Liquide — <em>Exeltop Valve Guard</em></h3>
-            <p class="proj-sub">Two injection molded shells mounted on 22L gas cylinders. Withstands 1.2m drop</p>
-            <div class="proj-tags">
-                <span>Prototyping</span>
-                <span>CAD Modelling</span>
-                <span>Simulations</span>
+        <div class="project">
+            <span class="proj-index">001</span>
+            <div class="proj-body">
+                <h3 class="proj-title-main">Air Liquide — <em>Exeltop Valve Guard</em></h3>
+                <p class="proj-sub">Two injection molded shells mounted on 22L gas cylinders. Withstands 1.2m drop</p>
+                <div class="proj-tags">
+                    <span>Prototyping</span>
+                    <span>CAD Modelling</span>
+                    <span>Simulations</span>
+                </div>
+            </div>
+            <div class="proj-img-col">
+                <img src="https://www.energas.co.uk/statics/styles/crop_image_illustrated_editeur_rte_/s3/2022-11/exeltop_2.jpg.webp?itok=bJ0I2QDw" alt="Air Liquide Exeltop">
+                <a href="https://link.com" class="proj-link-mobile">Check it out at: link.com ↗</a>
             </div>
         </div>
-        <div class="proj-img-col">
-            <img src="https://s6.imgcdn.dev/YvIZjv.png" alt="Air Liquide Exeltop">
-            <a href="https://link.com" class="proj-link-mobile">Check it out at: link.com ↗</a>
-        </div>
-    </div>
 
-    <div class="project">
-        <span class="proj-index">002</span>
-        <div class="proj-body">
-            <h3 class="proj-title-main">Leeds Student Radio — <em>Website Design</em></h3>
-            <p class="proj-sub">Built from scratch with HTML, CSS and JS. Using Google sheets to update the content and Google Firebase for the live-chat</p>
-            <div class="proj-tags">
-                <span>UX Research</span>
-                <span>Brand Identity</span>
-              
+        <div class="project">
+            <span class="proj-index">002</span>
+            <div class="proj-body">
+                <h3 class="proj-title-main">Leeds Student Radio — <em>Website Design</em></h3>
+                <p class="proj-sub">Built from scratch with HTML, CSS and JS. Using Google sheets to update the content and Google Firebase for the live-chat</p>
+                <div class="proj-tags">
+                    <span>UX Research</span>
+                    <span>Brand Identity</span>
+                </div>
+            </div>
+            
+            <div class="proj-img-col">
+                <img src="https://github.com/Stepzach/pdesport/blob/main/Screenshot%202026-03-10%20at%2011.34.53-front.png?raw=true" alt="Leeds Student Radio">
+                <a href="https://thisislsr.com" class="proj-link-mobile">Check it out at: <u>https://thisislsr.com</u></a>
             </div>
         </div>
-        
-        <div class="proj-img-col">
-            <img src="https://github.com/Stepzach/pdesport/blob/main/Screenshot%202026-03-10%20at%2011.34.53-front.png?raw=true" alt="Leeds Student Radio">
-            <a href="https://thisislsr.com" class="proj-link-mobile">Check it out at:<u>https://thisislsr.com</u></a>
+    </div>
+
+    <div class="bottom-fold">
+        <div class="about">
+            <span class="section-label">About</span>
+            <p>
+                I'm a product designer based in London, trained at the University of Leeds.
+                I believe good design is <em>almost invisible</em> — it simply removes friction
+                between a person and what they're trying to do.
+            </p>
         </div>
-        
-        
-    </div>
 
-    <div class="about">
-        <span class="section-label">About</span>
-        <p>
-            I'm a product designer based in London, trained at the University of Leeds.
-            I believe good design is <em>almost invisible</em> — it simply removes friction
-            between a person and what they're trying to do.
-        </p>
+        <footer>
+            <span class="footer-mono">Zachary Stephens — 2026</span>
+            <a href="mailto:zachary@example.com">zachary@example.com</a>
+            <span class="footer-mono">London, UK</span>
+        </footer>
     </div>
-
-    <footer>
-        <span class="footer-mono">Zachary Stephens — 2026</span>
-        <a href="mailto:zachary@example.com">zachary@example.com</a>
-        <span class="footer-mono">London, UK</span>
-    </footer>
 </div>
+
+<script>
+    document.addEventListener('scroll', () => {
+        const indicator = document.querySelector('.scroll-indicator');
+        // Once the user scrolls past 30 pixels, fade out the indicator
+        if (window.scrollY > 30) {
+            indicator.classList.add('is-hidden');
+        } else {
+            indicator.classList.remove('is-hidden');
+        }
+    });
+</script>
 
 </body>
 </html>
