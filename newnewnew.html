@@ -263,11 +263,14 @@
     min-height: 100lvh;
     display: flex;
     flex-direction: column;
-    /* Changed from start to end to prevent the mobile jump */
-    scroll-snap-align: end; 
+    scroll-snap-align: start;  /* ← was 'end' */
     scroll-snap-stop: always;
 }
-
+@media (max-width: 700px) {
+    html {
+        scroll-snap-type: y proximity; /* ← was 'mandatory' */
+    }
+}
         /* ── ABOUT ── */
         .about {
             flex: 1; 
