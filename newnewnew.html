@@ -230,7 +230,7 @@
             cursor: default;
         }
         .project:last-child { border-bottom: 1px solid var(--black); }
-        .project:hover .proj-title-main { text-decoration: underline; text-underline-offset: 5px; }
+       
 
         .proj-index {
             font-family: 'IBM Plex Mono', monospace;
@@ -340,6 +340,9 @@
         }
 
         /* ── MOBILE ── */
+         @media (min-width: 701px) {
+         .proj-title-main:hover { cursor:pointer; }
+         }
         @media (max-width: 700px) {
             .container { padding: 0 20px; }
 
@@ -411,6 +414,7 @@
             margin-top: 16px;
             letter-spacing: 0.04em;
             width: fit-content;
+            text-underline-offset: 5px; 
         }
 
         @media (max-width: 700px) {
@@ -426,6 +430,10 @@
                 align-items: flex-start;
             }
         }
+        .proj-title-main a {
+  text-decoration: none;
+  color: inherit;
+}
     </style>
 </head>
 <body>
@@ -477,30 +485,19 @@
     <div class="projects-section">
         <div class="work-header">
             <span class="section-label">Selected Work</span>
-            <span class="section-label">02 Projects</span>
+            <span class="section-label">01 Project</span>
         </div>
 
-        <div class="project">
-            <span class="proj-index">001</span>
-            <div class="proj-body">
-                <h3 class="proj-title-main">Air Liquide — <em>Exeltop Valve Guard</em></h3>
-                <p class="proj-sub">Two injection molded shells mounted on 22L gas cylinders. Withstands 1.2m drop</p>
-                <div class="proj-tags">
-                    <span>Prototyping</span>
-                    <span>CAD Modelling</span>
-                    <span>Simulations</span>
-                </div>
-            </div>
-            <div class="proj-img-col">
-                <img src="https://www.energas.co.uk/statics/styles/crop_image_illustrated_editeur_rte_/s3/2022-11/exeltop_2.jpg.webp?itok=bJ0I2QDw" alt="Air Liquide Exeltop">
-                <a href="https://link.com" class="proj-link-mobile">Check it out at: link.com ↗</a>
-            </div>
-        </div>
+      
 
         <div class="project">
-            <span class="proj-index">002</span>
+            <span class="proj-index">2026</span>
             <div class="proj-body">
-                <h3 class="proj-title-main">Leeds Student Radio — <em>Website Design</em></h3>
+               <h3 class="proj-title-main">
+  <a href="https://thisislsr.com">
+    Leeds Student Radio<br> — <em>Website Design</em>
+  </a>
+</h3>
                 <p class="proj-sub">Built from scratch with HTML, CSS and JS. Using Google sheets to update the content and Google Firebase for the live-chat</p>
                 <div class="proj-tags">
                     <span>UX Research</span>
@@ -527,7 +524,7 @@
 
         <footer>
             <span class="footer-mono">Zachary Stephens — 2026</span>
-            <a href="mailto:zachary@example.com">zachary@example.com</a>
+            <a href="mailto:zachstep05@gmail.com">zachstep05@gmail.com</a>
             <span class="footer-mono">London, UK</span>
         </footer>
     </div>
