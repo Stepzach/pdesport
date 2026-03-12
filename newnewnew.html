@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zachary Stephens — Product Designer</title>
+    <title>Zachary Stephens</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;1,300&family=IBM+Plex+Serif:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
     <style>
@@ -162,14 +162,17 @@
             color: var(--grey);
         }
 
+      /* ── REVISED ARROW CSS ── */
         .arrow {
-            width: 1px;
-            height: 10px;
-            background: var(--grey);
-            position: relative;
-            overflow: hidden;
+            width: 12px;
+            height: 12px;
+            border-right: 1px solid white;
+            border-bottom: 1px solid white;
+            transform: rotate(45deg); /* Rotates a square to make an arrow point */
+            margin-bottom: 10px;
         }
 
+        /* The animated "trailing" arrow for effect */
         .arrow::after {
             content: '';
             position: absolute;
@@ -177,26 +180,25 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: var(--black);
-            animation: scrollLine 2s infinite;
+            border-right: 1px solid var(--black);
+            border-bottom: 1px solid var(--black);
+            animation: arrowSlide 2s infinite;
+            opacity: 0;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translate(-50%, 0); }
-            50% { transform: translate(-50%, 10px); }
-        }
-
-        @keyframes scrollLine {
-            0% { transform: translateY(-100%); }
-            50%, 100% { transform: translateY(100%); }
-        }
-
-        @media (max-width: 700px) {
-            .scroll-indicator {
-                bottom: 20px;
+        @keyframes arrowSlide {
+            0% { 
+                opacity: 0; 
+                transform: translate(-5px, -5px); 
+            }
+            50% { 
+                opacity: 1; 
+            }
+            100% { 
+                opacity: 0; 
+                transform: translate(5px, 5px); 
             }
         }
-
         /* ── WORK SECTION ── */
         .projects-section {
             min-height: 100svh;
@@ -436,9 +438,12 @@
 }
 /* Add this anywhere in your CSS to upgrade the snapping friction */
 .above-fold, 
-.projects-section, 
-.bottom-fold {
+.projects-section {
     scroll-snap-align: start;
+    scroll-snap-stop: always; /* Prevents fast swiping past sections */
+}
+.bottom-fold {
+    scroll-snap-align: end;
     scroll-snap-stop: always; /* Prevents fast swiping past sections */
 }
     </style>
@@ -473,16 +478,16 @@
                 </div>
                 <div class="meta-item">
                     <span class="meta-label">Location</span>
-                    <span class="meta-value">London &amp; Paris</span>
+                    <span class="meta-value">London, UK</span>
                 </div>
             </div>
         </div>
         <div class="hero-photo">
             <img src="https://stepzach.github.io/pdesport/IMG_0822.jpeg?raw=true" alt="Zachary Stephens">
-            <p class="photo-caption">Me at the Olympics Paris, 2024 (spectator)</p>
+            <p class="photo-caption">Me at the 2024 Paris Olympics (spectator)</p>
         </div>
         <div class="scroll-indicator">
-            <span>Scroll</span>
+           
             <div class="arrow"></div>
         </div>
     </section>
@@ -523,8 +528,8 @@
         <div class="about">
             <span class="section-label">About</span>
             <p>
-                I'm a product designer based in London, trained at the University of Leeds.
-                I believe good design is <em>almost invisible</em> — it simply removes friction
+                Hi! I'm a product design student, currently in my 3rd year at the University of Leeds.
+                I believe good design is <em>almost invisible</em> - it removes friction
                 between a person and what they're trying to do.
             </p>
         </div>
