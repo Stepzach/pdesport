@@ -12,8 +12,9 @@
         
         /* 1. Added Scroll Snap properties to HTML */
         html { 
-            scroll-behavior: smooth; 
-            scroll-snap-type: y proximity; /* 'proximity' gives that slight assist without forcing it aggressively */
+           scroll-behavior: smooth; 
+    /* Changed from proximity to mandatory */
+    scroll-snap-type: y mandatory;
         }
 
         :root {
@@ -229,7 +230,6 @@
             animation: appear 0.4s forwards;
             cursor: default;
         }
-        .project:last-child { border-bottom: 1px solid var(--black); }
        
 
         .proj-index {
@@ -273,7 +273,7 @@
             display: flex;
             align-items: center;
         }
-        .proj-img-col img { width: 100%; display: block; filter: grayscale(15%); }
+        .proj-img-col img { width: 100%; display: block; }
 
         /* ── BOTTOM FOLD WRAPPER ── */
         .bottom-fold {
@@ -433,6 +433,13 @@
         .proj-title-main a {
   text-decoration: none;
   color: inherit;
+}
+/* Add this anywhere in your CSS to upgrade the snapping friction */
+.above-fold, 
+.projects-section, 
+.bottom-fold {
+    scroll-snap-align: start;
+    scroll-snap-stop: always; /* Prevents fast swiping past sections */
 }
     </style>
 </head>
