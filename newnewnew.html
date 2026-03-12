@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zachary Stephens — Product Designer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #0d0d0b;
+            --paper: #f4f0e8;
+            --warm: #c8b89a;
+            --accent: #2a3a2e;
+            --pale: #e8e2d4;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--paper);
+            color: var(--ink);
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            overflow-x: hidden;
+        }
+
+        /* Noise overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.3;
+        }
+
+        /* =====================
+           HERO — DESKTOP
+           rows: nav | content+image | stats
+        ===================== */
+        .hero {
+            /* Changed from fixed height to min-height to allow the aspect-ratio image to push the container if needed */
+            min-height: 100dvh; 
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto 1fr auto;
+            grid-template-areas:
+                "nav    nav"
+                "left   right"
+                "stats  stats";
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Vertical divider */
+        .hero::after {
+            content: '';
+            position: absolute;
+            left: 50%; top: 0; bottom: 0;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, var(--warm) 15%, var(--warm) 85%, transparent);
+            opacity: 0.35;
+            pointer-events: none;
+        }
+
+        /* NAV */
+        .nav {
+            grid-area: nav;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 28px 52px;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.1s forwards;
+        }
+        .nav-name {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+        .nav-links { display: flex; gap: 28px; list-style: none; }
+        .nav-links a {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--ink);
+            opacity: 0.42;
+            transition: opacity 0.3s;
+        }
+        .nav-links a:hover { opacity: 1; }
+
+        /* LEFT — title */
+        .hero-left {
+            grid-area: left;
+            display: flex;
+            align-items: center;
+            padding: 20px 52px 32px;
+            opacity: 0;
+            animation: fadeUp 0.8s 0.3s forwards;
+        }
+        .hero-title {
+            font-size: clamp(40px, 5.2vw, 82px);
+            font-weight: 300;
+            line-height: 0.93;
+            letter-spacing: -0.025em;
+        }
+        .hero-title em { font-style: italic; color: var(--accent); }
+
+        /* RIGHT — image */
+        .hero-right {
+            grid-area: right;
+            position: relative;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            animation: fadeIn 1.2s 0.15s forwards;
+        }
+        
+        /* New Wrapper to lock aspect ratio */
+        .hero-img-container {
+            position: relative;
+            width: 100%;
+            max-width: 480px; /* Sensible cap so it doesn't get uncomfortably huge on 4k screens */
+            aspect-ratio: 3 / 4; /* <-- This forces the aspect ratio to remain constant everywhere */
+            overflow: hidden;
+        }
+        
+        .hero-img-container img {
+            width: 100%; 
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            filter: sepia(10%) contrast(1.04);
+            transition: transform 7s ease;
+            display: block;
+        }
+        .hero-img-container:hover img { transform: scale(1.03); }
+        .hero-img-container::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(244,240,232,0.1) 0%, transparent 55%);
+            pointer-events: none;
+        }
+        .hero-index {
+            position: absolute; bottom: 18px; left: 22px;
+            font-family: 'DM Mono', monospace;
+            font-size: 9px; letter-spacing: 0.2em;
+            color: var(--paper); opacity: 0.6;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+
+        /* STATS BAR */
+        .stats-bar {
+            grid-area: stats;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-top: 1px solid var(--pale);
+            opacity: 0;
+            animation: fadeUp 0.8s 0.5s forwards;
+        }
+        .stat {
+            padding: 18px 52px 20px;
+            border-right: 1px solid var(--pale);
+            display: flex; flex-direction: column; gap: 5px;
+        }
+        .stat:last-child { border-right: none; }
+        .stat-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px; letter-spacing: 0.2em;
+            text-transform: uppercase; opacity: 0.36;
+        }
+        .stat-value { font-size: 15px; font-weight: 300; letter-spacing: 0.01em; }
+
+        /* =====================
+           TABLET  ≤ 900px
+        ===================== */
+        @media (max-width: 900px) {
+            .nav { padding: 22px 32px; }
+            .hero-left { padding: 16px 32px 24px; }
+            .hero-right { padding: 32px; }
+            .stat { padding: 16px 32px 18px; }
+            .stat-value { font-size: 13px; }
+        }
+
+        /* =====================
+           MOBILE  ≤ 600px
+           Layout: nav → image → title → stats
+        ===================== */
+        @media (max-width: 600px) {
+            .hero {
+                min-height: 100dvh;
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto auto;
+                grid-template-areas:
+                    "nav"
+                    "right"
+                    "left"
+                    "stats";
+            }
+            .hero::after { display: none; }
+
+            .nav { padding: 18px 20px; }
+            .nav-links { gap: 18px; }
+            .nav-name { font-size: 10px; }
+            .nav-links a { font-size: 10px; }
+
+            .hero-right {
+                height: auto;
+                min-height: 0;
+                max-height: none;
+                padding: 0 20px 24px;
+            }
+
+            .hero-left {
+                padding: 24px 20px 16px;
+                align-items: flex-start;
+            }
+            .hero-title { font-size: clamp(38px, 10.5vw, 58px); }
+
+            /* 2-col stats grid on mobile */
+            .stats-bar {
+                grid-template-columns: 1fr 1fr;
+            }
+            .stat {
+                padding: 14px 20px 16px;
+                border-right: 1px solid var(--pale);
+                border-bottom: 1px solid var(--pale);
+            }
+            .stat:nth-child(2n)   { border-right: none; }
+            .stat:nth-child(3),
+            .stat:nth-child(4)    { border-bottom: none; }
+            .stat-label { font-size: 8px; }
+            .stat-value { font-size: 13px; }
+        }
+
+        /* =====================
+           MARQUEE
+        ===================== */
+        .marquee-wrap {
+            overflow: hidden;
+            border-top: 1px solid var(--pale);
+            padding: 16px 0;
+            background: var(--ink);
+        }
+        .marquee-track {
+            display: flex;
+            animation: marquee 20s linear infinite;
+            white-space: nowrap;
+        }
+        .marquee-item {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px; letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--paper); opacity: 0.42;
+            padding: 0 36px; flex-shrink: 0;
+        }
+        .marquee-item.highlight { opacity: 1; color: var(--warm); }
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+
+        /* =====================
+           WORK SECTION
+        ===================== */
+        .section { padding: 88px 52px; }
+        @media (max-width: 600px) { .section { padding: 56px 20px; } }
+
+        .section-header {
+            display: flex; justify-content: space-between; align-items: baseline;
+            margin-bottom: 48px; padding-bottom: 18px;
+            border-bottom: 1px solid var(--pale);
+        }
+        .section-title, .section-count {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+        }
+        .section-title { opacity: 0.36; }
+        .section-count  { opacity: 0.26; }
+
+        .projects {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+        }
+        @media (max-width: 600px) { .projects { grid-template-columns: 1fr; } }
+
+        .project-card {
+            background: var(--pale);
+            padding: 40px 36px;
+            position: relative; overflow: hidden;
+            transition: background 0.4s ease;
+            
+        }
+        
+        .project-card:hover { filter:brightness(0.92); }
+        .project-card:hover .proj-num,
+      
+      
+       
+
+        .proj-num {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px; letter-spacing: 0.18em; opacity: 0.3;
+            margin-bottom: 48px; transition: color 0.4s;
+        }
+        .proj-title {
+            font-size: clamp(24px, 2.6vw, 40px);
+            font-weight: 300; line-height: 1.08; letter-spacing: -0.02em;
+            margin-bottom: 24px; transition: color 0.4s;
+        }
+        .proj-title em { font-style: italic; }
+        .proj-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .proj-tags span {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px; letter-spacing: 0.13em; text-transform: uppercase;
+            border: 1px solid rgba(0,0,0,0.14); padding: 4px 9px;
+            transition: all 0.4s;
+        }
+        .proj-arrow {
+            font-size: 20px; opacity: 0;
+            transform: translate(-6px, 6px); transition: all 0.4s ease;
+            position: absolute; bottom: 32px; right: 32px;
+        }
+       /* Styling for the image inside project 001 */
+.project-card.featured {
+    display: flex;
+    align-items: center; /* Centers items vertically */
+    justify-content: space-between;
+    gap: 40px;
+}
+
+.proj-content {
+    flex: 1;
+}
+
+.proj-image {
+    flex: 1;
+    height: 100%;
+    max-height: 300px;
+    overflow: hidden;
+    border-radius: 2px; /* Subtle softening */
+}
+
+.proj-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+   
+    transition: transform 0.8s ease;
+}
+
+
+
+/* Ensure mobile layout stacks the image */
+@media (max-width: 600px) {
+    .project-card.featured {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+    }
+    .proj-image {
+        width: 100%;
+        max-height: 200px;
+    }
+}
+        .project-card.featured .proj-title { font-size: clamp(34px, 3.8vw, 56px); }
+        @media (max-width: 600px) {
+            .project-card.featured { grid-column: 1; flex-direction: column; gap: 16px; min-height: auto; }
+        }
+
+        /* =====================
+           ABOUT
+        ===================== */
+        .about-strip {
+            padding: 80px 52px;
+            border-top: 1px solid var(--pale);
+            display: grid;
+            grid-template-columns: 160px 1fr;
+            gap: 52px; align-items: start;
+        }
+        @media (max-width: 768px) {
+            .about-strip { grid-template-columns: 1fr; gap: 16px; padding: 56px 20px; }
+        }
+        .about-label {
+            font-family: 'DM Mono', monospace;
+            font-size: 9px; letter-spacing: 0.2em;
+            text-transform: uppercase; opacity: 0.36; padding-top: 8px;
+        }
+        .about-text {
+            font-size: clamp(20px, 2.3vw, 34px);
+            font-weight: 300; line-height: 1.5; letter-spacing: -0.01em;
+        }
+        .about-text em { font-style: italic; color: var(--accent); }
+
+        /* =====================
+           FOOTER
+        ===================== */
+        footer {
+            padding: 28px 52px;
+            border-top: 1px solid var(--pale);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        @media (max-width: 600px) {
+            footer { flex-direction: column; gap: 12px; padding: 24px 20px; text-align: center; }
+        }
+        .footer-name {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px; letter-spacing: 0.15em;
+            text-transform: uppercase; opacity: 0.32;
+        }
+        .footer-email {
+            font-size: 15px; font-weight: 300; color: var(--ink);
+            text-decoration: none; border-bottom: 1px solid var(--warm);
+            padding-bottom: 2px; transition: border-color 0.3s;
+        }
+        .footer-email:hover { border-color: var(--ink); }
+        .footer-copy {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px; opacity: 0.26; letter-spacing: 0.1em;
+        }
+
+        /* =====================
+           ANIMATIONS
+        ===================== */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero">
+
+        <nav class="nav">
+            <span class="nav-name">Zachary Stephens</span>
+            <ul class="nav-links">
+                <li><a href="#">CV↗</a></li>
+               
+            </ul>
+        </nav>
+
+        <div class="hero-left">
+            <h1 class="hero-title">
+                Designing<br>
+                products <em style="color:#c85f00">people actually</em><br>
+                want to use.
+            </h1>
+        </div>
+
+        <div class="hero-right">
+            <div class="hero-img-container">
+                <img src="https://stepzach.github.io/pdesport/IMG_4960.png?raw=true" alt="Zachary Stephens">
+                <span class="hero-index">001 / Portrait</span>
+            </div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat">
+                <span class="stat-label">Discipline</span>
+                <span class="stat-value">Industrial & IxD</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Education</span>
+                <span class="stat-value">Product Design BSc, Leeds</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Experience</span>
+                <span class="stat-value">Air Liquide, 2025–26</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Location</span>
+                <span class="stat-value">London, UK</span>
+            </div>
+        </div>
+
+    </section>
+
+    <div class="marquee-wrap">
+        <div class="marquee-track">
+            <span class="marquee-item">Industrial Design</span>
+            <span class="marquee-item highlight">✦</span>
+            <span class="marquee-item">Interaction Design</span>
+            <span class="marquee-item highlight">✦</span>
+            <span class="marquee-item">Prototyping</span>
+            <span class="marquee-item highlight">✦</span>
+            <span class="marquee-item">User Research</span>
+            <span class="marquee-item highlight">✦</span>
+            <span class="marquee-item">Figma</span>
+            <span class="marquee-item highlight">✦</span>
+            <span class="marquee-item">CAD / SolidWorks</span>
+            <span class="marquee-item highlight">✦</span>
+            <span class="marquee-item">Design Systems</span>
+            <span class="marquee-item highlight">✦</span>
+            <span class="marquee-item">Industrial Design</span>
+            <span class="marquee-item highlight">✦</span>
+            <span class="marquee-item">Interaction Design</span>
+            <span class="marquee-item highlight">✦</span>
+            <span class="marquee-item">Prototyping</span>
+            <span class="marquee-item highlight">✦</span>
+            <span class="marquee-item">User Research</span>
+            <span class="marquee-item highlight">✦</span>
+            <span class="marquee-item">Figma</span>
+            <span class="marquee-item highlight">✦</span>
+            <span class="marquee-item">CAD / SolidWorks</span>
+            <span class="marquee-item highlight">✦</span>
+            <span class="marquee-item">Design Systems</span>
+            <span class="marquee-item highlight">✦</span>
+        </div>
+    </div>
+
+    <section class="section">
+        <div class="section-header">
+            <span class="section-title">Selected Work</span>
+            <span class="section-count">03 Projects</span>
+        </div>
+        <div class="projects">
+            <div class="project-card featured">
+                <div>
+                    <div class="proj-num">001</div>
+                    <h3 class="proj-title">Air Liquide<br><em>'Exeltop' Valve Guard</em></h3>
+                    <div class="proj-tags">
+                        <span>Industrial</span>
+                        <span>UX Research</span>
+                        <span>Prototyping</span>
+                    </div>
+                    
+                </div>
+                <div class="proj-image">
+            <img src="https://s6.imgcdn.dev/YvIZjv.png" alt="Air Liquide Project">
+        </div>
+                <span class="proj-arrow">→</span>
+            </div>
+           <div class="project-card featured">
+                <div>
+                    <div class="proj-num">001</div>
+                    <h3 class="proj-title">Leeds Student Radio<br><em>Website Design</em></h3>
+                    <div class="proj-tags">
+                        <span>Industrial</span>
+                        <span>UX Research</span>
+                        <span>Prototyping</span>
+                    </div>
+                    
+                </div>
+                <div class="proj-image">
+            <img src="https://github.com/Stepzach/pdesport/blob/main/Screenshot%202026-03-10%20at%2011.34.53-front.png?raw=true" alt="Air Liquide Project">
+        </div>
+                <span class="proj-arrow">→</span>
+            </div>
+          
+               
+        </div>
+    </section>
+
+    <div class="about-strip">
+        <span class="about-label">About</span>
+        <p class="about-text">
+            I'm a product designer based in London, trained at the University of Leeds.
+            I believe good design is <em>almost invisible</em> — it simply removes friction
+            between a person and what they're trying to do.
+        </p>
+    </div>
+
+    <footer>
+        <span class="footer-name">Zachary Stephens — 2026</span>
+        <a href="mailto:zachary@example.com" class="footer-email">zachary@example.com</a>
+        <span class="footer-copy">London, UK</span>
+    </footer>
+
+</body>
+</html>
