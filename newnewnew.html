@@ -258,13 +258,13 @@
                 
             }
 
-        /* ── BOTTOM FOLD WRAPPER ── */
-       /* ── BOTTOM FOLD WRAPPER ── */
+ /* ── BOTTOM FOLD WRAPPER ── */
 .bottom-fold {
-  min-height: 100lvh;
+    min-height: 100lvh;
     display: flex;
     flex-direction: column;
-    scroll-snap-align: start; 
+    /* Changed from start to end to prevent the mobile jump */
+    scroll-snap-align: end; 
     scroll-snap-stop: always;
 }
 
