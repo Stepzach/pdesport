@@ -250,18 +250,6 @@ html, body {
     gap: 10px;
   }
 
-  #aim-instruction {
-    font-family: 'DM Mono', monospace;
-    font-size: 12px;
-    color: var(--ink-soft);
-    letter-spacing: .06em;
-    text-align: center;
-    background: rgba(242,240,235,.88);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 6px 14px;
-    backdrop-filter: blur(4px);
-  }
 
   #ready-btn {
     max-width: 280px;
@@ -385,7 +373,7 @@ html, body {
       <div id="player-count-badge">— alive</div>
     </div>
     <div id="bottom-ui">
-      <div id="aim-instruction">drag your circle to aim</div>
+    
       <button class="btn btn-accent btn-disabled" id="ready-btn">Ready!</button>
     </div>
     <div id="countdown-overlay">
@@ -613,7 +601,7 @@ let readyStatus = {};
 
 // ── FIXED ASPECT RATIO CONSTANT ──
 // 10:16 is a great fit for modern mobile screens while leaving room for UI
-const ARENA_ASPECT = 10 / 16; 
+const ARENA_ASPECT = 11 / 16; 
 let ARENA_W = 0;
 let ARENA_H = 0;
 
@@ -625,8 +613,8 @@ function resize() {
   
   // Calculate the maximum space we are willing to use
   // We leave 15% horizontal margin and 35% vertical margin for the UI
-  const availableW = W * 0.95;
-  const availableH = H * 0.70;
+  const availableW = W * 0.98;
+  const availableH = H * 0.60;
   
   // Fit the fixed 10:16 aspect ratio into the available space
   if (availableW / availableH > ARENA_ASPECT) {
