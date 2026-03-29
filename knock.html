@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>BUMP</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap');
+
+  :root {
+    --bg: #F2F0EB;
+    --surface: #FFFFFF;
+    --ink: #1A1A1A;
+    --ink-soft: #6B6B6B;
+    --ink-faint: #D0CEC9;
+    --accent: #FF3B30;
+    --accent2: #007AFF;
+    --border: #E0DDD8;
+    --r: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    font-family: 'Syne', sans-serif;
+    color: var(--ink);
+    overflow: hidden;
+    touch-action: none;
+    user-select: none;
+  }
+
+  #app {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* ── SCREENS ── */
+  .screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 24px;
+    gap: 20px;
+    animation: fadeIn .25s ease;
+  }
+  .screen.active { display: flex; }
+
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+  .logo {
+    font-size: clamp(72px, 20vw, 120px);
+    font-weight: 800;
+    letter-spacing: -4px;
+    line-height: 1;
+    color: var(--ink);
+  }
+  .logo span { color: var(--accent); }
+
+  .tagline {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--ink-soft);
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--r);
+    padding: 24px;
+    width: 100%;
+    max-width: 360px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .input-group { display: flex; flex-direction: column; gap: 6px; }
+  .input-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  input[type=text] {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    background: var(--bg);
+    color: var(--ink);
+    outline: none;
+    transition: border-color .15s;
+    letter-spacing: -.5px;
+  }
+  input[type=text]:focus { border-color: var(--ink); }
+  input[type=text]::placeholder { color: var(--ink-faint); font-weight: 700; }
+
+  .btn {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    letter-spacing: -.3px;
+    transition: transform .1s, opacity .15s;
+    touch-action: manipulation;
+  }
+  .btn:active { transform: scale(.97); }
+  .btn-primary { background: var(--ink); color: #fff; }
+  .btn-secondary { background: var(--surface); color: var(--ink); border: 1.5px solid var(--border); }
+  .btn-accent { background: var(--accent); color: #fff; }
+  .btn-disabled { opacity: .4; pointer-events: none; }
+
+  .divider {
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-faint);
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  /* ── LOBBY ── */
+  #lobby-screen { justify-content: flex-start; padding-top: 48px; }
+
+  .room-header {
+    width: 100%; max-width: 360px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .room-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing:.1em; text-transform:uppercase; }
+  .room-code {
+    font-size: 42px; font-weight: 800; letter-spacing: -2px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .copy-btn {
+    font-size: 12px; font-weight: 700; font-family:'DM Mono',monospace;
+    background: var(--bg); border: 1.5px solid var(--border); border-radius:6px;
+    padding: 4px 10px; cursor:pointer; color: var(--ink-soft); letter-spacing:.05em;
+    transition: border-color .15s;
+  }
+  .copy-btn:active { border-color: var(--ink); }
+
+  .player-list {
+    width:100%; max-width:360px;
+    display: flex; flex-direction:column; gap:8px;
+  }
+  .player-slot {
+    display:flex; align-items:center; gap:12px;
+    padding: 12px 16px;
+    background: var(--surface); border:1.5px solid var(--border); border-radius:8px;
+    font-size:16px; font-weight:700; letter-spacing:-.3px;
+  }
+  .player-dot {
+    width:14px; height:14px; border-radius:50%; flex-shrink:0;
+  }
+  .player-slot.empty { color: var(--ink-faint); font-weight:400; font-size:14px; font-family:'DM Mono',monospace; }
+  .player-slot.empty .player-dot { background:var(--ink-faint); }
+
+  .host-badge {
+    margin-left:auto; font-family:'DM Mono',monospace; font-size:10px;
+    letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft);
+    border:1px solid var(--border); border-radius:4px; padding:2px 6px;
+  }
+
+  /* ── GAME ── */
+  #game-screen {
+    padding: 0;
+    position: relative;
+  }
+
+  #game-canvas {
+    display: block;
+    touch-action: none;
+  }
+
+  #game-ui {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 16px;
+    pointer-events: none;
+  }
+
+  .round-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    background: rgba(242,240,235,.88);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 10px;
+    backdrop-filter: blur(4px);
+  }
+
+  #player-count-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    background: rgba(242,240,235,.88);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 10px;
+    backdrop-filter: blur(4px);
+  }
+
+  #bottom-ui {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    gap: 10px;
+  }
+
+  #aim-instruction {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+    letter-spacing: .06em;
+    text-align: center;
+    background: rgba(242,240,235,.88);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 14px;
+    backdrop-filter: blur(4px);
+  }
+
+  #ready-btn {
+    max-width: 280px;
+    font-size: 18px;
+    padding: 17px;
+  }
+
+  /* ── RESULT OVERLAY ── */
+  #result-overlay {
+    position: absolute;
+    inset: 0;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    background: rgba(242,240,235,.92);
+    backdrop-filter: blur(8px);
+    animation: fadeIn .3s ease;
+  }
+  #result-overlay.visible { display: flex; }
+  #result-title { font-size: 48px; font-weight: 800; letter-spacing:-2px; }
+  #result-sub { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--ink-soft); letter-spacing:.06em; }
+
+  /* ── STATUS TOAST ── */
+  #toast {
+    position: fixed;
+    bottom: 100px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--ink);
+    color: #fff;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: .06em;
+    padding: 8px 18px;
+    border-radius: 99px;
+    opacity: 0;
+    transition: opacity .2s, transform .2s;
+    pointer-events: none;
+    z-index: 999;
+    white-space: nowrap;
+  }
+  #toast.show { opacity:1; transform: translateX(-50%) translateY(0); }
+
+  /* ── COUNTDOWN ── */
+  #countdown-overlay {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  #countdown-overlay.visible { display: flex; }
+  #countdown-num {
+    font-size: clamp(96px, 25vw, 180px);
+    font-weight: 800;
+    letter-spacing: -6px;
+    color: var(--ink);
+    opacity: 0;
+    animation: popIn .6s ease forwards;
+  }
+  @keyframes popIn {
+    0%   { opacity:0; transform: scale(1.4); }
+    40%  { opacity:1; transform: scale(.95); }
+    70%  { transform: scale(1.02); }
+    100% { opacity:1; transform: scale(1); }
+  }
+
+  .shake { animation: shake .25s ease; }
+  @keyframes shake {
+    0%,100% { transform: none; }
+    20%      { transform: translate(-3px,2px) rotate(-.5deg); }
+    40%      { transform: translate(3px,-2px) rotate(.5deg); }
+    60%      { transform: translate(-2px,1px); }
+    80%      { transform: translate(2px,-1px); }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- HOME -->
+  <div id="home-screen" class="screen active">
+    <div class="logo">BU<span>M</span>P</div>
+    <div class="tagline">knock 'em off the edge</div>
+    <div class="card">
+      <div class="input-group">
+        <div class="input-label">Your Name</div>
+        <input type="text" id="nickname-input" placeholder="enter nickname" maxlength="14" autocomplete="off" spellcheck="false">
+      </div>
+      <button class="btn btn-primary" id="create-btn">Create Room</button>
+      <div class="divider">or</div>
+      <div class="input-group">
+        <div class="input-label">Room Code</div>
+        <input type="text" id="room-input" placeholder="XXXX" maxlength="4" autocomplete="off" spellcheck="false" style="text-transform:uppercase;letter-spacing:.2em;font-size:22px;">
+      </div>
+      <button class="btn btn-secondary" id="join-btn">Join Room</button>
+    </div>
+  </div>
+
+  <!-- LOBBY -->
+  <div id="lobby-screen" class="screen">
+    <div class="room-header">
+      <div class="room-label">Room Code</div>
+      <div class="room-code">
+        <span id="display-room-code">----</span>
+        <button class="copy-btn" id="copy-code-btn">COPY</button>
+      </div>
+    </div>
+    <div class="player-list" id="player-list"></div>
+    <div style="width:100%;max-width:360px;display:flex;flex-direction:column;gap:10px;">
+      <button class="btn btn-primary btn-disabled" id="start-game-btn">Start Game</button>
+      <button class="btn btn-secondary" id="leave-btn">Leave</button>
+    </div>
+    <div class="tagline" id="lobby-status">Waiting for players…</div>
+  </div>
+
+  <!-- GAME -->
+  <div id="game-screen" class="screen">
+    <canvas id="game-canvas"></canvas>
+    <div id="game-ui">
+      <div class="round-badge" id="round-badge">Round 1</div>
+      <div id="player-count-badge">— alive</div>
+    </div>
+    <div id="bottom-ui">
+      <div id="aim-instruction">drag your circle to aim</div>
+      <button class="btn btn-accent btn-disabled" id="ready-btn">Ready!</button>
+    </div>
+    <div id="countdown-overlay">
+      <div id="countdown-num"></div>
+    </div>
+    <div id="result-overlay">
+      <div id="result-title"></div>
+      <div id="result-sub"></div>
+      <button class="btn btn-primary" id="next-round-btn" style="max-width:200px;">Next Round</button>
+      <button class="btn btn-secondary" id="back-lobby-btn" style="max-width:200px;">Back to Lobby</button>
+    </div>
+  </div>
+
+</div>
+
+<div id="toast"></div>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getDatabase, ref, set, get, update, onValue, off, push, remove
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+// ── CONFIG ── replace with your own Firebase project ──────────────────────
+const firebaseConfig = {
+  apiKey: "AIzaSyDyZ3305OniR-e_VLbB8zZ4Y9keJuXOq1Y",
+  authDomain: "knock-2c1b7.firebaseapp.com",
+  databaseURL: "https://knock-2c1b7-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "knock-2c1b7",
+  storageBucket: "knock-2c1b7.firebasestorage.app",
+  messagingSenderId: "156563296290",
+  appId: "1:156563296290:web:ff5cf0728fd6c9ddebfa7b"
+};
+// ─────────────────────────────────────────────────────────────────────────
+
+const DEMO_MODE = true; // set false when Firebase is configured
+
+const app = DEMO_MODE ? null : initializeApp(firebaseConfig);
+const db  = DEMO_MODE ? null : getDatabase(app);
+
+// ── PALETTE ──────────────────────────────────────────────────────────────
+const COLORS = ['#FF3B30','#007AFF','#34C759','#FF9500','#AF52DE','#FF2D55','#5AC8FA','#FFCC00'];
+
+// ── UTILS ─────────────────────────────────────────────────────────────────
+function randCode() {
+  return Math.random().toString(36).substring(2,6).toUpperCase();
+}
+function uid() {
+  return Math.random().toString(36).substring(2,10);
+}
+function toast(msg, dur=2000) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(()=>el.classList.remove('show'), dur);
+}
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+let myId, myNick, roomCode, isHost;
+let roomRef, playersRef, stateRef;
+let listeners = [];
+let gameState = {};   // local mirror of room state
+let physSim   = null; // running physics sim
+
+// ── PLAYER COLORS ─────────────────────────────────────────────────────────
+function colorForIndex(i) { return COLORS[i % COLORS.length]; }
+
+// ── HOME ──────────────────────────────────────────────────────────────────
+document.getElementById('create-btn').addEventListener('click', () => {
+  const nick = document.getElementById('nickname-input').value.trim();
+  if (!nick) { toast('Enter a nickname first'); return; }
+  myNick = nick; myId = uid();
+  roomCode = randCode();
+  isHost   = true;
+  if (DEMO_MODE) { enterLobby(); return; }
+  const room = {
+    status: 'lobby',
+    boardSize: 1.0,
+    round: 1,
+    hostId: myId,
+    players: {
+      [myId]: { nick: myNick, color: colorForIndex(0), alive: true, ready: false, x:0, y:0 }
+    }
+  };
+  set(ref(db, `rooms/${roomCode}`), room).then(enterLobby).catch(e=>toast(e.message));
+});
+
+document.getElementById('join-btn').addEventListener('click', () => {
+  const nick = document.getElementById('nickname-input').value.trim();
+  const code = document.getElementById('room-input').value.trim().toUpperCase();
+  if (!nick) { toast('Enter a nickname'); return; }
+  if (code.length !== 4) { toast('Enter a 4-letter room code'); return; }
+  myNick = nick; myId = uid(); roomCode = code; isHost = false;
+  if (DEMO_MODE) { toast('Demo mode: no real Firebase. Create a room and play locally.'); return; }
+  get(ref(db, `rooms/${code}`)).then(snap=>{
+    if (!snap.exists()) { toast('Room not found'); return; }
+    const data = snap.val();
+    const idx  = Object.keys(data.players||{}).length;
+    if (idx >= 8) { toast('Room full'); return; }
+    update(ref(db,`rooms/${code}/players`), {
+      [myId]: { nick: myNick, color: colorForIndex(idx), alive:true, ready:false, x:0, y:0 }
+    }).then(enterLobby).catch(e=>toast(e.message));
+  });
+});
+
+// ── LOBBY ─────────────────────────────────────────────────────────────────
+function enterLobby() {
+  showScreen('lobby-screen');
+  document.getElementById('display-room-code').textContent = roomCode;
+
+  if (DEMO_MODE) {
+    // populate a fake lobby for demo
+    renderLobbyPlayers({
+      [myId]: { nick:myNick, color:COLORS[0], alive:true, ready:false }
+    });
+    // Only allow start for host in demo
+    if (isHost) {
+      const sb = document.getElementById('start-game-btn');
+      sb.classList.remove('btn-disabled');
+    }
+    return;
+  }
+
+  roomRef   = ref(db, `rooms/${roomCode}`);
+  playersRef= ref(db, `rooms/${roomCode}/players`);
+
+  const unsub = onValue(playersRef, snap => {
+    const players = snap.val() || {};
+    renderLobbyPlayers(players);
+    const count = Object.keys(players).length;
+    const sb = document.getElementById('start-game-btn');
+    if (isHost && count >= 2) sb.classList.remove('btn-disabled');
+    else sb.classList.add('btn-disabled');
+    document.getElementById('lobby-status').textContent =
+      count < 2 ? 'Waiting for more players…' : `${count} players ready to bump!`;
+  });
+  listeners.push({ r: playersRef, fn: unsub });
+
+  // Listen for game start
+  const stUnsub = onValue(ref(db,`rooms/${roomCode}/status`), snap=>{
+    if (snap.val() === 'playing') startGame();
+  });
+  listeners.push({ r: ref(db,`rooms/${roomCode}/status`), fn: stUnsub });
+}
+
+function renderLobbyPlayers(players) {
+  const list = document.getElementById('player-list');
+  list.innerHTML = '';
+  const sorted = Object.entries(players);
+  sorted.forEach(([id, p], i) => {
+    const div = document.createElement('div');
+    div.className = 'player-slot';
+    div.innerHTML = `
+      <div class="player-dot" style="background:${p.color}"></div>
+      <span>${p.nick}</span>
+      ${id===myId?'<span class="host-badge">YOU</span>':''}
+      ${isHost&&i===0&&id!==myId?'<span class="host-badge">HOST</span>':''}
+    `;
+    list.appendChild(div);
+  });
+  for (let i=sorted.length; i<Math.min(4,sorted.length+1); i++) {
+    const div = document.createElement('div');
+    div.className = 'player-slot empty';
+    div.innerHTML = `<div class="player-dot"></div><span>waiting…</span>`;
+    list.appendChild(div);
+  }
+}
+
+document.getElementById('copy-code-btn').addEventListener('click', () => {
+  navigator.clipboard.writeText(roomCode).then(()=>toast('Copied!')).catch(()=>{
+    toast(`Code: ${roomCode}`);
+  });
+});
+
+document.getElementById('start-game-btn').addEventListener('click', () => {
+  if (!isHost) return;
+  if (DEMO_MODE) { startDemoGame(); return; }
+  update(roomRef, { status: 'playing', round:1, boardSize:1.0 });
+});
+
+document.getElementById('leave-btn').addEventListener('click', () => {
+  cleanup();
+  showScreen('home-screen');
+});
+
+function cleanup() {
+  listeners.forEach(({r,fn})=>{ try{ off(r,fn); }catch(e){} });
+  listeners = [];
+  if (physSim) { clearInterval(physSim); physSim=null; }
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+//  GAME ENGINE
+// ══════════════════════════════════════════════════════════════════════════
+const canvas  = document.getElementById('game-canvas');
+const ctx     = canvas.getContext('2d');
+
+let W, H;            // canvas dims
+let boardRadius;     // current board radius (px)
+let targetBoardRadius;
+let round  = 1;
+let players = {};    // id -> { nick, color, x, y, vx, vy, alive, r }
+let myPlayer = null; // ref into players
+let phase = 'aim';   // aim | countdown | flying | result
+let aiming = false;
+let aimStart = null;
+let launchVec = { x:0, y:0 };
+let PLAYER_R;
+let shakeFrames = 0;
+let boardShrinking = false;
+let boardAnimFrom, boardAnimTo, boardAnimT;
+let elimQueue = [];
+let readyStatus = {};
+
+function resize() {
+  W = window.innerWidth;
+  H = window.innerHeight;
+  canvas.width  = W;
+  canvas.height = H;
+  PLAYER_R = Math.min(W, H) * 0.065;
+}
+
+// ── DEMO: single-device multi-player simulation ───────────────────────────
+function startDemoGame() {
+  showScreen('game-screen');
+  resize();
+  round = 1;
+
+  // Create 2-4 demo players
+  const names = [myNick, 'Rival', 'Ghost'];
+  const count  = 2; // change to 3/4 for more
+
+  players = {};
+  for (let i=0; i<count; i++) {
+    const id = i===0 ? myId : `bot_${i}`;
+    players[id] = {
+      nick: names[i]||`P${i+1}`,
+      color: COLORS[i],
+      alive: true,
+      ready: false,
+      vx: 0, vy: 0,
+      r: PLAYER_R,
+      id
+    };
+  }
+
+  // Spread players on the board
+  repositionPlayers(1.0);
+  myPlayer = players[myId];
+  setPhase('aim');
+  gameLoop();
+}
+
+function startGame() {
+  showScreen('game-screen');
+  resize();
+  // Firebase path — load players from DB, then enter game loop
+  get(ref(db,`rooms/${roomCode}`)).then(snap=>{
+    const data = snap.val();
+    round = data.round || 1;
+    const raw = data.players;
+    players = {};
+    Object.entries(raw).forEach(([id,p])=>{
+      players[id] = { ...p, vx:0, vy:0, r:PLAYER_R, id };
+    });
+    repositionPlayers(data.boardSize||1.0);
+    myPlayer = players[myId];
+    targetBoardRadius = boardRadius = baseBoardRadius() * (data.boardSize||1.0);
+    setPhase('aim');
+    listenFirebase();
+    gameLoop();
+  });
+}
+
+function baseBoardRadius() {
+  return Math.min(W,H) * 0.38;
+}
+
+function repositionPlayers(bsz) {
+  const base = baseBoardRadius() * bsz;
+  boardRadius = targetBoardRadius = base;
+  const alive = Object.values(players).filter(p=>p.alive);
+  const n = alive.length;
+  alive.forEach((p, i) => {
+    const angle = (i / n) * Math.PI * 2 - Math.PI/2;
+    const dist  = base * 0.45;
+    p.x = W/2 + Math.cos(angle)*dist;
+    p.y = H/2 + Math.sin(angle)*dist;
+    p.vx = 0; p.vy = 0;
+  });
+}
+
+// ── PHASES ────────────────────────────────────────────────────────────────
+function setPhase(p) {
+  phase = p;
+  const readyBtn = document.getElementById('ready-btn');
+  const aimInstr = document.getElementById('aim-instruction');
+  const resultOv = document.getElementById('result-overlay');
+  const cntOv    = document.getElementById('countdown-overlay');
+
+  resultOv.classList.remove('visible');
+  cntOv.classList.remove('visible');
+
+  if (p==='aim') {
+    readyBtn.classList.remove('btn-disabled');
+    readyBtn.textContent = 'Ready!';
+    aimInstr.style.display='block';
+    document.getElementById('bottom-ui').style.display='flex';
+    readyStatus = {};
+    launchVec = {x:0,y:0};
+    if (myPlayer) { myPlayer.vx=0; myPlayer.vy=0; }
+    aiming=false;
+    if (!DEMO_MODE) listenReady();
+  } else if (p==='countdown') {
+    readyBtn.classList.add('btn-disabled');
+    aimInstr.style.display='none';
+  } else if (p==='flying') {
+    document.getElementById('bottom-ui').style.display='none';
+  } else if (p==='result') {
+    document.getElementById('bottom-ui').style.display='none';
+  }
+
+  document.getElementById('round-badge').textContent = `Round ${round}`;
+  const alive = Object.values(players).filter(p=>p.alive).length;
+  document.getElementById('player-count-badge').textContent = `${alive} alive`;
+}
+
+// ── AIMING INPUT ──────────────────────────────────────────────────────────
+canvas.addEventListener('pointerdown', onPointerDown, {passive:false});
+canvas.addEventListener('pointermove', onPointerMove, {passive:false});
+canvas.addEventListener('pointerup',   onPointerUp,   {passive:false});
+
+function onPointerDown(e) {
+  if (phase!=='aim') return;
+  e.preventDefault();
+  const pos = getPos(e);
+  if (!myPlayer || !myPlayer.alive) return;
+  const dx = pos.x - myPlayer.x, dy = pos.y - myPlayer.y;
+  if (Math.hypot(dx,dy) < myPlayer.r*2.5) {
+    aiming=true;
+    aimStart={x:myPlayer.x, y:myPlayer.y};
+    canvas.setPointerCapture(e.pointerId);
+  }
+}
+
+function onPointerMove(e) {
+  if (!aiming) return;
+  e.preventDefault();
+  const pos  = getPos(e);
+  const dx   = aimStart.x - pos.x;
+  const dy   = aimStart.y - pos.y;
+  const len  = Math.hypot(dx,dy);
+  const maxPull = 120;
+  const clamped = Math.min(len, maxPull);
+  launchVec = { x: (dx/len||0)*clamped, y: (dy/len||0)*clamped };
+}
+
+function onPointerUp(e) {
+  if (!aiming) return;
+  aiming = false;
+  e.preventDefault();
+  if (Math.hypot(launchVec.x,launchVec.y) > 8) {
+    document.getElementById('ready-btn').classList.remove('btn-disabled');
+  }
+}
+
+function getPos(e) {
+  const r = canvas.getBoundingClientRect();
+  return { x: e.clientX - r.left, y: e.clientY - r.top };
+}
+
+// ── READY BUTTON ──────────────────────────────────────────────────────────
+document.getElementById('ready-btn').addEventListener('click', () => {
+  if (phase!=='aim') return;
+  if (Math.hypot(launchVec.x,launchVec.y)<8) { toast('Drag to aim first!'); return; }
+  if (!myPlayer||!myPlayer.alive) return;
+
+  // store intended velocity (will apply on launch)
+  const speed = 12;
+  const len   = Math.hypot(launchVec.x,launchVec.y);
+  myPlayer._launchVx = (launchVec.x/len)*speed*(len/120);
+  myPlayer._launchVy = (launchVec.y/len)*speed*(len/120);
+
+  document.getElementById('ready-btn').textContent = 'Waiting…';
+  document.getElementById('ready-btn').classList.add('btn-disabled');
+
+  if (DEMO_MODE) {
+    // Auto-ready bots
+    Object.values(players).forEach(p=>{
+      if (p.id!==myId && p.alive) {
+        const angle = Math.random()*Math.PI*2;
+        const spd   = 5+Math.random()*7;
+        p._launchVx = Math.cos(angle)*spd;
+        p._launchVy = Math.sin(angle)*spd;
+        p.ready=true;
+      }
+    });
+    myPlayer.ready=true;
+    startCountdown();
+    return;
+  }
+
+  // Firebase: mark self ready + store launch vector
+  update(ref(db,`rooms/${roomCode}/players/${myId}`), {
+    ready: true,
+    lvx: myPlayer._launchVx,
+    lvy: myPlayer._launchVy
+  });
+});
+
+function listenReady() {
+  const r = ref(db,`rooms/${roomCode}/players`);
+  const fn = onValue(r, snap=>{
+    const pls = snap.val()||{};
+    const alive = Object.entries(pls).filter(([,p])=>p.alive);
+    const allReady = alive.every(([,p])=>p.ready);
+    if (allReady && alive.length>0) {
+      // Sync launch vecs from Firebase
+      alive.forEach(([id,p])=>{
+        if (players[id]) {
+          players[id]._launchVx = p.lvx||0;
+          players[id]._launchVy = p.lvy||0;
+        }
+      });
+      startCountdown();
+    }
+  });
+  listeners.push({r,fn});
+}
+
+function listenFirebase() {
+  // listen for round changes from host
+  const r = ref(db,`rooms/${roomCode}`);
+  const fn = onValue(r, snap=>{
+    const data = snap.val();
+    if (!data) return;
+    if (data.status==='round_result' && phase!=='result') {
+      // apply host-computed result
+      Object.entries(data.players||{}).forEach(([id,p])=>{
+        if (players[id]) {
+          players[id].alive = p.alive;
+          players[id].x     = p.x;
+          players[id].y     = p.y;
+        }
+      });
+      handleRoundResult(data.boardSize);
+    }
+  });
+  listeners.push({r,fn});
+}
+
+// ── COUNTDOWN ─────────────────────────────────────────────────────────────
+function startCountdown() {
+  if (phase==='countdown'||phase==='flying') return;
+  setPhase('countdown');
+  let n=3;
+  const ov  = document.getElementById('countdown-overlay');
+  const num = document.getElementById('countdown-num');
+  ov.classList.add('visible');
+
+  function tick() {
+    num.style.animation='none';
+    void num.offsetWidth; // reflow
+    num.style.animation='';
+    num.textContent = n;
+    if (n===0) {
+      ov.classList.remove('visible');
+      launch();
+    } else {
+      n--;
+      setTimeout(tick, 700);
+    }
+  }
+  tick();
+}
+
+// ── LAUNCH ────────────────────────────────────────────────────────────────
+function launch() {
+  setPhase('flying');
+  Object.values(players).forEach(p=>{
+    if (!p.alive) return;
+    p.vx = p._launchVx||0;
+    p.vy = p._launchVy||0;
+  });
+}
+
+// ── PHYSICS ───────────────────────────────────────────────────────────────
+const FRICTION   = 0.985;
+const BOUNCE     = 0.55;
+const STOP_SPEED = 0.15;
+
+function physicsTick() {
+  if (phase!=='flying') return;
+
+  const alive = Object.values(players).filter(p=>p.alive);
+  let anyMoving = false;
+
+  // integrate
+  alive.forEach(p=>{
+    p.x  += p.vx;
+    p.y  += p.vy;
+    p.vx *= FRICTION;
+    p.vy *= FRICTION;
+    if (Math.abs(p.vx)>STOP_SPEED||Math.abs(p.vy)>STOP_SPEED) anyMoving=true;
+  });
+
+  // circle-circle collisions
+  for (let i=0;i<alive.length;i++) {
+    for (let j=i+1;j<alive.length;j++) {
+      const a=alive[i], b=alive[j];
+      const dx=b.x-a.x, dy=b.y-a.y;
+      const dist=Math.hypot(dx,dy);
+      const minD=a.r+b.r;
+      if (dist<minD && dist>0.001) {
+        // overlap correction
+        const nx=dx/dist, ny=dy/dist;
+        const overlap=(minD-dist)/2;
+        a.x-=nx*overlap; a.y-=ny*overlap;
+        b.x+=nx*overlap; b.y+=ny*overlap;
+        // elastic collision
+        const dvx=a.vx-b.vx, dvy=a.vy-b.vy;
+        const dot=dvx*nx+dvy*ny;
+        if (dot>0) {
+          const imp=dot*BOUNCE;
+          a.vx-=imp*nx; a.vy-=imp*ny;
+          b.vx+=imp*nx; b.vy+=imp*ny;
+          const force=Math.abs(dot);
+          if (force>2) shakeFrames=Math.max(shakeFrames, Math.min(8,force|0));
+          anyMoving=true;
+        }
+      }
+    }
+  }
+
+  // check out-of-bounds
+  let anyElim = false;
+  alive.forEach(p=>{
+    const dx=p.x-W/2, dy=p.y-H/2;
+    if (Math.hypot(dx,dy)+p.r > boardRadius) {
+      p.alive=false;
+      anyElim=true;
+    }
+  });
+
+  if (!anyMoving || !alive.some(p=>p.alive)) {
+    // end of flying phase
+    setTimeout(()=>hostComputeResult(), 300);
+  }
+}
+
+function hostComputeResult() {
+  if (phase!=='flying') return;
+  const alive = Object.values(players).filter(p=>p.alive);
+
+  if (alive.length<=1) {
+    // Game over or round over
+    const newBoardSize = Math.max(0.3, (targetBoardRadius/baseBoardRadius()) * 0.85);
+    targetBoardRadius = baseBoardRadius()*newBoardSize;
+    handleRoundResult(newBoardSize);
+    if (!DEMO_MODE && isHost) {
+      const pUpdate = {};
+      Object.entries(players).forEach(([id,p])=>{ pUpdate[id]={alive:p.alive,x:p.x,y:p.y,ready:false}; });
+      update(roomRef,{ status:'round_result', boardSize:newBoardSize, players:pUpdate, round });
+    }
+    return;
+  }
+
+  // shrink board
+  const newBoardSize = Math.max(0.3, (targetBoardRadius/baseBoardRadius()) * 0.85);
+  targetBoardRadius = baseBoardRadius()*newBoardSize;
+  handleRoundResult(newBoardSize);
+
+  if (!DEMO_MODE && isHost) {
+    const pUpdate={};
+    Object.entries(players).forEach(([id,p])=>{ pUpdate[id]={alive:p.alive,x:p.x,y:p.y,ready:false}; });
+    update(roomRef,{status:'round_result',boardSize:newBoardSize,players:pUpdate,round});
+  }
+}
+
+function handleRoundResult(newBoardSize) {
+  const alive = Object.values(players).filter(p=>p.alive);
+  targetBoardRadius = baseBoardRadius()*newBoardSize;
+
+  if (alive.length===1) {
+    // Someone won the game
+    const winner = alive[0];
+    showResult(`${winner.nick===myNick&&winner.id===myId?'You Win! 🏆':winner.nick+' Wins!'}`,
+               winner.id===myId?'Last circle standing':'Better luck next time');
+    return;
+  }
+  if (alive.length===0) {
+    showResult('Draw!','Everyone got knocked off');
+    return;
+  }
+
+  // clamp survivors inside new board
+  alive.forEach(p=>{
+    const dx=p.x-W/2, dy=p.y-H/2;
+    const dist=Math.hypot(dx,dy);
+    const maxD=targetBoardRadius-p.r-4;
+    if (dist>maxD) {
+      p.x=W/2+(dx/dist)*maxD;
+      p.y=H/2+(dy/dist)*maxD;
+    }
+  });
+
+  setPhase('result');
+  const resultOv=document.getElementById('result-overlay');
+  document.getElementById('result-title').textContent=`Round ${round} Over`;
+  document.getElementById('result-sub').textContent=`${alive.length} player${alive.length>1?'s':''} remain`;
+  document.getElementById('next-round-btn').style.display= isHost||DEMO_MODE ?'':'none';
+  resultOv.classList.add('visible');
+  round++;
+}
+
+function showResult(title, sub) {
+  setPhase('result');
+  const ov = document.getElementById('result-overlay');
+  document.getElementById('result-title').textContent=title;
+  document.getElementById('result-sub').textContent=sub;
+  document.getElementById('next-round-btn').style.display='none';
+  ov.classList.add('visible');
+}
+
+document.getElementById('next-round-btn').addEventListener('click', ()=>{
+  if (!isHost&&!DEMO_MODE) return;
+  // reset ready, reposition
+  Object.values(players).forEach(p=>{p.ready=false;p.vx=0;p.vy=0;});
+  repositionPlayers(targetBoardRadius/baseBoardRadius());
+  boardRadius=targetBoardRadius;
+  if (!DEMO_MODE) {
+    const pUpdate={};
+    Object.entries(players).forEach(([id,p])=>{ pUpdate[id]={...p,ready:false,x:p.x,y:p.y}; });
+    update(roomRef,{status:'playing',round,boardSize:targetBoardRadius/baseBoardRadius(),players:pUpdate});
+  }
+  setPhase('aim');
+  document.getElementById('result-overlay').classList.remove('visible');
+});
+
+document.getElementById('back-lobby-btn').addEventListener('click', ()=>{
+  cleanup();
+  showScreen('lobby-screen');
+});
+
+// ── RENDER ────────────────────────────────────────────────────────────────
+function gameLoop() {
+  requestAnimationFrame(gameLoop);
+  physicsTick();
+
+  // shake
+  let sx=0,sy=0;
+  if (shakeFrames>0) {
+    sx=(Math.random()-.5)*5; sy=(Math.random()-.5)*5;
+    shakeFrames--;
+  }
+
+  ctx.clearRect(0,0,W,H);
+  ctx.save();
+  ctx.translate(sx,sy);
+
+  drawBoard();
+  drawAimLine();
+  drawPlayers();
+
+  ctx.restore();
+}
+
+function drawBoard() {
+  // Animate board shrink
+  if (boardRadius > targetBoardRadius+0.5) {
+    boardRadius += (targetBoardRadius-boardRadius)*0.08;
+  } else {
+    boardRadius = targetBoardRadius;
+  }
+
+  const cx=W/2, cy=H/2;
+
+  // Outer fade mask
+  ctx.save();
+  const grad = ctx.createRadialGradient(cx,cy,boardRadius*0.7,cx,cy,boardRadius*1.6);
+  grad.addColorStop(0,'rgba(242,240,235,0)');
+  grad.addColorStop(1,'rgba(242,240,235,0.98)');
+  ctx.fillStyle=grad;
+  ctx.fillRect(0,0,W,H);
+  ctx.restore();
+
+  // Board circle fill
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(cx,cy,boardRadius,0,Math.PI*2);
+  ctx.fillStyle='#FFFFFF';
+  ctx.fill();
+  ctx.restore();
+
+  // Board border (dashed)
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(cx,cy,boardRadius,0,Math.PI*2);
+  ctx.strokeStyle='#C8C5BF';
+  ctx.lineWidth=2;
+  ctx.setLineDash([8,6]);
+  ctx.stroke();
+  ctx.restore();
+
+  // Grid cross-hairs (subtle)
+  ctx.save();
+  ctx.strokeStyle='rgba(200,197,191,.35)';
+  ctx.lineWidth=1;
+  ctx.setLineDash([]);
+  ctx.beginPath(); ctx.moveTo(cx-boardRadius,cy); ctx.lineTo(cx+boardRadius,cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx,cy-boardRadius); ctx.lineTo(cx,cy+boardRadius); ctx.stroke();
+  ctx.restore();
+}
+
+function drawAimLine() {
+  if (phase!=='aim'||!myPlayer||!myPlayer.alive) return;
+  const p = myPlayer;
+
+  if (aiming && Math.hypot(launchVec.x,launchVec.y)>4) {
+    const tx=p.x+launchVec.x, ty=p.y+launchVec.y;
+    ctx.save();
+    ctx.strokeStyle=p.color;
+    ctx.lineWidth=2;
+    ctx.setLineDash([5,5]);
+    ctx.globalAlpha=0.6;
+    ctx.beginPath();
+    ctx.moveTo(p.x,p.y);
+    ctx.lineTo(p.x+launchVec.x*2, p.y+launchVec.y*2);
+    ctx.stroke();
+    // arrowhead
+    const angle=Math.atan2(launchVec.y,launchVec.x);
+    const ax=p.x+launchVec.x*2, ay=p.y+launchVec.y*2;
+    ctx.setLineDash([]);
+    ctx.globalAlpha=0.8;
+    ctx.beginPath();
+    ctx.moveTo(ax,ay);
+    ctx.lineTo(ax-12*Math.cos(angle-0.4), ay-12*Math.sin(angle-0.4));
+    ctx.lineTo(ax-12*Math.cos(angle+0.4), ay-12*Math.sin(angle+0.4));
+    ctx.closePath();
+    ctx.fillStyle=p.color;
+    ctx.fill();
+    ctx.restore();
+  }
+}
+
+function drawPlayers() {
+  Object.values(players).forEach(p=>{
+    if (!p.alive) return;
+    const isMe = p.id===myId;
+
+    // Shadow
+    ctx.save();
+    ctx.shadowColor='rgba(0,0,0,.12)';
+    ctx.shadowBlur=12;
+    ctx.shadowOffsetY=4;
+
+    // Circle
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=p.color;
+    ctx.fill();
+
+    // Highlight
+    const hl=ctx.createRadialGradient(p.x-p.r*.25,p.y-p.r*.3,0, p.x,p.y,p.r);
+    hl.addColorStop(0,'rgba(255,255,255,.32)');
+    hl.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle=hl;
+    ctx.fill();
+
+    ctx.restore();
+
+    // Stroke for self
+    if (isMe) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r+3,0,Math.PI*2);
+      ctx.strokeStyle=p.color;
+      ctx.lineWidth=2.5;
+      ctx.setLineDash([4,4]);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // Name label
+    ctx.save();
+    ctx.fillStyle='#1A1A1A';
+    ctx.font=`bold ${Math.round(p.r*.45)}px Syne, sans-serif`;
+    ctx.textAlign='center';
+    ctx.textBaseline='middle';
+    ctx.fillText(p.nick.substring(0,6), p.x, p.y);
+    ctx.restore();
+
+    // Aim power indicator (my player, aiming)
+    if (isMe && phase==='aim' && aiming) {
+      const pct = Math.hypot(launchVec.x,launchVec.y)/120;
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(p.x,p.y,p.r+10, -Math.PI/2, -Math.PI/2+Math.PI*2*pct);
+      ctx.strokeStyle=p.color;
+      ctx.lineWidth=3;
+      ctx.lineCap='round';
+      ctx.stroke();
+      ctx.restore();
+    }
+  });
+}
+
+// ── WINDOW RESIZE ─────────────────────────────────────────────────────────
+window.addEventListener('resize', ()=>{
+  if (document.getElementById('game-screen').classList.contains('active')) {
+    resize();
+    repositionPlayers(targetBoardRadius/baseBoardRadius());
+  }
+});
+
+// ── ROOM INPUT UPPERCASE ──────────────────────────────────────────────────
+document.getElementById('room-input').addEventListener('input', function(){
+  this.value=this.value.toUpperCase();
+});
+
+</script>
+</body>
+</html>
