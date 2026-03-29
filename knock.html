@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Knock Game</title>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@600;700;800&display=swap');
@@ -75,7 +75,7 @@ html, body {
 
   .tagline {
     font-family: 'DM Mono', monospace;
-    font-size: 13px;
+    font-size: 14px;
     color: var(--ink-soft);
     letter-spacing: .08em;
     text-transform: uppercase;
@@ -97,7 +97,7 @@ html, body {
   .input-group { display: flex; flex-direction: column; gap: 6px; }
   .input-label {
     font-family: 'DM Mono', monospace;
-    font-size: 11px;
+    font-size: 14px;
     letter-spacing: .1em;
     text-transform: uppercase;
     color: var(--ink-soft);
@@ -141,7 +141,7 @@ html, body {
 
   .divider {
     display: flex; align-items: center; gap: 12px;
-    font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-faint);
+    font-family: 'DM Mono', monospace; font-size: 14px; color: var(--ink-faint);
   }
   .divider::before, .divider::after {
     content: ''; flex: 1; height: 1px; background: var(--border);
@@ -154,13 +154,13 @@ html, body {
     width: 100%; max-width: 360px;
     display: flex; flex-direction: column; gap: 4px;
   }
-  .room-label { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink-soft); letter-spacing:.1em; text-transform:uppercase; }
+  .room-label { font-family: 'DM Mono', monospace; font-size: 14px; color: var(--ink-soft); letter-spacing:.1em; text-transform:uppercase; }
   .room-code {
     font-size: 42px; font-weight: 800; letter-spacing: -2px;
     display: flex; align-items: center; gap: 10px;
   }
   .copy-btn {
-    font-size: 12px; font-weight: 700; font-family:'DM Mono',monospace;
+    font-size: 14px; font-weight: 700; font-family:'DM Mono',monospace;
     background: var(--bg); border: 1.5px solid var(--border); border-radius:6px;
     padding: 4px 10px; cursor:pointer; color: var(--ink-soft); letter-spacing:.05em;
     transition: border-color .15s;
@@ -184,7 +184,7 @@ html, body {
   .player-slot.empty .player-dot { background:var(--ink-faint); }
 
   .host-badge {
-    margin-left:auto; font-family:'DM Mono',monospace; font-size:10px;
+    margin-left:auto; font-family:'DM Mono',monospace; font-size:13px;
     letter-spacing:.08em; text-transform:uppercase; color:var(--ink-soft);
     border:1px solid var(--border); border-radius:4px; padding:2px 6px;
   }
@@ -284,7 +284,7 @@ html, body {
   }
   #result-overlay.visible { display: flex; }
   #result-title { font-size: 48px; font-weight: 800; letter-spacing:-2px; }
-  #result-sub { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--ink-soft); letter-spacing:.06em; }
+  #result-sub { font-family: 'DM Mono', monospace; font-size: 16px; color: var(--ink-soft); letter-spacing:.06em; }
 
   /* ── STATUS TOAST ── */
   #toast {
@@ -294,7 +294,7 @@ html, body {
     background: var(--ink);
     color: #fff;
     font-family: 'DM Mono', monospace;
-    font-size: 12px;
+    font-size: 14px;
     letter-spacing: .06em;
     padding: 8px 18px;
     border-radius: 99px;
@@ -625,8 +625,8 @@ function resize() {
   
   // Calculate the maximum space we are willing to use
   // We leave 15% horizontal margin and 35% vertical margin for the UI
-  const availableW = W * 0.85;
-  const availableH = H * 0.65;
+  const availableW = W * 0.95;
+  const availableH = H * 0.70;
   
   // Fit the fixed 10:16 aspect ratio into the available space
   if (availableW / availableH > ARENA_ASPECT) {
