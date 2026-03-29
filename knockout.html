@@ -31,7 +31,6 @@
     user-select: none;
   }
 
-  /* ─── SCREENS ─── */
   .screen {
     position: fixed; inset: 0;
     display: flex; flex-direction: column;
@@ -41,7 +40,6 @@
   }
   .screen.hidden { opacity: 0; pointer-events: none; transform: scale(0.97); }
 
-  /* ─── LOBBY ─── */
   #lobby {
     gap: 20px;
     background: radial-gradient(ellipse at 50% 0%, #1a1a30 0%, var(--bg) 70%);
@@ -129,7 +127,6 @@
   }
   @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.06)} }
 
-  /* ─── LEADERBOARD ─── */
   #leaderboard {
     background: radial-gradient(ellipse at 50% 0%, #1a1a30 0%, var(--bg) 70%);
     gap: 20px;
@@ -139,7 +136,7 @@
     font-size: 36px; letter-spacing: 3px; color: var(--accent2);
   }
   .lb-table {
-    width: 100%; max-width: 380px;
+    width: 100%;
     border-collapse: collapse;
   }
   .lb-table th {
@@ -154,14 +151,9 @@
   .lb-table tr:first-child td { color: var(--accent2); }
   .rank-num { color: var(--muted); font-size: 11px; }
 
-  /* ─── GAME ─── */
   #game { padding: 0; background: #080810; }
-  #gameCanvas {
-    display: block;
-    touch-action: none;
-  }
+  #gameCanvas { display: block; touch-action: none; }
 
-  /* ─── HUD ─── */
   #hud {
     position: fixed; top: 0; left: 0; right: 0;
     padding: 12px 16px;
@@ -180,7 +172,6 @@
     text-transform: uppercase;
   }
 
-  /* ─── PLANNING UI ─── */
   #planningUI {
     position: fixed; bottom: 0; left: 0; right: 0;
     padding: 16px;
@@ -223,14 +214,11 @@
   .hint-text { font-size: 11px; color: var(--muted); letter-spacing: 1px; }
   #readyCount { font-size: 13px; color: var(--accent); letter-spacing: 1px; }
 
-  /* ─── WINNER ─── */
   #winner {
     background: radial-gradient(ellipse at 50% 40%, #1a1a30 0%, #080810 70%);
     gap: 24px;
   }
-  .winner-crown {
-    font-size: 80px; animation: float 2s ease-in-out infinite;
-  }
+  .winner-crown { font-size: 80px; animation: float 2s ease-in-out infinite; }
   @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
   .winner-title {
     font-family: 'Bebas Neue', sans-serif;
@@ -243,7 +231,6 @@
     text-shadow: 0 0 40px rgba(255,204,0,0.4), 3px 3px 0 var(--accent);
   }
 
-  /* ─── TOAST ─── */
   #toast {
     position: fixed; top: 70px; left: 50%; transform: translateX(-50%);
     background: rgba(18,18,26,0.95);
@@ -254,15 +241,6 @@
     transition: opacity 0.3s;
   }
   #toast.hidden { opacity: 0; }
-
-  .screen-shake { animation: shake 0.3s ease; }
-  @keyframes shake {
-    0%,100%{transform:translate(0,0)}
-    20%{transform:translate(-6px,3px)}
-    40%{transform:translate(6px,-3px)}
-    60%{transform:translate(-4px,4px)}
-    80%{transform:translate(4px,-2px)}
-  }
 </style>
 </head>
 <body>
@@ -270,15 +248,13 @@
 <div class="screen" id="lobby">
   <div class="logo">SUMO<span>SURGE</span></div>
 
-  <div class="card" style="display:flex;flex-direction:column;gap:16px;">
+  <div class="card" id="joinCard" style="display:flex;flex-direction:column;gap:16px;">
     <div>
       <div class="field-label">Your Name</div>
       <input type="text" id="nameInput" placeholder="Enter display name" maxlength="16">
     </div>
     <button class="btn" id="joinBtn">JOIN ARENA</button>
-    <div style="display:flex;gap:8px;">
-      <button class="btn secondary" id="leaderboardBtn" style="flex:1">🏆 Leaderboard</button>
-    </div>
+    <button class="btn secondary" id="leaderboardBtn">🏆 Leaderboard</button>
   </div>
 
   <div class="card" id="waitingRoom" style="display:none;flex-direction:column;gap:14px;">
@@ -288,7 +264,7 @@
     </div>
     <div class="player-list" id="playerListEl"></div>
     <div class="status-bar" id="lobbyStatus">Waiting for players...</div>
-    <button class="btn yellow" id="startBtn" disabled>START GAME</button>
+    <button class="btn yellow" id="startBtn" style="display:none;" disabled>START GAME</button>
     <button class="btn secondary" id="leaveBtn">Leave Lobby</button>
   </div>
 
@@ -357,76 +333,69 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+const db  = getDatabase(app);
 const auth = getAuth(app);
 
-// ─────────────────────────────────────────────
-// CONSTANTS
-// ─────────────────────────────────────────────
-const LOGICAL_SIZE   = 1000;
-const PLAYER_RADIUS  = 28;
-const FRICTION       = 0.985;
-const SHRINK_FACTOR  = 0.85;
-const MAX_POWER      = 18;    
-const EXEC_FRAMES    = 240;   
-const ROUND_DELAY    = 2200;  
-const COUNTDOWN_SEC  = 5;
+// ─── CONSTANTS ───
+const LOGICAL_SIZE  = 1000;
+const PLAYER_RADIUS = 28;
+const FRICTION      = 0.985;
+const SHRINK_FACTOR = 0.85;
+const MAX_POWER     = 18;
+const EXEC_FRAMES   = 240;
+const ROUND_DELAY   = 2200;
+const COUNTDOWN_SEC = 5;
 
 const PLAYER_COLORS = ['#ff4d00','#00ccff','#44ff88','#ffcc00','#cc44ff','#ff44aa','#00ffcc','#ff8844'];
 
-// ─────────────────────────────────────────────
-// DOM REFS
-// ─────────────────────────────────────────────
+// ─── DOM ───
 const $ = id => document.getElementById(id);
-const lobbyEl      = $('lobby');
-const leaderboardEl= $('leaderboard');
-const gameEl       = $('game');
-const winnerEl     = $('winner');
-const nameInput    = $('nameInput');
-const joinBtn      = $('joinBtn');
-const startBtn     = $('startBtn');
-const leaveBtn     = $('leaveBtn');
-const waitingRoom  = $('waitingRoom');
-const playerListEl = $('playerListEl');
-const lobbyStatus  = $('lobbyStatus');
+const lobbyEl         = $('lobby');
+const leaderboardEl   = $('leaderboard');
+const gameEl          = $('game');
+const winnerEl        = $('winner');
+const nameInput       = $('nameInput');
+const joinBtn         = $('joinBtn');
+const joinCard        = $('joinCard');
+const startBtn        = $('startBtn');
+const leaveBtn        = $('leaveBtn');
+const waitingRoom     = $('waitingRoom');
+const playerListEl    = $('playerListEl');
+const lobbyStatus     = $('lobbyStatus');
 const readyCountLobby = $('readyCountLobby');
 const countdownOverlay= $('countdownOverlay');
-const countdownNum = $('countdownNum');
-const lbBtn        = $('leaderboardBtn');
-const lbBackBtn    = $('lbBackBtn');
-const lbBody       = $('lbBody');
-const hud          = $('hud');
-const planningUI   = $('planningUI');
-const roundLabel   = $('roundLabel');
-const phaseLabel   = $('phaseLabel');
-const aliveLabel   = $('aliveLabel');
-const powerSlider  = $('powerSlider');
-const powerValue   = $('powerValue');
-const readyBtn     = $('readyBtn');
-const readyCount   = $('readyCount');
-const winnerName   = $('winnerName');
-const backToLobbyBtn=$('backToLobbyBtn');
-const directionHint= $('directionHint');
-const toast        = $('toast');
-const canvas       = $('gameCanvas');
-const ctx          = canvas.getContext('2d');
+const countdownNum    = $('countdownNum');
+const lbBtn           = $('leaderboardBtn');
+const lbBackBtn       = $('lbBackBtn');
+const lbBody          = $('lbBody');
+const hud             = $('hud');
+const planningUI      = $('planningUI');
+const roundLabel      = $('roundLabel');
+const phaseLabel      = $('phaseLabel');
+const aliveLabel      = $('aliveLabel');
+const powerSlider     = $('powerSlider');
+const powerValue      = $('powerValue');
+const readyBtn        = $('readyBtn');
+const readyCount      = $('readyCount');
+const winnerName      = $('winnerName');
+const backToLobbyBtn  = $('backToLobbyBtn');
+const directionHint   = $('directionHint');
+const toast           = $('toast');
+const canvas          = $('gameCanvas');
+const ctx             = canvas.getContext('2d');
 
-// ─────────────────────────────────────────────
-// STATE
-// ─────────────────────────────────────────────
-let myUid    = null;
-let myName   = 'Player';
-let isHost   = false;
+// ─── STATE ───
+let myUid        = null;
+let myName       = 'Player';
+let isHost       = false;
 let lobbyPlayers = {};
+let inGame       = false; // FIX: track whether we're actively in a game
 
 let gameState = {
-  status:       'waiting',
-  round:        1,
-  platformSize: 800,
-  players:      {}, 
+  status: 'waiting', round: 1, platformSize: 800, players: {}
 };
 
-let phase      = 'planning'; 
+let phase      = 'planning';
 let myVector   = { angle: 0, power: 0.6 };
 let isReady    = false;
 let isDragging = false;
@@ -441,9 +410,7 @@ let canvasOffX = 0;
 let canvasOffY = 0;
 let countdownInterval = null;
 
-// ─────────────────────────────────────────────
-// UTILS
-// ─────────────────────────────────────────────
+// ─── UTILS ───
 function showToast(msg, duration = 2200) {
   toast.textContent = msg;
   toast.classList.remove('hidden');
@@ -451,18 +418,21 @@ function showToast(msg, duration = 2200) {
   toast._t = setTimeout(() => toast.classList.add('hidden'), duration);
 }
 
+// FIX: showScreen no longer touches game-related UI; also accepts optional noHud param
 function showScreen(id) {
   [lobbyEl, leaderboardEl, gameEl, winnerEl].forEach(s => s.classList.add('hidden'));
   $(id).classList.remove('hidden');
-  hud.style.display = id === 'game' ? 'flex' : 'none';
-  planningUI.style.display = 'none';
+  if (id === 'game') {
+    hud.style.display = 'flex';
+  } else {
+    hud.style.display = 'none';
+    planningUI.style.display = 'none';
+  }
 }
 
 function lerp(a, b, t) { return a + (b - a) * t; }
 
-// ─────────────────────────────────────────────
-// CANVAS SETUP
-// ─────────────────────────────────────────────
+// ─── CANVAS ───
 function resizeCanvas() {
   const w = window.innerWidth, h = window.innerHeight;
   canvas.width  = w;
@@ -481,9 +451,7 @@ function toLogical(sx, sy) {
   };
 }
 
-// ─────────────────────────────────────────────
-// PHYSICS
-// ─────────────────────────────────────────────
+// ─── PHYSICS ───
 function applyInitialVelocities() {
   Object.keys(gameState.players).forEach(uid => {
     const p = gameState.players[uid];
@@ -510,20 +478,16 @@ function resolveCollisions() {
         const relV = (a.vx - b.vx) * nx + (a.vy - b.vy) * ny;
         if (relV > 0) {
           const impulse = relV * 0.9;
-          a.vx -= impulse * nx;
-          a.vy -= impulse * ny;
-          b.vx += impulse * nx;
-          b.vy += impulse * ny;
+          a.vx -= impulse * nx; a.vy -= impulse * ny;
+          b.vx += impulse * nx; b.vy += impulse * ny;
         }
         const overlap = (minDist - dist) / 2;
-        a.x -= nx * overlap;
-        a.y -= ny * overlap;
-        b.x += nx * overlap;
-        b.y += ny * overlap;
+        a.x -= nx * overlap; a.y -= ny * overlap;
+        b.x += nx * overlap; b.y += ny * overlap;
         const hitStrength = Math.abs(relV);
         if (hitStrength > 3) {
           shakeFrames = Math.min(18, hitStrength * 2);
-          shakeAmt = Math.min(12, hitStrength * 1.5);
+          shakeAmt    = Math.min(12, hitStrength * 1.5);
         }
       }
     }
@@ -531,19 +495,16 @@ function resolveCollisions() {
 }
 
 function stepPhysics() {
-  const ps = gameState.platformSize;
+  const ps   = gameState.platformSize;
   const half = ps / 2;
   const center = LOGICAL_SIZE / 2;
   Object.keys(gameState.players).forEach(uid => {
     const p = gameState.players[uid];
     if (!p.isAlive) return;
-    p.x += p.vx;
-    p.y += p.vy;
-    p.vx *= FRICTION;
-    p.vy *= FRICTION;
-    
-    // Out of bounds checking
-    if (p.x < center - half || p.x > center + half || p.y < center - half || p.y > center + half) {
+    p.x += p.vx; p.y += p.vy;
+    p.vx *= FRICTION; p.vy *= FRICTION;
+    if (p.x < center - half || p.x > center + half ||
+        p.y < center - half || p.y > center + half) {
       p.isAlive = false;
       if (uid === myUid) showToast('💀 You fell off!');
     }
@@ -551,9 +512,7 @@ function stepPhysics() {
   resolveCollisions();
 }
 
-// ─────────────────────────────────────────────
-// RENDERING (Unchanged purely visual logic)
-// ─────────────────────────────────────────────
+// ─── RENDERING ───
 function render() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   let sx = 0, sy = 0;
@@ -568,24 +527,22 @@ function render() {
   ctx.scale(canvasScale, canvasScale);
 
   ctx.fillStyle = '#0a0a14';
-  ctx.fillRect(-canvasOffX / canvasScale - sx, -canvasOffY / canvasScale - sy, canvas.width / canvasScale + 200, canvas.height / canvasScale + 200);
+  ctx.fillRect(-canvasOffX / canvasScale - sx, -canvasOffY / canvasScale - sy,
+    canvas.width / canvasScale + 200, canvas.height / canvasScale + 200);
 
   ctx.save();
   for (let i = 0; i < 60; i++) {
     const seed = i * 137.508;
-    const bx = (seed * 7.3) % 1000;
-    const by = (seed * 13.7) % 1000;
+    const bx = (seed * 7.3) % 1000, by = (seed * 13.7) % 1000;
     const r  = (i % 3 === 0) ? 1.2 : 0.5;
     ctx.fillStyle = `rgba(255,255,255,${0.15 + (i % 5) * 0.07})`;
     ctx.beginPath(); ctx.arc(bx, by, r, 0, Math.PI * 2); ctx.fill();
   }
   ctx.restore();
 
-  const ps     = gameState.platformSize || 800;
-  const cx     = LOGICAL_SIZE / 2;
-  const cy     = LOGICAL_SIZE / 2;
-  const px     = cx - ps / 2;
-  const py     = cy - ps / 2;
+  const ps = gameState.platformSize || 800;
+  const cx = LOGICAL_SIZE / 2, cy = LOGICAL_SIZE / 2;
+  const px = cx - ps / 2, py = cy - ps / 2;
 
   ctx.save();
   ctx.shadowColor = 'rgba(0,0,0,0.6)'; ctx.shadowBlur = 40; ctx.shadowOffsetY = 20;
@@ -629,13 +586,12 @@ function render() {
 
       ctx.save();
       ctx.fillStyle = 'rgba(0,0,0,0.4)';
-      ctx.beginPath(); ctx.ellipse(p.x + 4, p.y + 8, PLAYER_RADIUS * 0.8, PLAYER_RADIUS * 0.4, 0, 0, Math.PI * 2);
+      ctx.beginPath();
+      ctx.ellipse(p.x + 4, p.y + 8, PLAYER_RADIUS * 0.8, PLAYER_RADIUS * 0.4, 0, 0, Math.PI * 2);
       ctx.fill(); ctx.restore();
 
       ctx.save();
-      ctx.shadowColor = p.color || '#fff';
-      ctx.shadowBlur  = isMe ? 20 : 12;
-
+      ctx.shadowColor = p.color || '#fff'; ctx.shadowBlur = isMe ? 20 : 12;
       const bodyGrad = ctx.createRadialGradient(p.x - 6, p.y - 6, 2, p.x, p.y, PLAYER_RADIUS);
       bodyGrad.addColorStop(0, lighten(p.color || '#888', 40));
       bodyGrad.addColorStop(1, p.color || '#888');
@@ -654,7 +610,7 @@ function render() {
       if (speed > 0.5) faceAngle = Math.atan2(p.vy, p.vx);
       else if (p.inputVector) faceAngle = p.inputVector.angle * Math.PI / 180;
       else faceAngle = 0;
-      
+
       const dotX = p.x + Math.cos(faceAngle) * (PLAYER_RADIUS - 7);
       const dotY = p.y + Math.sin(faceAngle) * (PLAYER_RADIUS - 7);
       ctx.fillStyle = '#fff';
@@ -670,7 +626,6 @@ function render() {
         const len = myVector.power * 120;
         const ex  = p.x + Math.cos(rad) * (PLAYER_RADIUS + len);
         const ey  = p.y + Math.sin(rad) * (PLAYER_RADIUS + len);
-
         ctx.save();
         ctx.strokeStyle = 'rgba(255,204,0,0.7)'; ctx.lineWidth = 2.5; ctx.setLineDash([8, 5]);
         ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(ex, ey); ctx.stroke();
@@ -696,9 +651,7 @@ function lighten(hex, amount) {
   return `rgb(${Math.min(255, r + amount)},${Math.min(255, g + amount)},${Math.min(255, b + amount)})`;
 }
 
-// ─────────────────────────────────────────────
-// GAME LOOP (Local Execution)
-// ─────────────────────────────────────────────
+// ─── GAME LOOP ───
 function gameLoop() {
   if (phase === 'execution') {
     stepPhysics();
@@ -712,6 +665,9 @@ function gameLoop() {
     });
 
     if (alivePlayers.length <= 1 || allStopped || execTimer >= EXEC_FRAMES) {
+      render(); // FIX: render final frame before stopping
+      cancelAnimationFrame(animId);
+      animId = null;
       endRound(alivePlayers);
       return;
     }
@@ -721,58 +677,62 @@ function gameLoop() {
 }
 
 function endRound(alivePlayers) {
-  render();
-  cancelAnimationFrame(animId);
+  // Only host manages network state progression
+  if (!isHost) return;
 
-  // ONLY Host manages network state progression
-  if (isHost) {
-    if (alivePlayers.length <= 1) {
-      const winnerId = alivePlayers[0];
-      const winnerName = winnerId ? gameState.players[winnerId].name : 'NOBODY';
-      
-      if (winnerId) {
-        // Record win in Firebase Leaderboard
-        const lbRef = ref(db, `leaderboard/${winnerId}`);
-        runTransaction(lbRef, (currentData) => {
-          if (currentData === null) return { name: gameState.players[winnerId].name, wins: 1 };
-          currentData.wins++;
-          return currentData;
-        });
-      }
+  if (alivePlayers.length <= 1) {
+    const winnerId = alivePlayers[0] || null;
+    const wName = winnerId ? (gameState.players[winnerId] ? gameState.players[winnerId].name : 'NOBODY') : 'NOBODY';
 
-      set(ref(db, 'room/winner'), winnerName);
-      setTimeout(() => resetRoom(), 5000);
-    } else {
-      setTimeout(() => startNextRoundHost(alivePlayers), ROUND_DELAY);
+    if (winnerId && gameState.players[winnerId]) {
+      const lbRef = ref(db, `leaderboard/${winnerId}`);
+      runTransaction(lbRef, (currentData) => {
+        if (currentData === null) return { name: gameState.players[winnerId].name, wins: 1 };
+        currentData.wins = (currentData.wins || 0) + 1;
+        return currentData;
+      });
     }
+
+    // FIX: set winner first, then schedule room reset separately
+    set(ref(db, 'room/winner'), wName);
+    setTimeout(() => {
+      if (isHost) resetRoom();
+    }, 6000);
+  } else {
+    setTimeout(() => {
+      if (isHost) startNextRoundHost(alivePlayers);
+    }, ROUND_DELAY);
   }
 }
 
-// Host calculates the new layout and publishes it
-function startNextRoundHost(alivePlayers) {
-  const nextRound = gameState.round + 1;
-  const nextSize = Math.max(200, gameState.platformSize * SHRINK_FACTOR);
-  const cx = LOGICAL_SIZE / 2;
-  const half = nextSize / 2;
-  const margin = PLAYER_RADIUS * 1.8;
-  const count = alivePlayers.length;
-  
-  const updatedPlayers = { ...gameState.players };
-  
-  alivePlayers.forEach((uid, i) => {
-    const p = updatedPlayers[uid];
+function startNextRoundHost(survivors) {
+  const nextRound = (gameState.round || 1) + 1;
+  const nextSize  = Math.max(200, (gameState.platformSize || 800) * SHRINK_FACTOR);
+  const cx        = LOGICAL_SIZE / 2;
+  const half      = nextSize / 2;
+  const margin    = PLAYER_RADIUS * 1.8;
+  const count     = survivors.length;
+
+  // FIX: deep-copy players so we don't mutate local state before writing
+  const updatedPlayers = JSON.parse(JSON.stringify(gameState.players));
+
+  survivors.forEach((uid, i) => {
+    if (!updatedPlayers[uid]) return;
     const ang = (i / count) * Math.PI * 2 - Math.PI / 2;
     const rad = (nextSize / 2) * 0.55;
-    const nx = cx + Math.cos(ang) * rad;
-    const ny = cx + Math.sin(ang) * rad;
-    p.x = Math.max(cx - half + margin, Math.min(cx + half - margin, nx));
-    p.y = Math.max(cx - half + margin, Math.min(cx + half - margin, ny));
-    p.vx = 0; p.vy = 0;
-    p.inputVector = { angle: 0, power: 0 };
-    p._ready = false;
+    const nx  = cx + Math.cos(ang) * rad;
+    const ny  = cx + Math.sin(ang) * rad;
+    updatedPlayers[uid].x  = Math.max(cx - half + margin, Math.min(cx + half - margin, nx));
+    updatedPlayers[uid].y  = Math.max(cx - half + margin, Math.min(cx + half - margin, ny));
+    updatedPlayers[uid].vx = 0;
+    updatedPlayers[uid].vy = 0;
+    updatedPlayers[uid].inputVector = { angle: 0, power: 0 };
+    updatedPlayers[uid]._ready = false;
   });
 
-  update(ref(db, 'room/gameState'), {
+  // FIX: write complete state atomically as a single set
+  set(ref(db, 'room/gameState'), {
+    status: 'playing',
     round: nextRound,
     platformSize: nextSize,
     phase: 'planning',
@@ -780,215 +740,283 @@ function startNextRoundHost(alivePlayers) {
   });
 }
 
-// ─────────────────────────────────────────────
-// PHASES
-// ─────────────────────────────────────────────
+// ─── PHASES ───
 function startPlanningPhase() {
   phase   = 'planning';
   isReady = false;
   readyBtn.classList.remove('locked');
   readyBtn.textContent = 'READY!';
-  
+  myVector = { angle: 0, power: 0.6 }; // FIX: reset local vector each round
+  powerSlider.value = 60;
+  powerValue.textContent = '60%';
+
   if (gameState.players[myUid] && gameState.players[myUid].isAlive) {
     planningUI.style.display = 'flex';
   } else {
     planningUI.style.display = 'none';
-    showToast('Spectating...');
+    showToast('Spectating this round...');
   }
-  
+
   directionHint.textContent = 'Drag canvas to aim · Tap READY when set';
+  updateHUD(); // FIX: always update HUD when entering planning
   updateReadyCount();
+
+  // FIX: cancel any existing animation before starting a new one
   cancelAnimationFrame(animId);
+  animId = null;
   animId = requestAnimationFrame(gameLoop);
 }
 
 function launchExecution() {
-  phase = 'execution';
+  phase     = 'execution';
   execTimer = 0;
   planningUI.style.display = 'none';
   phaseLabel.textContent   = 'LAUNCH!';
   applyInitialVelocities();
   cancelAnimationFrame(animId);
+  animId = null;
   animId = requestAnimationFrame(gameLoop);
 }
 
 function updateReadyCount() {
-  if(!gameState.players) return;
+  if (!gameState.players) return;
   const alive   = Object.keys(gameState.players).filter(u => gameState.players[u].isAlive);
   const readied = alive.filter(u => gameState.players[u]._ready);
   readyCount.textContent = `${readied.length} / ${alive.length} ready`;
 }
 
-// ─────────────────────────────────────────────
-// NETWORK: LOBBY & SYNC
-// ─────────────────────────────────────────────
+// ─── LOBBY SYNC ───
 joinBtn.addEventListener('click', () => {
   const name = nameInput.value.trim();
   if (!name) { showToast('Enter a display name'); return; }
-  myName  = name;
-  joinBtn.style.display = 'none';
-  
+  myName = name;
+  joinBtn.disabled = true;
+  joinBtn.textContent = 'JOINING...';
+
   signInAnonymously(auth).then(({ user }) => {
     myUid = user.uid;
-    const playerRef = ref(db, `room/players/${myUid}`);
-    const pColor = PLAYER_COLORS[Math.floor(Math.random() * PLAYER_COLORS.length)];
-    
+    const playerRef    = ref(db, `room/players/${myUid}`);
+    const pColor       = PLAYER_COLORS[Math.floor(Math.random() * PLAYER_COLORS.length)];
+
     set(playerRef, { name: myName, color: pColor });
     onDisconnect(playerRef).remove();
+
+    // FIX: use update with isAlive: false on disconnect instead of remove
+    // so game doesn't crash if player disconnects mid-game
     onDisconnect(ref(db, `room/gameState/players/${myUid}`)).update({ isAlive: false });
-    
-    waitingRoom.style.display = 'flex';
+
+    joinCard.style.display     = 'none';
+    waitingRoom.style.display  = 'flex';
+  }).catch(err => {
+    showToast('Connection failed. Try again.');
+    joinBtn.disabled  = false;
+    joinBtn.textContent = 'JOIN ARENA';
   });
 });
 
 onValue(ref(db, 'room/players'), snap => {
   lobbyPlayers = snap.val() || {};
   playerListEl.innerHTML = '';
-  
+
   const uids = Object.keys(lobbyPlayers).sort();
-  isHost = uids[0] === myUid; // Automatic Host Assignment/Migration
+  isHost = myUid && uids[0] === myUid;
 
   uids.forEach(uid => {
     const p = lobbyPlayers[uid];
     const div = document.createElement('div');
     div.className = 'player-pill';
     div.innerHTML = `<div class="player-dot" style="background:${p.color}"></div>
-      <span>${p.name} ${uid === uids[0] ? '👑' : ''}</span>${uid === myUid ? ' <span style="color:var(--muted);font-size:10px">(you)</span>' : ''}`;
+      <span>${p.name}${uid === uids[0] ? ' 👑' : ''}</span>${uid === myUid ? ' <span style="color:var(--muted);font-size:10px">(you)</span>' : ''}`;
     playerListEl.appendChild(div);
   });
-  
+
   readyCountLobby.textContent = `${uids.length} online`;
-  lobbyStatus.textContent = isHost ? "You are the Host" : "Waiting for Host to start...";
-  
+  lobbyStatus.textContent = !myUid ? '' : isHost ? 'You are the Host' : 'Waiting for Host to start...';
+
   if (isHost) {
     startBtn.style.display = 'block';
-    startBtn.disabled = uids.length < 2; 
+    // FIX: need at least 2 players; host alone can't start
+    startBtn.disabled = uids.length < 2;
   } else {
     startBtn.style.display = 'none';
   }
 });
 
 startBtn.addEventListener('click', () => {
-  if(isHost) set(ref(db, 'room/status'), 'starting');
+  if (isHost) set(ref(db, 'room/status'), 'starting');
 });
 
-// Sync Status & Starts
+// ─── STATUS SYNC ───
+// FIX: Track whether we've already responded to 'starting' to prevent double-init
+let handledStarting = false;
+
 onValue(ref(db, 'room/status'), snap => {
   const status = snap.val();
-  if (status === 'starting') {
-    waitingRoom.style.display = 'none';
+
+  if (status === 'starting' && !handledStarting) {
+    handledStarting = true;
+    waitingRoom.style.display  = 'none';
     countdownOverlay.style.display = 'block';
+
     if (isHost) {
       let c = COUNTDOWN_SEC;
       set(ref(db, 'room/countdown'), c);
+      clearInterval(countdownInterval);
       countdownInterval = setInterval(() => {
         c--;
         set(ref(db, 'room/countdown'), c);
-        if (c < 0) {
+        if (c <= 0) {
           clearInterval(countdownInterval);
           initMultiplayerGame();
         }
       }, 1000);
     }
-  } else if (status === 'playing' && gameState.status !== 'playing') {
-    showScreen('game');
+  } else if (status === 'playing') {
+    // FIX: Only switch to game screen if not already in game
+    if (!inGame) {
+      inGame = true;
+      countdownOverlay.style.display = 'none';
+      showScreen('game');
+    }
   } else if (status === 'waiting' || status === null) {
+    // FIX: Only go back to lobby if we're not in the middle of gameplay
+    // (winner screen handles its own transition)
+    handledStarting = false;
+    inGame = false;
+    if (!winnerEl.classList.contains('hidden')) return; // let winner screen show
     showScreen('lobby');
-    waitingRoom.style.display = myUid ? 'flex' : 'none';
-    joinBtn.style.display = myUid ? 'none' : 'block';
+    // Restore lobby UI correctly
+    if (myUid) {
+      joinCard.style.display    = 'none';
+      waitingRoom.style.display = 'flex';
+    } else {
+      joinCard.style.display    = 'flex';
+      waitingRoom.style.display = 'none';
+    }
+    countdownOverlay.style.display = 'none';
   }
 });
 
 onValue(ref(db, 'room/countdown'), snap => {
-  if (snap.exists()) countdownNum.textContent = snap.val();
+  if (snap.exists()) countdownNum.textContent = Math.max(0, snap.val());
 });
 
 function initMultiplayerGame() {
-  const uids = Object.keys(lobbyPlayers);
+  const uids  = Object.keys(lobbyPlayers);
   const count = uids.length;
-  const cx = LOGICAL_SIZE / 2;
+  const cx    = LOGICAL_SIZE / 2;
   const newPlayers = {};
 
   uids.forEach((uid, i) => {
     const ang = (i / count) * Math.PI * 2 - Math.PI / 2;
     const rad = 260;
     newPlayers[uid] = {
-      name: lobbyPlayers[uid].name, color: lobbyPlayers[uid].color,
-      x: cx + Math.cos(ang) * rad, y: cx + Math.sin(ang) * rad,
-      vx: 0, vy: 0, isAlive: true, _ready: false,
+      name: lobbyPlayers[uid].name,
+      color: lobbyPlayers[uid].color,
+      x: cx + Math.cos(ang) * rad,
+      y: cx + Math.sin(ang) * rad,
+      vx: 0, vy: 0,
+      isAlive: true,
+      _ready: false,
       inputVector: { angle: 0, power: 0 }
     };
   });
 
+  // FIX: write gameState first, then set status to playing atomically
   set(ref(db, 'room/gameState'), {
     status: 'playing', round: 1, platformSize: 800, phase: 'planning',
     players: newPlayers
+  }).then(() => {
+    set(ref(db, 'room/status'), 'playing');
   });
-  set(ref(db, 'room/status'), 'playing');
 }
 
-// Sync Core Game State
+// ─── GAME STATE SYNC ───
+let lastKnownPhase = null; // FIX: prevent duplicate phase transitions
+
 onValue(ref(db, 'room/gameState'), snap => {
   const state = snap.val();
-  if (!state) return;
+  if (!state || !inGame) return;
 
-  // New Round / Back to Planning
-  if (state.phase === 'planning' && phase === 'execution') {
+  const newPhase = state.phase;
+
+  // FIX: Handle planning → execution transition
+  if (newPhase === 'execution' && phase === 'planning') {
     gameState = state;
-    roundNum = state.round;
-    startPlanningPhase();
+    launchExecution();
+    lastKnownPhase = 'execution';
+    return;
   }
 
-  // Live updates during planning phase (ready counts & vectors)
-  if (state.phase === 'planning' && phase === 'planning') {
+  // FIX: Handle execution → planning (next round) transition
+  if (newPhase === 'planning' && lastKnownPhase === 'execution') {
+    gameState = state;
+    roundNum = state.round;
+    lastKnownPhase = 'planning';
+    startPlanningPhase();
+    return;
+  }
+
+  // FIX: Initial game load — only trigger once when first entering game
+  if (newPhase === 'planning' && lastKnownPhase === null) {
+    gameState = state;
+    roundNum = state.round || 1;
+    lastKnownPhase = 'planning';
+    startPlanningPhase();
+    return;
+  }
+
+  // Live updates during planning (ready counts, vectors from other players)
+  if (newPhase === 'planning' && phase === 'planning') {
     gameState = state;
     updateReadyCount();
-    
-    // Host checks if everyone locked in
+
+    // FIX: Host checks if all alive players are ready
     if (isHost) {
-      const alive = Object.keys(state.players).filter(u => state.players[u].isAlive);
-      const allReady = alive.every(u => state.players[u]._ready);
-      if (allReady && alive.length > 0) {
+      const alive    = Object.keys(state.players).filter(u => state.players[u].isAlive);
+      const allReady = alive.length > 0 && alive.every(u => state.players[u]._ready);
+      if (allReady) {
         update(ref(db, 'room/gameState'), { phase: 'execution' });
       }
     }
   }
-
-  // Trigger Execution
-  if (state.phase === 'execution' && phase === 'planning') {
-    gameState = state; 
-    launchExecution();
-  }
 });
 
-// Display Winner
+// ─── WINNER SYNC ───
 onValue(ref(db, 'room/winner'), snap => {
-  if (snap.exists()) {
-    cancelAnimationFrame(animId);
-    hud.style.display = 'none';
-    planningUI.style.display = 'none';
-    winnerName.textContent = snap.val();
-    showScreen('winner');
-  }
+  if (!snap.exists()) return;
+  const wName = snap.val();
+  if (!wName) return;
+
+  cancelAnimationFrame(animId);
+  animId = null;
+  hud.style.display = 'none';
+  planningUI.style.display = 'none';
+  inGame = false;
+  lastKnownPhase = null;
+  winnerName.textContent = wName;
+  showScreen('winner');
 });
 
 function resetRoom() {
-  set(ref(db, 'room/status'), 'waiting');
-  set(ref(db, 'room/gameState'), null);
   set(ref(db, 'room/winner'), null);
+  set(ref(db, 'room/gameState'), null);
   set(ref(db, 'room/countdown'), null);
+  // FIX: set status last so listeners don't fire on stale data
+  set(ref(db, 'room/status'), 'waiting');
 }
 
-// ─────────────────────────────────────────────
-// INPUT & HUD
-// ─────────────────────────────────────────────
+// ─── HUD ───
 function updateHUD() {
-  roundLabel.textContent  = `Round ${roundNum}`;
-  phaseLabel.textContent  = phase === 'planning' ? 'PLANNING' : 'LAUNCH!';
-  const alive = gameState.players ? Object.keys(gameState.players).filter(u => gameState.players[u].isAlive).length : 0;
-  aliveLabel.textContent  = `👥 ${alive}`;
+  roundLabel.textContent = `Round ${roundNum}`;
+  phaseLabel.textContent = phase === 'planning' ? 'PLANNING' : 'LAUNCH!';
+  const alive = gameState.players
+    ? Object.keys(gameState.players).filter(u => gameState.players[u].isAlive).length
+    : 0;
+  aliveLabel.textContent = `👥 ${alive}`;
 }
 
+// ─── INPUT ───
 function getEventPos(e) {
   const touch = e.touches ? e.touches[0] : e;
   return { x: touch.clientX, y: touch.clientY };
@@ -998,8 +1026,8 @@ canvas.addEventListener('touchstart', e => { e.preventDefault(); startDrag(getEv
 canvas.addEventListener('mousedown',  e => startDrag(getEventPos(e)));
 canvas.addEventListener('touchmove',  e => { e.preventDefault(); moveDrag(getEventPos(e)); }, { passive: false });
 canvas.addEventListener('mousemove',  e => { if (isDragging) moveDrag(getEventPos(e)); });
-canvas.addEventListener('touchend',   e => endDrag());
-canvas.addEventListener('mouseup',    e => endDrag());
+canvas.addEventListener('touchend',   () => endDrag());
+canvas.addEventListener('mouseup',    () => endDrag());
 
 function startDrag(pos) {
   if (phase !== 'planning' || isReady || !gameState.players[myUid]?.isAlive) return;
@@ -1026,55 +1054,65 @@ powerSlider.addEventListener('input', () => {
   powerValue.textContent = `${powerSlider.value}%`;
 });
 
-// Mark Ready & send vector to Firebase
 readyBtn.addEventListener('click', () => {
   if (isReady || !gameState.players[myUid]?.isAlive) return;
   isReady = true;
   readyBtn.textContent = 'WAITING...';
   readyBtn.classList.add('locked');
-  
   update(ref(db, `room/gameState/players/${myUid}`), {
     _ready: true,
-    inputVector: { ...myVector }
+    inputVector: { angle: myVector.angle, power: myVector.power }
   });
 });
 
 leaveBtn.addEventListener('click', () => {
-  if(myUid) remove(ref(db, `room/players/${myUid}`));
+  if (myUid) remove(ref(db, `room/players/${myUid}`));
   myUid = null;
+  inGame = false;
+  lastKnownPhase = null;
   auth.signOut();
-  waitingRoom.style.display = 'none';
-  joinBtn.style.display = 'block';
+  waitingRoom.style.display  = 'none';
+  joinCard.style.display     = 'flex';
+  joinBtn.disabled    = false;
+  joinBtn.textContent = 'JOIN ARENA';
 });
 
 backToLobbyBtn.addEventListener('click', () => {
+  lastKnownPhase = null;
   showScreen('lobby');
+  if (myUid) {
+    joinCard.style.display    = 'none';
+    waitingRoom.style.display = 'flex';
+  } else {
+    joinCard.style.display    = 'flex';
+    waitingRoom.style.display = 'none';
+  }
 });
 
-// ─────────────────────────────────────────────
-// LEADERBOARD (Firebase Backed)
-// ─────────────────────────────────────────────
+// ─── LEADERBOARD ───
 lbBtn.addEventListener('click', () => {
+  // FIX: fetch data THEN show screen (was showing screen before data arrived)
+  lbBody.innerHTML = '<tr><td colspan="3" style="color:var(--muted);text-align:center;padding:20px">Loading...</td></tr>';
+  showScreen('leaderboard');
   get(ref(db, 'leaderboard')).then(snap => {
-    const data = snap.val() || {};
-    const stored = Object.values(data).sort((a, b) => b.wins - a.wins);
-    
+    const data   = snap.val() || {};
+    const sorted = Object.values(data).sort((a, b) => b.wins - a.wins);
     lbBody.innerHTML = '';
-    if (stored.length === 0) {
+    if (sorted.length === 0) {
       lbBody.innerHTML = `<tr><td colspan="3" style="color:var(--muted);text-align:center;padding:20px">No wins yet!</td></tr>`;
       return;
     }
-    stored.slice(0, 20).forEach((e, i) => {
+    sorted.slice(0, 20).forEach((e, i) => {
       const tr = document.createElement('tr');
       tr.innerHTML = `<td class="rank-num">${i + 1}</td><td>${e.name}</td><td>${e.wins}</td>`;
       lbBody.appendChild(tr);
     });
-    showScreen('leaderboard');
   });
 });
 
 lbBackBtn.addEventListener('click', () => showScreen('lobby'));
 
+// ─── INIT ───
 showScreen('lobby');
 </script>
 </body>
