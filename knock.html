@@ -29,11 +29,13 @@
     overflow: hidden;
     touch-action: none;
     user-select: none;
+    overscroll-behavior: none; /* Prevents pull-to-refresh on mobile */
   }
 
   #app {
     width: 100vw;
-    height: 100vh;
+    height: 100vh; /* Fallback for older browsers */
+    height: 100dvh; /* Adjusts dynamically to mobile address bars */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -198,9 +200,12 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    padding: 16px;
+    /* Accounts for mobile notches at the top */
+    padding: max(16px, env(safe-area-inset-top)) 16px 16px 16px;
     pointer-events: none;
   }
+
+  
 
   .round-badge {
     font-family: 'DM Mono', monospace;
@@ -228,13 +233,14 @@
     backdrop-filter: blur(4px);
   }
 
-  #bottom-ui {
+#bottom-ui {
     position: absolute;
     bottom: 0; left: 0; right: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 16px;
+    /* Accounts for mobile home bars at the bottom */
+    padding: 16px 16px max(24px, env(safe-area-inset-bottom)) 16px;
     gap: 10px;
   }
 
