@@ -603,18 +603,44 @@ let PLAYER_R;
 let shakeFrames = 0;
 let readyStatus = {};
 
+// ── FIXED ASPECT RATIO CONSTANT ──
+// 10:16 is a great fit for modern mobile screens while leaving room for UI
+const ARENA_ASPECT = 10 / 16; 
+let ARENA_W = 0;
+let ARENA_H = 0;
+
 function resize() {
   W = window.innerWidth;
   H = window.innerHeight;
   canvas.width  = W;
   canvas.height = H;
-  PLAYER_R = Math.min(W, H) * 0.045;
+  
+  // Calculate the maximum space we are willing to use
+  // We leave 15% horizontal margin and 35% vertical margin for the UI
+  const availableW = W * 0.85;
+  const availableH = H * 0.65;
+  
+  // Fit the fixed 10:16 aspect ratio into the available space
+  if (availableW / availableH > ARENA_ASPECT) {
+    // Screen is relatively wide (like a tablet or desktop). Constrain by height.
+    ARENA_H = availableH;
+    ARENA_W = ARENA_H * ARENA_ASPECT;
+  } else {
+    // Screen is relatively tall (like most phones). Constrain by width.
+    ARENA_W = availableW;
+    ARENA_H = ARENA_W / ARENA_ASPECT;
+  }
+
+  // CRITICAL: Player radius must be based on the synchronized arena size!
+  // If we base it on screen size, players will be different sizes on different devices.
+  // 6% of the arena width feels about right, adjust if needed.
+  PLAYER_R = ARENA_W * 0.06; 
 }
 
 // ── RECTANGLE BASE SIZES ──
-// Leaves a 15% margin on width, and 35% margin on height for UI
-function baseW() { return W * 0.85; }
-function baseH() { return H * 0.65; } 
+function baseW() { return ARENA_W; }
+function baseH() { return ARENA_H; }
+    
 
 function startGame() {
   showScreen('game-screen');
