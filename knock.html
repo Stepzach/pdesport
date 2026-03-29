@@ -413,7 +413,7 @@ const firebaseConfig = {
 };
 // ─────────────────────────────────────────────────────────────────────────
 
-const DEMO_MODE = true; // set false when Firebase is configured
+const DEMO_MODE = false; // set false when Firebase is configured
 
 const app = DEMO_MODE ? null : initializeApp(firebaseConfig);
 const db  = DEMO_MODE ? null : getDatabase(app);
