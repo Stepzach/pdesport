@@ -905,36 +905,32 @@ function hostComputeResult() {
   if (phase!=='flying') return;
   const alive = Object.values(players).filter(p=>p.alive);
 
-  if (alive.length<=1) {
-    // Game over or round over
-    const newBoardSize = Math.max(0.3, (targetBoardRadius/baseBoardRadius()) * 0.85);
-    targetBoardRadius = baseBoardRadius()*newBoardSize;
-    handleRoundResult(newBoardSize);
-   if (isHost) {
-    const pUpdate={};
-    Object.entries(players).forEach(([id,p])=>{ pUpdate[id]={alive:p.alive,x:p.x,y:p.y,ready:false}; });
-    update(roomRef,{status:'round_result',boardSize:newBoardSize,players:pUpdate,round});
-
-    // Auto-start next round after 3 seconds
-    setTimeout(() => {
-      Object.values(players).forEach(p=>{p.ready=false;p.vx=0;p.vy=0;});
-      const nextUpdate={};
-      Object.entries(players).forEach(([id,p])=>{ nextUpdate[id]={...p,ready:false,x:p.x,y:p.y}; });
-      update(roomRef,{status:'playing',round,boardSize:newBoardSize,players:nextUpdate});
-    }, 3000);
-  }
-    return;
-  }
-
-  // shrink board
+  // 1. Calculate the new shrunk board size
   const newBoardSize = Math.max(0.3, (targetBoardRadius/baseBoardRadius()) * 0.85);
   targetBoardRadius = baseBoardRadius()*newBoardSize;
+  
+  // 2. Handle the local UI and round increment
   handleRoundResult(newBoardSize);
 
+  // 3. Push the result to Firebase and handle auto-restarts
   if (isHost) {
     const pUpdate={};
     Object.entries(players).forEach(([id,p])=>{ pUpdate[id]={alive:p.alive,x:p.x,y:p.y,ready:false}; });
+    
+    // Broadcast the 'round_result' status to all clients to show the overlay
     update(roomRef,{status:'round_result',boardSize:newBoardSize,players:pUpdate,round});
+
+    // 4. ONLY auto-start the next round if more than 1 player is still alive!
+    if (alive.length > 1) {
+      setTimeout(() => {
+        Object.values(players).forEach(p=>{p.ready=false;p.vx=0;p.vy=0;});
+        const nextUpdate={};
+        Object.entries(players).forEach(([id,p])=>{ nextUpdate[id]={...p,ready:false,x:p.x,y:p.y}; });
+        
+        // Broadcast the 'playing' status to trigger `setPhase('aim')` for all clients
+        update(roomRef,{status:'playing',round,boardSize:newBoardSize,players:nextUpdate});
+      }, 3000); // 3 second delay before the next round
+    }
   }
 }
 
@@ -965,11 +961,15 @@ function handleRoundResult(newBoardSize) {
     }
   });
 
- setPhase('result');
+  setPhase('result');
   const resultOv=document.getElementById('result-overlay');
   document.getElementById('result-title').textContent=`Round ${round} Over`;
   document.getElementById('result-sub').textContent=`${alive.length} player${alive.length>1?'s':''} remain. Next round starting...`;
-  document.getElementById('next-round-btn').style.display = 'none'; // Button is hidden entirely
+  
+  // Hide both buttons during the automatic next round countdown
+  document.getElementById('next-round-btn').style.display = 'none'; 
+  document.getElementById('back-lobby-btn').style.display = 'none'; 
+  
   resultOv.classList.add('visible');
   round++;
 }
@@ -979,11 +979,14 @@ function showResult(title, sub) {
   const ov = document.getElementById('result-overlay');
   document.getElementById('result-title').textContent=title;
   document.getElementById('result-sub').textContent=sub;
+  
   document.getElementById('next-round-btn').style.display='none';
+  
+  // Bring the back to lobby button back when the game ends
+  document.getElementById('back-lobby-btn').style.display=''; 
+  
   ov.classList.add('visible');
 }
-
-
 
 document.getElementById('back-lobby-btn').addEventListener('click', ()=>{
   cleanup();
