@@ -426,7 +426,7 @@ let gameState = {
   players:      {}, 
 };
 
-let phase      = 'planning'; 
+let phase      = 'lobby';
 let myVector   = { angle: 0, power: 0.6 };
 let isReady    = false;
 let isDragging = false;
@@ -728,7 +728,8 @@ function endRound(alivePlayers) {
   if (isHost) {
     if (alivePlayers.length <= 1) {
       const winnerId = alivePlayers[0];
-      const winnerName = winnerId ? gameState.players[winnerId].name : 'NOBODY';
+      // FIX: Rename variable to winNameStr to avoid shadowing the DOM element
+      const winNameStr = winnerId ? gameState.players[winnerId].name : 'NOBODY';
       
       if (winnerId) {
         // Record win in Firebase Leaderboard
@@ -740,14 +741,14 @@ function endRound(alivePlayers) {
         });
       }
 
-      set(ref(db, 'room/winner'), winnerName);
+      // FIX: Use the new variable name here
+      set(ref(db, 'room/winner'), winNameStr);
       setTimeout(() => resetRoom(), 5000);
     } else {
       setTimeout(() => startNextRoundHost(alivePlayers), ROUND_DELAY);
     }
   }
 }
-
 // Host calculates the new layout and publishes it
 function startNextRoundHost(alivePlayers) {
   const nextRound = gameState.round + 1;
@@ -890,9 +891,10 @@ onValue(ref(db, 'room/status'), snap => {
         }
       }, 1000);
     }
-  } else if (status === 'playing' && gameState.status !== 'playing') {
+ } else if (status === 'playing' && gameState.status !== 'playing') {
     showScreen('game');
   } else if (status === 'waiting' || status === null) {
+    phase = 'lobby'; // <--- ADD THIS LINE
     showScreen('lobby');
     waitingRoom.style.display = myUid ? 'flex' : 'none';
     joinBtn.style.display = myUid ? 'none' : 'block';
@@ -932,13 +934,14 @@ onValue(ref(db, 'room/gameState'), snap => {
   const state = snap.val();
   if (!state) return;
 
-  // New Round / Back to Planning
-  if (state.phase === 'planning' && phase === 'execution') {
+  // FIX: Catch transition from lobby OR execution into planning
+  if (state.phase === 'planning' && phase !== 'planning') {
     gameState = state;
     roundNum = state.round;
     startPlanningPhase();
   }
 
+ 
   // Live updates during planning phase (ready counts & vectors)
   if (state.phase === 'planning' && phase === 'planning') {
     gameState = state;
