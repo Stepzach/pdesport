@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>BUMP</title>
 <style>
- 
     @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@600;700;800&display=swap');
 
 :root {
@@ -345,7 +344,6 @@ html, body {
 <body>
 <div id="app">
 
-  <!-- HOME -->
   <div id="home-screen" class="screen active">
     <div class="logo">BU<span>M</span>P</div>
     <div class="tagline">knock 'em off the edge</div>
@@ -364,7 +362,6 @@ html, body {
     </div>
   </div>
 
-  <!-- LOBBY -->
   <div id="lobby-screen" class="screen">
     <div class="room-header">
       <div class="room-label">Room Code</div>
@@ -381,7 +378,6 @@ html, body {
     <div class="tagline" id="lobby-status">Waiting for players…</div>
   </div>
 
-  <!-- GAME -->
   <div id="game-screen" class="screen">
     <canvas id="game-canvas"></canvas>
     <div id="game-ui">
@@ -407,7 +403,6 @@ html, body {
 
 <div id="toast"></div>
 
-<!-- Firebase -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
@@ -426,10 +421,8 @@ const firebaseConfig = {
 };
 // ─────────────────────────────────────────────────────────────────────────
 
-const DEMO_MODE = false; // set false when Firebase is configured
-
-const app = DEMO_MODE ? null : initializeApp(firebaseConfig);
-const db  = DEMO_MODE ? null : getDatabase(app);
+const app = initializeApp(firebaseConfig);
+const db  = getDatabase(app);
 
 // ── PALETTE ──────────────────────────────────────────────────────────────
 const COLORS = ['#FF3B30','#007AFF','#34C759','#FF9500','#AF52DE','#FF2D55','#5AC8FA','#FFCC00'];
@@ -470,7 +463,7 @@ document.getElementById('create-btn').addEventListener('click', () => {
   myNick = nick; myId = uid();
   roomCode = randCode();
   isHost   = true;
-  if (DEMO_MODE) { enterLobby(); return; }
+  
   const room = {
     status: 'lobby',
     boardSize: 1.0,
@@ -489,7 +482,7 @@ document.getElementById('join-btn').addEventListener('click', () => {
   if (!nick) { toast('Enter a nickname'); return; }
   if (code.length !== 4) { toast('Enter a 4-letter room code'); return; }
   myNick = nick; myId = uid(); roomCode = code; isHost = false;
-  if (DEMO_MODE) { toast('Demo mode: no real Firebase. Create a room and play locally.'); return; }
+  
   get(ref(db, `rooms/${code}`)).then(snap=>{
     if (!snap.exists()) { toast('Room not found'); return; }
     const data = snap.val();
@@ -506,19 +499,6 @@ function enterLobby() {
   showScreen('lobby-screen');
   document.getElementById('display-room-code').textContent = roomCode;
 
-  if (DEMO_MODE) {
-    // populate a fake lobby for demo
-    renderLobbyPlayers({
-      [myId]: { nick:myNick, color:COLORS[0], alive:true, ready:false }
-    });
-    // Only allow start for host in demo
-    if (isHost) {
-      const sb = document.getElementById('start-game-btn');
-      sb.classList.remove('btn-disabled');
-    }
-    return;
-  }
-
   roomRef   = ref(db, `rooms/${roomCode}`);
   playersRef= ref(db, `rooms/${roomCode}/players`);
 
@@ -534,9 +514,13 @@ function enterLobby() {
   });
   listeners.push({ r: playersRef, fn: unsub });
 
-  // Listen for game start
+
+// Listen for game start
   const stUnsub = onValue(ref(db,`rooms/${roomCode}/status`), snap=>{
-    if (snap.val() === 'playing') startGame();
+    // Only call startGame if we are currently in the lobby
+    if (snap.val() === 'playing' && document.getElementById('lobby-screen').classList.contains('active')) {
+      startGame();
+    }
   });
   listeners.push({ r: ref(db,`rooms/${roomCode}/status`), fn: stUnsub });
 }
@@ -572,7 +556,6 @@ document.getElementById('copy-code-btn').addEventListener('click', () => {
 
 document.getElementById('start-game-btn').addEventListener('click', () => {
   if (!isHost) return;
-  if (DEMO_MODE) { startDemoGame(); return; }
   update(roomRef, { status: 'playing', round:1, boardSize:1.0 });
 });
 
@@ -616,37 +599,6 @@ function resize() {
   canvas.width  = W;
   canvas.height = H;
   PLAYER_R = Math.min(W, H) * 0.065;
-}
-
-// ── DEMO: single-device multi-player simulation ───────────────────────────
-function startDemoGame() {
-  showScreen('game-screen');
-  resize();
-  round = 1;
-
-  // Create 2-4 demo players
-  const names = [myNick, 'Rival', 'Ghost'];
-  const count  = 2; // change to 3/4 for more
-
-  players = {};
-  for (let i=0; i<count; i++) {
-    const id = i===0 ? myId : `bot_${i}`;
-    players[id] = {
-      nick: names[i]||`P${i+1}`,
-      color: COLORS[i],
-      alive: true,
-      ready: false,
-      vx: 0, vy: 0,
-      r: PLAYER_R,
-      id
-    };
-  }
-
-  // Spread players on the board
-  repositionPlayers(1.0);
-  myPlayer = players[myId];
-  setPhase('aim');
-  gameLoop();
 }
 
 function startGame() {
@@ -708,7 +660,7 @@ function setPhase(p) {
     launchVec = {x:0,y:0};
     if (myPlayer) { myPlayer.vx=0; myPlayer.vy=0; }
     aiming=false;
-    if (!DEMO_MODE) listenReady();
+    listenReady();
   } else if (p==='countdown') {
     readyBtn.classList.add('btn-disabled');
     aimInstr.style.display='none';
@@ -784,22 +736,6 @@ document.getElementById('ready-btn').textContent = 'Waiting…';
   document.getElementById('ready-btn').classList.add('btn-disabled');
   myPlayer.ready = true; // Instantly lock local aiming
 
-  if (DEMO_MODE) {
-    // Auto-ready bots
-    Object.values(players).forEach(p=>{
-      if (p.id!==myId && p.alive) {
-        const angle = Math.random()*Math.PI*2;
-        const spd   = 5+Math.random()*7;
-        p._launchVx = Math.cos(angle)*spd;
-        p._launchVy = Math.sin(angle)*spd;
-        p.ready=true;
-      }
-    });
-    myPlayer.ready=true;
-    startCountdown();
-    return;
-  }
-
   // Firebase: mark self ready + store launch vector
   update(ref(db,`rooms/${roomCode}/players/${myId}`), {
     ready: true,
@@ -834,7 +770,24 @@ function listenFirebase() {
   const fn = onValue(r, snap=>{
     const data = snap.val();
     if (!data) return;
-    if (data.status==='round_result' && phase!=='result') {
+   if (data.status === 'playing' && phase === 'result') {
+      // New round started automatically! Sync positions.
+      Object.entries(data.players||{}).forEach(([id,p])=>{
+        if (players[id]) {
+          players[id].alive = p.alive;
+          players[id].x     = p.x;
+          players[id].y     = p.y;
+          players[id].ready = p.ready;
+          players[id].vx    = 0;
+          players[id].vy    = 0;
+        }
+      });
+      targetBoardRadius = baseBoardRadius() * (data.boardSize || 1.0);
+      boardRadius = targetBoardRadius;
+      setPhase('aim');
+      document.getElementById('result-overlay').classList.remove('visible');
+    } else if (data.status==='round_result' && phase!=='result') {
+      // apply host-computed result
       // apply host-computed result
       Object.entries(data.players||{}).forEach(([id,p])=>{
         if (players[id]) {
@@ -957,11 +910,19 @@ function hostComputeResult() {
     const newBoardSize = Math.max(0.3, (targetBoardRadius/baseBoardRadius()) * 0.85);
     targetBoardRadius = baseBoardRadius()*newBoardSize;
     handleRoundResult(newBoardSize);
-    if (!DEMO_MODE && isHost) {
-      const pUpdate = {};
-      Object.entries(players).forEach(([id,p])=>{ pUpdate[id]={alive:p.alive,x:p.x,y:p.y,ready:false}; });
-      update(roomRef,{ status:'round_result', boardSize:newBoardSize, players:pUpdate, round });
-    }
+   if (isHost) {
+    const pUpdate={};
+    Object.entries(players).forEach(([id,p])=>{ pUpdate[id]={alive:p.alive,x:p.x,y:p.y,ready:false}; });
+    update(roomRef,{status:'round_result',boardSize:newBoardSize,players:pUpdate,round});
+
+    // Auto-start next round after 3 seconds
+    setTimeout(() => {
+      Object.values(players).forEach(p=>{p.ready=false;p.vx=0;p.vy=0;});
+      const nextUpdate={};
+      Object.entries(players).forEach(([id,p])=>{ nextUpdate[id]={...p,ready:false,x:p.x,y:p.y}; });
+      update(roomRef,{status:'playing',round,boardSize:newBoardSize,players:nextUpdate});
+    }, 3000);
+  }
     return;
   }
 
@@ -970,7 +931,7 @@ function hostComputeResult() {
   targetBoardRadius = baseBoardRadius()*newBoardSize;
   handleRoundResult(newBoardSize);
 
-  if (!DEMO_MODE && isHost) {
+  if (isHost) {
     const pUpdate={};
     Object.entries(players).forEach(([id,p])=>{ pUpdate[id]={alive:p.alive,x:p.x,y:p.y,ready:false}; });
     update(roomRef,{status:'round_result',boardSize:newBoardSize,players:pUpdate,round});
@@ -1004,11 +965,11 @@ function handleRoundResult(newBoardSize) {
     }
   });
 
-  setPhase('result');
+ setPhase('result');
   const resultOv=document.getElementById('result-overlay');
   document.getElementById('result-title').textContent=`Round ${round} Over`;
-  document.getElementById('result-sub').textContent=`${alive.length} player${alive.length>1?'s':''} remain`;
-  document.getElementById('next-round-btn').style.display= isHost||DEMO_MODE ?'':'none';
+  document.getElementById('result-sub').textContent=`${alive.length} player${alive.length>1?'s':''} remain. Next round starting...`;
+  document.getElementById('next-round-btn').style.display = 'none'; // Button is hidden entirely
   resultOv.classList.add('visible');
   round++;
 }
@@ -1022,20 +983,7 @@ function showResult(title, sub) {
   ov.classList.add('visible');
 }
 
-document.getElementById('next-round-btn').addEventListener('click', ()=>{
-  if (!isHost&&!DEMO_MODE) return;
-  // reset ready, reposition
-  Object.values(players).forEach(p=>{p.ready=false;p.vx=0;p.vy=0;});
-  repositionPlayers(targetBoardRadius/baseBoardRadius());
-  boardRadius=targetBoardRadius;
-  if (!DEMO_MODE) {
-    const pUpdate={};
-    Object.entries(players).forEach(([id,p])=>{ pUpdate[id]={...p,ready:false,x:p.x,y:p.y}; });
-    update(roomRef,{status:'playing',round,boardSize:targetBoardRadius/baseBoardRadius(),players:pUpdate});
-  }
-  setPhase('aim');
-  document.getElementById('result-overlay').classList.remove('visible');
-});
+
 
 document.getElementById('back-lobby-btn').addEventListener('click', ()=>{
   cleanup();
