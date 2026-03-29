@@ -556,7 +556,20 @@ document.getElementById('copy-code-btn').addEventListener('click', () => {
 
 document.getElementById('start-game-btn').addEventListener('click', () => {
   if (!isHost) return;
-  update(roomRef, { status: 'playing', round:1, boardSize:1.0 });
+  
+  // Fetch current players to revive them all for the new game
+  get(playersRef).then(snap => {
+    const currentPlayers = snap.val() || {};
+    const updates = { status: 'playing', round: 1, boardSize: 1.0 };
+    
+    // Set everyone to alive and not ready
+    Object.keys(currentPlayers).forEach(id => {
+      updates[`players/${id}/alive`] = true;
+      updates[`players/${id}/ready`] = false;
+    });
+    
+    update(roomRef, updates);
+  });
 });
 
 document.getElementById('leave-btn').addEventListener('click', () => {
@@ -701,7 +714,9 @@ function onPointerMove(e) {
   const dx   = aimStart.x - pos.x;
   const dy   = aimStart.y - pos.y;
   const len  = Math.hypot(dx,dy);
-  const maxPull = 120;
+  
+  // NEW: Make the max drag distance scale with the board size (approx 35% of the radius)
+  const maxPull = baseBoardRadius() * 0.35; 
   const clamped = Math.min(len, maxPull);
   launchVec = { x: (dx/len||0)*clamped, y: (dy/len||0)*clamped };
 }
@@ -726,17 +741,19 @@ document.getElementById('ready-btn').addEventListener('click', () => {
   if (Math.hypot(launchVec.x,launchVec.y)<8) { toast('Drag to aim first!'); return; }
   if (!myPlayer||!myPlayer.alive) return;
 
-  // store intended velocity (will apply on launch)
-  const speed = 12;
-  const len   = Math.hypot(launchVec.x,launchVec.y);
-  myPlayer._launchVx = (launchVec.x/len)*speed*(len/120);
-  myPlayer._launchVy = (launchVec.y/len)*speed*(len/120);
+  // NEW: Calculate a normalized power vector (-1.0 to 1.0)
+  const maxPull = baseBoardRadius() * 0.35;
+  const len    = Math.hypot(launchVec.x,launchVec.y);
+  
+  // Store the raw percentage of power, not the absolute pixels
+  myPlayer._launchVx = (launchVec.x/len) * (len/maxPull);
+  myPlayer._launchVy = (launchVec.y/len) * (len/maxPull);
 
-document.getElementById('ready-btn').textContent = 'Waiting…';
+  document.getElementById('ready-btn').textContent = 'Waiting…';
   document.getElementById('ready-btn').classList.add('btn-disabled');
-  myPlayer.ready = true; // Instantly lock local aiming
+  myPlayer.ready = true;
 
-  // Firebase: mark self ready + store launch vector
+  // Firebase: mark self ready + store normalized launch vector
   update(ref(db,`rooms/${roomCode}/players/${myId}`), {
     ready: true,
     lvx: myPlayer._launchVx,
@@ -775,13 +792,20 @@ function listenFirebase() {
       Object.entries(data.players||{}).forEach(([id,p])=>{
         if (players[id]) {
           players[id].alive = p.alive;
-          players[id].x     = p.x;
-          players[id].y     = p.y;
+          if (p.nx !== undefined && p.ny !== undefined) {
+  players[id].x = W/2 + p.nx * baseBoardRadius();
+  players[id].y = H/2 + p.ny * baseBoardRadius();
+} else {
+  players[id].x = p.x;
+  players[id].y = p.y;
+}
           players[id].ready = p.ready;
           players[id].vx    = 0;
           players[id].vy    = 0;
         }
       });
+
+       
       targetBoardRadius = baseBoardRadius() * (data.boardSize || 1.0);
       boardRadius = targetBoardRadius;
       setPhase('aim');
@@ -792,8 +816,13 @@ function listenFirebase() {
       Object.entries(data.players||{}).forEach(([id,p])=>{
         if (players[id]) {
           players[id].alive = p.alive;
-          players[id].x     = p.x;
-          players[id].y     = p.y;
+         if (p.nx !== undefined && p.ny !== undefined) {
+  players[id].x = W/2 + p.nx * baseBoardRadius();
+  players[id].y = H/2 + p.ny * baseBoardRadius();
+} else {
+  players[id].x = p.x;
+  players[id].y = p.y;
+}
         }
       });
       handleRoundResult(data.boardSize);
@@ -830,10 +859,15 @@ function startCountdown() {
 // ── LAUNCH ────────────────────────────────────────────────────────────────
 function launch() {
   setPhase('flying');
+  
+  // NEW: Define max speed as a percentage of the board size (approx 3.5% per frame)
+  const maxSpeed = baseBoardRadius() * 0.035; 
+
   Object.values(players).forEach(p=>{
     if (!p.alive) return;
-    p.vx = p._launchVx||0;
-    p.vy = p._launchVy||0;
+    // Multiply the normalized vector by the local screen's max speed
+    p.vx = (p._launchVx||0) * maxSpeed;
+    p.vy = (p._launchVy||0) * maxSpeed;
   });
 }
 
@@ -915,7 +949,15 @@ function hostComputeResult() {
   // 3. Push the result to Firebase and handle auto-restarts
   if (isHost) {
     const pUpdate={};
-    Object.entries(players).forEach(([id,p])=>{ pUpdate[id]={alive:p.alive,x:p.x,y:p.y,ready:false}; });
+Object.entries(players).forEach(([id,p])=>{
+  pUpdate[id]={
+    ...p, 
+    alive:p.alive, 
+    nx: (p.x - W/2) / baseBoardRadius(), // <-- Save relative X
+    ny: (p.y - H/2) / baseBoardRadius(), // <-- Save relative Y
+    ready:false
+  }; 
+});
     
     // Broadcast the 'round_result' status to all clients to show the overlay
     update(roomRef,{status:'round_result',boardSize:newBoardSize,players:pUpdate,round});
@@ -924,9 +966,16 @@ function hostComputeResult() {
     if (alive.length > 1) {
       setTimeout(() => {
         Object.values(players).forEach(p=>{p.ready=false;p.vx=0;p.vy=0;});
-        const nextUpdate={};
-        Object.entries(players).forEach(([id,p])=>{ nextUpdate[id]={...p,ready:false,x:p.x,y:p.y}; });
-        
+       const nextUpdate={};
+Object.entries(players).forEach(([id,p])=>{ 
+  nextUpdate[id]={
+    ...p,
+    ready:false,
+    nx: (p.x - W/2) / baseBoardRadius(),
+    ny: (p.y - H/2) / baseBoardRadius()
+  }; 
+});
+          
         // Broadcast the 'playing' status to trigger `setPhase('aim')` for all clients
         update(roomRef,{status:'playing',round,boardSize:newBoardSize,players:nextUpdate});
       }, 3000); // 3 second delay before the next round
@@ -1146,7 +1195,9 @@ function drawPlayers() {
 
     // Aim power indicator (my player, aiming)
     if (isMe && phase==='aim' && Math.hypot(launchVec.x,launchVec.y)>4) {
-      const pct = Math.hypot(launchVec.x,launchVec.y)/120;
+    // Base the percentage off our new relative maxPull
+  const maxPull = baseBoardRadius() * 0.35;
+  const pct = Math.hypot(launchVec.x,launchVec.y) / maxPull;
       ctx.save();
       ctx.beginPath();
       ctx.arc(p.x,p.y,p.r+10, -Math.PI/2, -Math.PI/2+Math.PI*2*pct);
@@ -1160,10 +1211,36 @@ function drawPlayers() {
 }
 
 // ── WINDOW RESIZE ─────────────────────────────────────────────────────────
+// ── AT THE BOTTOM OF YOUR SCRIPT ──
+
 window.addEventListener('resize', ()=>{
   if (document.getElementById('game-screen').classList.contains('active')) {
+    // 1. Save normalized positions BEFORE canvas size changes
+    const relativePositions = {};
+    Object.values(players).forEach(p => {
+      relativePositions[p.id] = {
+        nx: (p.x - W/2) / baseBoardRadius(),
+        ny: (p.y - H/2) / baseBoardRadius()
+      };
+    });
+
+    // 2. Resize canvas and get new board base size
+    const oldBase = baseBoardRadius();
     resize();
-    repositionPlayers(targetBoardRadius/baseBoardRadius());
+    const newBase = baseBoardRadius();
+
+    // 3. Scale the current active board radii
+    const scale = newBase / oldBase;
+    targetBoardRadius *= scale;
+    boardRadius *= scale;
+
+    // 4. Restore absolute pixel positions mapped to the new canvas size
+    Object.values(players).forEach(p => {
+      const rel = relativePositions[p.id];
+      p.x = W/2 + rel.nx * baseBoardRadius();
+      p.y = H/2 + rel.ny * baseBoardRadius();
+      p.r = PLAYER_R; // Ensure player circles scale up/down too
+    });
   }
 });
 
