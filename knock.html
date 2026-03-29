@@ -250,6 +250,10 @@ html, body {
     gap: 10px;
   }
 
+  #aim-instruction {
+    height:0px;
+      display:none!important;
+  }
 
   #ready-btn {
     max-width: 280px;
@@ -373,7 +377,7 @@ html, body {
       <div id="player-count-badge">— alive</div>
     </div>
     <div id="bottom-ui">
-    
+      <div id="aim-instruction">drag your circle to aim</div>
       <button class="btn btn-accent btn-disabled" id="ready-btn">Ready!</button>
     </div>
     <div id="countdown-overlay">
@@ -613,8 +617,8 @@ function resize() {
   
   // Calculate the maximum space we are willing to use
   // We leave 15% horizontal margin and 35% vertical margin for the UI
-  const availableW = W * 0.98;
-  const availableH = H * 0.60;
+  const availableW = W * 0.90;
+  const availableH = H * 0.65;
   
   // Fit the fixed 10:16 aspect ratio into the available space
   if (availableW / availableH > ARENA_ASPECT) {
