@@ -5,32 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>BUMP</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap');
+ 
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@600;700;800&display=swap');
 
-  :root {
-    --bg: #F2F0EB;
-    --surface: #FFFFFF;
-    --ink: #1A1A1A;
-    --ink-soft: #6B6B6B;
-    --ink-faint: #D0CEC9;
-    --accent: #FF3B30;
-    --accent2: #007AFF;
-    --border: #E0DDD8;
-    --r: 12px;
-  }
+:root {
+  --bg: #F2F0EB;
+  --surface: #FFFFFF;
+  --ink: #1A1A1A;
+  --ink-soft: #6B6B6B;
+  --ink-faint: #D0CEC9;
+  --accent: #FF3B30;
+  --accent2: #007AFF;
+  --border: #E0DDD8;
+  --r: 12px;
+}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+  -webkit-tap-highlight-color: transparent; 
+}
 
-  html, body {
-    height: 100%;
-    background: var(--bg);
-    font-family: 'Syne', sans-serif;
-    color: var(--ink);
-    overflow: hidden;
-    touch-action: none;
-    user-select: none;
-    overscroll-behavior: none; /* Prevents pull-to-refresh on mobile */
-  }
+html, body {
+  height: 100%;
+  background: var(--bg);
+  /* Swapped Syne for Inter */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--ink);
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  overscroll-behavior: none;
+}
 
   #app {
     width: 100vw;
