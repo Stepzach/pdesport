@@ -717,6 +717,7 @@ canvas.addEventListener('pointerup',   onPointerUp,   {passive:false});
 
 function onPointerDown(e) {
   if (phase!=='aim') return;
+  if (myPlayer && myPlayer.ready) return; // Prevent aim changes after clicking ready
   e.preventDefault();
   const pos = getPos(e);
   if (!myPlayer || !myPlayer.alive) return;
@@ -766,8 +767,9 @@ document.getElementById('ready-btn').addEventListener('click', () => {
   myPlayer._launchVx = (launchVec.x/len)*speed*(len/120);
   myPlayer._launchVy = (launchVec.y/len)*speed*(len/120);
 
-  document.getElementById('ready-btn').textContent = 'Waiting…';
+document.getElementById('ready-btn').textContent = 'Waiting…';
   document.getElementById('ready-btn').classList.add('btn-disabled');
+  myPlayer.ready = true; // Instantly lock local aiming
 
   if (DEMO_MODE) {
     // Auto-ready bots
@@ -1101,7 +1103,8 @@ function drawAimLine() {
   if (phase!=='aim'||!myPlayer||!myPlayer.alive) return;
   const p = myPlayer;
 
-  if (aiming && Math.hypot(launchVec.x,launchVec.y)>4) {
+ // Removed 'aiming &&' so the arrow persists
+  if (Math.hypot(launchVec.x,launchVec.y)>4) {
     const tx=p.x+launchVec.x, ty=p.y+launchVec.y;
     ctx.save();
     ctx.strokeStyle=p.color;
@@ -1178,7 +1181,7 @@ function drawPlayers() {
     ctx.restore();
 
     // Aim power indicator (my player, aiming)
-    if (isMe && phase==='aim' && aiming) {
+    if (isMe && phase==='aim' && Math.hypot(launchVec.x,launchVec.y)>4) {
       const pct = Math.hypot(launchVec.x,launchVec.y)/120;
       ctx.save();
       ctx.beginPath();
