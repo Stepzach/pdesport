@@ -590,8 +590,8 @@ const canvas  = document.getElementById('game-canvas');
 const ctx     = canvas.getContext('2d');
 
 let W, H;            // canvas dims
-let boardRadius;     // current board radius (px)
-let targetBoardRadius;
+let currentScale = 1.0; 
+let targetScale = 1.0;
 let round  = 1;
 let players = {};    // id -> { nick, color, x, y, vx, vy, alive, r }
 let myPlayer = null; // ref into players
@@ -601,9 +601,6 @@ let aimStart = null;
 let launchVec = { x:0, y:0 };
 let PLAYER_R;
 let shakeFrames = 0;
-let boardShrinking = false;
-let boardAnimFrom, boardAnimTo, boardAnimT;
-let elimQueue = [];
 let readyStatus = {};
 
 function resize() {
@@ -611,13 +608,17 @@ function resize() {
   H = window.innerHeight;
   canvas.width  = W;
   canvas.height = H;
-  PLAYER_R = Math.min(W, H) * 0.065;
+  PLAYER_R = Math.min(W, H) * 0.045;
 }
+
+// ── RECTANGLE BASE SIZES ──
+// Leaves a 15% margin on width, and 35% margin on height for UI
+function baseW() { return W * 0.85; }
+function baseH() { return H * 0.65; } 
 
 function startGame() {
   showScreen('game-screen');
   resize();
-  // Firebase path — load players from DB, then enter game loop
   get(ref(db,`rooms/${roomCode}`)).then(snap=>{
     const data = snap.val();
     round = data.round || 1;
@@ -628,27 +629,24 @@ function startGame() {
     });
     repositionPlayers(data.boardSize||1.0);
     myPlayer = players[myId];
-    targetBoardRadius = boardRadius = baseBoardRadius() * (data.boardSize||1.0);
+    targetScale = currentScale = (data.boardSize || 1.0);
     setPhase('aim');
     listenFirebase();
     gameLoop();
   });
 }
 
-function baseBoardRadius() {
-  return Math.min(W,H) * 0.38;
-}
-
 function repositionPlayers(bsz) {
-  const base = baseBoardRadius() * bsz;
-  boardRadius = targetBoardRadius = base;
+  currentScale = targetScale = bsz;
   const alive = Object.values(players).filter(p=>p.alive);
   const n = alive.length;
   alive.forEach((p, i) => {
+    // Arrange players in an oval matching the board's aspect ratio
     const angle = (i / n) * Math.PI * 2 - Math.PI/2;
-    const dist  = base * 0.45;
-    p.x = W/2 + Math.cos(angle)*dist;
-    p.y = H/2 + Math.sin(angle)*dist;
+    const distW = baseW() * bsz * 0.35;
+    const distH = baseH() * bsz * 0.35;
+    p.x = W/2 + Math.cos(angle)*distW;
+    p.y = H/2 + Math.sin(angle)*distH;
     p.vx = 0; p.vy = 0;
   });
 }
@@ -677,9 +675,7 @@ function setPhase(p) {
   } else if (p==='countdown') {
     readyBtn.classList.add('btn-disabled');
     aimInstr.style.display='none';
-  } else if (p==='flying') {
-    document.getElementById('bottom-ui').style.display='none';
-  } else if (p==='result') {
+  } else if (p==='flying' || p==='result') {
     document.getElementById('bottom-ui').style.display='none';
   }
 
@@ -695,7 +691,7 @@ canvas.addEventListener('pointerup',   onPointerUp,   {passive:false});
 
 function onPointerDown(e) {
   if (phase!=='aim') return;
-  if (myPlayer && myPlayer.ready) return; // Prevent aim changes after clicking ready
+  if (myPlayer && myPlayer.ready) return; 
   e.preventDefault();
   const pos = getPos(e);
   if (!myPlayer || !myPlayer.alive) return;
@@ -715,8 +711,7 @@ function onPointerMove(e) {
   const dy   = aimStart.y - pos.y;
   const len  = Math.hypot(dx,dy);
   
-  // NEW: Make the max drag distance scale with the board size (approx 35% of the radius)
-  const maxPull = baseBoardRadius() * 0.35; 
+  const maxPull = Math.min(baseW(), baseH()) * 0.35; 
   const clamped = Math.min(len, maxPull);
   launchVec = { x: (dx/len||0)*clamped, y: (dy/len||0)*clamped };
 }
@@ -741,11 +736,9 @@ document.getElementById('ready-btn').addEventListener('click', () => {
   if (Math.hypot(launchVec.x,launchVec.y)<8) { toast('Drag to aim first!'); return; }
   if (!myPlayer||!myPlayer.alive) return;
 
-  // NEW: Calculate a normalized power vector (-1.0 to 1.0)
-  const maxPull = baseBoardRadius() * 0.35;
+  const maxPull = Math.min(baseW(), baseH()) * 0.35;
   const len    = Math.hypot(launchVec.x,launchVec.y);
   
-  // Store the raw percentage of power, not the absolute pixels
   myPlayer._launchVx = (launchVec.x/len) * (len/maxPull);
   myPlayer._launchVy = (launchVec.y/len) * (len/maxPull);
 
@@ -753,7 +746,6 @@ document.getElementById('ready-btn').addEventListener('click', () => {
   document.getElementById('ready-btn').classList.add('btn-disabled');
   myPlayer.ready = true;
 
-  // Firebase: mark self ready + store normalized launch vector
   update(ref(db,`rooms/${roomCode}/players/${myId}`), {
     ready: true,
     lvx: myPlayer._launchVx,
@@ -768,7 +760,6 @@ function listenReady() {
     const alive = Object.entries(pls).filter(([,p])=>p.alive);
     const allReady = alive.every(([,p])=>p.ready);
     if (allReady && alive.length>0) {
-      // Sync launch vecs from Firebase
       alive.forEach(([id,p])=>{
         if (players[id]) {
           players[id]._launchVx = p.lvx||0;
@@ -782,47 +773,42 @@ function listenReady() {
 }
 
 function listenFirebase() {
-  // listen for round changes from host
   const r = ref(db,`rooms/${roomCode}`);
   const fn = onValue(r, snap=>{
     const data = snap.val();
     if (!data) return;
-   if (data.status === 'playing' && phase === 'result') {
-      // New round started automatically! Sync positions.
+    if (data.status === 'playing' && phase === 'result') {
       Object.entries(data.players||{}).forEach(([id,p])=>{
         if (players[id]) {
           players[id].alive = p.alive;
           if (p.nx !== undefined && p.ny !== undefined) {
-  players[id].x = W/2 + p.nx * baseBoardRadius();
-  players[id].y = H/2 + p.ny * baseBoardRadius();
-} else {
-  players[id].x = p.x;
-  players[id].y = p.y;
-}
+            players[id].x = W/2 + p.nx * baseW();
+            players[id].y = H/2 + p.ny * baseH();
+          } else {
+            players[id].x = p.x;
+            players[id].y = p.y;
+          }
           players[id].ready = p.ready;
           players[id].vx    = 0;
           players[id].vy    = 0;
         }
       });
-
-       
-      targetBoardRadius = baseBoardRadius() * (data.boardSize || 1.0);
-      boardRadius = targetBoardRadius;
+        
+      targetScale = data.boardSize || 1.0;
+      currentScale = targetScale;
       setPhase('aim');
       document.getElementById('result-overlay').classList.remove('visible');
     } else if (data.status==='round_result' && phase!=='result') {
-      // apply host-computed result
-      // apply host-computed result
       Object.entries(data.players||{}).forEach(([id,p])=>{
         if (players[id]) {
           players[id].alive = p.alive;
-         if (p.nx !== undefined && p.ny !== undefined) {
-  players[id].x = W/2 + p.nx * baseBoardRadius();
-  players[id].y = H/2 + p.ny * baseBoardRadius();
-} else {
-  players[id].x = p.x;
-  players[id].y = p.y;
-}
+          if (p.nx !== undefined && p.ny !== undefined) {
+            players[id].x = W/2 + p.nx * baseW();
+            players[id].y = H/2 + p.ny * baseH();
+          } else {
+            players[id].x = p.x;
+            players[id].y = p.y;
+          }
         }
       });
       handleRoundResult(data.boardSize);
@@ -831,7 +817,7 @@ function listenFirebase() {
   listeners.push({r,fn});
 }
 
-// ── COUNTDOWN ─────────────────────────────────────────────────────────────
+// ── COUNTDOWN & LAUNCH ────────────────────────────────────────────────────
 function startCountdown() {
   if (phase==='countdown'||phase==='flying') return;
   setPhase('countdown');
@@ -842,7 +828,7 @@ function startCountdown() {
 
   function tick() {
     num.style.animation='none';
-    void num.offsetWidth; // reflow
+    void num.offsetWidth; 
     num.style.animation='';
     num.textContent = n;
     if (n===0) {
@@ -856,25 +842,21 @@ function startCountdown() {
   tick();
 }
 
-// ── LAUNCH ────────────────────────────────────────────────────────────────
 function launch() {
   setPhase('flying');
-  
-  // NEW: Define max speed as a percentage of the board size (approx 3.5% per frame)
-  const maxSpeed = baseBoardRadius() * 0.035; 
+  const maxSpeed = Math.min(baseW(), baseH()) * 0.035; 
 
   Object.values(players).forEach(p=>{
     if (!p.alive) return;
-    // Multiply the normalized vector by the local screen's max speed
     p.vx = (p._launchVx||0) * maxSpeed;
     p.vy = (p._launchVy||0) * maxSpeed;
   });
 }
 
 // ── PHYSICS ───────────────────────────────────────────────────────────────
-const FRICTION   = 0.985;
-const BOUNCE     = 0.55;
-const STOP_SPEED = 0.15;
+const FRICTION   = 0.968; 
+const BOUNCE     = 0.4;
+const STOP_SPEED = 0.2;
 
 function physicsTick() {
   if (phase!=='flying') return;
@@ -882,7 +864,6 @@ function physicsTick() {
   const alive = Object.values(players).filter(p=>p.alive);
   let anyMoving = false;
 
-  // integrate
   alive.forEach(p=>{
     p.x  += p.vx;
     p.y  += p.vy;
@@ -891,7 +872,6 @@ function physicsTick() {
     if (Math.abs(p.vx)>STOP_SPEED||Math.abs(p.vy)>STOP_SPEED) anyMoving=true;
   });
 
-  // circle-circle collisions
   for (let i=0;i<alive.length;i++) {
     for (let j=i+1;j<alive.length;j++) {
       const a=alive[i], b=alive[j];
@@ -899,12 +879,10 @@ function physicsTick() {
       const dist=Math.hypot(dx,dy);
       const minD=a.r+b.r;
       if (dist<minD && dist>0.001) {
-        // overlap correction
         const nx=dx/dist, ny=dy/dist;
         const overlap=(minD-dist)/2;
         a.x-=nx*overlap; a.y-=ny*overlap;
         b.x+=nx*overlap; b.y+=ny*overlap;
-        // elastic collision
         const dvx=a.vx-b.vx, dvy=a.vy-b.vy;
         const dot=dvx*nx+dvy*ny;
         if (dot>0) {
@@ -919,18 +897,24 @@ function physicsTick() {
     }
   }
 
-  // check out-of-bounds
+  // Check out of bounds (Rectangle math)
+  const curW = baseW() * currentScale;
+  const curH = baseH() * currentScale;
+  const left = W/2 - curW/2;
+  const right = W/2 + curW/2;
+  const top = H/2 - curH/2;
+  const bottom = H/2 + curH/2;
+
   let anyElim = false;
   alive.forEach(p=>{
-    const dx=p.x-W/2, dy=p.y-H/2;
-    if (Math.hypot(dx,dy)+p.r > boardRadius) {
+    // If ANY part of the circle hangs over the straight edge, it's eliminated
+    if (p.x + p.r > right || p.x - p.r < left || p.y + p.r > bottom || p.y - p.r < top) {
       p.alive=false;
       anyElim=true;
     }
   });
 
   if (!anyMoving || !alive.some(p=>p.alive)) {
-    // end of flying phase
     setTimeout(()=>hostComputeResult(), 300);
   }
 }
@@ -939,56 +923,49 @@ function hostComputeResult() {
   if (phase!=='flying') return;
   const alive = Object.values(players).filter(p=>p.alive);
 
-  // 1. Calculate the new shrunk board size
-  const newBoardSize = Math.max(0.3, (targetBoardRadius/baseBoardRadius()) * 0.85);
-  targetBoardRadius = baseBoardRadius()*newBoardSize;
+  const newBoardSize = Math.max(0.3, targetScale * 0.85);
+  targetScale = newBoardSize;
   
-  // 2. Handle the local UI and round increment
   handleRoundResult(newBoardSize);
 
-  // 3. Push the result to Firebase and handle auto-restarts
   if (isHost) {
     const pUpdate={};
-Object.entries(players).forEach(([id,p])=>{
-  pUpdate[id]={
-    ...p, 
-    alive:p.alive, 
-    nx: (p.x - W/2) / baseBoardRadius(), // <-- Save relative X
-    ny: (p.y - H/2) / baseBoardRadius(), // <-- Save relative Y
-    ready:false
-  }; 
-});
+    Object.entries(players).forEach(([id,p])=>{
+      pUpdate[id]={
+        ...p, 
+        alive:p.alive, 
+        nx: (p.x - W/2) / baseW(), 
+        ny: (p.y - H/2) / baseH(), 
+        ready:false
+      }; 
+    });
     
-    // Broadcast the 'round_result' status to all clients to show the overlay
     update(roomRef,{status:'round_result',boardSize:newBoardSize,players:pUpdate,round});
 
-    // 4. ONLY auto-start the next round if more than 1 player is still alive!
     if (alive.length > 1) {
       setTimeout(() => {
         Object.values(players).forEach(p=>{p.ready=false;p.vx=0;p.vy=0;});
-       const nextUpdate={};
-Object.entries(players).forEach(([id,p])=>{ 
-  nextUpdate[id]={
-    ...p,
-    ready:false,
-    nx: (p.x - W/2) / baseBoardRadius(),
-    ny: (p.y - H/2) / baseBoardRadius()
-  }; 
-});
+        const nextUpdate={};
+        Object.entries(players).forEach(([id,p])=>{ 
+          nextUpdate[id]={
+            ...p,
+            ready:false,
+            nx: (p.x - W/2) / baseW(),
+            ny: (p.y - H/2) / baseH()
+          }; 
+        });
           
-        // Broadcast the 'playing' status to trigger `setPhase('aim')` for all clients
         update(roomRef,{status:'playing',round,boardSize:newBoardSize,players:nextUpdate});
-      }, 3000); // 3 second delay before the next round
+      }, 3000); 
     }
   }
 }
 
 function handleRoundResult(newBoardSize) {
   const alive = Object.values(players).filter(p=>p.alive);
-  targetBoardRadius = baseBoardRadius()*newBoardSize;
+  targetScale = newBoardSize;
 
   if (alive.length===1) {
-    // Someone won the game
     const winner = alive[0];
     showResult(`${winner.nick===myNick&&winner.id===myId?'You Win! 🏆':winner.nick+' Wins!'}`,
                winner.id===myId?'Last circle standing':'Better luck next time');
@@ -999,15 +976,17 @@ function handleRoundResult(newBoardSize) {
     return;
   }
 
-  // clamp survivors inside new board
+  // Clamp survivors inside new board
+  const curW = baseW() * targetScale;
+  const curH = baseH() * targetScale;
+  const left = W/2 - curW/2;
+  const right = W/2 + curW/2;
+  const top = H/2 - curH/2;
+  const bottom = H/2 + curH/2;
+
   alive.forEach(p=>{
-    const dx=p.x-W/2, dy=p.y-H/2;
-    const dist=Math.hypot(dx,dy);
-    const maxD=targetBoardRadius-p.r-4;
-    if (dist>maxD) {
-      p.x=W/2+(dx/dist)*maxD;
-      p.y=H/2+(dy/dist)*maxD;
-    }
+    p.x = Math.max(left + p.r + 4, Math.min(right - p.r - 4, p.x));
+    p.y = Math.max(top + p.r + 4, Math.min(bottom - p.r - 4, p.y));
   });
 
   setPhase('result');
@@ -1015,7 +994,6 @@ function handleRoundResult(newBoardSize) {
   document.getElementById('result-title').textContent=`Round ${round} Over`;
   document.getElementById('result-sub').textContent=`${alive.length} player${alive.length>1?'s':''} remain. Next round starting...`;
   
-  // Hide both buttons during the automatic next round countdown
   document.getElementById('next-round-btn').style.display = 'none'; 
   document.getElementById('back-lobby-btn').style.display = 'none'; 
   
@@ -1030,8 +1008,6 @@ function showResult(title, sub) {
   document.getElementById('result-sub').textContent=sub;
   
   document.getElementById('next-round-btn').style.display='none';
-  
-  // Bring the back to lobby button back when the game ends
   document.getElementById('back-lobby-btn').style.display=''; 
   
   ov.classList.add('visible');
@@ -1043,11 +1019,20 @@ document.getElementById('back-lobby-btn').addEventListener('click', ()=>{
 });
 
 // ── RENDER ────────────────────────────────────────────────────────────────
+function drawRoundedRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
 function gameLoop() {
   requestAnimationFrame(gameLoop);
   physicsTick();
 
-  // shake
   let sx=0,sy=0;
   if (shakeFrames>0) {
     sx=(Math.random()-.5)*5; sy=(Math.random()-.5)*5;
@@ -1066,36 +1051,38 @@ function gameLoop() {
 }
 
 function drawBoard() {
-  // Animate board shrink
-  if (boardRadius > targetBoardRadius+0.5) {
-    boardRadius += (targetBoardRadius-boardRadius)*0.08;
+  if (currentScale > targetScale + 0.005) {
+    currentScale += (targetScale - currentScale) * 0.08;
   } else {
-    boardRadius = targetBoardRadius;
+    currentScale = targetScale;
   }
 
   const cx=W/2, cy=H/2;
+  const bw = baseW() * currentScale;
+  const bh = baseH() * currentScale;
+  const left = cx - bw/2;
+  const top = cy - bh/2;
+  const cornerRadius = 24 * currentScale; // Scale the rounded corners too!
 
-  // Outer fade mask
+  // Subtle background fill
   ctx.save();
-  const grad = ctx.createRadialGradient(cx,cy,boardRadius*0.7,cx,cy,boardRadius*1.6);
-  grad.addColorStop(0,'rgba(242,240,235,0)');
-  grad.addColorStop(1,'rgba(242,240,235,0.98)');
-  ctx.fillStyle=grad;
+  ctx.fillStyle = '#F2F0EB';
   ctx.fillRect(0,0,W,H);
   ctx.restore();
 
-  // Board circle fill
+  // Board fill with drop shadow
   ctx.save();
-  ctx.beginPath();
-  ctx.arc(cx,cy,boardRadius,0,Math.PI*2);
+  ctx.shadowColor = 'rgba(0,0,0,0.08)';
+  ctx.shadowBlur = 24;
+  ctx.shadowOffsetY = 8;
+  drawRoundedRect(ctx, left, top, bw, bh, cornerRadius);
   ctx.fillStyle='#FFFFFF';
   ctx.fill();
   ctx.restore();
 
   // Board border (dashed)
   ctx.save();
-  ctx.beginPath();
-  ctx.arc(cx,cy,boardRadius,0,Math.PI*2);
+  drawRoundedRect(ctx, left, top, bw, bh, cornerRadius);
   ctx.strokeStyle='#C8C5BF';
   ctx.lineWidth=2;
   ctx.setLineDash([8,6]);
@@ -1107,8 +1094,8 @@ function drawBoard() {
   ctx.strokeStyle='rgba(200,197,191,.35)';
   ctx.lineWidth=1;
   ctx.setLineDash([]);
-  ctx.beginPath(); ctx.moveTo(cx-boardRadius,cy); ctx.lineTo(cx+boardRadius,cy); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(cx,cy-boardRadius); ctx.lineTo(cx,cy+boardRadius); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(left, cy); ctx.lineTo(left + bw, cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx, top); ctx.lineTo(cx, top + bh); ctx.stroke();
   ctx.restore();
 }
 
@@ -1116,7 +1103,6 @@ function drawAimLine() {
   if (phase!=='aim'||!myPlayer||!myPlayer.alive) return;
   const p = myPlayer;
 
- // Removed 'aiming &&' so the arrow persists
   if (Math.hypot(launchVec.x,launchVec.y)>4) {
     const tx=p.x+launchVec.x, ty=p.y+launchVec.y;
     ctx.save();
@@ -1193,11 +1179,10 @@ function drawPlayers() {
     ctx.fillText(p.nick.substring(0,6), p.x, p.y);
     ctx.restore();
 
-    // Aim power indicator (my player, aiming)
+    // Aim power indicator
     if (isMe && phase==='aim' && Math.hypot(launchVec.x,launchVec.y)>4) {
-    // Base the percentage off our new relative maxPull
-  const maxPull = baseBoardRadius() * 0.35;
-  const pct = Math.hypot(launchVec.x,launchVec.y) / maxPull;
+      const maxPull = Math.min(baseW(), baseH()) * 0.35;
+      const pct = Math.hypot(launchVec.x,launchVec.y) / maxPull;
       ctx.save();
       ctx.beginPath();
       ctx.arc(p.x,p.y,p.r+10, -Math.PI/2, -Math.PI/2+Math.PI*2*pct);
@@ -1211,35 +1196,23 @@ function drawPlayers() {
 }
 
 // ── WINDOW RESIZE ─────────────────────────────────────────────────────────
-// ── AT THE BOTTOM OF YOUR SCRIPT ──
-
 window.addEventListener('resize', ()=>{
   if (document.getElementById('game-screen').classList.contains('active')) {
-    // 1. Save normalized positions BEFORE canvas size changes
     const relativePositions = {};
     Object.values(players).forEach(p => {
       relativePositions[p.id] = {
-        nx: (p.x - W/2) / baseBoardRadius(),
-        ny: (p.y - H/2) / baseBoardRadius()
+        nx: (p.x - W/2) / baseW(),
+        ny: (p.y - H/2) / baseH()
       };
     });
 
-    // 2. Resize canvas and get new board base size
-    const oldBase = baseBoardRadius();
     resize();
-    const newBase = baseBoardRadius();
 
-    // 3. Scale the current active board radii
-    const scale = newBase / oldBase;
-    targetBoardRadius *= scale;
-    boardRadius *= scale;
-
-    // 4. Restore absolute pixel positions mapped to the new canvas size
     Object.values(players).forEach(p => {
       const rel = relativePositions[p.id];
-      p.x = W/2 + rel.nx * baseBoardRadius();
-      p.y = H/2 + rel.ny * baseBoardRadius();
-      p.r = PLAYER_R; // Ensure player circles scale up/down too
+      p.x = W/2 + rel.nx * baseW();
+      p.y = H/2 + rel.ny * baseH();
+      p.r = PLAYER_R; 
     });
   }
 });
@@ -1248,7 +1221,6 @@ window.addEventListener('resize', ()=>{
 document.getElementById('room-input').addEventListener('input', function(){
   this.value=this.value.toUpperCase();
 });
-
 </script>
 </body>
 </html>
