@@ -27,7 +27,7 @@
     --shadow-xl: 0 20px 60px rgba(0,0,0,0.35);
     --trans: all 0.3s ease;
     --max: 1680px;
-    --hh: 58px;
+    --hh: 80px;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -74,7 +74,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
 /* ─── TYPOGRAPHY HELPERS ──────────────────────── */
 .bold-italic { font-weight: 700; font-style: italic; }
-.highlight { color: #949494; font-style: italic; }
+.highlight { color: black; font-style: italic; }
 .hero .highlight { color: #949494; }
 
 /* ─── PAGE SYSTEM ─────────────────────────────── */
@@ -101,7 +101,8 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
     /* Default styles (Desktop - 800px and above) */
 .logo-large {
-  width: 120px;
+margin-top:7px;
+  width: 90px;
   display: inline-block;
 }
 
@@ -117,16 +118,16 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
   
   .logo-small {
     display: inline-block; /* Show the mobile logo */
-    width: 110px; /* Adjust this width as needed for your small logo */
+    width: 70px; /* Adjust this width as needed for your small logo */
   }
 }
 
     
 .nav-menu { display: flex; gap: 28px; align-items: center; z-index:19 }
-.nav-link { font-weight: 700; font-size: 1rem; text-transform: uppercase; color: #949494; position: relative; padding: 5px 0; cursor: pointer; }
-.nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px; background: var(--red); transition: var(--trans); }
+.nav-link { font-weight: 700; font-size: 1rem; text-transform: uppercase; color: black; position: relative; padding: 5px 0; cursor: pointer; }
+.nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px; background: #949494; transition: var(--trans); }
 .nav-link:hover::after, .nav-link.active-link::after { width: 100%; }
-.mobile-toggle { display: none; font-size: 1.8rem; color: #949494; cursor: pointer; }
+.mobile-toggle { display: none; font-size: 1.8rem; color: black; cursor: pointer; }
 /* Disable the animated underline for the home/logo link */
 .brand-logo.nav-link::after {
     display: none !important;
@@ -146,7 +147,7 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
     position: relative;
     width: 100%;
     height: 100%;
-    background: url('https://media.thetab.com/blogs.dir/13/files/2022/02/img-8101-784x1024.jpg') center/cover no-repeat;
+    background: url('https://static.wixstatic.com/media/e9d02f_fa4e07cf91e44b62b264749f6d17a5c4~mv2.jpg/v1/fit/w_1102,h_1102,q_90,enc_avif,quality_auto/e9d02f_fa4e07cf91e44b62b264749f6d17a5c4~mv2.jpg') center/cover no-repeat;
     transition: transform 8s ease;
 }
 .hero-content {
@@ -167,10 +168,10 @@ img { display: block; width: 100%; height: 100%; object-fit: cover; }
     font-weight: 900;
     line-height: 1;
     margin-bottom: 24px;
-    color: #949494;
+    color: black;
 }
 .hero-sub {
-    font-size: 1.15rem; color: #949494;
+    font-size: 1.15rem; color: black;
     max-width: 520px; line-height: 1.3;
 }
 .btn {
@@ -213,8 +214,8 @@ section { padding: 40px 40px; }
 }
 .ethos .section-label { background: var(--yellow); color: #949494; }
 .ethos .highlight { color: #949494; font-style: italic; }
-.ethos-text { border-radius:51px 0px; padding:15px 0px; color: #949494; }
-.ethos-text .section-body { margin-top: 20px; line-height:1.2; color:var(--yellow); }
+.ethos-text { border-radius:51px 0px; padding:15px 0px; color: black; }
+.ethos-text .section-body { margin-top: 20px; line-height:1.2; color: #949494; }
 .ethos-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 .ethos-card {
     position: relative; overflow: hidden;
@@ -258,7 +259,7 @@ section { padding: 40px 40px; }
 .whatwedo-content { display: flex; flex-direction: column; gap: 20px; margin-top: 0px; }
 .bakery-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; }
 .bakery-img { overflow: hidden; aspect-ratio: 4/3; position: relative; }
-.bakery-text .section-heading { font-size: clamp(2rem, 4vw, 3.2rem); }
+.bakery-text .section-heading { font-size: clamp(2rem, 4vw, 3.2rem); color:black; }
 .bread-types { display: flex; gap: 14px; margin-top: 10px; flex-wrap: wrap; }
 .bread-chip {
     display: flex; align-items: center; gap: 8px;
@@ -525,10 +526,10 @@ section { padding: 40px 40px; }
 /* ─── FOOTER ───────────────────────────────────── */
 .main-footer {
     margin: 0 0px 0px; padding: 32px 24px 16px;
-    color: #949494;
+    color: black;
     background: var(--yellow);
 }
-.main-footer a { color: #949494; }
+.main-footer a { color: black; }
 .main-footer a:hover { color: #949494; transform: translateX(3px); }
 .footer-grid {
     display: grid; grid-template-columns: 1fr 1.5fr 1fr; gap: 30px; margin-bottom: 20px; padding-bottom: 25px;
@@ -538,7 +539,9 @@ section { padding: 40px 40px; }
 .footer-col h4 { text-transform: uppercase; font-size: 1.1rem; font-weight: 800; margin-bottom: 14px; letter-spacing: 0.5px; }
 .footer-col ul { display: flex; flex-direction: column; gap: 12px; }
 .footer-col a { display: flex; align-items: center; gap: 8px; font-size: 1rem; transition: var(--trans); }
-.banner-text, .info-text { font-size: 1rem; text-align: center; }
+.banner-text, .info-text { font-size: 1rem; text-align: left;     width: fit-content;
+    margin-left: auto;
+    margin-right: auto; }
 .copyright { text-align: center; font-size: 0.85rem; font-weight: 300; }
 .copyright a { color: #949494; }
 .copyright a:hover { text-decoration: underline; }
@@ -591,7 +594,7 @@ section { padding: 40px 40px; }
 
     .nav-menu li { 
         
-        border-left: solid 1px var(--red); padding: 20px;
+        border-left: solid 1px var(--red); padding: 31px 20px;
         background: var(--yellow);
 
         }
@@ -601,21 +604,21 @@ section { padding: 40px 40px; }
 }
     .nav-link {
    
-    color: #949494;
+    color: black;
 }
     .nav-menu {
  gap:0px;
            }
     .main-nav {
-    background: var(--red);
+    background: #faede470;
    
     border-radius: 0px;
-           border-bottom: solid 1px var(--red);
+          
 }
     .main-footer {
     margin: 0 0px 0px !important;
    padding: 0px !important;
-    color: var(--red) !important;
+    color: black !important;
     background: var(--yellow) !important;
 }
     .footer-grid {
@@ -640,7 +643,7 @@ section { padding: 40px 40px; }
 }
     
 .main-footer a {
-    color: #949494;
+    color: black;
 }
     
     .copyright {
@@ -826,8 +829,8 @@ section { padding: 40px 40px; }
 }
 
     
-    .hero-title { color: var(--yellow) !important; }
-    .hero .highlight { color: var(--yellow) !important; }
+    .hero-title { color: black !important; }
+    .hero .highlight { color: black !important; }
     .ethos { scroll-margin-top: 35px; }
  .ethos-text {
         padding-top: 0;
@@ -863,7 +866,7 @@ section { padding: 40px 40px; }
     .hero-kicker { font-weight: 700; font-size: 0.65rem; padding: 4px 8px; letter-spacing: 0.3px; margin-bottom: 8px;   margin-top: 10px;  background: var(--yellow);     width:auto;  align-self:start;  justify-self: auto;
     color: #949494; }
     .hero { padding: 0px; }
-    :root { --hh: 50px; }
+    :root { --hh: 70px; }
     .nav-container { padding: 0; }
     .main-nav { border-radius: 0; }
     .mobile-toggle { display: block; padding: 20px;
@@ -900,7 +903,7 @@ section { padding: 40px 40px; }
             
     }
        .nav-link {
-        color: var(--red) !important;
+        color: black !important;
         display: flex;
         align-items: center;
         width: 100%;
@@ -908,7 +911,7 @@ section { padding: 40px 40px; }
         padding: 12px 20px;
     }
     .nav-link img { margin-left: -20px !important; padding: 0; height: auto; }
-   .nav-link::after { content: ''; position: absolute; bottom: 38px; left: 0px; width: 0px; max-width:20px; height: 2px; background: var(--red); transition: var(--trans); }
+   .nav-link::after { content: ''; position: absolute; bottom: 38px; left: 0px; width: 0px; max-width:20px; height: 2px; background: #949494; transition: var(--trans); }
    .hero {
         /* dvh is the key to ignoring the mobile browser UI bars */
        height: calc(100svh - var(--hh)); 
@@ -947,7 +950,7 @@ section { padding: 40px 40px; }
         flex: 0 0 75%;    /* Strictly 85% of the parent */
         width: 100%;
          background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 55%, transparent 100%),
-                     url('https://media.thetab.com/blogs.dir/13/files/2022/02/img-8101-784x1024.jpg') center/cover no-repeat;
+                     url('https://static.wixstatic.com/media/e9d02f_fa4e07cf91e44b62b264749f6d17a5c4~mv2.jpg/v1/fit/w_1102,h_1102,q_90,enc_avif,quality_auto/e9d02f_fa4e07cf91e44b62b264749f6d17a5c4~mv2.jpg') center/cover no-repeat;
         background-position: center;
     }
     
@@ -1088,11 +1091,11 @@ section { padding: 40px 40px; }
      <div class="mobile-toggle"><i class="fas fa-bars"></i></div>
             <ul class="nav-menu">
                 
-                <li><a class="nav-link" data-page="menu">Sandwiches</a></li>
-                <li><a class="nav-link" data-page="bakery">Bakery</a></li>
-                <li><a class="nav-link" data-page="students">Students</a></li>
-                <li><a class="nav-link" data-page="location">Location</a></li>
-                <li><a class="nav-link" data-page="contact">Contact</a></li>
+                <li><a class="nav-link" data-page="menu">ART PRINTS</a></li>
+                <li><a class="nav-link" data-page="bakery">CRAFT DESIGNS</a></li>
+                <li><a class="nav-link" data-page="students">ANIMATED E-CARDS</a></li>
+                <li><a class="nav-link" data-page="location">VISUAL BRAND IDENTITY</a></li>
+                <li><a class="nav-link" data-page="contact">CUSTOM</a></li>
             </ul>
         </div>
     </nav>
@@ -1107,15 +1110,15 @@ section { padding: 40px 40px; }
 <section class="hero" id="home">
     <div class="hero-bg"></div>
     <div class="hero-content">
-        <div class="her-side"><div class="hero-kicker"><i class="fas fa-map-marker-alt"></i>&nbsp; 164 Woodhouse Lane<span class="hidesmall">, Leeds</span></div>
+        <div class="her-side"><div class="hero-kicker"><i class="fas fa-map-marker-alt"></i>&nbsp; Based in London<span class="hidesmall">, UK</span></div>
         <h1 class="hero-title">
-            Ciabatta &amp;<br>Focaccia<br>
-            <span class="highlight">since 1994</span>
+            Illustrator &amp;<br>Designer★<br>
+          
         </h1></div>
         <img class="her-omg" style="width: 25%;
     padding: 20px 0px;
                 padding-top: 15px;
-    height: auto; max-height:130px; object-fit: contain;"src="https://github.com/Stepzach/DesignPortfolio/blob/main/Screenshot%202026-04-05%20at%2011.42.52.png?raw=true">
+    height: auto; max-height:130px; object-fit: contain;"src="https://cdn-icons-png.flaticon.com/512/130/130188.png">
         <p class="hero-sub">Gourmet ciabatta &amp; focaccia sandwiches with bold Mediterranean and Middle Eastern flavours - baked fresh every morning, served under the big red canopy opposite the Parkinson Building.</p>
     </div>
 </section>
@@ -1124,27 +1127,27 @@ section { padding: 40px 40px; }
 <section class="ethos" id="ethos">
     <div class="section-inner">
         <div class="ethos-text reveal in-view">
-            <div class="section-label">Our Ethos</div>
-            <h2 class="section-heading">Ingredients from <span class="highlight">local suppliers</span></h2>
+            <div class="section-label">Latest Collection</div>
+            <h2 class="section-heading">Pumpking <span class="highlight"> Sports</span></h2>
             <p class="section-body">We believe a great sandwich starts long before the filling. It begins with flour, water, time, and respect. Everything we make — our bread, our coffee, our sandwiches — is crafted with the same attention a baker gives their craft: slowly, thoughtfully, and with genuine care for the person eating it.</p>
         </div>
         <div class="ethos-cards">
             <div class="ethos-card reveal reveal-delay-1 in-view">
-                <img src="https://github.com/Stepzach/DesignPortfolio/blob/main/Sandwich-of-the-Week-21-26-October-at-Cafe-164-Leeds%20(1).jpg?raw=true" alt="Our Sandwiches" loading="lazy">
+                <img src="https://static.wixstatic.com/media/e9d02f_c08f901edea24710b0139a4bee8a884f~mv2.png/v1/fill/w_586,h_522,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Pumpkin%20skater%20png%20file%20for%20fall%20craft%20projects%20by%20Estelle%20Designs.png" alt="Our Sandwiches" loading="lazy">
                 <div class="ethos-card-body">
                     <h3 class="ethos-card-title">Sandwiches</h3>
                     <p class="ethos-card-desc">We specialise in sandwiches. Our range of fillings is vast, and we have a huge selection of vegetarian and vegan fillings.</p>
                 </div>
             </div>
             <div class="ethos-card reveal reveal-delay-2 in-view">
-                <img src="https://github.com/Stepzach/DesignPortfolio/blob/main/164_074A6886e_2018-300x300%20(1).jpg?raw=true" alt="Our Bread" loading="lazy">
+                <img src="https://static.wixstatic.com/media/e9d02f_cd618c1528d34202a8b7811908290f77~mv2.png/v1/crop/x_1350,y_346,w_3740,h_3529/fill/w_522,h_484,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/pumpkin%20footballer%20png%20fill%20for%20thanksgiving%20craft%20projects%20by%20Estelle%20Designs.png" alt="Our Bread" loading="lazy">
                 <div class="ethos-card-body">
                     <h3 class="ethos-card-title">Bread</h3>
                     <p class="ethos-card-desc">Our craft is handmade ciabatta and focaccia bread, which we make every night in our bakery.</p>
                 </div>
             </div>
             <div class="ethos-card reveal reveal-delay-3 in-view">
-                <img src="https://github.com/Stepzach/DesignPortfolio/blob/main/164_074A9823e_2018-300x300%20(1).jpg?raw=true" alt="Our Coffee" loading="lazy">
+                <img src="https://static.wixstatic.com/media/e9d02f_3047a0b06a8d4a4e97a2fcf236061868~mv2.png/v1/fill/w_566,h_364,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/pumpkin%20iron%20PNG%20by%20Estelle%20Designs.png" alt="Our Coffee" loading="lazy">
                 <div class="ethos-card-body">
                     <h3 class="ethos-card-title">Coffee</h3>
                     <p class="ethos-card-desc">We also serve Italian-style coffee, dark-roasted for traditional tastes.</p>
@@ -1166,7 +1169,7 @@ section { padding: 40px 40px; }
         <div class="whatwedo-content">
             <div class="bakery-panel">
                 <div class="bakery-img reveal in-view">
-                    <img src="https://github.com/Stepzach/DesignPortfolio/blob/main/164_074A9792e_2018%20(1).jpg?raw=true" alt="Freshly baked ciabatta and focaccia at Bakery 164" loading="lazy">
+                    <img src="https://static.wixstatic.com/media/e9d02f_601ee2be27e84749ac46fc44ad5ea8c5~mv2.jpg/v1/crop/x_0,y_20,w_3510,h_4911/fill/w_408,h_574,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/woman%20and%20dog%20on%20paddle%20board%20art%20print%20by%20Estelle%20Designs.jpg" alt="Freshly baked ciabatta and focaccia at Bakery 164" loading="lazy">
                 </div>
                 <div class="bakery-text reveal reveal-delay-1 in-view">
                     <h3 class="section-heading">Ciabatta &amp; <span class="highlight">Focaccia</span></h3>
@@ -1618,7 +1621,7 @@ section { padding: 40px 40px; }
 <footer class="main-footer">
     <div class="footer-grid">
         <div class="footer-col col-banner">
-            <p class="banner-text">Monday to Friday 7am – 6pm<br>Saturday 11am – 5pm<br>Sunday Closed<br><br>164 Woodhouse Lane, Leeds LS2 9HB</p>
+            <p class="banner-text">★  art prints & digital printables<br>★ commercial craft designs<br>★ animated ecard GIFs<br>★  visual brand identity<br>★ invitations & portraits</p>
         </div>
         <div class="footer-links-group">
               <div class="footer-col">
@@ -1830,3 +1833,5 @@ if (window.location.hash) {
 
 </body>
 </html>
+
+                
