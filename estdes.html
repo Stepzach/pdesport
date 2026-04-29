@@ -132,7 +132,8 @@ margin-top:7px;
 .brand-logo.nav-link::after {
     display: none !important;
 }
-/* ─── HERO ────────────────────────────────────── */
+
+/* ─── HERO & CAROUSEL ─────────────────────────── */
 .hero {
     position: relative;
     min-height: 89vh;
@@ -147,11 +148,38 @@ margin-top:7px;
     position: relative;
     width: 100%;
     height: 100%;
-    background: url('https://static.wixstatic.com/media/e9d02f_fa4e07cf91e44b62b264749f6d17a5c4~mv2.jpg/v1/fit/w_1102,h_1102,q_90,enc_avif,quality_auto/e9d02f_fa4e07cf91e44b62b264749f6d17a5c4~mv2.jpg') center/cover no-repeat;
-    transition: transform 8s ease;
+    overflow: hidden;
+    background: var(--yellow); /* Loading fallback */
 }
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.2s ease-in-out;
+    z-index: 0;
+}
+.carousel-slide.active {
+    opacity: 1;
+    z-index: 1;
+}
+.carousel-overlay {
+    display: none;
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 55%, transparent 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
 .hero-content {
-    position: relative; z-index: 2; padding: 60px 50px; width: 100%;
+    position: relative; z-index: 3; padding: 60px 50px; width: 100%;
     background: var(--yellow);
     display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
 }
@@ -318,7 +346,7 @@ section { padding: 40px 40px; }
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-   
+    
     margin-top: 40px;
 }
 .gallery-item {
@@ -327,7 +355,6 @@ section { padding: 40px 40px; }
          aspect-ratio: 6 / 5 !important;
     border: solid 1px var(--red);
 }
-
 
 .gallery-item img { transition: 0.8s ease; }
 .gallery-item:hover img { transform: scale(1.01); }
@@ -344,184 +371,7 @@ section { padding: 40px 40px; }
     padding: 3px 10px; border-radius: var(--radius-pill); margin-bottom: 6px;
 }
 
-/* ─── OUR BAKERY PAGE ─────────────────────────── */
-.bakery-page { background: var(--red); }
 
-.bakery-story .section-inner {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center;
-}
-.bakery-story-img { overflow: hidden;      max-height: 350px;
-    object-fit: cover; }
-.bakery-story-text p { font-size: 1.05rem; color: #949494; margin-bottom: 20px; }
-
-.bakery-process { padding: 40px 20px 60px; background: var(--red); }
-.process-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
-.process-card {
-    border: 1px solid var(--yellow); border-radius: var(--radius-md); padding: 28px; transition: var(--trans);
-    display: flex; flex-direction: column; gap: 10px;
-}
-.process-card:hover { transform: translateY(-4px); background: rgba(255,235,119,0.03); }
-.process-num {
-    font-size: 3rem; font-weight: 900; font-family: 'Permanent Marker', cursive;
-    color: rgba(255,235,119,0.2); line-height: 1;
-}
-.process-card h4 { font-size: 1.2rem; font-weight: 900; }
-.process-card p { font-size: 0.9rem; color: rgba(255,235,119,0.8); line-height: 1.4; }
-
-/* ─── INGREDIENTS GRAPHIC ─────────────────────── */
-.ingredients-section { background: var(--red); }
-.ingredients-inner { max-width: var(--max); margin: 0 auto; }
-.ingredients-graphic {
-    margin-top: 40px;
-    border: 1px solid var(--yellow); border-radius: 20px; overflow: hidden;
-}
-.ingredient-row {
-    display: grid; grid-template-columns: 80px 1fr 200px;
-    align-items: center; gap: 20px; padding: 12px 20px;
-    border-bottom: 1px solid;
-    transition: var(--trans);
-}
-.ingredient-row:last-child { border-bottom: none; }
-.ingredient-row:hover { background: rgba(255,235,119,0.04); }
-.ingredient-pct {
-    font-size: 2.2rem; font-weight: 900;
-    color: #949494; line-height: 1; text-align: right;
-}
-.ingredient-pct.small { font-size: 1.5rem; }
-.ingredient-info h4 { font-size: 1.1rem; font-weight: 900; margin-bottom: 2px; }
-.ingredient-info p { font-size: 0.85rem; color: #949494; font-style: italic; }
-.ingredient-bar-wrap {
-    height: 8px; background: rgb(255 119 119 / 15%); border-radius: 4px; overflow: hidden;
-}
-.ingredient-bar { height: 100%; background: var(--yellow); border-radius: 4px; transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
-
-
-.bakery-img-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    grid-template-rows: 280px 280px;
-    gap: 16px;
-    margin-top: 40px;
-}
-.bakery-img-item { overflow: hidden; border-radius: var(--radius-md); }
-.bakery-img-item:first-child { grid-row: 1 / 3; }
-.bakery-img-item img { transition: 0.8s ease; }
-.bakery-img-item:hover img { transform: scale(1.06); }
-
-/* ─── STUDENTS PAGE ───────────────────────────── */
-.students-page { background: var(--red); }
-
-.students-hero .section-inner {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center;
-}
-.students-hero-img { overflow: hidden;      max-height: 400px;
-    object-fit: cover;
-    object-position: center; }
-.students-hero-text p { font-size: 1.05rem; color: #949494; margin-bottom: 20px; }
-
-
-.students-sections .section-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
-.students-section-card {
-    border: 1px solid var(--yellow); border-radius: var(--radius-md); overflow: hidden;
-    transition: var(--trans);
-}
-.students-section-card:hover { transform: translateY(-4px); }
-.students-section-img { overflow: hidden; aspect-ratio: 16/9; }
-.students-section-img img { transition: 0.8s ease; }
-.students-section-card:hover .students-section-img img { transform: scale(1.06); }
-.students-section-body { padding: 28px; display: flex; flex-direction: column; gap: 14px; }
-.students-section-body h3 { font-size: 1.6rem; font-weight: 900; }
-.students-section-body p { font-size: 0.95rem; color: #949494; }
-.students-perks { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
-.perk-row { display: flex; align-items: flex-start; gap: 12px; }
-.perk-icon { color: #949494; font-size: 0.9rem; margin-top: 2px; flex-shrink: 0; }
-.perk-text { font-size: 0.9rem; color: #949494; line-height: 1.3; }
-
-/* ─── LOCATION ─────────────────────────────────── */
-.location { background: var(--red); }
-.location-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.6fr;
-    gap: 18px 50px;
-    grid-template-areas:
-        "head map"
-        "address map"
-        "hours map"
-        "getting map";
-        align-items: center;
-}
-.loc-head { grid-area: head; }
-.loc-address { grid-area: address; }
-.loc-hours { grid-area: hours; }
-.loc-getting { grid-area: getting; }
-.info-block {
-    background: rgba(255,235,119,0.02); border: 1px solid var(--yellow);
-    border-radius: var(--radius-md); padding: 20px;
-    height: 100%;
-}
-.info-block-title {
-    display: flex; align-items: center; gap: 10px;
-    font-weight: 900; font-size: 0.85rem; text-transform: uppercase;
-    letter-spacing: 1px; color: #949494; margin-bottom: 14px;
-}
-.info-block p, .info-block address { font-style: normal; font-size: 1rem; color: #949494; }
-.hours-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; }
-.hours-row:not(:last-child) { border-bottom: 1px solid rgba(255,235,119,0.15); }
-.hours-day { font-weight: 700; }
-.hours-time { color: #949494; font-size: 0.95rem; }
-.hours-closed { color: var(--dark-yellow); font-weight: 700; }
-.today-badge {
-    background: var(--yellow); color: #949494; font-size: 0.65rem; font-weight: 900;
-    padding: 2px 8px; border-radius: var(--radius-pill); text-transform: uppercase; margin-left: 8px;
-}
-.map-wrapper {
-    grid-area: map;
-    overflow: hidden;
-    display: flex; flex-direction: column;
-    height: 90%;
-}
-.map-wrapper iframe {
-    width: 100%;
-    flex: 1;
-    min-height: 250px;
-    display: block; border: none; filter: saturate(0.8) contrast(1.1);
-}
-.map-footer {
-    background: rgba(0,0,0,0.5); backdrop-filter: blur(8px); padding: 16px 22px;
-    display: flex; justify-content: space-between; align-items: center;
-}
-.map-address { font-size: 0.9rem; color: rgba(255,255,255,0.8); }
-.map-link {
-    font-weight: 800; font-size: 0.8rem; text-transform: uppercase;
-    background: var(--yellow); color: #949494; padding: 8px 18px;
-    border-radius: var(--radius-pill); transition: var(--trans);
-}
-.map-link:hover { background: #fff; color: #949494; transform: scale(1.04); }
-
-/* ─── CONTACT ──────────────────────────────────── */
-.contact { background: var(--red); }
-.contact .section-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
-.contact-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 20px; margin-top: 20px; }
-.contact-card {
-    background: rgba(255,235,119,0.02); border: 1px solid var(--yellow);
-    border-radius: var(--radius-md); padding: 24px; transition: var(--trans);
-}
-.contact-card:hover { background: rgba(255,235,119,0.05); border-color: var(--yellow); transform: translateY(-4px); }
-.contact-card-title { font-weight: 900; font-size: 1rem; margin-bottom: 8px; }
-.contact-card-desc { font-size: 0.88rem; color: #949494; }
-.phone-block {
-    display: flex; align-items: center; gap: 20px;
-    background: rgba(255,235,119,0.05); border: 2px solid var(--yellow);
-    border-radius: var(--radius-md); padding: 22px 28px; margin-bottom: 20px; transition: var(--trans);
-}
-.phone-block:hover { background: rgba(255,235,119,0.1); }
-.phone-icon {
-    width: 54px; height: 54px; background: var(--yellow); color: #949494;
-    border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0;
-}
-.phone-label { font-size: 0.75rem; text-transform: uppercase; color: #949494; margin-bottom: 4px; }
-.phone-number { font-size: 1.6rem; font-weight: 900; color: #949494; }
-.contact-visual { position: relative; overflow: hidden; aspect-ratio: 4/4; max-height: 500px; width: 100%; }
 
 /* ─── FOOTER ───────────────────────────────────── */
 .main-footer {
@@ -539,7 +389,7 @@ section { padding: 40px 40px; }
 .footer-col h4 { text-transform: uppercase; font-size: 1.1rem; font-weight: 800; margin-bottom: 14px; letter-spacing: 0.5px; }
 .footer-col ul { display: flex; flex-direction: column; gap: 12px; }
 .footer-col a { display: flex; align-items: center; gap: 8px; font-size: 1rem; transition: var(--trans); }
-.banner-text, .info-text { font-size: 1rem; text-align: left;     width: fit-content;
+.banner-text, .info-text { font-size: 1rem; text-align: left;      width: fit-content;
     margin-left: auto;
     margin-right: auto; }
 .copyright { text-align: center; font-size: 0.85rem; font-weight: 300; }
@@ -547,7 +397,7 @@ section { padding: 40px 40px; }
 .copyright a:hover { text-decoration: underline; }
 
 /* ─── ANIMATIONS & UTILITIES ───────────────────── */
-.section-divider {     height: 1px;
+.section-divider {      height: 1px;
     background: var(--yellow);
     margin: 0 0px;
     width: 100%; }
@@ -736,9 +586,8 @@ section { padding: 40px 40px; }
        
      }
 
-
     #line-thru {
-       
+        
     text-decoration: line-through;
 }
 
@@ -783,9 +632,9 @@ section { padding: 40px 40px; }
         padding-bottom: 0px;
 }
     .main-footer {
-   
+    
     padding: 0px 0px 16px !important;
-   
+    
 }
 .footer-links-group {
       padding: 0px 20px;
@@ -804,7 +653,7 @@ section { padding: 40px 40px; }
     .nav-inner {
  
     padding: 0 16px;
-   
+    
 }
 
    .footer-col.col-banner,
@@ -816,10 +665,10 @@ section { padding: 40px 40px; }
     padding-top: 10px;
 }
     .footer-grid {
-   
+    
     padding-bottom: 0px;
         margin-bottom:0px;
-   
+    
 }
     
     
@@ -834,7 +683,7 @@ section { padding: 40px 40px; }
     .ethos { scroll-margin-top: 35px; }
  .ethos-text {
         padding-top: 0;
-     }
+      }
     .whatwedo { scroll-margin-top: 50px; padding-bottom:30px; }
     .location { scroll-margin-top: 50px; }
     .contact { scroll-margin-top: 50px; }
@@ -898,7 +747,7 @@ section { padding: 40px 40px; }
     .nav-menu li {
         width: 100%;
                 border-top: solid 1px var(--red);
-       
+        
         overflow: hidden;
             
     }
@@ -943,15 +792,20 @@ section { padding: 40px 40px; }
     .ethos-card:nth-child(2) .ethos-card-body { grid-column: 1; text-align: right; grid-row: 1; padding-right: 30px; }
     .ethos-card:nth-child(3) img { grid-column: 1; }
     .ethos-card:nth-child(3) .ethos-card-body { grid-column: 2; text-align: left; }
+     .ethos-card:nth-child(4) img { grid-column: 2; }
+    .ethos-card:nth-child(4) .ethos-card-body { grid-column: 1; text-align: right; grid-row: 1; padding-right: 30px; }
+      .ethos-card:nth-child(5) img { grid-column: 1; }
+    .ethos-card:nth-child(5) .ethos-card-body { grid-column: 2; text-align: left; }
 
    
     .hero-bg {
-        position: relative; /* Changed from absolute to occupy space */
-        flex: 0 0 75%;    /* Strictly 85% of the parent */
+        position: relative; 
+        flex: 0 0 75%;    
         width: 100%;
-         background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 55%, transparent 100%),
-                     url('https://static.wixstatic.com/media/e9d02f_fa4e07cf91e44b62b264749f6d17a5c4~mv2.jpg/v1/fit/w_1102,h_1102,q_90,enc_avif,quality_auto/e9d02f_fa4e07cf91e44b62b264749f6d17a5c4~mv2.jpg') center/cover no-repeat;
-        background-position: center;
+        /* Carousel overrides the original mobile CSS */
+    }
+    .carousel-overlay {
+        display: block; /* Show the gradient overly only on mobile */
     }
     
     .ethos-text { z-index: 3; }
@@ -1070,12 +924,10 @@ section { padding: 40px 40px; }
 </head>
 <body>
 
-<!-- ─── PAGE LOADER ──────────────────────────────── -->
 <div id="page-loader">
     <img src="https://static.wixstatic.com/media/e9d02f_90b6b493853e4683b47857769f433bc7~mv2.gif" alt="Loading..." class="spinner" style="border-radius:50%;">
 </div>
 
-<!-- ─── NAV ──────────────────────────────────────── -->
 <div class="nav-container">
     <nav class="main-nav">
        <div class="nav-inner">
@@ -1101,111 +953,75 @@ section { padding: 40px 40px; }
     </nav>
 </div>
 
-<!-- ═══════════════════════════════════════════════ -->
-<!-- PAGE: HOME                                      -->
-<!-- ═══════════════════════════════════════════════ -->
 <div class="page active" id="page-home">
 
-<!-- ─── HERO ─────────────────────────────────────── -->
 <section class="hero" id="home">
-    <div class="hero-bg"></div>
+    <div class="hero-bg" id="heroCarousel">
+        <div class="carousel-overlay"></div>
+        </div>
     <div class="hero-content">
-        <div class="her-side"><div class="hero-kicker"><i class="fas fa-map-marker-alt"></i>&nbsp; Based in London<span class="hidesmall">, UK</span></div>
+        <div class="her-side"><div class="hero-kicker"><i class="fas fa-map-marker-alt"></i>  Based in London<span class="hidesmall">, UK</span></div>
         <h1 class="hero-title">
-            Illustrator &amp;<br>Designer★<br>
+            illustrator & designer★<br>
           
         </h1></div>
-        <img class="her-omg" style="width: 25%;
-    padding: 20px 0px;
-                padding-top: 15px;
-    height: auto; max-height:130px; object-fit: contain;"src="https://static.wixstatic.com/media/e9d02f_90b6b493853e4683b47857769f433bc7~mv2.gif">
-        <p class="hero-sub">Gourmet ciabatta &amp; focaccia sandwiches with bold Mediterranean and Middle Eastern flavours - baked fresh every morning, served under the big red canopy opposite the Parkinson Building.</p>
+       
+        <p class="hero-sub">Gourmet ciabatta & focaccia sandwiches with bold Mediterranean and Middle Eastern flavours - baked fresh every morning, served under the big red canopy opposite the Parkinson Building.</p>
     </div>
 </section>
 
-<!-- ─── ETHOS ─────────────────────────────────────── -->
 <section class="ethos" id="ethos">
     <div class="section-inner">
         <div class="ethos-text reveal in-view">
             <div class="section-label">About</div>
-            <h2 class="section-heading">Latest Work</h2>
-            <p class="section-body">We believe a great sandwich starts long before the filling. It begins with flour, water, time, and respect. Everything we make — our bread, our coffee, our sandwiches — is crafted with the same attention a baker gives their craft: slowly, thoughtfully, and with genuine care for the person eating it.</p>
+            
         </div>
         <div class="ethos-cards">
             <div class="ethos-card reveal reveal-delay-1 in-view">
-                <img src="https://static.wixstatic.com/media/e9d02f_2fe71f46415b4f36add2b9571a52fe4e~mv2.jpg/v1/fill/w_408,h_578,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/sailing%20at%20sunset%20art%20print%20by%20Estelle%20Designs.jpg" alt="Our Sandwiches" loading="lazy">
+                <img src="https://ik.imagekit.io/ngoo36zmk/IMG_7419.png" alt="art prints - digital printables (download instantly. print at home or send to your local printers) or physical giclée prints (various sizes)" loading="lazy">
                 <div class="ethos-card-body">
-                    <h3 class="ethos-card-title">Art Prints</h3>
-                    <p class="ethos-card-desc">We specialise in sandwiches. Our range of fillings is vast, and we have a huge selection of vegetarian and vegan fillings.</p>
+                    <h3 class="ethos-card-title">art prints & digital printables</h3>
+                    <p class="ethos-card-desc">download instantly. print at home or send to your local printers or physical giclée prints (various sizes)</p>
                 </div>
             </div>
             <div class="ethos-card reveal reveal-delay-2 in-view">
-                <img src="https://static.wixstatic.com/media/e9d02f_cd618c1528d34202a8b7811908290f77~mv2.png/v1/crop/x_1350,y_346,w_3740,h_3529/fill/w_522,h_484,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/pumpkin%20footballer%20png%20fill%20for%20thanksgiving%20craft%20projects%20by%20Estelle%20Designs.png" alt="Our Bread" loading="lazy">
+                <img src="https://ik.imagekit.io/ngoo36zmk/IMG_7417.png" alt="craft designs - digital files with a transparent background for all your craft projects (commercial or personal use)" loading="lazy">
                 <div class="ethos-card-body">
                     <h3 class="ethos-card-title">Craft Designs</h3>
-                    <p class="ethos-card-desc">Our craft is handmade ciabatta and focaccia bread, which we make every night in our bakery.</p>
+                    <p class="ethos-card-desc">digital files with a transparent background for all your craft projects (commercial or personal use)</p>
                 </div>
             </div>
             <div class="ethos-card reveal reveal-delay-3 in-view">
                 <img src="https://static.wixstatic.com/media/e9d02f_ea8230ab0b60499aa971233c4933f7c1~mv2.gif" alt="Our Coffee" loading="lazy">
                 <div class="ethos-card-body">
                     <h3 class="ethos-card-title">Animated E-cards</h3>
-                    <p class="ethos-card-desc">We also serve Italian-style coffee, dark-roasted for traditional tastes.</p>
+                    <p class="ethos-card-desc">immediate download: easy and fast! GIF greeting cards to send by text or email.</p>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-
-<div class="section-divider"></div>
-
-<section class="whatwedo" id="whatwedo" style="padding-top:10px;">
-    <div class="section-inner">
-        <div class="reveal in-view">
-          
-            <h2 class="section-heading" style="margin-top:15px;"><span class="highlight">Custom Work</span></h2>
-        </div>
-
-        <div class="whatwedo-content">
-            <div class="bakery-panel">
-                <div class="bakery-img reveal in-view">
-                    <img src="https://static.wixstatic.com/media/e9d02f_601ee2be27e84749ac46fc44ad5ea8c5~mv2.jpg/v1/crop/x_0,y_20,w_3510,h_4911/fill/w_408,h_574,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/woman%20and%20dog%20on%20paddle%20board%20art%20print%20by%20Estelle%20Designs.jpg" alt="Freshly baked ciabatta and focaccia at Bakery 164" loading="lazy">
+             <div class="ethos-card reveal reveal-delay-4 in-view">
+                <img src="https://static.wixstatic.com/media/e9d02f_cd618c1528d34202a8b7811908290f77~mv2.png/v1/crop/x_1350,y_346,w_3740,h_3529/fill/w_522,h_484,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/pumpkin%20footballer%20png%20fill%20for%20thanksgiving%20craft%20projects%20by%20Estelle%20Designs.png" alt="Our Bread" loading="lazy">
+                <div class="ethos-card-body">
+                    <h3 class="ethos-card-title">visual brand identity</h3>
+                    <p class="ethos-card-desc">a collection of visual elements for new businesses, a rebrand or brand refresh.</p>
                 </div>
-                <div class="bakery-text reveal reveal-delay-1 in-view">
-                    <h3 class="section-heading">Invites &amp; <span class="highlight">Portraits</span></h3>
-                    <p class="section-body">Every evening we hand mix and hand shape our ciabatta and focaccia dough, which is then baked overnight so it's fresh out of the ovens in the morning, ready to be made into our sandwiches.</p>
-                    <p class="section-body" style="margin-top:16px;">The recipe for our bread (first developed back in 1994), is simple, and designed primarily for one thing – to complement a filling to make a great sandwich.</p>
-         <br>
-
-            <p>Explore our full range of ciabatta and focaccia sandwiches, from classic combinations to weekly specials. A huge selection of vegetarian and vegan options too.</p>
-            <span class="btn btn-outline" data-page="menu" style="margin-top:16px;">View work <i class="fas fa-arrow-right" style="margin-left:6px;"></i></span>
-            <div class="hidesmaller" style="display:flex; flex-direction: row; margin-top:20px;">
-         <span style="border-right: solid 1px var(--yellow); padding: 10px 30px; padding-left:0px;">No preservatives</span>
-             <span style="border-right: solid 1px var(--yellow); padding: 10px 30px;">5 Ingredients</span>
-              <span style=" padding: 10px 30px;">Made Fresh</span>
             </div>
+            <div class="ethos-card reveal reveal-delay-5 in-view">
+                <img src="https://static.wixstatic.com/media/e9d02f_ea8230ab0b60499aa971233c4933f7c1~mv2.gif" alt="Our Coffee" loading="lazy">
+                <div class="ethos-card-body">
+                    <h3 class="ethos-card-title">Custom</h3>
+                    <p class="ethos-card-desc">Portraits, holiday cards, invitations, GIFs, party decor package</p>
                 </div>
-                
-             
-                
-                
-                
-                
             </div>
-
-            
-
             
         </div>
     </div>
 </section>
+
+
 
 
  </div>
 
-<!-- ═══════════════════════════════════════════════ -->
-<!-- PAGE: OUR MENU                                 -->
-<!-- ═══════════════════════════════════════════════ -->
 <div class="page" id="page-menu">
 
 
@@ -1314,331 +1130,32 @@ section { padding: 40px 40px; }
     </div>
 </section>
 
-<div class="section-divider"></div>
-
-<!-- ─── GOT A SANDWICH IDEA ─────────────────────── -->
-<section class="hidesmall1100" style="background: var(--red);">
-    <div class="section-inner">
-        <div class="sandwiches-panel reveal in-view" style="max-width:700px; margin:0 auto;">
-            <h3 class="student-card-title">Got a <span class="highlight">sandwich idea?</span></h3>
-            <p class="section-body" style="font-size:0.95rem; margin-bottom:24px; text-align:center;">We're always experimenting. If you've got a flavour combination you'd love to see on the menu — send it to us on Instagram. The best ideas might just end up as a weekly special (and we'll give you the credit).</p>
-            <div class="sandwich-steps">
-                <div class="sandwich-step"><div class="step-num">1</div><div class="step-label">Dream up your<br>ideal sandwich</div></div>
-                <div class="sandwich-step"><div class="step-num">2</div><div class="step-label">DM or tag us<br>on Instagram</div></div>
-                <div class="sandwich-step"><div class="step-num">3</div><div class="step-label">We test it in<br>the kitchen</div></div>
-                <div class="sandwich-step"><div class="step-num">4</div><div class="step-label">It might hit<br>the menu!</div></div>
-            </div>
-            <a href="https://www.instagram.com/bakery164/" target="_blank" class="insta-btn" style="margin-top:auto;">
-                <i class="fab fa-instagram"></i> Send idea @bakery164
-            </a>
-        </div>
-    </div>
-</section>
-
-</div><!-- /page-menu -->
-
-
-<!-- ═══════════════════════════════════════════════ -->
-<!-- PAGE: OUR BAKERY                               -->
-<!-- ═══════════════════════════════════════════════ -->
-<div class="page" id="page-bakery">
-
-<section class="bakery-story">
-    <div class="section-inner">
-        <div class="bakery-story-text reveal in-view">
-
-            <h2 class="section-heading">Baking since <span class="highlight" id="line-thru">164</span><span id="line-under">1994</span></h2>
-            <p id="width50">We hand craft our ciabatta and focaccia bread. Made fresh, every day in our bakeries</p>
-            <p id="widthandmove">Every evening we hand mix and hand shape our ciabatta and focaccia dough, to make all the bread that will be used the next day. It’s baked overnight so it’s fresh first thing for our sandwich production.</p>
-            <p id="width50">The recipe for our bread, which was first developed back in 1994, is simple, and designed primarily for one thing – to compliment a filling to make a great sandwich.</p>
-        </div>
-        <div class="bakery-story-img reveal reveal-delay-1 in-view">
-            <img src="https://github.com/Stepzach/DesignPortfolio/blob/main/164_074A9792e_2018%20(1).jpg?raw=true" alt="Inside the Bakery 164 kitchen" loading="lazy">
-        </div>
-    </div>
-</section>
 
 
 
-<div class="section-divider"></div>
-
-<!-- ─── INGREDIENTS GRAPHIC ─────────────────────── -->
-<section class="ingredients-section">
-    <div class="ingredients-inner">
-        
-        <div class="ingredients-image-side reveal">
-            <img src="https://bakery164.com/wp-content/uploads/164_074A8707e_2018.jpg" alt="Fresh Bakery Ingredients">
-        </div>
-
-        <div class="ingredients-content-side">
-         
-            <h2 class="section-heading reveal">Five ingredients<br></h2>
-            <p class="section-body reveal" >Our bread contains just 5 ingredients. Our dough is hand mixed, and hand shaped into each individual sandwich, every day, by us.</p>
-
-            <div class="ingredients-graphic reveal">
-                <div class="ingredient-row">
-                    <div class="ingredient-pct">85<span style="font-size:1rem;">%</span></div>
-                    <div class="ingredient-info">
-                        <h4>Flour</h4>
-                        <p>Strong white flour</p>
-                    </div>
-                    <div class="ingredient-bar-wrap">
-                        <div class="ingredient-bar" data-width="85" style="width:0%"></div>
-                    </div>
-                </div>
-
-                <div class="ingredient-row">
-                    <div class="ingredient-pct">6<span style="font-size:1rem;">%</span></div>
-                    <div class="ingredient-info">
-                        <h4>Water</h4>
-                        <p>Good-old Yorkshire water</p>
-                    </div>
-                    <div class="ingredient-bar-wrap">
-                        <div class="ingredient-bar" data-width="6" style="width:0%"></div>
-                    </div>
-                </div>
-
-                <div class="ingredient-row">
-                    <div class="ingredient-pct">6<span style="font-size:1rem;">%</span></div>
-                    <div class="ingredient-info">
-                        <h4>Olive Oil</h4>
-                        <p>Extra virgin olive oil</p>
-                    </div>
-                    <div class="ingredient-bar-wrap">
-                        <div class="ingredient-bar" data-width="6" style="width:0%"></div>
-                    </div>
-                </div>
-
-                <div class="ingredient-row">
-                    <div class="ingredient-pct">2<span style="font-size:1rem;">%</span></div>
-                    <div class="ingredient-info">
-                        <h4>Yeast</h4>
-                        <p>Fresh yeast</p>
-                    </div>
-                    <div class="ingredient-bar-wrap">
-                        <div class="ingredient-bar" data-width="2" style="width:0%"></div>
-                    </div>
-                </div>
-
-                <div class="ingredient-row">
-                    <div class="ingredient-pct small">&lt;1<span style="font-size:0.8rem;">%</span></div>
-                    <div class="ingredient-info">
-                        <h4>Sea Salt</h4>
-                        <p>A handful of sea salt</p>
-                    </div>
-                    <div class="ingredient-bar-wrap">
-                        <div class="ingredient-bar" data-width="1" style="width:0%"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-
-</div><!-- /page-bakery -->
-
-
-<!-- ═══════════════════════════════════════════════ -->
-<!-- PAGE: STUDENTS                                 -->
-<!-- ═══════════════════════════════════════════════ -->
-<div class="page" id="page-students">
-
-<section class="students-hero">
-    <div class="section-inner">
-        <div class="students-hero-text reveal in-view">
-   
-            <h2 class="section-heading">164 ♡<br><span class="highlight">Leeds Students</span></h2>
-            <p>We've been feeding students, lecturers, and staff opposite the Parkinson Building since 1994. If you go to the University of Leeds, we're your local — and we love it that way.</p>
-            <p>Whether you need fuel between lectures, something special for your society event, or you're looking for a local brand to partner with, we'd love to hear from you.</p>
-        </div>
-        <div class="students-hero-img reveal reveal-delay-1 in-view">
-            <img src="https://pbs.twimg.com/media/DX8O0l6WAAECAZn.jpg" alt="Bakery 164 outside the University of Leeds" loading="lazy">
-        </div>
-    </div>
-</section>
-
-<div class="section-divider"></div>
-
-<section class="students-sections">
-    <div class="section-inner">
-
-        <div class="students-section-card reveal in-view">
-            
-            <div class="students-section-body">
-              
-                <h3>Events &amp; Pop-Ups</h3>
-                <p>We love being part of Leeds student life. From freshers' week pop-ups to society events, we bring the same quality food we serve daily to your campus moments. Get in touch and let's make your event a little more delicious.</p>
-                <div class="students-perks">
-                    <div class="perk-row">
-                        <i class="fas fa-check perk-icon"></i>
-                        <span class="perk-text">Society events, sports days, and faculty gatherings</span>
-                    </div>
-                    <div class="perk-row">
-                        <i class="fas fa-check perk-icon"></i>
-                        <span class="perk-text">Custom menus tailored to your event size and budget</span>
-                    </div>
-                    <div class="perk-row">
-                        <i class="fas fa-check perk-icon"></i>
-                        <span class="perk-text">Large selection of vegetarian and vegan options available</span>
-                    </div>
-                    
-                </div>
-                <a class="btn btn-outline" data-page-link="contact" style="margin-top:20px; width:fit-content; cursor:pointer;">
-                    Get in touch <i class="fas fa-arrow-right" style="margin-left:6px;"></i>
-                </a>
-            </div>
-        </div>
-
-        <div class="students-section-card reveal reveal-delay-1 in-view">
-            
-            <div class="students-section-body">
-                
-                <h3>Sponsorship &amp; Partnerships</h3>
-                <p>We support the people who make Leeds great. If you're a student society, sports team, media group, or creative project looking for a local food partner, we'd love to talk. We believe in backing the community we're part of.</p>
-                <div class="students-perks">
-                    <div class="perk-row">
-                        <i class="fas fa-check perk-icon"></i>
-                        <span class="perk-text">Student society and sports team sponsorship</span>
-                    </div>
-                    
-                    <div class="perk-row">
-                        <i class="fas fa-check perk-icon"></i>
-                        <span class="perk-text">In-kind food sponsorship for events</span>
-                    </div>
-                    <div class="perk-row">
-                        <i class="fas fa-check perk-icon"></i>
-                        <span class="perk-text">Flexible arrangements — every project is different</span>
-                    </div>
-                </div>
-                <a class="btn btn-outline" data-page-link="contact" style="margin-top:20px; width:fit-content; cursor:pointer;">
-                    Get in touch <i class="fas fa-arrow-right" style="margin-left:6px;"></i>
-                </a>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-
-
-
-</div><!-- /page-students -->
-
-
-<!-- ═══════════════════════════════════════════════ -->
-<!-- PAGE: LOCATION                                 -->
-<!-- ═══════════════════════════════════════════════ -->
-<div class="page" id="page-location">
-
-<section class="location" id="location">
-    <div class="section-inner location-grid">
-
-        <div class="loc-head">
-       
-            <h2 class="section-heading reveal in-view">Right opposite <span class="highlight">Parkinson</span></h2>
-        </div>
-
-        <div class="info-block loc-address reveal in-view">
-            <div class="info-block-title"><i class="fas fa-location-dot"></i> Address</div>
-            <address>164 Woodhouse Lane<br>Leeds, LS2 9HB<br>United Kingdom</address>
-        </div>
-
-        <div class="map-wrapper loc-map reveal reveal-delay-1 in-view">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2356.543810041088!2d-1.556688584167!3d53.80677298008684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48795c1d9b2d1c83%3A0x6a4b3c8e1f2d9c0a!2sBakery%20164!5e0!3m2!1sen!2suk!4v1680000000000!5m2!1sen!2suk" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Bakery 164 on Google Maps"></iframe>
-        </div>
-
-        <div class="info-block loc-hours reveal in-view">
-            <div class="info-block-title"><i class="fas fa-clock"></i> Opening Times</div>
-            <div class="hours-row"><span class="hours-day">Monday</span><span class="hours-time">7:00 am – 6:00 pm</span></div>
-            <div class="hours-row"><span class="hours-day">Tuesday</span><span class="hours-time">7:00 am – 6:00 pm</span></div>
-            <div class="hours-row"><span class="hours-day">Wednesday</span><span class="hours-time">7:00 am – 6:00 pm</span></div>
-            <div class="hours-row"><span class="hours-day">Thursday</span><span class="hours-time">7:00 am – 6:00 pm</span></div>
-            <div class="hours-row"><span class="hours-day">Friday</span><span class="hours-time">7:00 am – 6:00 pm</span></div>
-            <div class="hours-row"><span class="hours-day">Saturday</span><span class="hours-time">11:00 am – 5:00 pm</span></div>
-            <div class="hours-row"><span class="hours-day">Sunday</span><span class="hours-time hours-closed">Closed</span></div>
-        </div>
-
-    </div>
-    <img src="https://github.com/Stepzach/DesignPortfolio/blob/main/Screenshot%202026-04-05%20at%2010.17.34.jpg?raw=true" style="margin-top:10px; min-height:350px; max-height:450px; width:100%; object-fit:cover;">
-</section>
-
-</div><!-- /page-location -->
-
-
-<!-- ═══════════════════════════════════════════════ -->
-<!-- PAGE: CONTACT                                  -->
-<!-- ═══════════════════════════════════════════════ -->
-<div class="page" id="page-contact">
-
-<section class="contact" id="contact" >
-    <div class="section-inner">
-        <div class="contact-text">
-
-            <h2 class="section-heading reveal in-view">Get in touch</h2>
-            <p class="section-body reveal in-view">Whether you're feeding ten people at a meeting or two hundred at a conference, we bring the same Bakery 164 quality to your event.</p>
-            <div class="contact-cards reveal in-view">
-    <!-- Catering Card -->
-    <div class="contact-card">
-        <i class="fa fa-utensils" style="margin-bottom:20px;"></i>
-        <div class="contact-card-title">Catering</div>
-        <div class="contact-card-desc">Lunches, events, and society catering. We design menus around your needs.</div>
-    </div>
-
-    <!-- Delivery Card -->
-    <div class="contact-card">
-        <i class="fa fa-truck" style="margin-bottom:20px;"></i>
-        <div class="contact-card-title">Delivery</div>
-        <div class="contact-card-desc">Can't make it in? We deliver across central Leeds. Contact us directly to arrange.</div>
-    </div>
 </div>
-            <a href="tel:+441132456789" class="phone-block reveal in-view">
-                <div class="phone-icon"><i class="fas fa-phone"></i></div>
-                <div>
-                    <div class="phone-label">Call Us</div>
-                    <div class="phone-number">0113 245 6789</div>
-                </div>
-            </a>
-              <a href="mailto:example@bakery164.com" class="phone-block reveal in-view">
-                <div class="phone-icon"><i class="fas fa-envelope"></i></div>
-                <div>
-                    <div class="phone-label">Email Us</div>
-                    <div class="phone-number">example@bakery164.com</div>
-                </div>
-            </a>
-        </div>
-        <div class="contact-visual reveal reveal-delay-1 in-view">
-            <img src="https://github.com/Stepzach/DesignPortfolio/blob/main/bakery-164-in-leeds-2018%20(1).jpg?raw=true" alt="Inside Bakery 164" loading="lazy">
-        </div>
-    </div>
-</section>
 
-</div><!-- /page-contact -->
-
-
-<!-- ─── FOOTER (always visible) ───────────────────── -->
-<footer class="main-footer">
+</div><footer class="main-footer">
     <div class="footer-grid">
         <div class="footer-col col-banner">
             <p class="banner-text">★  art prints & digital printables<br>★ commercial craft designs<br>★ animated ecard GIFs<br>★  visual brand identity<br>★ invitations & portraits</p>
         </div>
         <div class="footer-links-group">
               <div class="footer-col">
-                <h4>Links</h4>
+                <h4>More</h4>
                 <ul>
-                    <li><a href="https://maps.google.com/?q=Bakery+164+Leeds" target="_blank">Google</a></li>
-                    <li><a href="https://www.tripadvisor.co.uk" target="_blank">Reviews</a></li>
+                    <li><a href="https://maps.google.com/?q=Bakery+164+Leeds" target="_blank">Comic</a></li>
+                    <li><a href="https://www.tripadvisor.co.uk" target="_blank">Editorial</a></li>
                 </ul>
             </div>
             <div class="footer-col" id="hide678a">
               <div style="width:1px !important; z-index: 20; margin:0px 2px; background: var(--red); height:100%;"></div>
             </div>
             <div class="footer-col">
-                <h4>Social</h4>
+                <h4>Links</h4>
                 <ul>
-                    <li><a href="https://www.instagram.com/bakery164/" target="_blank"><i class="fab fa-instagram"></i> Insta</a></li>
-                    <li><a href="https://www.tiktok.com/@bakery164" target="_blank"><i class="fab fa-tiktok"></i> TikTok</a></li>
+                    <li><a href="https://www.instagram.com/bakery164/" target="_blank"><i class="fa-brands fa-pinterest"></i> Pinterest</a></li>
+                    <li><a href="https://www.tiktok.com/@bakery164" target="_blank"><i class="fab fa-etsy"></i> Etsy</a></li>
                 </ul>
             </div>
             
@@ -1647,10 +1164,10 @@ section { padding: 40px 40px; }
             </div>
             
              <div class="footer-col">
-                <h4>More</h4>
+                <h4>Contact</h4>
                 <ul>
-                    <li><a href="tel:+441132456789"><i class="fas fa-phone"></i>Call</a></li>
-                    <li><a href="mailto:hello@bakery164.com"><i class="fas fa-envelope"></i> Email</a></li>
+                    <li><a href="tel:+441132456789"><i class="fas fa-envelope"></i>Email</a></li>
+                    <li><a href="mailto:hello@bakery164.com"><i class="fa-brands fa-instagram"></i>Insta</a></li>
                 </ul>
             </div>
             
@@ -1659,7 +1176,7 @@ section { padding: 40px 40px; }
             <p class="info-text">Bakery 164 is a renowned gourmet sandwich shop located in Leeds, directly opposite the University of Leeds' Parkinson Building.</p><div class="hidhdizh" style="width:100%; text-align:center;"><p style="text-align:center; margin-top:10px; display:flex; flex-direction: row; justify-content:center;">Website by <a style="margin-left:4px;"href="https://stephenszachary.com" target="_blank"> Zach</a></p></div>
         </div>
     </div>
-    <div class="copyright">© Bakery 164 &nbsp;·&nbsp; <a href="/legal">Privacy &amp; Terms of Use</a></div>
+    <div class="copyright">© Estelle Stephens  ·  <a href="/legal">Privacy & Terms of Use</a></div>
 </footer>
 
 <script>
@@ -1670,6 +1187,54 @@ const pageLinkBtns = document.querySelectorAll('[data-page-link]');
 const mobileBtn = document.querySelector('.mobile-toggle');
 const navMenu = document.querySelector('.nav-menu');
 const navIcon = mobileBtn?.querySelector('i');
+
+// ─── HERO CAROUSEL LOGIC ──────────────────────────
+async function fetchHeroCarousel() {
+    const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=268470262&output=csv';
+    try {
+        const res = await fetch(sheetUrl);
+        const csvText = await res.text();
+        const rows = csvText.split('\n');
+        
+        const carousel = document.getElementById('heroCarousel');
+        if (!carousel) return;
+
+        let slides = [];
+
+        // Start from index 1 to skip CSV header
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            const firstComma = row.indexOf(',');
+            if (firstComma > 0) {
+                const url = row.substring(0, firstComma).trim();
+                // Clean up any quotes around the SEO string
+                const alt = row.substring(firstComma + 1).replace(/^"|"$/g, '').replace(/""/g, '"').trim();
+
+                if (url && url.startsWith('http')) {
+                    const img = document.createElement('img');
+                    img.src = url;
+                    img.alt = alt; // Adds the SEO to the DOM
+                    img.className = 'carousel-slide' + (slides.length === 0 ? ' active' : '');
+                    carousel.appendChild(img);
+                    slides.push(img);
+                }
+            }
+        }
+
+        // Initialize Carousel rotation
+        if (slides.length > 1) {
+            let currentIndex = 0;
+            setInterval(() => {
+                slides[currentIndex].classList.remove('active');
+                currentIndex = (currentIndex + 1) % slides.length;
+                slides[currentIndex].classList.add('active');
+            }, 4000); // Transitions every 4 seconds
+        }
+
+    } catch (error) {
+        console.error('Error fetching carousel images:', error);
+    }
+}
 
 // ─── PAGE NAVIGATION ──────────────────────────────
 function showPage(pageId, updateHash = true) {
@@ -1810,6 +1375,7 @@ window.addEventListener('load', () => {
     if (loader) {
         loader.classList.add('hidden');
     }
+    fetchHeroCarousel(); // Initialize the dynamic carousel!
 });
 
 function handleRouting() {
@@ -1833,5 +1399,3 @@ if (window.location.hash) {
 
 </body>
 </html>
-
-                
