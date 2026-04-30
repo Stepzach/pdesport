@@ -213,58 +213,6 @@ margin-top:7px;
 .btn-outline { background: transparent; color: #949494; border: 2px solid var(--yellow); }
 .btn-outline:hover { background: var(--yellow); color: #949494; border-color: var(--yellow); transform: translateY(-2px); }
 
-
-.carousel-dots {
-    position: absolute;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 6px;
-    z-index: 10;
-}
-.carousel-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-    cursor: pointer;
-    transition: var(--trans);
-}
-.carousel-dot.active {
-    background: #ffffff;
-    transform: scale(1.3);
-}
-
-/* CAROUSEL ARROWS */
-.carousel-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.3);
-    border: none;
-    color: #fff;
-    font-size: 1.2rem;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: var(--trans);
-    backdrop-filter: blur(4px);
-}
-.carousel-arrow:hover {
-     background: rgba(255, 255, 255, 0.6);
-    color: #000;
-    transform: translateY(-50%) scale(1.1);
-}
-.carousel-arrow.prev { left: 16px; }
-.carousel-arrow.next { right: 16px; }
-
     
 /* ─── SECTION SHARED ──────────────────────────── */
 section { padding: 40px 40px; }
@@ -305,7 +253,8 @@ section { padding: 40px 40px; }
 }
 .ethos-card:hover { border-color: var(--red); transform: translateY(-6px); }
 .ethos-card img { transition: 0.8s ease; }
-.ethos-card:hover img { transform: scale(1.06); filter: brightness(0.85); }
+    .ethos-card video { transition: 0.8s ease; }
+
 .ethos-card-body {
     position: absolute; inset: 0;
     background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.1) 55%, transparent 100%);
@@ -513,7 +462,8 @@ section { padding: 40px 40px; }
         flex-direction: column;
         overflow: visible;         /* Prevents text from being cut off */
     }
-    .ethos-card img {
+    .ethos-card img,
+    .ethos-card video {
         aspect-ratio: 4/5;
         height: auto;              /* Overrides global height: 100% */
         border-radius: var(--radius-md); 
@@ -654,10 +604,21 @@ section { padding: 40px 40px; }
         #line-thru  {
    display:none !important;
 }
+ .font-size  {
+   font-size: 3.2rem;
+}
+
+
+
     }
 
     
 @media(max-width: 768px) {
+
+.font-size  {
+   font-size: 1.5rem;
+}
+
 
     .ingredients-section {
     padding: 26px 0px !important;
@@ -774,15 +735,19 @@ section { padding: 40px 40px; }
     .location { scroll-margin-top: 50px; }
     .contact { scroll-margin-top: 50px; }
     .nav-container { border-bottom: solid 1px var(--red); }
-    .hero-sub { display: none; }
+    .hero-sub {         font-size: 0.95rem;
+               margin-top:10px;
+        line-height: 1.1;
+        color: #949494;
+         }
     .hero-content {
         flex: 0 0 25%;   
         width: 100%;
         padding: 10px 20px; 
         display: flex;
-        flex-direction: row; 
+        flex-direction: column; 
         align-items: left;
-                justify-content: space-between;
+                justify-content: start;
         
         background: var(--red);
         border-bottom: solid 1px var(--yellow);
@@ -867,7 +832,8 @@ section { padding: 40px 40px; }
         display: grid; grid-template-columns: 1fr 1fr; align-items: end; background: transparent; border: none;
     }
     .ethos-card:hover { transform: none; }
-    .ethos-card img { height: 140px; width: 90%; object-fit: cover; position: relative; z-index: 2; }
+    .ethos-card img,
+    .ethos-card video { height: 140px; width: 90%; object-fit: cover; position: relative; z-index: 2; }
     .ethos-card-body { position: relative; inset: auto; background: transparent; padding: 20px 10px; display: block; z-index: 1; height: 100%; }
     .ethos-card-title { font-size: 1.1rem; color: #949494; margin-top: 0; line-height: 1.1; }
     .ethos-card-desc { display: block; font-size: 0.9rem; line-height: 1.1; color: #949494; margin-top: 4px; }
@@ -886,7 +852,7 @@ section { padding: 40px 40px; }
    
     .hero-bg {
         position: relative; 
-        flex: 0 0 75%;    
+        flex: 0 0 70%;   
         width: 100%;
         /* Carousel overrides the original mobile CSS */
     }
@@ -987,7 +953,7 @@ section { padding: 40px 40px; }
     .ingredients-image-side {
         display: block;
         flex: 1; /* Takes 50% */
-       
+        
         overflow: hidden;
                  align-content: center;
     }
@@ -1044,18 +1010,15 @@ section { padding: 40px 40px; }
 <section class="hero" id="home">
     <div class="hero-bg" id="heroCarousel">
         <div class="carousel-overlay"></div>
-        <button class="carousel-arrow prev" id="prevSlide" aria-label="Previous Slide"><i class="fas fa-chevron-left"></i></button>
-        <button class="carousel-arrow next" id="nextSlide" aria-label="Next Slide"><i class="fas fa-chevron-right"></i></button>
-        <div class="carousel-dots" id="carouselDots"></div>
-        </div>
+    </div>
     <div class="hero-content">
         <div class="her-side"><div class="hero-kicker"><i class="fas fa-map-marker-alt"></i>  Based in London<span class="hidesmall">, UK</span></div>
         <h1 class="hero-title">
-            illustrator & designer★<br>
+            illustrator <span class="font-size">★</span> designer<br>
           
         </h1></div>
-       
-        <p class="hero-sub">Gourmet ciabatta & focaccia sandwiches with bold Mediterranean and Middle Eastern flavours - baked fresh every morning, served under the big red canopy opposite the Parkinson Building.</p>
+      
+        <p class="hero-sub">From high-energy festival campaigns and social media visuals to the intimate details of bespoke wedding invitations and seasonal graphics, I create cohesive stories for brands and homes alike. <br>Explore my collection of customisable wall art, or let’s collaborate to bring a unique, high-impact aesthetic to your next commercial project or private event.</p>
     </div>
 </section>
 
@@ -1067,38 +1030,41 @@ section { padding: 40px 40px; }
         </div>
         <div class="ethos-cards">
             <div class="ethos-card reveal reveal-delay-1 in-view">
-                <img src="https://ik.imagekit.io/ngoo36zmk/IMG_7419.png" alt="art prints - digital printables (download instantly. print at home or send to your local printers) or physical giclée prints (various sizes)" loading="lazy">
+                <img src="https://ik.imagekit.io/ngoo36zmk/IMG_7434.png" alt="art prints - digital printables (download instantly. print at home or send to your local printers) or physical giclée prints (various sizes)" loading="lazy">
                 <div class="ethos-card-body">
-                    <h3 class="ethos-card-title">art prints & digital printables</h3>
-                    <p class="ethos-card-desc">download instantly. print at home or send to your local printers or physical giclée prints (various sizes)</p>
+                    <h3 class="ethos-card-title">art prints</h3>
+                    <p class="ethos-card-desc">Premium Giclée prints and instant "download-to-print" wall art</p>
                 </div>
             </div>
             <div class="ethos-card reveal reveal-delay-2 in-view">
                 <img src="https://ik.imagekit.io/ngoo36zmk/IMG_7417.png" alt="craft designs - digital files with a transparent background for all your craft projects (commercial or personal use)" loading="lazy">
                 <div class="ethos-card-body">
-                    <h3 class="ethos-card-title">Craft Designs</h3>
-                    <p class="ethos-card-desc">digital files with a transparent background for all your craft projects (commercial or personal use)</p>
+                    <h3 class="ethos-card-title">Commercial assets</h3>
+                    <p class="ethos-card-desc">High-resolution digital files for professional and personal craft projects</p>
                 </div>
             </div>
             <div class="ethos-card reveal reveal-delay-3 in-view">
-                <img src="https://static.wixstatic.com/media/e9d02f_ea8230ab0b60499aa971233c4933f7c1~mv2.gif" alt="immediate download: easy and fast! GIF greeting cards to send by text or email." loading="lazy">
+               <video autoplay muted loop playsinline loading="lazy">
+  <source src="https://ik.imagekit.io/ngoo36zmk/Birthday%20ecard%20.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
                 <div class="ethos-card-body">
                     <h3 class="ethos-card-title">Animated E-cards</h3>
-                    <p class="ethos-card-desc">immediate download: easy and fast! GIF greeting cards to send by text or email.</p>
+                    <p class="ethos-card-desc">Instant GIF greetings to share via text, email, or social media</p>
                 </div>
             </div>
              <div class="ethos-card reveal reveal-delay-4 in-view">
                 <img src="https://ik.imagekit.io/ngoo36zmk/IMG_7420.png?tr=w-1300" alt="a collection of visual elements for new businesses, a rebrand or brand refresh" loading="lazy">
                 <div class="ethos-card-body">
-                    <h3 class="ethos-card-title">visual brand identity</h3>
-                    <p class="ethos-card-desc">a collection of visual elements for new businesses, a rebrand or brand refresh.</p>
+                    <h3 class="ethos-card-title">brand identity</h3>
+                    <p class="ethos-card-desc">Visual storytelling for new businesses, re-brands, and event pop-ups</p>
                 </div>
             </div>
             <div class="ethos-card reveal reveal-delay-5 in-view">
                 <img src="https://ik.imagekit.io/ngoo36zmk/IMG_7424.gif" alt="Portraits, holiday cards, invitations, GIFs, party decor package" loading="lazy">
                 <div class="ethos-card-body">
-                    <h3 class="ethos-card-title">Custom</h3>
-                    <p class="ethos-card-desc">Portraits, holiday cards, invitations, GIFs, party decor package</p>
+                    <h3 class="ethos-card-title">Custom commissions</h3>
+                    <p class="ethos-card-desc">Bespoke portraits, wedding stationery, and curated event decor.</p>
                 </div>
             </div>
             
@@ -1286,7 +1252,6 @@ async function fetchHeroCarousel() {
         const rows = csvText.split('\n');
         
         const carousel = document.getElementById('heroCarousel');
-        const dotsContainer = document.getElementById('carouselDots');
         if (!carousel) return;
 
         let slides = [];
@@ -1304,37 +1269,19 @@ async function fetchHeroCarousel() {
                     img.src = url;
                     img.alt = alt;
                     img.className = 'carousel-slide'; 
-                    carousel.insertBefore(img, dotsContainer); // Keep dots on top
+                    carousel.appendChild(img);
                     slides.push(img);
                 }
             }
         }
 
-        // 2. Initialize Random Start and Dots Logic
+        // 2. Initialize Random Start and Auto-rotation Logic
         if (slides.length > 0) {
-            let dots = [];
             // Generate a random starting index
             let currentIndex = Math.floor(Math.random() * slides.length);
 
-            // Create dots and set initial active states
-            slides.forEach((slide, index) => {
-                if (dotsContainer) {
-                    const dot = document.createElement('div');
-                    dot.className = 'carousel-dot';
-                    
-                    // Make dots clickable to jump to slides
-                    dot.addEventListener('click', () => goToSlide(index));
-                    
-                    dotsContainer.appendChild(dot);
-                    dots.push(dot);
-                }
-
-                // Apply active class to the random starter
-                if (index === currentIndex) {
-                    slide.classList.add('active');
-                    if (dots[index]) dots[index].classList.add('active');
-                }
-            });
+            // Set initial active state
+            slides[currentIndex].classList.add('active');
 
             let slideInterval;
 
@@ -1342,16 +1289,14 @@ async function fetchHeroCarousel() {
             const goToSlide = (index) => {
                 // Remove active from old
                 slides[currentIndex].classList.remove('active');
-                if (dots[currentIndex]) dots[currentIndex].classList.remove('active');
 
                 // Update index
                 currentIndex = index;
 
                 // Add active to new
                 slides[currentIndex].classList.add('active');
-                if (dots[currentIndex]) dots[currentIndex].classList.add('active');
 
-                // Reset interval so clicking a dot doesn't cause an immediate double-jump
+                // Reset interval
                 if (slideInterval) clearInterval(slideInterval);
                 slideInterval = setInterval(nextSlide, 4000);
             };
@@ -1360,20 +1305,10 @@ async function fetchHeroCarousel() {
                 goToSlide((currentIndex + 1) % slides.length);
             };
 
-            const prevSlide = () => {
-                goToSlide((currentIndex - 1 + slides.length) % slides.length);
-            };
-
             // Start rotation interval
             if (slides.length > 1) {
                 slideInterval = setInterval(nextSlide, 4000);
             }
-
-            // Bind arrow buttons
-            const prevBtn = document.getElementById('prevSlide');
-            const nextBtn = document.getElementById('nextSlide');
-            if(prevBtn) prevBtn.addEventListener('click', prevSlide);
-            if(nextBtn) nextBtn.addEventListener('click', nextSlide);
         }
 
     } catch (error) {
