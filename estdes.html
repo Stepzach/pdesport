@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estelle Stephens</title>
-    <meta name="theme-color" content="#e50f29">
+    <meta name="theme-color" content="#f6D9c7">
     <meta name="description" content="Gourmet sandwiches, artisan bread and specialty coffee opposite the University of Leeds since 1994.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -362,7 +362,7 @@ section { padding: 40px 40px; }
 .gallery-item:hover img { transform: scale(1.01); }
 .gallery-caption {
     position: absolute; bottom: 0; left: 0; right: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.92) 0%, transparent 100%);
+   
     padding: 40px 18px 18px;
 }
 .gallery-caption h4 { font-size: 1.05rem; font-weight: 900; font-family: 'Permanent Marker', cursive; margin-bottom: 4px; color:var(--red); }
@@ -468,6 +468,7 @@ section { padding: 40px 40px; }
         height: auto;              /* Overrides global height: 100% */
         border-radius: var(--radius-md); 
         object-fit: cover;
+        width:100%;
     }
     .ethos-card-body {
         position: relative;
@@ -972,6 +973,159 @@ section { padding: 40px 40px; }
         justify-content: center; /* Centers text vertically */
     }
 }
+
+/* --- Skeleton Loader Styles --- */
+
+/* The shimmer animation */
+@keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+}
+
+/* Base style for all skeleton elements */
+.skeleton {
+    background: #e0e0e0;
+    background-image: linear-gradient(90deg, #e0e0e0 0px, #f0f0f0 40px, #e0e0e0 80px);
+    background-size: 1000px 100%;
+    animation: shimmer 2s infinite linear forwards;
+    border-radius: 4px; /* Optional: soft corners */
+}
+
+/* Specific sizing for the gallery parts */
+.skeleton-wrapper {
+    /* This should roughly match the spacing of your normal gallery-item */
+    display: flex;
+    flex-direction: column;
+    gap: 15px; 
+    margin-bottom: 30px;
+}
+
+.skeleton-image {
+    width: 100%;
+    height: 300px; /* Adjust this to match your average image height */
+    border-radius: 8px; /* Match your actual image border-radius if you have one */
+}
+
+.skeleton-tag {
+    width: 30%;
+    height: 20px;
+}
+
+.skeleton-title {
+    width: 80%;
+    height: 28px;
+}
+/* ICON WRAPPER */
+.gallery-icons {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 12px;
+    opacity: 0;
+    transition: 0.3s ease;
+    pointer-events: none;
+}
+
+/* SHOW ON HOVER (DESKTOP ONLY) */
+@media (min-width: 800px) {
+    .gallery-item:hover .gallery-icons {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+/* ICON STYLE */
+.gallery-icon {
+    font-size: 26px;
+    background: white;
+    border-radius: 50%;
+    padding: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s ease;
+}
+
+/* HOVER EFFECT */
+.gallery-icon:hover {
+    transform: translateY(-2px) scale(1.1);
+}
+
+/* BRAND COLORS */
+.gallery-icon.etsy {
+    color: orange;
+}
+
+.gallery-icon.pinterest {
+    color: #cd2323;
+}
+
+#link-popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s ease;
+}
+
+#link-popup .gallery-icon {
+  font-size: 20px !important;
+background: white;
+border-radius: 50%;
+padding: 6px;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+transition: 0.2s ease;
+
+width: 30px;          /* key */
+aspect-ratio: 1 / 1;  /* now works */
+margin-left:10px;
+}
+
+
+#link-popup.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.popup-inner {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width:95%;
+    
+    
+}
+
+.popup-inner button {
+    padding: 12px;
+    border: none;
+    font-weight: bold;
+     border-radius: 22px;
+    cursor: pointer;
+    background:var(--yellow);
+}
+
+.popup-inner {
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+#popup-img {
+    display: block;
+    background: #f0f0f0; /* Fallback color while loading */
+}
 </style>
 </head>
 <body>
@@ -1087,102 +1241,67 @@ section { padding: 40px 40px; }
 <section class="sandwich-gallery">
     <div class="section-inner">
      <div style="display:flex; flex-direction: row; gap:10px; justify-content: space-between;">
-      <div><h2 class="section-heading reveal in-view">Made fresh<br><span class="highlight">every morning</span></h2>
-            <p class="section-body reveal in-view" style="margin-top:16px;">We sell exciting and unusual sandwiches that are packed with flavour, texture and are hearty in size. Our flavour combinations are largely a mixture of Italian and Middle Eastern tastes, while also catering to traditional palates with the more classically-oriented recipes.</p>
+    
+              <div><h2 class="section-heading reveal in-view"><span class="highlight"> Art Prints</span></h2>
+           
             
             </div>
             
           
     <div class="section-inner" id="hidelarger">
-        <div class="sandwiches-panel reveal in-view" style="max-width:700px; margin:0 auto;">
-            <h3 class="student-card-title">Got a <span class="highlight">sandwich idea?</span></h3>
-            <p class="section-body" style="font-size:0.95rem; margin-bottom:24px; text-align:center;">We're always experimenting. If you've got a flavour combination you'd love to see on the menu — send it to us on Instagram. The best ideas might just end up as a weekly special (and we'll give you the credit).</p>
-            <div class="sandwich-steps" style="margin-bottom:0px;">
-                <div class="sandwich-step"><div class="step-num">1</div><div class="step-label">Dream up your<br>ideal sandwich</div></div>
-                <div class="sandwich-step"><div class="step-num">2</div><div class="step-label">DM or tag us<br>on Instagram</div></div>
-                <div class="sandwich-step"><div class="step-num">3</div><div class="step-label">We test it in<br>the kitchen</div></div>
-                <div class="sandwich-step"><div class="step-num">4</div><div class="step-label">It might hit<br>the menu!</div></div>
-            </div>
+      
             
         </div>
     </div>
 
 
 </div>
-        <div class="gallery-grid">
+       <!-- Include PapaParse library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
-            <div class="gallery-item reveal in-view">
-                <img src="https://bakery164.com/wp-content/uploads/164_074A9230e_2018-1024x683.jpg" alt="Sandwich of the Week" loading="lazy">
-                <div class="gallery-caption">
-                    <span class="gallery-tag">Weekly Special</span>
-                    <h4>Sandwich of the Week</h4>
-                    
-                </div>
-            </div>
-
-            <div class="gallery-item reveal reveal-delay-1 in-view">
-                <img src="https://bakery164.com/wp-content/uploads/Vegetarian-Sandwich-of-the-Week-21-26-October-at-Cafe-164-Leeds-1024x683.jpg" alt="Fresh baked bread" loading="lazy">
-                <div class="gallery-caption">
-                    <span class="gallery-tag">Freshly Baked</span>
-                    <h4>Our Ciabatta Base</h4>
-                  
-                </div>
-            </div>
-
-            <div class="gallery-item reveal reveal-delay-2 in-view">
-                <img src="https://bakery164.com/wp-content/uploads/164_Sandwiches_074A3151e_2020-1024x683.jpg" alt="Coffee at Bakery 164" loading="lazy">
-                <div class="gallery-caption">
-                    <span class="gallery-tag">vegetables</span>
-                    <h4>Ciabatta Sandwich</h4>
-                    
-                </div>
-            </div>
-
-            <div class="gallery-item reveal in-view">
-                <img src="https://bakery164.com/wp-content/uploads/164_Sandwiches_074A3043e_2020-1024x683.jpg" alt="The bakery interior" loading="lazy">
-                <div class="gallery-caption">
-                    <span class="gallery-tag">Vegetarian</span>
-                    <h4>Roasted Vegetable Focaccia</h4>
-                  
-                </div>
-            </div>
-
-            <div class="gallery-item reveal reveal-delay-1 in-view">
-                <img src="https://bakery164.com/wp-content/uploads/164_Sandwiches-27Dec_074A2514e_2019-1024x683.jpg" alt="Bakery 164 exterior" loading="lazy">
-                <div class="gallery-caption">
-                    <span class="gallery-tag">Classic</span>
-                    <h4>The 164 Classic</h4>
-                    
-                </div>
-            </div>
-
-            <div class="gallery-item reveal reveal-delay-2 in-view">
-                <img src="https://bakery164.com/wp-content/uploads/164_074A8694e_2018-1024x683.jpg" alt="Vegan sandwich" loading="lazy">
-                <div class="gallery-caption">
-                    <span class="gallery-tag">Vegan</span>
-                    <h4>Middle Eastern Falafel</h4>
-                    
-                </div>
-            </div>
-             <div class="gallery-item reveal reveal-delay-2 in-view">
-                <img src="https://bakery164.com/wp-content/uploads/Sandwiches-by-164-November-2019-_074A2368e_2019-1024x683.jpg" alt="Vegan sandwich" loading="lazy">
-                <div class="gallery-caption">
-                    <span class="gallery-tag">idk</span>
-                    <h4>Example</h4>
-                    
-                </div>
-            </div>
-             <div class="gallery-item reveal reveal-delay-2 in-view">
-                <img src="https://bakery164.com/wp-content/uploads/164_Sandwiches_074A2975e_2020-1024x683.jpg" alt="Vegan sandwich" loading="lazy">
-                <div class="gallery-caption">
-                    <span class="gallery-tag">Chicken</span>
-                    <h4>Middle Eastern</h4>
-                    
-                </div>
-            </div>
-
+<!-- Your gallery container -->
+<div class="gallery-grid" id="dynamic-gallery">
+    
+    <!-- Skeleton Item 1 -->
+    <div class="gallery-item skeleton-wrapper">
+        <div class="skeleton skeleton-image"></div>
+        <div class="gallery-caption">
+            <div class="skeleton skeleton-tag"></div>
+            <div class="skeleton skeleton-title" style="margin-top: 10px;"></div>
         </div>
     </div>
+
+    <!-- Skeleton Item 2 -->
+    <div class="gallery-item skeleton-wrapper">
+        <div class="skeleton skeleton-image"></div>
+        <div class="gallery-caption">
+            <div class="skeleton skeleton-tag"></div>
+            <div class="skeleton skeleton-title" style="margin-top: 10px;"></div>
+        </div>
+    </div>
+
+    <!-- Skeleton Item 3 -->
+    <div class="gallery-item skeleton-wrapper">
+        <div class="skeleton skeleton-image"></div>
+        <div class="gallery-caption">
+            <div class="skeleton skeleton-tag"></div>
+            <div class="skeleton skeleton-title" style="margin-top: 10px;"></div>
+        </div>
+    </div>
+
+</div>
+    </div>
+    
+  <div id="link-popup">
+    <div class="popup-inner">
+        <!-- Add this line -->
+        <img id="popup-img" src="" alt="Selected Art" style="width: 100%; border-radius: 12px; margin-bottom: 10px; height: 200px; object-fit: cover;">
+        
+        <button id="open-etsy">Open in Etsy <a href="#" class="gallery-icon etsy"><i class="fa-brands fa-etsy"></i></a></button>
+        <button id="open-pinterest">Open in Pinterest <a href="#" class="gallery-icon pinterest"><i class="fa-brands fa-pinterest"></i></a></button>
+        <button id="close-popup" style=" background:var(--red);">Cancel</button>
+    </div>
+</div>
 </section>
 
 
@@ -1475,6 +1594,107 @@ if (window.location.hash) {
     document.querySelector('[data-page="home"]')?.classList.add('active-link');
 }
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    
+    // Your Google Sheets CSV link
+    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=0&output=csv";
 
+    // Fetch and parse the CSV
+    Papa.parse(csvUrl, {
+        download: true,
+        header: true, // This tells the parser to use the first row as object keys
+        skipEmptyLines: true,
+        complete: function(results) {
+            const container = document.getElementById('dynamic-gallery');
+            container.innerHTML = ''; // Clear the "Loading gallery..." text
+
+            // Loop through each row of the spreadsheet
+            results.data.forEach((row, index) => {
+                
+                // 1. Calculate the delay class to match your 3-column stagger layout
+                let delayClass = '';
+                if (index % 3 === 1) {
+                    delayClass = 'reveal-delay-1';
+                } else if (index % 3 === 2) {
+                    delayClass = 'reveal-delay-2';
+                }
+
+                // 2. Create the outer div
+                const itemDiv = document.createElement('div');
+                // Note: we add 'in-view' assuming you want them visible immediately, 
+                // but you can remove it if your scroll-animation script handles adding it later.
+                itemDiv.className = `gallery-item reveal ${delayClass} in-view`.trim();
+
+                // 3. Map the spreadsheet data to the HTML structure
+                // We wrap the image and heading in 'Buy_now_link' so users can click through
+               itemDiv.innerHTML = `
+    <img src="${row.Image}" alt="${row.SEO_image}" loading="lazy">
+
+    <div class="gallery-icons">
+        <a href="${row.Buy_now_link}" target="_blank" class="gallery-icon etsy">
+            <i class="fa-brands fa-etsy"></i>
+        </a>
+
+        <a href="${row.Pinterest_link}" target="_blank" class="gallery-icon pinterest">
+            <i class="fa-brands fa-pinterest"></i>
+        </a>
+    </div>
+`;
+
+                // 4. Append the new item to the grid
+                container.appendChild(itemDiv);
+            });
+           let currentLinks = { etsy: '', pinterest: '' };
+
+document.addEventListener('click', function(e) {
+    const item = e.target.closest('.gallery-item');
+
+    // MOBILE ONLY
+    if (window.innerWidth < 800 && item) {
+        e.preventDefault();
+
+        // Get links
+        const etsy = item.querySelector('.etsy')?.href;
+        const pinterest = item.querySelector('.pinterest')?.href;
+        
+        // --- NEW: Get the image source ---
+        const clickedImgSrc = item.querySelector('img')?.src;
+
+        currentLinks.etsy = etsy;
+        currentLinks.pinterest = pinterest;
+
+        // --- NEW: Set the image in the popup ---
+        const popupImg = document.getElementById('popup-img');
+        if (popupImg && clickedImgSrc) {
+            popupImg.src = clickedImgSrc;
+        }
+
+        document.getElementById('link-popup').classList.add('active');
+    }
+});
+
+document.getElementById('open-etsy').onclick = () => {
+    window.open(currentLinks.etsy, '_blank');
+};
+
+document.getElementById('open-pinterest').onclick = () => {
+    window.open(currentLinks.pinterest, '_blank');
+};
+
+document.getElementById('close-popup').onclick = () => {
+    document.getElementById('link-popup').classList.remove('active');
+};
+        },
+        error: function(err) {
+            console.error("Error parsing the CSV:", err);
+            document.getElementById('dynamic-gallery').innerHTML = '<p>Error loading gallery.</p>';
+        }
+    });
+    
+    
+});
+
+</script>
 </body>
 </html>
