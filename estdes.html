@@ -351,17 +351,18 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2px;
+  gap: 18px;
 }
 .gallery-item {
   position: relative; overflow: hidden;
  
   cursor: pointer;
   background: var(--blush);
+    box-shadow: 0px 0px 9px #e8d5c4;
 }
 .gallery-item img {
   transition: transform .7s var(--ease-out), filter .4s;
-    border: solid 1px black;
+
 }
 .gallery-item:hover img { transform: scale(1.05); }
 
@@ -411,6 +412,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   opacity: 0; pointer-events: none;
   transition: opacity .3s;
 }
+
 #mob-popup.show { opacity: 1; pointer-events: auto; }
 .popup-sheet {
   width: 100%; background: var(--cream);
@@ -434,6 +436,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .popup-btn:active { opacity: .75; }
 .popup-btn-etsy { background: var(--warm); color: var(--ink); border: 1px solid var(--sand); }
+.popup-btn-insta {  background: var(--warm); color: var(--ink); border: 1px solid var(--sand); }
 .popup-btn-pin { background: var(--warm); color: var(--ink); border: 1px solid var(--sand); }
 .popup-btn-cancel { background: var(--ink); color: var(--cream); margin-top: 4px; }
 .popup-handle {
@@ -505,6 +508,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .footer-bottom a { color: var(--ink-soft); transition: color .2s; }
 .footer-bottom a:hover { color: var(--stone); }
 
+
+
 /* ═══════════════════════════════════════════════
    SCROLL REVEAL
 ═══════════════════════════════════════════════ */
@@ -564,7 +569,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .service-img { aspect-ratio: 10/9; width:80%; margin-left:auto; margin-right:auto;}
    .service-img img { object-fit:contain;}
    
-  .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 1px; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .service-name, .service-desc {text-align:center;}
   .service-card:hover .service-img img,
 .service-card:hover .service-img video { transform: scale(1); }
@@ -674,7 +679,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         </article>
 
         <article class="service-card reveal reveal-d3">
-          <div class="service-img" style="aspect-ratio:4/5; overflow:hidden; border-radius: var(--r-md); position:relative;">
+          <div class="service-img">
            
           
              <img src=" https://github.com/Stepzach/pdesport/blob/main/IMG_7438.gif?raw=true"
@@ -730,11 +735,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <div class="gallery-header reveal">
         <div>
           <p class="sec-label">Shop</p>
-          <h2 class="sec-title" id="gallery-heading">Art <em>Prints</em></h2>
+          <h2 class="sec-title" id="gallery-heading">Art Prints</h2>
         </div>
-        <p class="sec-body" style="font-size:1rem; margin-bottom:0;">
-          Click any print to open it on Etsy or save it to Pinterest.
-        </p>
+        
       </div>
 
       <div class="gallery-grid" id="gallery" role="list" aria-labelledby="gallery-heading">
@@ -749,23 +752,28 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 </main>
 
+
 <!-- MOBILE POPUP -->
-<div id="mob-popup" role="dialog" aria-modal="true" aria-label="Open print on Etsy or Pinterest">
+<div id="mob-popup" role="dialog" aria-modal="true" aria-label="Open print on Etsy, Pinterest or Instagram">
   <div class="popup-sheet">
     <div class="popup-handle" aria-hidden="true"></div>
     <img id="mob-img" class="popup-thumb" src="" alt="">
     <div class="popup-btns">
       <button class="popup-btn popup-btn-etsy" id="mob-etsy">
-        <i class="fa-brands fa-etsy" aria-hidden="true"></i> Open on Etsy
+        <i class="fa-brands fa-etsy" aria-hidden="true"></i> Shop on Etsy
       </button>
+     
+     
       <button class="popup-btn popup-btn-pin" id="mob-pin">
-        <i class="fa-brands fa-pinterest" aria-hidden="true"></i> Open on Pinterest
+        <i class="fa-brands fa-pinterest" aria-hidden="true"></i> Pin
+      </button>
+       <button class="popup-btn popup-btn-insta" id="mob-insta">
+        <i class="fa-brands fa-instagram" aria-hidden="true"></i> Like on Insta
       </button>
       <button class="popup-btn popup-btn-cancel" id="mob-cancel">Cancel</button>
     </div>
   </div>
 </div>
-
 <!-- FOOTER -->
 <footer class="site-footer" aria-label="Site footer">
   <div class="footer-top">
@@ -926,7 +934,7 @@ async function initCarousel() {
    GALLERY
 ══════════════════════════════════════ */
 const galleryCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=0&output=csv';
-let popupLinks = { etsy: '', pin: '' };
+let popupLinks = { etsy: '', pin: '', insta: '' }; 
 
 function buildGallery(rows) {
   const grid = document.getElementById('gallery');
@@ -957,13 +965,16 @@ function buildGallery(rows) {
       if (window.innerWidth >= 800) return;
       e.preventDefault();
       const img   = item.querySelector('img');
-      const etsy  = item.querySelector('.ov-link.etsy')?.href;
-      const pin   = item.querySelector('.ov-link.pin')?.href;
+    // Inside item.addEventListener('click', ...)
+const etsy  = item.querySelector('.ov-link.etsy')?.href;
+const pin   = item.querySelector('.ov-link.pin')?.href;
+const insta = row.Instagram_link || ''; // Pulls from CSV column
 
-      document.getElementById('mob-img').src = img?.src || '';
-      document.getElementById('mob-img').alt = img?.alt || '';
-      popupLinks = { etsy, pin };
-      document.getElementById('mob-popup').classList.add('show');
+document.getElementById('mob-img').src = img?.src || '';
+document.getElementById('mob-img').alt = img?.alt || '';
+popupLinks = { etsy, pin, insta }; // Added insta here
+document.getElementById('mob-popup').classList.add('show');
+
     });
 
     grid.appendChild(item);
@@ -988,6 +999,14 @@ document.getElementById('mob-cancel').addEventListener('click', () => {
 document.getElementById('mob-popup').addEventListener('click', e => {
   if (e.target === document.getElementById('mob-popup')) {
     document.getElementById('mob-popup').classList.remove('show');
+  }
+});
+document.getElementById('mob-insta').addEventListener('click', () => {
+  if (popupLinks.insta) {
+    window.open(popupLinks.insta, '_blank', 'noopener');
+  } else {
+    // Optional: redirect to main profile if specific post link is missing
+    window.open('https://instagram.com/yourusername', '_blank', 'noopener');
   }
 });
 document.getElementById('mob-etsy').addEventListener('click', () => {
