@@ -67,7 +67,8 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
-img, video { display: block; width: 100%; height: 100%; object-fit: cover; }
+img, video { display: block; width: 100%; height: 100%;     object-fit: contain;
+  }
 a { text-decoration: none; color: inherit; }
 ul { list-style: none; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
@@ -185,6 +186,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   grid-template-columns: 42% 1fr;
   min-height: calc(100svh - var(--nav-h));
   background: var(--warm);
+}
+.hero img {
+ object-fit:cover;
 }
 .hero-copy {
   display: flex; flex-direction: column; justify-content: center;
@@ -351,12 +355,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .gallery-item {
   position: relative; overflow: hidden;
-  aspect-ratio: 1 / 1;
+ 
   cursor: pointer;
   background: var(--blush);
 }
 .gallery-item img {
   transition: transform .7s var(--ease-out), filter .4s;
+    border: solid 1px black;
 }
 .gallery-item:hover img { transform: scale(1.05); }
 
@@ -563,6 +568,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .service-name, .service-desc {text-align:center;}
   .service-card:hover .service-img img,
 .service-card:hover .service-img video { transform: scale(1); }
+.gallery-item:hover img { transform: scale(1); }
 }
 
 /* Force overlay hidden on mobile; popup used instead */
@@ -764,16 +770,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 <footer class="site-footer" aria-label="Site footer">
   <div class="footer-top">
 
-    <div class="footer-col">
-     
-      <div class="footer-services" aria-label="Services offered">
-        <span class="footer-service">Art Prints & Digital Printables</span>
-        <span class="footer-service">Commercial Craft Designs</span>
-        <span class="footer-service">Animated E-Card GIFs</span>
-        <span class="footer-service">Visual Brand Identity</span>
-        <span class="footer-service">Invitations & Portraits</span>
-      </div>
-    </div>
+   
 
     <div class="footer-col">
       <h4>Explore</h4>
