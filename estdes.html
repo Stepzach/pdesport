@@ -10,7 +10,7 @@
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Serif+Display:ital@0;1&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 
 <!-- Icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -35,9 +35,9 @@
   --red:      #c8363c;
   --gold:     #b89060;
 
-  --ff-display: 'Playfair Display', Georgia, serif;
-  --ff-serif:   'Cormorant Garamond', Georgia, serif;
-  --ff-sans:    'Jost', system-ui, sans-serif;
+  --ff-display: 'DM Serif Display', Georgia, serif;
+  --ff-serif:   'Lora', Georgia, serif;
+  --ff-sans:    'DM Sans', system-ui, sans-serif;
 
   --nav-h: 68px;
   --max:   1480px;
@@ -67,8 +67,7 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
-img, video { display: block; width: 100%; height: 100%;     object-fit: contain;
-  }
+img, video { display: block; width: 100%; height: 100%;     object-fit: contain; }
 a { text-decoration: none; color: inherit; }
 ul { list-style: none; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
@@ -314,7 +313,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   transition: transform .8s var(--ease-out);
   border-radius: var(--r-md);
   object-fit:contain;
-  
 }
 .service-card:hover .service-img img,
 .service-card:hover .service-img video { transform: scale(1.04); }
@@ -346,8 +344,28 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .gallery-sec { background: var(--cream); }
 .gallery-header {
   display: flex; align-items: flex-end; justify-content: space-between;
-  margin-bottom: 56px; gap: 24px;
+  margin-bottom: 56px; gap: 24px; flex-wrap: wrap;
 }
+
+/* Gallery Tabs */
+.gallery-tabs {
+  display: flex; gap: 12px; flex-wrap: wrap;
+}
+.gallery-tab {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 10px 24px; border-radius: var(--r-pill);
+  font-family: var(--ff-sans); font-size: .72rem;
+  font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  border: 1px solid var(--stone); color: var(--ink-mid);
+  transition: background .2s, border-color .2s, color .2s;
+}
+.gallery-tab:hover {
+  border-color: var(--ink); color: var(--ink);
+}
+.gallery-tab.active {
+  background: var(--ink); border-color: var(--ink); color: var(--cream);
+}
+
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -355,14 +373,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .gallery-item {
   position: relative; overflow: hidden;
- 
   cursor: pointer;
   background: var(--blush);
     box-shadow: 0px 0px 9px #e8d5c4;
 }
 .gallery-item img {
   transition: transform .7s var(--ease-out), filter .4s;
-
 }
 .gallery-item:hover img { transform: scale(1.05); }
 
@@ -436,7 +452,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .popup-btn:active { opacity: .75; }
 .popup-btn-etsy { background: var(--warm); color: var(--ink); border: 1px solid var(--sand); }
-.popup-btn-insta {  background: var(--warm); color: var(--ink); border: 1px solid var(--sand); }
 .popup-btn-pin { background: var(--warm); color: var(--ink); border: 1px solid var(--sand); }
 .popup-btn-cancel { background: var(--ink); color: var(--cream); margin-top: 4px; }
 .popup-handle {
@@ -444,10 +459,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   background: var(--sand); margin: 0 auto 20px;
 }
 
-
-
-  
-  
 /* ═══════════════════════════════════════════════
    FOOTER
 ═══════════════════════════════════════════════ */
@@ -508,8 +519,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .footer-bottom a { color: var(--ink-soft); transition: color .2s; }
 .footer-bottom a:hover { color: var(--stone); }
 
-
-
 /* ═══════════════════════════════════════════════
    SCROLL REVEAL
 ═══════════════════════════════════════════════ */
@@ -537,7 +546,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 @media (max-width: 960px) {
   .nav-inner { padding: 0 24px; }
- 
+  
   .nav-list { display: none; }
   .nav-burger { display: flex; }
 
@@ -552,6 +561,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
   .gallery-grid { grid-template-columns: repeat(2, 1fr); }
   .gallery-header { flex-direction: column; align-items: flex-start; }
+  .gallery-tabs { margin-top: 10px; }
 
   .footer-top { grid-template-columns: 1fr; }
   .footer-col { border-right: none !important; border-top: 1px solid rgba(255,255,255,.08); padding: 20px 24px; }
@@ -597,7 +607,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     </a>
 
     <ul class="nav-list" role="list">
-    
       <li class="nav-item"><a href="#" data-page="menu">Art Prints</a></li>
       <li class="nav-item"><a href="#" data-page="home">Craft Designs</a></li>
       <li class="nav-item"><a href="#" data-page="home">Animated E-Cards</a></li>
@@ -611,7 +620,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   </nav>
 
   <nav class="nav-drawer" id="navDrawer" aria-label="Mobile navigation">
-   
     <a href="#" data-page="menu">Art Prints</a>
     <a href="#" data-page="home">Craft Designs</a>
     <a href="#" data-page="home">Animated E-Cards</a>
@@ -636,7 +644,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <p class="hero-desc">
         From festival campaigns, social media visuals to bespoke wedding invitations or seasonal graphics, I create cohesive stories for brands and homes alike. Explore my collection of customisable wall art, or let’s collaborate to bring a unique, high-impact aesthetic to your next commercial project or private event.
       </p>
-     
+      
     </div>
 
     <div class="hero-visual" id="heroCarousel" aria-hidden="true">
@@ -649,12 +657,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <div class="sec-inner">
       <p class="sec-label reveal">What I offer</p>
       
-
       <div class="services-grid">
 
         <article class="service-card reveal reveal-d1">
           <div class="service-img">
-          
             <img src="https://ik.imagekit.io/ngoo36zmk/IMG_7434.png"
                  alt="Collection of framed art prints displayed on a wall"
                  loading="lazy">
@@ -667,7 +673,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
         <article class="service-card reveal reveal-d2">
           <div class="service-img">
-          
             <img src="https://ik.imagekit.io/ngoo36zmk/IMG_7417.png"
                  alt="Digital design files for commercial craft projects"
                  loading="lazy">
@@ -680,12 +685,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
         <article class="service-card reveal reveal-d3">
           <div class="service-img">
-           
-          
              <img src=" https://github.com/Stepzach/pdesport/blob/main/IMG_7438.gif?raw=true"
                  alt="Example animated birthday e-card"
                  loading="lazy">
-          
           </div>
           <div class="service-info">
             <h3 class="service-name">Animated E-Cards</h3>
@@ -695,7 +697,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
         <article class="service-card reveal reveal-d4">
           <div class="service-img">
-          
             <img src="https://github.com/Stepzach/pdesport/blob/main/Untitled_Artwork.gif?raw=true"
                  alt="Visual brand identity elements for a new business"
                  loading="lazy">
@@ -708,7 +709,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
         <article class="service-card reveal reveal-d5">
           <div class="service-img">
-          
             <img src="https://ik.imagekit.io/ngoo36zmk/IMG_7424.gif"
                  alt="Bespoke custom illustration commission example"
                  loading="lazy">
@@ -738,6 +738,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           <h2 class="sec-title" id="gallery-heading">Art Prints</h2>
         </div>
         
+        <!-- Collection Tabs -->
+        <div class="gallery-tabs">
+          <button class="gallery-tab active" data-collection="summer">Summer Prints</button>
+          <button class="gallery-tab" data-collection="pool">Pool Prints</button>
+        </div>
+
       </div>
 
       <div class="gallery-grid" id="gallery" role="list" aria-labelledby="gallery-heading">
@@ -754,7 +760,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 
 <!-- MOBILE POPUP -->
-<div id="mob-popup" role="dialog" aria-modal="true" aria-label="Open print on Etsy, Pinterest or Instagram">
+<div id="mob-popup" role="dialog" aria-modal="true" aria-label="Open print on Etsy or Pinterest">
   <div class="popup-sheet">
     <div class="popup-handle" aria-hidden="true"></div>
     <img id="mob-img" class="popup-thumb" src="" alt="">
@@ -762,13 +768,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <button class="popup-btn popup-btn-etsy" id="mob-etsy">
         <i class="fa-brands fa-etsy" aria-hidden="true"></i> Shop on Etsy
       </button>
-     
-     
+      
       <button class="popup-btn popup-btn-pin" id="mob-pin">
         <i class="fa-brands fa-pinterest" aria-hidden="true"></i> Pin
-      </button>
-       <button class="popup-btn popup-btn-insta" id="mob-insta">
-        <i class="fa-brands fa-instagram" aria-hidden="true"></i> Like on Insta
       </button>
       <button class="popup-btn popup-btn-cancel" id="mob-cancel">Cancel</button>
     </div>
@@ -777,8 +779,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 <!-- FOOTER -->
 <footer class="site-footer" aria-label="Site footer">
   <div class="footer-top">
-
-   
 
     <div class="footer-col">
       <h4>Explore</h4>
@@ -933,9 +933,36 @@ async function initCarousel() {
 /* ══════════════════════════════════════
    GALLERY
 ══════════════════════════════════════ */
-const galleryCSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=0&output=csv';
-let popupLinks = { etsy: '', pin: '', insta: '' }; 
+const collectionUrls = {
+  summer: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=0&output=csv',
+  pool: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=2020948573&output=csv'
+};
 
+const skeletonsHtml = `
+  <div class="skel-item" aria-hidden="true"></div>
+  <div class="skel-item" aria-hidden="true"></div>
+  <div class="skel-item" aria-hidden="true"></div>
+  <div class="skel-item" aria-hidden="true"></div>
+`;
+
+let popupLinks = { etsy: '', pin: '' }; 
+
+   function setPinterestMeta(row) {
+  const setMeta = (prop, content) => {
+    let tag = document.querySelector(`meta[property="${prop}"]`);
+    if (!tag) {
+      tag = document.createElement('meta');
+      tag.setAttribute('property', prop);
+      document.head.appendChild(tag);
+    }
+    tag.setAttribute('content', content);
+  };
+
+  setMeta('og:title', 'Estelle Stephens Art Print');
+  setMeta('og:description', row.Pinterest_caption || '');
+  setMeta('og:image', row.Image || '');
+}
+   
 function buildGallery(rows) {
   const grid = document.getElementById('gallery');
   if (!grid) return;
@@ -946,6 +973,15 @@ function buildGallery(rows) {
     item.className = 'gallery-item reveal' + (i % 4 === 0 ? '' : ` reveal-d${Math.min(i % 4, 4)}`);
     item.setAttribute('role', 'listitem');
 
+    // 1. Set the target URL. If testing locally, window.location.href will break Pinterest.
+    // It's safer to use the Etsy link as the click-through URL, or your live domain as a fallback.
+    const targetUrl = encodeURIComponent(row.Buy_now_link || 'https://estellestephens.com');
+    const mediaUrl = encodeURIComponent(row.Image || '');
+    const pinDesc = encodeURIComponent(row.Pinterest_caption || row.SEO_image || 'Estelle Stephens Art Print');
+
+    // 2. Construct the full Pinterest URL with URL, MEDIA, and DESCRIPTION
+    const pinActionUrl = `https://pinterest.com/pin/create/button/?url=${targetUrl}&media=${mediaUrl}&description=${pinDesc}`;
+
     item.innerHTML = `
       <img src="${row.Image || ''}" alt="${row.SEO_image || 'Art print'}" loading="lazy">
       <div class="gallery-overlay" aria-hidden="true">
@@ -953,7 +989,7 @@ function buildGallery(rows) {
           <a href="${row.Buy_now_link || '#'}" class="ov-link etsy" target="_blank" rel="noopener" tabindex="-1">
             <i class="fa-brands fa-etsy"></i> Etsy
           </a>
-          <a href="${row.Pinterest_link || '#'}" class="ov-link pin" target="_blank" rel="noopener" tabindex="-1">
+          <a href="${pinActionUrl}" class="ov-link pin" target="_blank" rel="noopener" tabindex="-1">
             <i class="fa-brands fa-pinterest"></i> Pin
           </a>
         </div>
@@ -965,16 +1001,18 @@ function buildGallery(rows) {
       if (window.innerWidth >= 800) return;
       e.preventDefault();
       const img   = item.querySelector('img');
-    // Inside item.addEventListener('click', ...)
-const etsy  = item.querySelector('.ov-link.etsy')?.href;
-const pin   = item.querySelector('.ov-link.pin')?.href;
-const insta = row.Instagram_link || ''; // Pulls from CSV column
+      
+      const etsy  = item.querySelector('.ov-link.etsy')?.href;
+      
+      // 3. Simply open the exact same action URL we built above for mobile
+      const pin = () => {
+        window.open(pinActionUrl, '_blank', 'noopener');
+      };
 
-document.getElementById('mob-img').src = img?.src || '';
-document.getElementById('mob-img').alt = img?.alt || '';
-popupLinks = { etsy, pin, insta }; // Added insta here
-document.getElementById('mob-popup').classList.add('show');
-
+      document.getElementById('mob-img').src = img?.src || '';
+      document.getElementById('mob-img').alt = img?.alt || '';
+      popupLinks = { etsy, pin };
+      document.getElementById('mob-popup').classList.add('show');
     });
 
     grid.appendChild(item);
@@ -983,13 +1021,33 @@ document.getElementById('mob-popup').classList.add('show');
   observeReveals(grid);
 }
 
-Papa.parse(galleryCSV, {
-  download: true, header: true, skipEmptyLines: true,
-  complete: r => buildGallery(r.data),
-  error: () => {
-    const g = document.getElementById('gallery');
-    if (g) g.innerHTML = '<p style="padding:40px;color:var(--ink-soft)">Gallery unavailable. Please try again later.</p>';
-  }
+function loadCollection(type) {
+  const grid = document.getElementById('gallery');
+  if (!grid) return;
+  grid.innerHTML = skeletonsHtml; // reset to skeletons while fetching
+
+  Papa.parse(collectionUrls[type], {
+    download: true, header: true, skipEmptyLines: true,
+    complete: r => buildGallery(r.data),
+    error: () => {
+      if (grid) grid.innerHTML = '<p style="padding:40px;color:var(--ink-soft)">Gallery unavailable. Please try again later.</p>';
+    }
+  });
+}
+
+/* Tab Event Listeners */
+const galleryTabs = document.querySelectorAll('.gallery-tab');
+galleryTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    if (tab.classList.contains('active')) return;
+    
+    // Update active visual state
+    galleryTabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    
+    // Fetch and build the newly selected collection
+    loadCollection(tab.dataset.collection);
+  });
 });
 
 /* Mobile popup controls */
@@ -1001,27 +1059,22 @@ document.getElementById('mob-popup').addEventListener('click', e => {
     document.getElementById('mob-popup').classList.remove('show');
   }
 });
-document.getElementById('mob-insta').addEventListener('click', () => {
-  if (popupLinks.insta) {
-    window.open(popupLinks.insta, '_blank', 'noopener');
-  } else {
-    // Optional: redirect to main profile if specific post link is missing
-    window.open('https://instagram.com/yourusername', '_blank', 'noopener');
-  }
-});
+
 document.getElementById('mob-etsy').addEventListener('click', () => {
   if (popupLinks.etsy) window.open(popupLinks.etsy, '_blank', 'noopener');
 });
 document.getElementById('mob-pin').addEventListener('click', () => {
-  if (popupLinks.pin) window.open(popupLinks.pin, '_blank', 'noopener');
+  if (popupLinks.pin) popupLinks.pin();
 });
-
 /* ══════════════════════════════════════
    INIT
 ══════════════════════════════════════ */
 window.addEventListener('load', () => {
   document.getElementById('loader').classList.add('gone');
   initCarousel();
+  
+  // Load default gallery content
+  loadCollection('summer');
 });
 
 // Handle direct URL hash
