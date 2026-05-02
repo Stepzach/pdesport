@@ -975,26 +975,30 @@ function buildGallery(rows) {
 
     // 1. Set the target URL. If testing locally, window.location.href will break Pinterest.
     // It's safer to use the Etsy link as the click-through URL, or your live domain as a fallback.
-    const targetUrl = encodeURIComponent(row.Buy_now_link || 'https://estellestephens.com');
-    const mediaUrl = encodeURIComponent(row.Image || '');
-    const pinDesc = encodeURIComponent(row.Pinterest_caption || row.SEO_image || 'Estelle Stephens Art Print');
+  // 1. Define variables and encode components
+const targetUrl = encodeURIComponent(row.Buy_now_link || 'https://estellestephens.com');
+const mediaUrl = encodeURIComponent(row.Image || '');
+const pinDesc = encodeURIComponent(row.Pinterest_caption || row.SEO_image || 'Estelle Stephens Art Print');
+// Added Pinterest Title variable
+const pinTitle = encodeURIComponent(row.Pinterest_title || 'Estelle Stephens');
 
-    // 2. Construct the full Pinterest URL with URL, MEDIA, and DESCRIPTION
-    const pinActionUrl = `https://pinterest.com/pin/create/button/?url=${targetUrl}&media=${mediaUrl}&description=${pinDesc}`;
+// 2. Construct the full Pinterest URL including the title parameter
+const pinActionUrl = `https://pinterest.com/pin/create/button/?url=${targetUrl}&media=${mediaUrl}&description=${pinDesc}&title=${pinTitle}`;
 
-    item.innerHTML = `
-      <img src="${row.Image || ''}" alt="${row.SEO_image || 'Art print'}" loading="lazy">
-      <div class="gallery-overlay" aria-hidden="true">
-        <div class="gallery-overlay-links">
-          <a href="${row.Buy_now_link || '#'}" class="ov-link etsy" target="_blank" rel="noopener" tabindex="-1">
-            <i class="fa-brands fa-etsy"></i> Etsy
-          </a>
-          <a href="${pinActionUrl}" class="ov-link pin" target="_blank" rel="noopener" tabindex="-1">
-            <i class="fa-brands fa-pinterest"></i> Pin
-          </a>
-        </div>
-      </div>
-    `;
+// 3. Update the innerHTML (the rest of the structure remains the same)
+item.innerHTML = `
+  <img src="${row.Image || ''}" alt="${row.SEO_image || 'Art print'}" loading="lazy">
+  <div class="gallery-overlay" aria-hidden="true">
+    <div class="gallery-overlay-links">
+      <a href="${row.Buy_now_link || '#'}" class="ov-link etsy" target="_blank" rel="noopener" tabindex="-1">
+        <i class="fa-brands fa-etsy"></i> Etsy
+      </a>
+      <a href="${pinActionUrl}" class="ov-link pin" target="_blank" rel="noopener" tabindex="-1">
+        <i class="fa-brands fa-pinterest"></i> Pin
+      </a>
+    </div>
+  </div>
+`;
 
     // Mobile tap → popup
     item.addEventListener('click', e => {
