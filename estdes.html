@@ -30,6 +30,9 @@
 <!-- CSV parser -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
+<!-- Pinterest Script -->
+<script async defer src="https://assets.pinterest.com/js/pinit.js"></script>
+
 <style>
 /* ═══════════════════════════════════════════════
    DESIGN TOKENS
@@ -415,66 +418,55 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 .print-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
+  grid-template-columns: 1.2fr 0.8fr; /* Gives slightly more room to buttons */
+  gap: 40px; /* Reduced from 80px to pull content closer */
   align-items: start;
 }
+
 .print-image-wrap {
   position: sticky;
-  top: calc(var(--nav-h) + 24px);
-  background: var(--warm);
+  top: calc(var(--nav-h) + 20px);
   border-radius: var(--r-lg);
   overflow: hidden;
-  aspect-ratio: 1;
-  display: flex; align-items: center; justify-content: center;
+  /* Use max-height to ensure it never exceeds the viewport height */
+  max-height: calc(100vh - var(--nav-h) - 120px); 
+  aspect-ratio: auto; /* Allow the max-height to dictate the ratio */
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  background: var(--warm);
 }
+
 .print-image-wrap img {
-  width: 100%; height: 100%;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
-  transition: opacity .4s;
 }
-.print-info { padding-top: 8px; }
-.print-collection-label {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-family: var(--ff-sans); font-size: .65rem;
-  font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
-  color: var(--ink-soft); margin-bottom: 20px;
+
+.print-info {
+  padding-top: 0; /* Remove top padding to lift buttons higher */
 }
-.print-collection-label::before { content: ''; display: block; width: 16px; height: 1px; background: var(--stone); }
 
 .print-title {
-  font-family: var(--ff-display);
-  font-size: clamp(2rem, 3.5vw, 3rem);
-  font-weight: 900; line-height: 1.05;
-  color: var(--ink);
-  margin-bottom: 20px;
+  font-size: clamp(1.8rem, 3vw, 2.5rem); /* Slightly smaller to save vertical space */
+  margin-bottom: 12px;
 }
+
 .print-description {
-  font-family: var(--ff-serif);
-  font-size: 1.05rem; line-height: 1.75;
-  color: var(--ink-mid);
-  margin-bottom: 36px;
-}
-.print-tags {
-  display: flex; flex-wrap: wrap; gap: 8px;
-  margin-bottom: 40px;
-}
-.print-tag {
-  display: inline-flex;
-  padding: 6px 14px; border-radius: var(--r-pill);
-  font-family: var(--ff-sans); font-size: .65rem;
-  font-weight: 500; letter-spacing: .08em; text-transform: uppercase;
-  background: var(--warm); border: 1px solid var(--sand);
-  color: var(--ink-soft);
+  margin-bottom: 20px; /* Reduced from 36px */
+  font-size: 0.95rem;
 }
 
 .print-divider {
-  border: none; border-top: 1px solid var(--sand);
-  margin-bottom: 36px;
+  margin-bottom: 24px; /* Reduced from 36px */
 }
 
 .print-actions {
-  display: flex; flex-direction: column; gap: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Tighter gap between buttons */
 }
 .print-btn-etsy {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
@@ -614,8 +606,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .gallery-tabs { margin-top: 10px; }
 
   .print-detail-sec { padding: 40px 24px 80px; }
-  .print-layout { grid-template-columns: 1fr; gap: 40px; }
-  .print-image-wrap { position: static; max-width: 480px; margin: 0 auto; }
+  
+  /* FIXED PRINT LAYOUT FOR MOBILE */
+  .print-layout { 
+    grid-template-columns: 1fr; 
+    gap: 20px; 
+  }
+  .print-image-wrap {
+    position: relative;
+    max-height: 50vh; 
+    margin: 0 auto 20px;
+  }
 
   .footer-top { grid-template-columns: 1fr; }
   .footer-col { border-right: none !important; border-top: 1px solid rgba(255,255,255,.08); padding: 20px 24px; }
@@ -1061,21 +1062,32 @@ function buildGallery(rows, collectionName) {
   grid.innerHTML = '';
 
   rows.forEach((row, i) => {
-    // Store in lookup by slug
+    // 1. Define the basics
     const slug = getSlug(row);
-    row._slug       = slug;
+    const imageUrl = col(row, 'image');
+    
+    // 2. Define the missing variables that were causing the crash
+    const altText = col(row, 'altText') || col(row, 'legacySeo') || 'Art print';
+    const etsyUrl = col(row, 'etsyLink') || col(row, 'legacyEtsy') || '#';
+    const pinTitle = col(row, 'pinTitle') || col(row, 'seoTitle') || 'Art Print';
+    const pinDesc = col(row, 'pinDesc') || col(row, 'seoDesc') || '';
+    const printPageUrl = window.location.origin + window.location.pathname + '#print/' + slug;
+
+    // 3. Store in lookup by slug for the detail page
+    row._slug = slug;
     row._collection = collectionName;
     printStore[slug] = row;
-
-    const imageUrl = col(row, 'image');
-    const altText  = col(row, 'altText') || col(row, 'legacySeo') || 'Art print';
-    const etsyUrl  = col(row, 'etsyLink') || col(row, 'legacyEtsy') || '#';
 
     const item = document.createElement('article');
     item.className = 'gallery-item reveal' + (i % 4 === 0 ? '' : ` reveal-d${Math.min(i % 4, 4)}`);
     item.setAttribute('role', 'listitem');
+    
     item.innerHTML = `
-      <img src="${imageUrl}" alt="${altText}" loading="lazy">
+      <img src="${imageUrl}" alt="${altText}"  
+           data-pin-url="${printPageUrl}"  
+           data-pin-media="${imageUrl}"  
+           data-pin-description="${pinDesc}"  
+           data-pin-title="${pinTitle}" loading="lazy">
       <div class="gallery-overlay" aria-hidden="true">
         <div class="gallery-overlay-links">
           <a href="${etsyUrl}" class="ov-link etsy" target="_blank" rel="noopener" tabindex="-1">
@@ -1088,9 +1100,8 @@ function buildGallery(rows, collectionName) {
       </div>
     `;
 
-    // Click → open print detail page (on all screen sizes)
+    // Click logic
     item.addEventListener('click', e => {
-      // If user clicked the Etsy link directly, let it through
       if (e.target.closest('.ov-link.etsy')) return;
       e.preventDefault();
       openPrint(slug);
@@ -1167,9 +1178,14 @@ function renderPrintPage(row, slug) {
     + '&title='       + encodeURIComponent(pinTitle);
 
   document.getElementById('printContent').innerHTML = `
-    <div class="print-layout">
+  <div class="print-layout">
       <div class="print-image-wrap">
-        <img src="${imageUrl}" alt="${altText}">
+        <img src="${imageUrl}" 
+             alt="${altText}"  
+             data-pin-url="${printPageUrl}"  
+             data-pin-media="${imageUrl}"  
+             data-pin-description="${pinDesc}"  
+             data-pin-title="${pinTitle}">
       </div>
 
       <div class="print-info">
@@ -1186,16 +1202,24 @@ function renderPrintPage(row, slug) {
                 <i class="fa-brands fa-etsy"></i> Shop on Etsy
                </a>`
             : ''}
-          <a href="${pinUrl}" class="print-btn-pin" target="_blank" rel="noopener"
-             id="pinBtn">
-            <i class="fa-brands fa-pinterest"></i> Save to Pinterest
-          </a>
+         <a href="${pinUrl}" class="print-btn-pin" target="_blank" rel="noopener" id="pinBtn"
+   data-pin-do="buttonPin"
+   data-pin-custom="true"
+   data-pin-url="${printPageUrl}"
+   data-pin-media="${imageUrl}"
+   data-pin-description="${pinDesc}"
+   data-pin-title="${pinTitle}">
+  <i class="fa-brands fa-pinterest"></i> Pin
+</a>
         </div>
 
        
       </div>
     </div>
   `;
+   if (window.PinUtils) {
+  window.PinUtils.build();
+}
 }
 
 // Back button
