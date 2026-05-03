@@ -575,7 +575,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .print-detail-sec { padding-top: 20px; }
 
 .print-description,
-.print-tags { display:none !important; }
+.print-tags { position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0; }
 </style>
 </head>
 <body>
@@ -1142,11 +1149,15 @@ function renderPrintPage(row, slug) {
     ? tagsRaw.split(',').map(t => `<span class="print-tag">${t.trim()}</span>`).join('')
     : '';
 
-  const printPageUrl = window.location.origin + window.location.pathname + '#print/' + slug;
-  const pinSaveUrl   = 'https://pinterest.com/pin/create/button/'
+
+const printPageUrl = window.location.origin + window.location.pathname + '#print/' + slug;
+
+// 2. Build the "Force-Feed" link for Pinterest
+const pinSaveUrl = 'https://www.pinterest.com/pin/create/button/'
     + '?url='         + encodeURIComponent(printPageUrl)
     + '&media='       + encodeURIComponent(imgUrl)
-    + '&description=' + encodeURIComponent(pinDesc || title);
+    + '&description=' + encodeURIComponent(pinDesc)
+    + '&title='       + encodeURIComponent(title); // This line is vital!
 
   document.getElementById('printContent').innerHTML = `
     <div class="print-layout">
@@ -1168,9 +1179,10 @@ function renderPrintPage(row, slug) {
           <a href="${etsyUrl}" class="print-btn-etsy" target="_blank" rel="noopener">
             <i class="fa-brands fa-etsy"></i> Shop on Etsy
           </a>` : ''}
-          <a href="${pinSaveUrl}" class="print-btn-pin" target="_blank" rel="noopener">
-            <i class="fa-brands fa-pinterest"></i> Save to Pinterest
-          </a>
+      
+<button onclick="window.open('${pinSaveUrl}', 'Pinterest', 'width=600,height=700'); return false;" class="print-btn-pin">
+    <i class="fa-brands fa-pinterest"></i> Save to Pinterest
+</button>
         </div>
       </div>
     </div>
