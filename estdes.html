@@ -407,7 +407,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-family: var(--ff-sans); font-size: .72rem;
   font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
   color: var(--ink-soft);
-  margin-bottom: 48px;
+  margin-bottom: 18px;
   transition: color .2s;
   cursor: pointer;
   background: none; border: none;
@@ -432,15 +432,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   max-height: calc(100vh - var(--nav-h) - 120px); 
   aspect-ratio: auto; /* Allow the max-height to dictate the ratio */
   display: flex; 
-  align-items: center; 
+
   justify-content: center;
-  background: var(--warm);
+ 
 }
 
 .print-image-wrap img {
   width: auto;
   height: auto;
-  max-width: 100%;
+  max-width: 80%;
   max-height: 100%;
   object-fit: contain;
 }
@@ -450,8 +450,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 
 .print-title {
-  font-size: clamp(1.8rem, 3vw, 2.5rem); /* Slightly smaller to save vertical space */
+  font-size: clamp(1.6rem, 2.8vw, 2.3rem); /* Slightly smaller to save vertical space */
   margin-bottom: 12px;
+   line-height:1.1;
 }
 
 .print-description {
@@ -613,7 +614,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     gap: 20px; 
   }
   .print-image-wrap {
-    position: relative;
+  
     max-height: 50vh; 
     margin: 0 auto 20px;
   }
