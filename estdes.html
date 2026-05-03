@@ -7,7 +7,6 @@
 <meta name="description" content="London-based illustrator & designer. Art prints, commercial assets, animated e-cards, brand identity, and custom commissions.">
 <meta name="theme-color" content="#fdf7ef">
 
-<!-- Default Open Graph / Pinterest meta — overwritten per-print by JS -->
 <meta property="og:type"        content="website">
 <meta property="og:site_name"   content="Estelle Stephens">
 <meta property="og:title"       content="Estelle Stephens — Illustrator & Designer">
@@ -19,61 +18,48 @@
 <meta name="twitter:description" content="London-based illustrator & designer.">
 <meta name="twitter:image"      content="">
 
-<!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Serif+Display:ital@0;1&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
-
-<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Serif+Display:ital@0;1&family=Lora:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-<!-- CSV parser -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-
-<!-- Pinterest Script -->
 <script async defer src="https://assets.pinterest.com/js/pinit.js"></script>
 
 <style>
-/* ═══════════════════════════════════════════════
-   DESIGN TOKENS
-═══════════════════════════════════════════════ */
 :root {
   --blush:    #f6d9c7;
   --blush-dk: #f0c8b0;
   --cream:    #fdf6f0;
-  --warm:     #faede4;
+  --warm:     #faf0e8;
   --sand:     #e8d5c4;
   --stone:    #c4a898;
-  --ink:      #2a1f1a;
+  --ink:      #1e1610;
   --ink-mid:  #5c4033;
   --ink-soft: #8a6e62;
   --red:      #c8363c;
-  --gold:     #b89060;
+  --gold:     #a07840;
 
   --ff-display: 'DM Serif Display', Georgia, serif;
   --ff-serif:   'Lora', Georgia, serif;
   --ff-sans:    'DM Sans', system-ui, sans-serif;
 
-  --nav-h: 68px;
-  --max:   1480px;
+  --nav-h: 64px;
+  --max:   1400px;
   --r-sm:  4px;
-  --r-md:  12px;
-  --r-lg:  24px;
+  --r-md:  10px;
+  --r-lg:  20px;
   --r-pill: 100px;
 
   --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  --shadow-sm: 0 2px 12px rgba(42,31,26,.08);
-  --shadow-md: 0 8px 32px rgba(42,31,26,.12);
-  --shadow-lg: 0 24px 64px rgba(42,31,26,.18);
+  --shadow-sm: 0 1px 8px rgba(42,31,26,.06);
+  --shadow-md: 0 4px 24px rgba(42,31,26,.10);
+  --shadow-lg: 0 16px 48px rgba(42,31,26,.14);
 }
 
-/* ═══════════════════════════════════════════════
-   RESET & BASE
-═══════════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; background: var(--blush); }
+html { scroll-behavior: smooth; }
 body {
   font-family: var(--ff-sans);
   background: var(--cream);
@@ -87,9 +73,7 @@ a { text-decoration: none; color: inherit; }
 ul { list-style: none; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
-/* ═══════════════════════════════════════════════
-   PAGE LOADER
-═══════════════════════════════════════════════ */
+/* LOADER */
 #loader {
   position: fixed; inset: 0; z-index: 1000;
   background: var(--cream);
@@ -99,26 +83,22 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 #loader.gone { opacity: 0; visibility: hidden; pointer-events: none; }
 .loader-mark {
   font-family: var(--ff-display);
-  font-size: 2rem; font-style: italic; color: var(--ink-mid);
+  font-size: 1.8rem; font-style: italic; color: var(--ink-mid);
   animation: pulse 1.4s ease-in-out infinite;
 }
-@keyframes pulse { 0%,100%{opacity:.3} 50%{opacity:1} }
+@keyframes pulse { 0%,100%{opacity:.25} 50%{opacity:1} }
 
-/* ═══════════════════════════════════════════════
-   PAGE SYSTEM
-═══════════════════════════════════════════════ */
+/* PAGE SYSTEM */
 .page { display: none; }
 .page.active { display: block; }
 
-/* ═══════════════════════════════════════════════
-   NAVIGATION
-═══════════════════════════════════════════════ */
+/* NAV */
 .nav-wrap {
   position: sticky; top: 0; z-index: 500;
-  background: rgba(253,246,240,.96);
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
-  border-bottom: 1px solid var(--sand);
+  background: rgba(253,246,240,.97);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid rgba(200,168,152,.25);
 }
 .nav-inner {
   max-width: var(--max); margin: 0 auto;
@@ -127,27 +107,24 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   padding: 0 48px;
 }
 .brand {
-  font-family: var(--ff-display);
-  font-size: 1.35rem; font-style: italic; font-weight: 700;
-  color: var(--ink); letter-spacing: .02em;
-  white-space: nowrap;
+  display: flex; align-items: center;
 }
-.brand span { font-style: normal; font-weight: 300; }
+.brand img { width: 52px; height: auto; display: block; }
 
 .nav-list { display: flex; gap: 0; }
 .nav-item a {
-  display: block; padding: 0 22px;
+  display: block; padding: 0 18px;
   line-height: var(--nav-h);
   font-family: var(--ff-sans);
-  font-size: .72rem; font-weight: 500;
-  letter-spacing: .12em; text-transform: uppercase;
-  color: var(--ink-mid);
+  font-size: .7rem; font-weight: 500;
+  letter-spacing: .11em; text-transform: uppercase;
+  color: var(--ink-soft);
   transition: color .2s;
   position: relative;
 }
 .nav-item a::after {
   content: '';
-  position: absolute; bottom: 0; left: 22px; right: 22px;
+  position: absolute; bottom: 0; left: 18px; right: 18px;
   height: 1px; background: var(--gold);
   transform: scaleX(0); transform-origin: left;
   transition: transform .3s var(--ease-out);
@@ -160,10 +137,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .nav-burger {
   display: none; flex-direction: column; gap: 5px;
   padding: 8px; border-radius: var(--r-sm);
-  cursor: pointer; background: none; border: none;
 }
 .nav-burger span {
-  display: block; width: 24px; height: 1.5px;
+  display: block; width: 22px; height: 1.5px;
   background: var(--ink); transition: .3s var(--ease-out);
 }
 .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
@@ -175,75 +151,66 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   position: absolute; top: 100%; left: 0; right: 0;
   background: var(--cream);
   border-bottom: 1px solid var(--sand);
-  padding: 8px 0 16px;
+  padding: 6px 0 14px;
   box-shadow: var(--shadow-md);
 }
 .nav-drawer.open { display: block; }
 .nav-drawer a {
-  display: block; padding: 14px 32px;
-  font-size: .75rem; font-weight: 500;
+  display: block; padding: 12px 28px;
+  font-size: .72rem; font-weight: 500;
   letter-spacing: .1em; text-transform: uppercase;
   color: var(--ink-mid);
-  border-bottom: 1px solid transparent;
   transition: color .2s, background .2s;
 }
 .nav-drawer a:hover { color: var(--ink); background: var(--warm); }
 
-/* ═══════════════════════════════════════════════
-   HERO
-═══════════════════════════════════════════════ */
+/* HERO */
 .hero {
   display: grid;
-  grid-template-columns: 42% 1fr;
+  grid-template-columns: 44% 1fr;
   min-height: calc(100svh - var(--nav-h));
   background: var(--warm);
 }
-.hero img { object-fit: cover; }
 .hero-copy {
   display: flex; flex-direction: column; justify-content: center;
-  padding: 80px 64px;
-  background: var(--warm);
-  border-right: 1px solid var(--sand);
+  padding: 80px 60px;
+  border-right: 1px solid rgba(200,168,152,.3);
 }
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: 10px;
-  font-family: var(--ff-sans);
-  font-size: .68rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
-  color: var(--ink-soft); margin-bottom: 28px;
+  font-size: .66rem; font-weight: 500; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--ink-soft); margin-bottom: 32px;
 }
 .hero-eyebrow::before {
   content: '';
-  display: block; width: 28px; height: 1px; background: var(--stone);
+  display: block; width: 24px; height: 1px; background: var(--stone);
 }
 .hero-title {
   font-family: var(--ff-display);
-  font-size: clamp(2.5rem, 5.2vw, 4.9rem);
-  font-weight: 900; line-height: .95;
-  color: var(--ink); margin-bottom: 30px;
+  font-size: clamp(2.6rem, 5vw, 5rem);
+  font-weight: 900; line-height: .92;
+  color: var(--ink); margin-bottom: 32px;
 }
-.hero-title em { font-style: italic; font-weight: 700; color: var(--ink-mid); }
-.hero-title .star { font-style: normal; color: var(--gold); font-size: .7em; vertical-align: middle; }
+.hero-title .star { font-style: normal; color: var(--gold); font-size: .65em; vertical-align: middle; opacity: .7; }
 .hero-desc {
   font-family: var(--ff-serif);
-  font-size: 1.2rem; line-height: 1.3;
-  color: var(--ink-mid); max-width: 440px;
-  margin-bottom: 44px;
+  font-size: 1.1rem; line-height: 1.75;
+  color: var(--ink-mid); max-width: 420px;
+  margin-bottom: 48px;
 }
-.hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
 .btn-primary {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 14px 32px; border-radius: var(--r-pill);
-  font-family: var(--ff-sans); font-size: .72rem;
-  font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  padding: 13px 28px; border-radius: var(--r-pill);
+  font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
   background: var(--ink); color: var(--cream);
   transition: background .25s, transform .2s var(--ease-spring);
 }
 .btn-primary:hover { background: var(--ink-mid); transform: translateY(-2px); }
 .btn-ghost {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 13px 28px; border-radius: var(--r-pill);
-  font-family: var(--ff-sans); font-size: .72rem;
-  font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  padding: 12px 24px; border-radius: var(--r-pill);
+  font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
   border: 1px solid var(--stone); color: var(--ink-mid);
   transition: border-color .25s, color .25s, transform .2s var(--ease-spring);
 }
@@ -252,137 +219,121 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .hero-visual { position: relative; overflow: hidden; background: var(--blush); }
 .carousel-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.4s ease-in-out; }
 .carousel-slide.active { opacity: 1; }
+.carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
 
-/* ═══════════════════════════════════════════════
-   SECTION SHARED
-═══════════════════════════════════════════════ */
-.sec { padding: 100px 48px; }
+/* SECTION SHARED */
+.sec { padding: 96px 48px; }
 .sec-inner { max-width: var(--max); margin: 0 auto; }
 .sec-label {
   display: inline-flex; align-items: center; gap: 10px;
-  font-family: var(--ff-sans); font-size: .65rem;
-  font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
-  color: var(--ink-soft); margin-bottom: 20px;
+  font-size: .63rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+  color: var(--stone); margin-bottom: 18px;
 }
-.sec-label::before { content: ''; display: block; width: 20px; height: 1px; background: var(--stone); }
+.sec-label::before { content: ''; display: block; width: 18px; height: 1px; background: var(--stone); }
 .sec-title {
   font-family: var(--ff-display);
-  font-size: clamp(2rem, 4.5vw, 3.8rem);
-  font-weight: 900; line-height: 1.05;
-  color: var(--ink); margin-bottom: 20px;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 1.05; color: var(--ink); margin-bottom: 16px;
 }
 .sec-title em { font-style: italic; color: var(--ink-mid); }
 .sec-body {
   font-family: var(--ff-serif);
-  font-size: 1.15rem; line-height: 1.75;
-  color: var(--ink-mid); max-width: 580px;
+  font-size: 1.1rem; line-height: 1.75;
+  color: var(--ink-mid); max-width: 560px;
 }
-.rule { border: none; border-top: 1px solid var(--sand); margin: 0 48px; }
 
-/* ═══════════════════════════════════════════════
-   SERVICES
-═══════════════════════════════════════════════ */
+/* SERVICES */
 .services { background: var(--warm); }
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  margin-top: 56px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
+  margin-top: 52px;
 }
 .service-card { display: flex; flex-direction: column; gap: 0; }
 .service-img {
   overflow: hidden; border-radius: var(--r-md);
-  aspect-ratio: 5/5;
+  aspect-ratio: 1;
   position: relative;
+  background: var(--blush);
 }
 .service-img img, .service-img video {
+  width: 100%; height: 100%; object-fit: contain;
   transition: transform .8s var(--ease-out);
-  border-radius: var(--r-md);
-  object-fit: contain;
 }
 .service-card:hover .service-img img,
 .service-card:hover .service-img video { transform: scale(1.04); }
-.service-info { padding: 16px 4px 0; }
+.service-info { padding: 14px 2px 0; }
 .service-name {
   font-family: var(--ff-serif);
-  font-size: 1.15rem; font-weight: 600;
-  color: var(--ink); margin-bottom: 6px;
-  letter-spacing: .01em;
+  font-size: 1rem; font-weight: 600;
+  color: var(--ink); margin-bottom: 5px;
 }
 .service-desc {
-  font-family: var(--ff-sans);
-  font-size: .78rem; color: var(--ink-soft);
-  line-height: 1.55;
-}
-.service-num {
-  position: absolute; top: 14px; left: 14px; z-index: 2;
-  width: 28px; height: 28px; border-radius: 50%;
-  background: rgba(253,246,240,.85);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--ff-sans); font-size: .65rem;
-  font-weight: 600; color: var(--ink-mid);
-  backdrop-filter: blur(4px);
+  font-size: .76rem; color: var(--ink-soft); line-height: 1.5;
 }
 
-/* ═══════════════════════════════════════════════
-   GALLERY
-═══════════════════════════════════════════════ */
+/* GALLERY */
 .gallery-sec { background: var(--cream); }
 .gallery-header {
   display: flex; align-items: flex-end; justify-content: space-between;
-  margin-bottom: 56px; gap: 24px; flex-wrap: wrap;
+  margin-bottom: 40px; gap: 24px; flex-wrap: wrap;
 }
-.gallery-tabs { display: flex; gap: 12px; flex-wrap: wrap; }
+.gallery-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
 .gallery-tab {
   display: inline-flex; align-items: center; justify-content: center;
-  padding: 10px 24px; border-radius: var(--r-pill);
-  font-family: var(--ff-sans); font-size: .72rem;
-  font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
-  border: 1px solid var(--stone); color: var(--ink-mid);
+  padding: 9px 20px; border-radius: var(--r-pill);
+  font-size: .68rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  border: 1px solid var(--sand); color: var(--ink-soft);
   transition: background .2s, border-color .2s, color .2s;
 }
-.gallery-tab:hover { border-color: var(--ink); color: var(--ink); }
+.gallery-tab:hover { border-color: var(--stone); color: var(--ink-mid); }
 .gallery-tab.active { background: var(--ink); border-color: var(--ink); color: var(--cream); }
 
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+  gap: 14px;
 }
 .gallery-item {
   position: relative; overflow: hidden;
   cursor: pointer;
-  background: var(--blush);
-  box-shadow: 0px 0px 9px #e8d5c4;
+   box-shadow: 0px 0px 9px #e8d5c4;
+ 
+ 
+  border-radius: var(--r-md);
 }
-.gallery-item img { transition: transform .7s var(--ease-out), filter .4s; }
-.gallery-item:hover img { transform: scale(1.05); }
+.gallery-item img {
+  width: 100%; height: 100%; object-fit: contain;
+  transition: transform .6s var(--ease-out);
+  
+}
+.gallery-item:hover img { transform: scale(1.04); }
 
 .gallery-overlay {
   position: absolute; inset: 0;
-  background: linear-gradient(to top, rgba(42,31,26,.75) 0%, transparent 55%);
-  opacity: 0; transition: opacity .35s;
+  background: linear-gradient(to top, rgba(30,22,16,.7) 0%, transparent 60%);
+  opacity: 0; transition: opacity .3s;
   display: flex; align-items: flex-end;
-  padding: 20px;
+  padding: 16px;
+  border-radius: var(--r-md);
 }
 .gallery-item:hover .gallery-overlay { opacity: 1; }
-.gallery-overlay-links { display: flex; gap: 10px; }
+.gallery-overlay-links { display: flex; gap: 8px; }
 .ov-link {
-  display: inline-flex; align-items: center; gap: 7px;
-  padding: 8px 16px; border-radius: var(--r-pill);
-  background: rgba(253,246,240,.9);
-  font-family: var(--ff-sans); font-size: .65rem;
-  font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px; border-radius: var(--r-pill);
+  background: rgba(253,246,240,.92);
+  font-size: .63rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
   color: var(--ink); transition: background .2s;
 }
 .ov-link:hover { background: var(--cream); }
-.ov-link i { font-size: .85rem; }
 .ov-link.etsy i { color: #f1641e; }
 .ov-link.pin i { color: #e60023; }
 
 /* skeleton */
 .skel-item {
-  aspect-ratio: 1;
+  aspect-ratio: 1; border-radius: var(--r-md);
   background: var(--blush);
   background-image: linear-gradient(90deg, var(--blush) 0%, var(--warm) 50%, var(--blush) 100%);
   background-size: 200% 100%;
@@ -390,202 +341,173 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-/* ═══════════════════════════════════════════════
-   PRINT DETAIL PAGE
-═══════════════════════════════════════════════ */
+/* PRINT DETAIL */
 .print-detail-sec {
-  padding: 60px 48px 100px;
+  padding: 52px 48px 96px;
   background: var(--cream);
   min-height: calc(100vh - var(--nav-h));
 }
-.print-detail-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-}
+.print-detail-inner { max-width: 1060px; margin: 0 auto; }
+
 .print-back {
-  display: inline-flex; align-items: center; gap: 10px;
-  font-family: var(--ff-sans); font-size: .72rem;
-  font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--ink-soft);
-  margin-bottom: 18px;
+  display: inline-flex; align-items: center; gap: 9px;
+  font-size: .68rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--stone); margin-bottom: 18px;
   transition: color .2s;
   cursor: pointer;
-  background: none; border: none;
 }
-.print-back:hover { color: var(--ink); }
-.print-back i { font-size: .9rem; transition: transform .2s var(--ease-out); }
-.print-back:hover i { transform: translateX(-4px); }
+.print-back:hover { color: var(--ink-mid); }
+.print-back:hover i { transform: translateX(-3px); }
+.print-back i { font-size: .85rem; transition: transform .2s var(--ease-out); }
 
 .print-layout {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr; /* Gives slightly more room to buttons */
-  gap: 40px; /* Reduced from 80px to pull content closer */
+  grid-template-columns: 1fr 380px;
+  gap: 64px;
   align-items: start;
 }
 
 .print-image-wrap {
   position: sticky;
- 
+  top: calc(var(--nav-h) + 32px);
   border-radius: var(--r-lg);
   overflow: hidden;
-  /* Use max-height to ensure it never exceeds the viewport height */
-  max-height: calc(100vh - var(--nav-h) - 120px); 
-  aspect-ratio: auto; /* Allow the max-height to dictate the ratio */
-  display: flex; 
-
-  justify-content: center;
  
+  aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  max-height: calc(100vh - var(--nav-h) - 80px);
 }
-
 .print-image-wrap img {
-  width: auto;
-  height: auto;
-  max-width: 80%;
-  max-height: 100%;
-  object-fit: contain;
+  width: 100%; height: 100%; object-fit: contain;
+  padding: 24px;
 }
 
-.print-info {
-  padding-top: 0; /* Remove top padding to lift buttons higher */
+.print-info { padding-top: 4px; }
+
+.print-collection-label {
+  font-size: .63rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--stone); margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
 }
+.print-collection-label::before { content: ''; display: block; width: 16px; height: 1px; background: var(--stone); }
 
 .print-title {
-  font-size: clamp(1.6rem, 2.8vw, 2.3rem); /* Slightly smaller to save vertical space */
-  margin-bottom: 12px;
-   line-height:1.1;
+  font-family: var(--ff-display);
+  font-size: clamp(1.7rem, 2.6vw, 2.4rem);
+  line-height: 1.05; color: var(--ink);
+  margin-bottom: 16px;
 }
 
 .print-description {
-  margin-bottom: 20px; /* Reduced from 36px */
-  font-size: 0.95rem;
+  font-family: var(--ff-serif);
+  font-size: .95rem; line-height: 1.75;
+  color: var(--ink-soft);
+  margin-bottom: 28px;
 }
 
 .print-divider {
-  margin-bottom: 24px; /* Reduced from 36px */
+  border: none; border-top: 1px solid var(--sand);
+  margin-bottom: 28px;
 }
 
-.print-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 10px; /* Tighter gap between buttons */
-}
+.print-actions { display: flex; flex-direction: column; gap: 10px; }
+
 .print-btn-etsy {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-  padding: 16px 32px; border-radius: var(--r-pill);
-  font-family: var(--ff-sans); font-size: .78rem;
-  font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
-  background:var(--blush); color: var(--ink);
+  padding: 15px 28px; border-radius: var(--r-pill);
+  font-size: .72rem; font-weight: 600; letter-spacing: .09em; text-transform: uppercase;
+ border: 1px solid var(--sand); color: var(--ink-mid);
   transition: background .25s, transform .2s var(--ease-spring);
   width: 100%;
 }
 .print-btn-etsy:hover { background: var(--ink-mid); transform: translateY(-2px); color:var(--cream); }
-.print-btn-etsy i { color: #f1641e; font-size: 1rem; }
+.print-btn-etsy i { color: #f1641e; font-size: .9rem; }
 
 .print-btn-pin {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
-  padding: 15px 32px; border-radius: var(--r-pill);
-  font-family: var(--ff-sans); font-size: .78rem;
-  font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
-  border: 1px solid var(--stone); color: var(--ink-mid);
+  padding: 14px 28px; border-radius: var(--r-pill);
+  font-size: .72rem; font-weight: 600; letter-spacing: .09em; text-transform: uppercase;
+  border: 1px solid var(--sand); color: var(--ink-mid);
   transition: border-color .25s, color .25s, transform .2s var(--ease-spring);
   width: 100%;
 }
 .print-btn-pin:hover { border-color: #e60023; color: #e60023; transform: translateY(-2px); }
-.print-btn-pin i { color: #e60023; font-size: 1rem; }
+.print-btn-pin i { color: #e60023; font-size: .9rem; }
 
-.print-seo-note {
-  margin-top: 24px;
-  font-family: var(--ff-sans);
-  font-size: .7rem;
-  color: var(--ink-soft);
-  line-height: 1.5;
-  padding: 16px 20px;
-  background: var(--warm);
-  border-radius: var(--r-md);
+.print-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px; }
+.print-tag {
+  display: inline-block;
+  padding: 4px 12px; border-radius: var(--r-pill);
+  font-size: .62rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+  background: var(--warm); color: var(--ink-soft);
   border: 1px solid var(--sand);
 }
-.print-seo-note strong {
-  display: block;
-  font-weight: 600;
-  color: var(--ink-mid);
-  margin-bottom: 4px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  font-size: .62rem;
-}
 
-/* print page loader */
+/* print loader */
 .print-loading {
   display: flex; align-items: center; justify-content: center;
   min-height: 60vh;
 }
 .print-loading-mark {
   font-family: var(--ff-display);
-  font-size: 1.5rem; font-style: italic; color: var(--ink-mid);
+  font-size: 1.4rem; font-style: italic; color: var(--ink-mid);
   animation: pulse 1.4s ease-in-out infinite;
 }
 
-/* ═══════════════════════════════════════════════
-   FOOTER
-═══════════════════════════════════════════════ */
-.site-footer { background: var(--blush); color: var(--ink); }
+/* FOOTER */
+.site-footer { background: var(--warm); border-top: 1px solid var(--sand); }
 .footer-top {
   max-width: var(--max); margin: 0 auto;
-  display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  display: grid; grid-template-columns: 1.6fr 1fr 1fr;
   gap: 0;
-  border-bottom: 1px solid rgba(255,255,255,.08);
 }
-.footer-col {
-  padding: 64px 48px;
-  border-right: 1px solid rgba(255,255,255,.08);
-}
+.footer-col { padding: 52px 48px; border-right: 1px solid var(--sand); }
 .footer-col:last-child { border-right: none; }
 .footer-col h4 {
-  font-family: var(--ff-sans); font-size: .65rem;
-  font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
-  color: var(--stone); margin-bottom: 24px;
+  font-size: .62rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--stone); margin-bottom: 20px;
 }
-.footer-links { display: flex; flex-direction: column; gap: 14px; }
+.footer-links { display: flex; flex-direction: column; gap: 12px; }
 .footer-links a {
-  font-family: var(--ff-sans); font-size: .82rem;
-  color: var(--ink-soft); transition: color .2s;
+  font-size: .8rem; color: var(--ink-soft); transition: color .2s;
   display: flex; align-items: center; gap: 10px;
 }
-.footer-links a:hover { color: var(--cream); }
-.footer-links i { width: 14px; text-align: center; font-size: .8rem; }
+.footer-links a:hover { color: var(--ink); }
+.footer-links i { width: 13px; text-align: center; font-size: .75rem; }
+.footer-brand {
+  font-family: var(--ff-display);
+  font-size: 1.15rem; font-style: italic;
+  color: var(--ink-mid); margin-bottom: 12px;
+}
+.footer-tagline {
+  font-size: .8rem; color: var(--ink-soft); line-height: 1.65;
+}
 .footer-bottom {
   max-width: var(--max); margin: 0 auto;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 48px;
-  font-family: var(--ff-sans); font-size: .7rem;
-  color: var(--ink-soft); letter-spacing: .04em;
+  padding: 18px 48px;
+  border-top: 1px solid var(--sand);
+  font-size: .68rem; color: var(--ink-soft); letter-spacing: .04em;
 }
 .footer-bottom a { color: var(--ink-soft); transition: color .2s; }
-.footer-bottom a:hover { color: var(--stone); }
+.footer-bottom a:hover { color: var(--ink-mid); }
 
-/* ═══════════════════════════════════════════════
-   SCROLL REVEAL
-═══════════════════════════════════════════════ */
+/* SCROLL REVEAL */
 .reveal {
-  opacity: 0; transform: translateY(24px);
-  transition: opacity .7s var(--ease-out), transform .7s var(--ease-out);
+  opacity: 0; transform: translateY(20px);
+  transition: opacity .65s var(--ease-out), transform .65s var(--ease-out);
 }
 .reveal.visible { opacity: 1; transform: none; }
-.reveal-d1 { transition-delay: .1s; }
-.reveal-d2 { transition-delay: .2s; }
-.reveal-d3 { transition-delay: .3s; }
-.reveal-d4 { transition-delay: .4s; }
-.reveal-d5 { transition-delay: .5s; }
+.reveal-d1 { transition-delay: .08s; }
+.reveal-d2 { transition-delay: .16s; }
+.reveal-d3 { transition-delay: .24s; }
+.reveal-d4 { transition-delay: .32s; }
+.reveal-d5 { transition-delay: .40s; }
 
-/* ═══════════════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════════════ */
-@media (max-width: 1200px) {
+/* RESPONSIVE */
+@media (max-width: 1100px) {
   .services-grid { grid-template-columns: repeat(3, 1fr); }
-  .footer-top { grid-template-columns: 1fr 1fr; }
-  .footer-col:nth-child(2) { border-right: none; }
-  .footer-col:nth-child(3) { border-top: 1px solid rgba(255,255,255,.08); }
-  .footer-col:nth-child(4) { border-top: 1px solid rgba(255,255,255,.08); border-right: none; }
+  .print-layout { grid-template-columns: 1fr 340px; gap: 40px; }
 }
 
 @media (max-width: 960px) {
@@ -594,51 +516,37 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .nav-burger { display: flex; }
 
   .hero { grid-template-columns: 1fr; min-height: auto; }
-  .hero-copy { padding: 56px 28px; order: 2; border-right: none; border-top: 1px solid var(--sand); }
+  .hero-copy { padding: 52px 28px; order: 2; border-right: none; border-top: 1px solid var(--sand); }
   .hero-visual { min-height: 55svh; order: 1; }
   .hero-title { font-size: 2.4rem; }
 
   .sec { padding: 64px 24px; }
-  .rule { margin: 0 24px; }
   .services-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
 
-  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-  .gallery-header { flex-direction: column; align-items: flex-start; }
-  .gallery-tabs { margin-top: 10px; }
+  .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+  .gallery-header { flex-direction: column; align-items: flex-start; gap: 16px; }
 
-  .print-detail-sec { padding: 40px 24px 80px; }
-  
-  /* FIXED PRINT LAYOUT FOR MOBILE */
-  .print-layout { 
-    grid-template-columns: 1fr; 
-    gap: 20px; 
-  }
-  .print-image-wrap {
-          position: relative;
-    max-height: 50vh; 
-    margin: 0 auto 20px;
-  }
+  .print-detail-sec { padding: 36px 24px 80px; }
+  .print-layout { grid-template-columns: 1fr; gap: 28px; }
+  .print-image-wrap { position: relative; top: 0; max-height: 50vh; }
 
-  .footer-top { grid-template-columns: 1fr; }
-  .footer-col { border-right: none !important; border-top: 1px solid rgba(255,255,255,.08); padding: 20px 24px; }
-  .footer-col:first-child { border-top: none; padding-top: 40px; }
-  .footer-bottom { flex-direction: column; gap: 10px; text-align: center; padding: 20px 24px; }
+  .footer-top { grid-template-columns: 1fr 1fr; }
+  .footer-col { padding: 36px 24px; }
+  .footer-col:nth-child(3) { grid-column: 1/-1; border-right: none; border-top: 1px solid var(--sand); }
+  .footer-bottom { flex-direction: column; gap: 8px; text-align: center; padding: 16px 24px; }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .hero-copy { padding: 36px 20px; }
   .hero-title { font-size: 2rem; }
-  .hero-desc { font-size: 1.05rem; }
+  .hero-desc { font-size: 1rem; }
   .sec { padding: 48px 20px; }
-  .services-grid { grid-template-columns: 1fr; gap: 32px; }
-  .service-img { aspect-ratio: 10/9; width: 80%; margin-left: auto; margin-right: auto; }
-  .service-img img { object-fit: contain; }
-  .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .service-name, .service-desc { text-align: center; }
-  .service-card:hover .service-img img,
-  .service-card:hover .service-img video { transform: scale(1); }
-  .gallery-item:hover img { transform: scale(1); }
-  .print-actions { gap: 10px; }
+  .services-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .footer-top { grid-template-columns: 1fr; }
+  .footer-col { border-right: none !important; padding: 24px 20px; }
+  .footer-col:nth-child(n+2) { border-top: 1px solid var(--sand); }
+  .footer-bottom { padding: 14px 20px; }
 }
 
 @media (max-width: 799px) {
@@ -657,7 +565,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 <div class="nav-wrap">
   <nav class="nav-inner" aria-label="Main navigation">
     <a href="#" class="brand" data-page="home" aria-label="Estelle Stephens – Home">
-      <img class="logoimg" style="width:58px;" src="https://static.wixstatic.com/media/e9d02f_90b6b493853e4683b47857769f433bc7~mv2.gif">
+      <img src="https://static.wixstatic.com/media/e9d02f_90b6b493853e4683b47857769f433bc7~mv2.gif" alt="Estelle Stephens" style="width:52px;height:auto;object-fit:contain;">
     </a>
     <ul class="nav-list" role="list">
       <li class="nav-item"><a href="#" data-page="menu">Art Prints</a></li>
@@ -679,9 +587,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   </nav>
 </div>
 
-<!-- ══════════════════════════════════════
-     PAGE: HOME
-══════════════════════════════════════ -->
+<!-- PAGE: HOME -->
 <main id="page-home" class="page active">
 
   <section class="hero" aria-label="Introduction">
@@ -689,11 +595,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <p class="hero-eyebrow">Based in London, UK</p>
       <h1 class="hero-title">
         Illustrator
+        
         <span class="star">★</span> Designer
       </h1>
       <p class="hero-desc">
-        From festival campaigns, social media visuals to bespoke wedding invitations or seasonal graphics, I create cohesive stories for brands and homes alike. Explore my collection of customisable wall art, or let's collaborate to bring a unique, high-impact aesthetic to your next commercial project or private event.
+       From festival campaigns, social media visuals to bespoke wedding invitations or seasonal graphics, I create cohesive stories for brands and homes alike. Explore my collection of customisable wall art, or let’s collaborate to bring a unique, high-impact aesthetic to your next commercial project or private event.
       </p>
+      
+      
     </div>
     <div class="hero-visual" id="heroCarousel" aria-hidden="true"></div>
   </section>
@@ -701,7 +610,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   <section class="sec services" id="services" aria-labelledby="services-heading">
     <div class="sec-inner">
       <p class="sec-label reveal">What I offer</p>
-      <div class="services-grid">
+      <h2 class="sec-title reveal" id="services-heading">Creative <em>Services</em></h2>
+      <div class="services-grid" style="margin-top:52px;">
 
         <article class="service-card reveal reveal-d1">
           <div class="service-img">
@@ -709,7 +619,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           </div>
           <div class="service-info">
             <h3 class="service-name">Art Prints</h3>
-            <p class="service-desc">Premium Giclée prints and instant download-to-print wall art for every home.</p>
+            <p class="service-desc">Premium Giclée prints and instant download-to-print wall art.</p>
           </div>
         </article>
 
@@ -719,7 +629,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           </div>
           <div class="service-info">
             <h3 class="service-name">Commercial Assets</h3>
-            <p class="service-desc">High-resolution digital files for professional and personal craft projects.</p>
+            <p class="service-desc">High-resolution files for professional and personal craft projects.</p>
           </div>
         </article>
 
@@ -729,7 +639,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           </div>
           <div class="service-info">
             <h3 class="service-name">Animated E-Cards</h3>
-            <p class="service-desc">Instant GIF greetings to share via text, email, or social media.</p>
+            <p class="service-desc">Instant GIF greetings for text, email, or social media.</p>
           </div>
         </article>
 
@@ -739,7 +649,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           </div>
           <div class="service-info">
             <h3 class="service-name">Brand Identity</h3>
-            <p class="service-desc">Visual storytelling for new businesses, re-brands, and event pop-ups.</p>
+            <p class="service-desc">Visual storytelling for new businesses, re-brands, and events.</p>
           </div>
         </article>
 
@@ -749,7 +659,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           </div>
           <div class="service-info">
             <h3 class="service-name">Custom Commissions</h3>
-            <p class="service-desc">Bespoke portraits, wedding stationery, and curated event décor.</p>
+            <p class="service-desc">Bespoke portraits, wedding stationery, and event décor.</p>
           </div>
         </article>
 
@@ -759,16 +669,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 </main>
 
-<!-- ══════════════════════════════════════
-     PAGE: ART PRINTS GALLERY
-══════════════════════════════════════ -->
+<!-- PAGE: ART PRINTS GALLERY -->
 <main id="page-menu" class="page" aria-label="Art prints gallery">
   <section class="sec gallery-sec">
     <div class="sec-inner">
       <div class="gallery-header reveal">
         <div>
           <p class="sec-label">Shop</p>
-          <h2 class="sec-title" id="gallery-heading">Art Prints</h2>
+          <h2 class="sec-title" id="gallery-heading">Art <em>Prints</em></h2>
         </div>
         <div class="gallery-tabs">
           <button class="gallery-tab active" data-collection="summer">Summer Prints</button>
@@ -780,14 +688,16 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="skel-item" aria-hidden="true"></div>
         <div class="skel-item" aria-hidden="true"></div>
         <div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div>
       </div>
     </div>
   </section>
 </main>
 
-<!-- ══════════════════════════════════════
-     PAGE: SINGLE PRINT
-══════════════════════════════════════ -->
+<!-- PAGE: SINGLE PRINT -->
 <main id="page-print" class="page" aria-label="Print detail">
   <section class="print-detail-sec">
     <div class="print-detail-inner">
@@ -805,11 +715,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 <footer class="site-footer" aria-label="Site footer">
   <div class="footer-top">
     <div class="footer-col">
-      <h4>Explore</h4>
-      <nav class="footer-links" aria-label="Footer explore links">
-        <a href="#"><i class="fas fa-palette" aria-hidden="true"></i> Comic</a>
-        <a href="#"><i class="fas fa-pen-nib" aria-hidden="true"></i> Editorial</a>
-      </nav>
+      <p class="footer-brand">Estelle Stephens</p>
+      <p class="footer-tagline">London-based illustrator & designer creating art for brands, homes, and special moments.</p>
     </div>
     <div class="footer-col">
       <h4>Find Me</h4>
@@ -822,62 +729,48 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     <div class="footer-col">
       <h4>Get in Touch</h4>
       <nav class="footer-links" aria-label="Contact links">
-        <a href="mailto:hello@estellestephens.com"><i class="fas fa-envelope" aria-hidden="true"></i> Email</a>
+        <a href="mailto:hello@estellestephens.com"><i class="fas fa-envelope" aria-hidden="true"></i> hello@estellestephens.com</a>
       </nav>
     </div>
   </div>
   <div class="footer-bottom">
     <span>© 2025 Estelle Stephens</span>
-    <a href="/legal">Privacy &amp; Terms of Use</a>
+    <a href="/legal">Privacy &amp; Terms</a>
   </div>
 </footer>
 
-
 <script>
-/* ══════════════════════════════════════
-   CONSTANTS — sheet column names
-   Match exactly what PapaParse reads as headers from your Google Sheet.
-   Spaces in header names are preserved by PapaParse.
-══════════════════════════════════════ */
+/* ══ CONSTANTS ══ */
 const COL = {
-  image:          'Image',                        // existing: image URL
-  altText:        'Metadata image alt text',      // NEW
-  fileName:       'Metadata image file name',     // NEW — used as slug
-  tags:           'Metadata tags',                // NEW — comma-separated
-  seoTitle:       'Website SEO image title',      // NEW
-  seoDesc:        'Website SEO image description',// NEW
-  pinTitle:       'Pinterest title',              // NEW
-  pinDesc:        'Pinterest description',        // NEW
-  etsyLink:       'Etsy link',                    // NEW (replaces Buy_now_link)
-  // legacy fallbacks
+  image:          'Image',
+  altText:        'Metadata image alt text',
+  fileName:       'Metadata image file name',
+  tags:           'Metadata tags',
+  seoTitle:       'Website SEO image title',
+  seoDesc:        'Website SEO image description',
+  pinTitle:       'Pinterest title',
+  pinDesc:        'Pinterest description',
+  etsyLink:       'Etsy link',
   legacyEtsy:     'Buy_now_link',
   legacySeo:      'SEO_image',
   legacyPinDesc:  'Pinterest_caption',
 };
 
-/* ══════════════════════════════════════
-   HELPERS
-══════════════════════════════════════ */
+/* ══ HELPERS ══ */
 function col(row, key, fallback = '') {
   return (row[COL[key]] || row[key] || fallback).trim();
 }
-
 function slugify(str) {
-  return str.toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
+  return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 }
-
-// Derive a slug from filename column, then seoTitle, then imageUrl
 function getSlug(row) {
-  const fileName = col(row, 'fileName');
-  if (fileName) return slugify(fileName.replace(/\.[^.]+$/, ''));
-  const seoTitle = col(row, 'seoTitle');
-  if (seoTitle) return slugify(seoTitle);
+  const fn = col(row, 'fileName');
+  if (fn) return slugify(fn.replace(/\.[^.]+$/, ''));
+  const st = col(row, 'seoTitle');
+  if (st) return slugify(st);
   return slugify(col(row, 'image').split('/').pop().replace(/\.[^.]+$/, '') || 'print');
 }
 
-// ══ Meta tag helpers ══
 function setMeta(attr, key, val) {
   let tag = document.querySelector(`meta[${attr}="${key}"]`);
   if (!tag) { tag = document.createElement('meta'); tag.setAttribute(attr, key); document.head.appendChild(tag); }
@@ -893,38 +786,29 @@ function injectPrintMeta(row, slug) {
   const pinTitle    = col(row, 'pinTitle')  || title;
   const pinDesc     = col(row, 'pinDesc')   || description;
 
-  // Page title
   document.title = title + ' — Estelle Stephens';
+  setMeta('name',     'description',        description);
+  setMeta('property', 'og:type',            'website');
+  setMeta('property', 'og:site_name',       'Estelle Stephens');
+  setMeta('property', 'og:url',             printUrl);
+  setMeta('property', 'og:title',           pinTitle);
+  setMeta('property', 'og:description',     pinDesc);
+  setMeta('property', 'og:image',           imageUrl);
+  setMeta('name',     'twitter:card',       'summary_large_image');
+  setMeta('name',     'twitter:title',      pinTitle);
+  setMeta('name',     'twitter:description',pinDesc);
+  setMeta('name',     'twitter:image',      imageUrl);
 
-  // Standard meta
-  setMeta('name', 'description', description);
-
-  // Open Graph — what Pinterest reads
-  setMeta('property', 'og:type',        'website');
-  setMeta('property', 'og:site_name',   'Estelle Stephens');
-  setMeta('property', 'og:url',         printUrl);
-  setMeta('property', 'og:title',       pinTitle);
-  setMeta('property', 'og:description', pinDesc);
-  setMeta('property', 'og:image',       imageUrl);
-
-  // Twitter card (Pinterest also reads these as fallback)
-  setMeta('name', 'twitter:card',        'summary_large_image');
-  setMeta('name', 'twitter:title',       pinTitle);
-  setMeta('name', 'twitter:description', pinDesc);
-  setMeta('name', 'twitter:image',       imageUrl);
-
-  // Canonical URL
   let canon = document.querySelector('link[rel="canonical"]');
   if (!canon) { canon = document.createElement('link'); canon.rel = 'canonical'; document.head.appendChild(canon); }
   canon.href = printUrl;
 
-  // Update address bar so Pinterest picks up the right URL when user shares
   history.replaceState(null, '', '#print/' + slug);
 }
 
 function resetMeta() {
   document.title = 'Estelle Stephens — Illustrator & Designer';
-  setMeta('name',     'description',        'London-based illustrator & designer. Art prints, commercial assets, animated e-cards, brand identity, and custom commissions.');
+  setMeta('name',     'description',        'London-based illustrator & designer.');
   setMeta('property', 'og:title',           'Estelle Stephens — Illustrator & Designer');
   setMeta('property', 'og:description',     'London-based illustrator & designer.');
   setMeta('property', 'og:image',           '');
@@ -934,9 +818,7 @@ function resetMeta() {
   setMeta('name',     'twitter:image',      '');
 }
 
-/* ══════════════════════════════════════
-   NAVIGATION
-══════════════════════════════════════ */
+/* ══ NAVIGATION ══ */
 const burger   = document.getElementById('navBurger');
 const drawer   = document.getElementById('navDrawer');
 const allPages = document.querySelectorAll('.page');
@@ -979,9 +861,7 @@ allLinks.forEach(l => {
   });
 });
 
-/* ══════════════════════════════════════
-   SCROLL REVEAL
-══════════════════════════════════════ */
+/* ══ SCROLL REVEAL ══ */
 const revealObs = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
 }, { threshold: 0.1 });
@@ -991,17 +871,11 @@ function observeReveals(root = document) {
 }
 observeReveals();
 
-/* ══════════════════════════════════════
-   DATA STORE
-   All loaded rows across both collections
-   keyed by slug so detail page can look up fast.
-══════════════════════════════════════ */
-const printStore = {};   // slug → row
-let   currentCollection = 'summer';
+/* ══ DATA STORE ══ */
+const printStore = {};
+let currentCollection = 'summer';
 
-/* ══════════════════════════════════════
-   HERO CAROUSEL
-══════════════════════════════════════ */
+/* ══ HERO CAROUSEL ══ */
 async function initCarousel() {
   const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=268470262&output=csv';
   const container = document.getElementById('heroCarousel');
@@ -1020,11 +894,13 @@ async function initCarousel() {
       const alt = row.substring(comma + 1).replace(/^"|"$/g, '').replace(/""/g, '"').trim();
       if (!url.startsWith('http')) return;
 
+      const slide = document.createElement('div');
+      slide.className = 'carousel-slide';
       const img = document.createElement('img');
       img.src = url; img.alt = alt;
-      img.className = 'carousel-slide';
-      container.appendChild(img);
-      slides.push(img);
+      slide.appendChild(img);
+      container.appendChild(slide);
+      slides.push(slide);
     });
 
     if (!slides.length) return;
@@ -1042,20 +918,13 @@ async function initCarousel() {
   }
 }
 
-/* ══════════════════════════════════════
-   GALLERY
-══════════════════════════════════════ */
+/* ══ GALLERY ══ */
 const collectionUrls = {
   summer: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=0&output=csv',
   pool:   'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=2020948573&output=csv'
 };
 
-const skeletonsHtml = `
-  <div class="skel-item" aria-hidden="true"></div>
-  <div class="skel-item" aria-hidden="true"></div>
-  <div class="skel-item" aria-hidden="true"></div>
-  <div class="skel-item" aria-hidden="true"></div>
-`;
+const skeletonsHtml = Array(8).fill('<div class="skel-item" aria-hidden="true"></div>').join('');
 
 function buildGallery(rows, collectionName) {
   const grid = document.getElementById('gallery');
@@ -1063,37 +932,33 @@ function buildGallery(rows, collectionName) {
   grid.innerHTML = '';
 
   rows.forEach((row, i) => {
-    // 1. Define the basics
-    const slug = getSlug(row);
-    const imageUrl = col(row, 'image');
-    
-    // 2. Define the missing variables that were causing the crash
-    const altText = col(row, 'altText') || col(row, 'legacySeo') || 'Art print';
-    const etsyUrl = col(row, 'etsyLink') || col(row, 'legacyEtsy') || '#';
-    const pinTitle = col(row, 'pinTitle') || col(row, 'seoTitle') || 'Art Print';
-    const pinDesc = col(row, 'pinDesc') || col(row, 'seoDesc') || '';
+    const slug      = getSlug(row);
+    const imageUrl  = col(row, 'image');
+    const altText   = col(row, 'altText') || col(row, 'legacySeo') || 'Art print';
+    const etsyUrl   = col(row, 'etsyLink') || col(row, 'legacyEtsy') || '#';
+    const pinTitle  = col(row, 'pinTitle') || col(row, 'seoTitle') || 'Art Print';
+    const pinDesc   = col(row, 'pinDesc') || col(row, 'seoDesc') || '';
     const printPageUrl = window.location.origin + window.location.pathname + '#print/' + slug;
 
-    // 3. Store in lookup by slug for the detail page
     row._slug = slug;
     row._collection = collectionName;
     printStore[slug] = row;
 
     const item = document.createElement('article');
-    item.className = 'gallery-item reveal' + (i % 4 === 0 ? '' : ` reveal-d${Math.min(i % 4, 4)}`);
+    item.className = 'gallery-item reveal' + (i % 4 !== 0 ? ` reveal-d${Math.min(i % 4, 4)}` : '');
     item.setAttribute('role', 'listitem');
-    
+
     item.innerHTML = `
-      <img src="${imageUrl}" alt="${altText}"  
-           data-pin-url="${printPageUrl}"  
-           data-pin-media="${imageUrl}"  
-           data-pin-description="${pinDesc}"  
+      <img src="${imageUrl}" alt="${altText}"
+           data-pin-url="${printPageUrl}"
+           data-pin-media="${imageUrl}"
+           data-pin-description="${pinDesc}"
            data-pin-title="${pinTitle}" loading="lazy">
       <div class="gallery-overlay" aria-hidden="true">
         <div class="gallery-overlay-links">
-          <a href="${etsyUrl}" class="ov-link etsy" target="_blank" rel="noopener" tabindex="-1">
+          ${etsyUrl !== '#' ? `<a href="${etsyUrl}" class="ov-link etsy" target="_blank" rel="noopener" tabindex="-1">
             <i class="fa-brands fa-etsy"></i> Etsy
-          </a>
+          </a>` : ''}
           <span class="ov-link pin" tabindex="-1">
             <i class="fa-brands fa-pinterest"></i> Pin
           </span>
@@ -1101,7 +966,6 @@ function buildGallery(rows, collectionName) {
       </div>
     `;
 
-    // Click logic
     item.addEventListener('click', e => {
       if (e.target.closest('.ov-link.etsy')) return;
       e.preventDefault();
@@ -1124,32 +988,26 @@ function loadCollection(type) {
     download: true, header: true, skipEmptyLines: true,
     complete: r => buildGallery(r.data, type),
     error: () => {
-      if (grid) grid.innerHTML = '<p style="padding:40px;color:var(--ink-soft)">Gallery unavailable. Please try again later.</p>';
+      if (grid) grid.innerHTML = '<p style="padding:40px;color:var(--ink-soft);grid-column:1/-1">Gallery unavailable. Please try again later.</p>';
     }
   });
 }
 
-const galleryTabs = document.querySelectorAll('.gallery-tab');
-galleryTabs.forEach(tab => {
+document.querySelectorAll('.gallery-tab').forEach(tab => {
   tab.addEventListener('click', () => {
     if (tab.classList.contains('active')) return;
-    galleryTabs.forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
     loadCollection(tab.dataset.collection);
   });
 });
 
-/* ══════════════════════════════════════
-   PRINT DETAIL PAGE
-══════════════════════════════════════ */
+/* ══ PRINT DETAIL ══ */
 function openPrint(slug) {
   const row = printStore[slug];
   if (!row) return;
-
   renderPrintPage(row, slug);
   showPage('print', false);
-
-  // Inject per-print meta — this is what Pinterest's crawler reads
   injectPrintMeta(row, slug);
 }
 
@@ -1165,86 +1023,69 @@ function renderPrintPage(row, slug) {
   const collection  = row._collection || 'summer';
   const collLabel   = collection === 'summer' ? 'Summer Prints' : 'Pool Prints';
 
-  // Build tags HTML
   const tagsHtml = tagsRaw
     ? tagsRaw.split(',').map(t => `<span class="print-tag">${t.trim()}</span>`).join('')
     : '';
 
-  // Pinterest pin URL — now points to THIS print's own page URL
   const printPageUrl = window.location.origin + window.location.pathname + '#print/' + slug;
-  const pinUrl = 'https://pinterest.com/pin/create/button/'
+
+  /* Build the Pinterest save URL — this is the direct link approach which
+     works reliably without needing the SDK to re-init on dynamic content. */
+  const pinSaveUrl = 'https://pinterest.com/pin/create/button/'
     + '?url='         + encodeURIComponent(printPageUrl)
     + '&media='       + encodeURIComponent(imageUrl)
-    + '&description=' + encodeURIComponent(pinDesc)
-    + '&title='       + encodeURIComponent(pinTitle);
+    + '&description=' + encodeURIComponent(pinDesc || pinTitle);
 
   document.getElementById('printContent').innerHTML = `
-  <div class="print-layout">
+    <div class="print-layout">
       <div class="print-image-wrap">
-        <img src="${imageUrl}" 
-             alt="${altText}"  
-             data-pin-url="${printPageUrl}"  
-             data-pin-media="${imageUrl}"  
-             data-pin-description="${pinDesc}"  
+        <img src="${imageUrl}" alt="${altText}"
+             data-pin-url="${printPageUrl}"
+             data-pin-media="${imageUrl}"
+             data-pin-description="${pinDesc}"
              data-pin-title="${pinTitle}">
       </div>
 
       <div class="print-info">
         <p class="print-collection-label">${collLabel}</p>
         <h1 class="print-title">${title}</h1>
-      
+
+        ${description ? `<p class="print-description">${description}</p>` : ''}
         ${tagsHtml ? `<div class="print-tags">${tagsHtml}</div>` : ''}
 
         <hr class="print-divider">
 
         <div class="print-actions">
-          ${etsyUrl !== '#'
-            ? `<a href="${etsyUrl}" class="print-btn-etsy" target="_blank" rel="noopener">
-                <i class="fa-brands fa-etsy"></i> Shop on Etsy
-               </a>`
-            : ''}
-         <a href="${pinUrl}" class="print-btn-pin" target="_blank" rel="noopener" id="pinBtn"
-   data-pin-do="buttonPin"
-   data-pin-custom="true"
-   data-pin-url="${printPageUrl}"
-   data-pin-media="${imageUrl}"
-   data-pin-description="${pinDesc}"
-   data-pin-title="${pinTitle}">
-  <i class="fa-brands fa-pinterest"></i> Pin
-</a>
+          ${etsyUrl !== '#' ? `
+          <a href="${etsyUrl}" class="print-btn-etsy" target="_blank" rel="noopener">
+            <i class="fa-brands fa-etsy"></i> Shop on Etsy
+          </a>` : ''}
+          <a href="${pinSaveUrl}" class="print-btn-pin" target="_blank" rel="noopener">
+            <i class="fa-brands fa-pinterest"></i> Save to Pinterest
+          </a>
         </div>
-
-       
       </div>
     </div>
   `;
-   if (window.PinUtils) {
-  window.PinUtils.build();
-}
 }
 
-// Back button
 document.getElementById('printBack').addEventListener('click', () => {
   resetMeta();
   history.pushState(null, '', '#menu');
   showPage('menu', false);
 });
 
-/* ══════════════════════════════════════
-   ROUTING — hash-based
-══════════════════════════════════════ */
+/* ══ ROUTING ══ */
 function routeFromHash() {
   const hash = window.location.hash.replace('#', '');
   if (!hash) return;
 
-  // #print/slug
   if (hash.startsWith('print/')) {
     const slug = hash.replace('print/', '');
     const row  = printStore[slug];
     if (row) {
       openPrint(slug);
     } else {
-      // Row not yet loaded — load default collection first then retry
       Papa.parse(collectionUrls['summer'], {
         download: true, header: true, skipEmptyLines: true,
         complete: r => {
@@ -1263,7 +1104,6 @@ function routeFromHash() {
     return;
   }
 
-  // #menu, #home, etc.
   if (document.getElementById('page-' + hash)) {
     showPage(hash, false);
   }
@@ -1271,14 +1111,12 @@ function routeFromHash() {
 
 window.addEventListener('hashchange', routeFromHash);
 
-/* ══════════════════════════════════════
-   INIT
-══════════════════════════════════════ */
+/* ══ INIT ══ */
 window.addEventListener('load', () => {
   document.getElementById('loader').classList.add('gone');
   initCarousel();
-  loadCollection('summer');   // pre-load default gallery
-  routeFromHash();            // handle any hash present on first load
+  loadCollection('summer');
+  routeFromHash();
 });
 </script>
 </body>
