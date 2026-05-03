@@ -579,10 +579,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
     width: 1px;
     height: 1px;
     padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0; }
+   opacity: 0.01; position: absolute; pointer-events: none; }
 </style>
 </head>
 <body>
@@ -1090,6 +1087,10 @@ function buildGallery(rows) {
   });
 
   observeReveals(grid);
+  // This forces Pinterest to re-scan the new DOM elements for data-pin attributes
+if (window.PinUtils) {
+    window.PinUtils.build();
+}
 }
 
 /* Main data fetch — called once on init */
@@ -1156,7 +1157,7 @@ const printPageUrl = window.location.origin + window.location.pathname + '#print
 const pinSaveUrl = 'https://www.pinterest.com/pin/create/button/'
     + '?url='         + encodeURIComponent(printPageUrl)
     + '&media='       + encodeURIComponent(imgUrl)
-    + '&description=' + encodeURIComponent(pinDesc)
+    + '&description=' + encodeURIComponent(title + " - " + pinDesc);
     + '&title='       + encodeURIComponent(title); // This line is vital!
 
   document.getElementById('printContent').innerHTML = `
@@ -1187,6 +1188,10 @@ const pinSaveUrl = 'https://www.pinterest.com/pin/create/button/'
       </div>
     </div>
   `;
+  // This forces Pinterest to re-scan the new DOM elements for data-pin attributes
+if (window.PinUtils) {
+    window.PinUtils.build();
+}
 }
 
 /* Back button — returns to the category the print belongs to */
