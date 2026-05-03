@@ -552,6 +552,25 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 @media (max-width: 799px) {
   .gallery-overlay { display: none; }
 }
+
+  /* Make the print page an overlay */
+#page-print {
+  position: fixed;
+  inset: 0;
+  z-index: 1000; /* Sit above everything */
+  background: var(--cream);
+  overflow-y: auto; /* Allow scrolling inside the overlay if content is long */
+  display: none;
+}
+
+#page-print.active {
+  display: block;
+}
+
+/* Ensure the nav doesn't overlap the detail back button weirdly */
+.print-detail-sec {
+  padding-top: 20px; 
+}
 </style>
 </head>
 <body>
@@ -749,7 +768,7 @@ const COL = {
   seoTitle:       'Website SEO image title',
   seoDesc:        'Website SEO image description',
   pinTitle:       'Pinterest title',
-  pinDesc:        'Pinterest description',
+  pinDesc:        'Pinterest_title',
   etsyLink:       'Etsy link',
   legacyEtsy:     'Buy_now_link',
   legacySeo:      'SEO_image',
@@ -837,9 +856,15 @@ function showPage(id, pushState = true) {
 
   allPages.forEach(p => p.classList.remove('active'));
   const target = document.getElementById('page-' + id);
+  
   if (target) {
     target.classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // ONLY scroll to top if we are NOT going to the print detail page
+    if (id !== 'print') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
     observeReveals(target);
   }
 
