@@ -700,6 +700,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
         <div class="gallery-tabs">
           <button class="gallery-tab active" data-collection="summer">Summer Prints</button>
           <button class="gallery-tab" data-collection="pool">Pool Prints</button>
+          <button class="gallery-tab" data-collection="waterski">waterski Prints</button>
         </div>
       </div>
       <div class="gallery-grid" id="gallery" role="list" aria-labelledby="gallery-heading">
@@ -945,8 +946,9 @@ async function initCarousel() {
 
 /* ══ GALLERY ══ */
 const collectionUrls = {
-  summer: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=0&output=csv',
-  pool:   'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=2020948573&output=csv'
+  summer:    'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=0&output=csv',
+  pool:      'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=2020948573&output=csv',
+  waterski: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=611338961&output=csv'
 };
 
 const skeletonsHtml = Array(8).fill('<div class="skel-item" aria-hidden="true"></div>').join('');
@@ -1046,7 +1048,7 @@ function renderPrintPage(row, slug) {
   const etsyUrl     = col(row, 'etsyLink') || col(row, 'legacyEtsy') || '#';
   const tagsRaw     = col(row, 'tags');
   const collection  = row._collection || 'summer';
-  const collLabel   = collection === 'summer' ? 'Summer Prints' : 'Pool Prints';
+  const collLabel   = collection === 'summer' ? 'Summer Prints' : collection === 'pool' ? 'Pool Prints' : 'waterski Prints';
 
   const tagsHtml = tagsRaw
     ? tagsRaw.split(',').map(t => `<span class="print-tag">${t.trim()}</span>`).join('')
@@ -1119,8 +1121,14 @@ function routeFromHash() {
             download: true, header: true, skipEmptyLines: true,
             complete: r2 => {
               buildGallery(r2.data, 'pool');
-              if (printStore[slug]) openPrint(slug);
-              else showPage('menu', false);
+              Papa.parse(collectionUrls['waterski'], {
+                download: true, header: true, skipEmptyLines: true,
+                complete: r3 => {
+                  buildGallery(r3.data, 'waterski');
+                  if (printStore[slug]) openPrint(slug);
+                  else showPage('menu', false);
+                }
+              });
             }
           });
         }
