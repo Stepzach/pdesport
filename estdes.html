@@ -286,9 +286,22 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-size: .68rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
   border: 1px solid var(--sand); color: var(--ink-soft);
   transition: background .2s, border-color .2s, color .2s;
+  cursor: pointer;
 }
 .gallery-tab:hover { border-color: var(--stone); color: var(--ink-mid); }
 .gallery-tab.active { background: var(--ink); border-color: var(--ink); color: var(--cream); }
+
+/* Tabs loading skeleton */
+.gallery-tabs-skeleton {
+  display: flex; gap: 8px;
+}
+.tab-skel {
+  width: 110px; height: 36px; border-radius: var(--r-pill);
+  background: var(--blush);
+  background-image: linear-gradient(90deg, var(--blush) 0%, var(--warm) 50%, var(--blush) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite linear;
+}
 
 .gallery-grid {
   display: grid;
@@ -298,15 +311,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .gallery-item {
   position: relative; overflow: hidden;
   cursor: pointer;
-   box-shadow: 0px 0px 9px #e8d5c4;
- 
- 
+  box-shadow: 0px 0px 9px #e8d5c4;
   border-radius: var(--r-md);
 }
 .gallery-item img {
   width: 100%; height: 100%; object-fit: contain;
   transition: transform .6s var(--ease-out);
-  
 }
 .gallery-item:hover img { transform: scale(1.04); }
 
@@ -372,7 +382,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   top: calc(var(--nav-h) + 32px);
   border-radius: var(--r-lg);
   overflow: hidden;
- 
   aspect-ratio: 1;
   display: flex; align-items: center; justify-content: center;
   max-height: calc(100vh - var(--nav-h) - 80px);
@@ -416,7 +425,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
   padding: 15px 28px; border-radius: var(--r-pill);
   font-size: .72rem; font-weight: 600; letter-spacing: .09em; text-transform: uppercase;
- border: 1px solid var(--sand); color: var(--ink-mid);
+  border: 1px solid var(--sand); color: var(--ink-mid);
   transition: background .25s, transform .2s var(--ease-spring);
   width: 100%;
 }
@@ -553,24 +562,17 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .gallery-overlay { display: none; }
 }
 
-  /* Make the print page an overlay */
+/* Print page overlay */
 #page-print {
   position: fixed;
   inset: 0;
-  z-index: 1000; /* Sit above everything */
+  z-index: 1000;
   background: var(--cream);
-  overflow-y: auto; /* Allow scrolling inside the overlay if content is long */
+  overflow-y: auto;
   display: none;
 }
-
-#page-print.active {
-  display: block;
-}
-
-/* Ensure the nav doesn't overlap the detail back button weirdly */
-.print-detail-sec {
-  padding-top: 20px; 
-}
+#page-print.active { display: block; }
+.print-detail-sec { padding-top: 20px; }
 </style>
 </head>
 <body>
@@ -614,14 +616,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <p class="hero-eyebrow">Based in London, UK</p>
       <h1 class="hero-title">
         Illustrator
-        
         <span class="star">★</span> Designer
       </h1>
       <p class="hero-desc">
-       From festival campaigns, social media visuals to bespoke wedding invitations or seasonal graphics, I create cohesive stories for brands and homes alike. Explore my collection of customisable wall art, or let’s collaborate to bring a unique, high-impact aesthetic to your next commercial project or private event.
+        From festival campaigns, social media visuals to bespoke wedding invitations or seasonal graphics, I create cohesive stories for brands and homes alike. Explore my collection of customisable wall art, or let's collaborate to bring a unique, high-impact aesthetic to your next commercial project or private event.
       </p>
-      
-      
     </div>
     <div class="hero-visual" id="heroCarousel" aria-hidden="true"></div>
   </section>
@@ -697,10 +696,13 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           <p class="sec-label">Shop</p>
           <h2 class="sec-title" id="gallery-heading">Art <em>Prints</em></h2>
         </div>
-        <div class="gallery-tabs">
-          <button class="gallery-tab active" data-collection="summer">Summer Prints</button>
-          <button class="gallery-tab" data-collection="pool">Pool Prints</button>
-          <button class="gallery-tab" data-collection="waterski">waterski Prints</button>
+        <!-- Tabs are rendered dynamically once sheet data loads -->
+        <div class="gallery-tabs" id="galleryTabs">
+          <div class="gallery-tabs-skeleton">
+            <div class="tab-skel"></div>
+            <div class="tab-skel"></div>
+            <div class="tab-skel"></div>
+          </div>
         </div>
       </div>
       <div class="gallery-grid" id="gallery" role="list" aria-labelledby="gallery-heading">
@@ -760,36 +762,53 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 </footer>
 
 <script>
-/* ══ CONSTANTS ══ */
-const COL = {
-  image:          'Image',
-  altText:        'Metadata image alt text',
-  fileName:       'Metadata image file name',
-  tags:           'Metadata tags',
-  seoTitle:       'Website SEO image title',
-  seoDesc:        'Website SEO image description',
-  pinTitle:       'Pinterest title',
-  pinDesc:        'Pinterest_title',
-  etsyLink:       'Etsy link',
-  legacyEtsy:     'Buy_now_link',
-  legacySeo:      'SEO_image',
-  legacyPinDesc:  'Pinterest_caption',
+/* ══════════════════════════════════════════
+   SINGLE-SHEET DATA SOURCE
+   All prints live in one sheet; categories
+   are identified by a CATEGORY column.
+═══════════════════════════════════════════ */
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=611338961&output=csv';
+
+/* ══ COLUMN MAP — matches new header row ══ */
+// CATEGORY | IMAGE | ETSY_LINK | ALT_TEXT | TAGS | TITLE | PIN_DESC
+const C = {
+  category: 'CATEGORY',
+  image:     'IMAGE',
+  etsy:      'ETSY_LINK',
+  alt:       'ALT_TEXT',
+  tags:      'TAGS',
+  title:     'TITLE',
+  pinDesc:   'PIN_DESC',
 };
 
+/* ══ DATA STORE ══ */
+// printStore  : slug  → row
+// categoryMap : slug  → { label, rows[] }
+// categoryOrder : slug[] (preserves sheet order)
+const printStore    = {};
+const categoryMap   = {};
+const categoryOrder = [];
+
+let allDataLoaded   = false;
+let currentCatSlug  = null;   // active tab slug
+
 /* ══ HELPERS ══ */
-function col(row, key, fallback = '') {
-  return (row[COL[key]] || row[key] || fallback).trim();
+function get(row, key) {
+  return (row[C[key]] || '').trim();
 }
+
 function slugify(str) {
   return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 }
-function getSlug(row) {
-  const fn = col(row, 'fileName');
-  if (fn) return slugify(fn.replace(/\.[^.]+$/, ''));
-  const st = col(row, 'seoTitle');
-  if (st) return slugify(st);
-  return slugify(col(row, 'image').split('/').pop().replace(/\.[^.]+$/, '') || 'print');
+
+function printSlug(row) {
+  const t = get(row, 'title');
+  if (t) return slugify(t);
+  const img = get(row, 'image');
+  return slugify(img.split('/').pop().replace(/\.[^.]+$/, '') || 'print');
 }
+
+function catSlug(label) { return slugify(label); }
 
 function setMeta(attr, key, val) {
   let tag = document.querySelector(`meta[${attr}="${key}"]`);
@@ -798,44 +817,42 @@ function setMeta(attr, key, val) {
 }
 
 function injectPrintMeta(row, slug) {
-  const siteBase    = window.location.origin + window.location.pathname;
-  const printUrl    = siteBase + '#print/' + slug;
-  const imageUrl    = col(row, 'image');
-  const title       = col(row, 'seoTitle')  || col(row, 'pinTitle') || 'Art Print — Estelle Stephens';
-  const description = col(row, 'seoDesc')   || col(row, 'pinDesc')  || col(row, 'legacySeo') || title;
-  const pinTitle    = col(row, 'pinTitle')  || title;
-  const pinDesc     = col(row, 'pinDesc')   || description;
+  const base   = window.location.origin + window.location.pathname;
+  const url    = base + '#print/' + slug;
+  const image  = get(row, 'image');
+  const title  = get(row, 'title')   || 'Art Print — Estelle Stephens';
+  const desc   = get(row, 'pinDesc') || title;
 
   document.title = title + ' — Estelle Stephens';
-  setMeta('name',     'description',        description);
-  setMeta('property', 'og:type',            'website');
-  setMeta('property', 'og:site_name',       'Estelle Stephens');
-  setMeta('property', 'og:url',             printUrl);
-  setMeta('property', 'og:title',           pinTitle);
-  setMeta('property', 'og:description',     pinDesc);
-  setMeta('property', 'og:image',           imageUrl);
-  setMeta('name',     'twitter:card',       'summary_large_image');
-  setMeta('name',     'twitter:title',      pinTitle);
-  setMeta('name',     'twitter:description',pinDesc);
-  setMeta('name',     'twitter:image',      imageUrl);
+  setMeta('name',     'description',         desc);
+  setMeta('property', 'og:type',             'website');
+  setMeta('property', 'og:site_name',        'Estelle Stephens');
+  setMeta('property', 'og:url',              url);
+  setMeta('property', 'og:title',            title);
+  setMeta('property', 'og:description',      desc);
+  setMeta('property', 'og:image',            image);
+  setMeta('name',     'twitter:card',        'summary_large_image');
+  setMeta('name',     'twitter:title',       title);
+  setMeta('name',     'twitter:description', desc);
+  setMeta('name',     'twitter:image',       image);
 
   let canon = document.querySelector('link[rel="canonical"]');
   if (!canon) { canon = document.createElement('link'); canon.rel = 'canonical'; document.head.appendChild(canon); }
-  canon.href = printUrl;
+  canon.href = url;
 
   history.replaceState(null, '', '#print/' + slug);
 }
 
 function resetMeta() {
   document.title = 'Estelle Stephens — Illustrator & Designer';
-  setMeta('name',     'description',        'London-based illustrator & designer.');
-  setMeta('property', 'og:title',           'Estelle Stephens — Illustrator & Designer');
-  setMeta('property', 'og:description',     'London-based illustrator & designer.');
-  setMeta('property', 'og:image',           '');
-  setMeta('property', 'og:url',             window.location.origin + window.location.pathname);
-  setMeta('name',     'twitter:title',      'Estelle Stephens — Illustrator & Designer');
-  setMeta('name',     'twitter:description','London-based illustrator & designer.');
-  setMeta('name',     'twitter:image',      '');
+  setMeta('name',     'description',         'London-based illustrator & designer.');
+  setMeta('property', 'og:title',            'Estelle Stephens — Illustrator & Designer');
+  setMeta('property', 'og:description',      'London-based illustrator & designer.');
+  setMeta('property', 'og:image',            '');
+  setMeta('property', 'og:url',              window.location.origin + window.location.pathname);
+  setMeta('name',     'twitter:title',       'Estelle Stephens — Illustrator & Designer');
+  setMeta('name',     'twitter:description', 'London-based illustrator & designer.');
+  setMeta('name',     'twitter:image',       '');
 }
 
 /* ══ NAVIGATION ══ */
@@ -857,15 +874,9 @@ function showPage(id, pushState = true) {
 
   allPages.forEach(p => p.classList.remove('active'));
   const target = document.getElementById('page-' + id);
-  
   if (target) {
     target.classList.add('active');
-    
-    // ONLY scroll to top if we are NOT going to the print detail page
-    if (id !== 'print') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    
+    if (id !== 'print') window.scrollTo({ top: 0, behavior: 'smooth' });
     observeReveals(target);
   }
 
@@ -883,13 +894,28 @@ function showPage(id, pushState = true) {
 allLinks.forEach(l => {
   l.addEventListener('click', e => {
     e.preventDefault();
-    if (l.dataset.page) showPage(l.dataset.page);
+    const pageId = l.dataset.page;
+    
+    if (pageId === 'menu') {
+      // If data is already loaded, go to first category
+      if (allDataLoaded && categoryOrder.length > 0) {
+        switchTab(categoryOrder[0]); // This calls showPage('menu') internally via switchTab logic
+        showPage('menu');
+      } else {
+        // If data isn't loaded, show the page and let loadAllPrints handle it
+        showPage('menu');
+      }
+    } else {
+      showPage(pageId);
+    }
   });
 });
 
 /* ══ SCROLL REVEAL ══ */
 const revealObs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+  });
 }, { threshold: 0.1 });
 
 function observeReveals(root = document) {
@@ -897,29 +923,22 @@ function observeReveals(root = document) {
 }
 observeReveals();
 
-/* ══ DATA STORE ══ */
-const printStore = {};
-let currentCollection = 'summer';
-
 /* ══ HERO CAROUSEL ══ */
 async function initCarousel() {
   const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=268470262&output=csv';
   const container = document.getElementById('heroCarousel');
   if (!container) return;
-
   try {
-    const res  = await fetch(csvUrl);
-    const text = await res.text();
-    const rows = text.trim().split('\n').slice(1);
+    const res   = await fetch(csvUrl);
+    const text  = await res.text();
+    const rows  = text.trim().split('\n').slice(1);
     const slides = [];
-
     rows.forEach(row => {
       const comma = row.indexOf(',');
       if (comma < 1) return;
       const url = row.substring(0, comma).trim();
       const alt = row.substring(comma + 1).replace(/^"|"$/g, '').replace(/""/g, '"').trim();
       if (!url.startsWith('http')) return;
-
       const slide = document.createElement('div');
       slide.className = 'carousel-slide';
       const img = document.createElement('img');
@@ -928,7 +947,6 @@ async function initCarousel() {
       container.appendChild(slide);
       slides.push(slide);
     });
-
     if (!slides.length) return;
     let cur = Math.floor(Math.random() * slides.length);
     slides[cur].classList.add('active');
@@ -939,48 +957,107 @@ async function initCarousel() {
         slides[cur].classList.add('active');
       }, 4500);
     }
-  } catch (err) {
-    console.warn('Carousel fetch failed:', err);
-  }
+  } catch (err) { console.warn('Carousel fetch failed:', err); }
 }
 
-/* ══ GALLERY ══ */
-const collectionUrls = {
-  summer:    'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=0&output=csv',
-  pool:      'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=2020948573&output=csv',
-  waterski: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=611338961&output=csv'
-};
+/* ══════════════════════════════════════════
+   SINGLE-SHEET LOADING + CATEGORY GROUPING
+═══════════════════════════════════════════ */
+function parseSheetData(rows) {
+  // Clear previous data
+  categoryOrder.length = 0;
+  Object.keys(categoryMap).forEach(k => delete categoryMap[k]);
 
+  rows.forEach(row => {
+    const cat = get(row, 'category');
+    const img = get(row, 'image');
+    if (!cat || !img) return;          // skip blank / header-only rows
+
+    const cs = catSlug(cat);
+    const ps = printSlug(row);
+
+    row._catSlug  = cs;
+    row._catLabel = cat;
+    row._slug     = ps;
+
+    printStore[ps] = row;
+
+    if (!categoryMap[cs]) {
+      categoryMap[cs] = { label: cat, rows: [] };
+      categoryOrder.push(cs);
+    }
+    categoryMap[cs].rows.push(row);
+  });
+
+  allDataLoaded = true;
+}
+
+/* Build / rebuild the tab bar from categoryOrder */
+function renderTabs() {
+  const tabsEl = document.getElementById('galleryTabs');
+  tabsEl.innerHTML = '';
+
+  categoryOrder.forEach(cs => {
+    const { label } = categoryMap[cs];
+    const btn = document.createElement('button');
+    btn.className = 'gallery-tab';
+    btn.dataset.catSlug = cs;
+    btn.textContent = label;
+    btn.addEventListener('click', () => switchTab(cs));
+    tabsEl.appendChild(btn);
+  });
+}
+
+/* Switch to a category tab — updates URL, active state, and gallery */
+function switchTab(cs, pushState = true) {
+  currentCatSlug = cs;
+
+  // URL: #prints/category-slug
+  if (pushState) {
+    history.pushState(null, '', '#prints/' + cs);
+    resetMeta();
+  }
+
+  // Active tab styling
+  document.querySelectorAll('.gallery-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.catSlug === cs);
+  });
+
+  buildGallery(categoryMap[cs]?.rows || []);
+}
+
+/* ══ GALLERY RENDERER ══ */
 const skeletonsHtml = Array(8).fill('<div class="skel-item" aria-hidden="true"></div>').join('');
 
-function buildGallery(rows, collectionName) {
+function buildGallery(rows) {
   const grid = document.getElementById('gallery');
   if (!grid) return;
   grid.innerHTML = '';
 
-  rows.forEach((row, i) => {
-    const slug      = getSlug(row);
-    const imageUrl  = col(row, 'image');
-    const altText   = col(row, 'altText') || col(row, 'legacySeo') || 'Art print';
-    const etsyUrl   = col(row, 'etsyLink') || col(row, 'legacyEtsy') || '#';
-    const pinTitle  = col(row, 'pinTitle') || col(row, 'seoTitle') || 'Art Print';
-    const pinDesc   = col(row, 'pinDesc') || col(row, 'seoDesc') || '';
-    const printPageUrl = window.location.origin + window.location.pathname + '#print/' + slug;
+  if (!rows.length) {
+    grid.innerHTML = '<p style="padding:40px;color:var(--ink-soft);grid-column:1/-1">No prints in this collection yet.</p>';
+    return;
+  }
 
-    row._slug = slug;
-    row._collection = collectionName;
-    printStore[slug] = row;
+  rows.forEach((row, i) => {
+    const slug    = row._slug;
+    const imgUrl  = get(row, 'image');
+    const alt     = get(row, 'alt')     || 'Art print';
+    const etsyUrl = get(row, 'etsy')    || '#';
+    const title   = get(row, 'title')   || 'Art Print';
+    const pinDesc = get(row, 'pinDesc') || '';
+    const printPageUrl = window.location.origin + window.location.pathname + '#print/' + slug;
 
     const item = document.createElement('article');
     item.className = 'gallery-item reveal' + (i % 4 !== 0 ? ` reveal-d${Math.min(i % 4, 4)}` : '');
     item.setAttribute('role', 'listitem');
 
     item.innerHTML = `
-      <img src="${imageUrl}" alt="${altText}"
+      <img src="${imgUrl}" alt="${alt}"
            data-pin-url="${printPageUrl}"
-           data-pin-media="${imageUrl}"
+           data-pin-media="${imgUrl}"
            data-pin-description="${pinDesc}"
-           data-pin-title="${pinTitle}" loading="lazy">
+           data-pin-title="${title}" loading="lazy">
       <div class="gallery-overlay" aria-hidden="true">
         <div class="gallery-overlay-links">
           ${etsyUrl !== '#' ? `<a href="${etsyUrl}" class="ov-link etsy" target="_blank" rel="noopener" tabindex="-1">
@@ -1005,29 +1082,40 @@ function buildGallery(rows, collectionName) {
   observeReveals(grid);
 }
 
-function loadCollection(type) {
+/* Main data fetch — called once on init */
+function loadAllPrints(onReady) {
   const grid = document.getElementById('gallery');
-  if (!grid) return;
-  grid.innerHTML = skeletonsHtml;
-  currentCollection = type;
+  if (grid) grid.innerHTML = skeletonsHtml;
 
-  Papa.parse(collectionUrls[type], {
+  Papa.parse(SHEET_URL, {
     download: true, header: true, skipEmptyLines: true,
-    complete: r => buildGallery(r.data, type),
+   /* Inside loadAllPrints -> complete callback */
+complete: r => {
+  parseSheetData(r.data);
+  renderTabs();
+
+  // If we are currently looking at the menu page and no category is selected
+  const isMenuPage = document.getElementById('page-menu').classList.contains('active');
+  const hash = window.location.hash;
+
+  if (!currentCatSlug && categoryOrder.length) {
+    currentCatSlug = categoryOrder[0];
+  }
+
+  if (onReady) {
+    onReady();
+  } else if (isMenuPage || hash === '#menu') {
+    // Force switch to the first tab if no specific category hash is present
+    switchTab(currentCatSlug, false); 
+  }
+},
     error: () => {
       if (grid) grid.innerHTML = '<p style="padding:40px;color:var(--ink-soft);grid-column:1/-1">Gallery unavailable. Please try again later.</p>';
+      const tabsEl = document.getElementById('galleryTabs');
+      if (tabsEl) tabsEl.innerHTML = '';
     }
   });
 }
-
-document.querySelectorAll('.gallery-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    if (tab.classList.contains('active')) return;
-    document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    loadCollection(tab.dataset.collection);
-  });
-});
 
 /* ══ PRINT DETAIL ══ */
 function openPrint(slug) {
@@ -1039,49 +1127,39 @@ function openPrint(slug) {
 }
 
 function renderPrintPage(row, slug) {
-  const imageUrl    = col(row, 'image');
-  const altText     = col(row, 'altText')  || col(row, 'legacySeo')  || 'Art print';
-  const title       = col(row, 'seoTitle') || col(row, 'pinTitle')   || 'Art Print';
-  const description = col(row, 'seoDesc')  || col(row, 'pinDesc')    || col(row, 'legacySeo') || '';
-  const pinTitle    = col(row, 'pinTitle') || title;
-  const pinDesc     = col(row, 'pinDesc')  || description;
-  const etsyUrl     = col(row, 'etsyLink') || col(row, 'legacyEtsy') || '#';
-  const tagsRaw     = col(row, 'tags');
-  const collection  = row._collection || 'summer';
-  const collLabel   = collection === 'summer' ? 'Summer Prints' : collection === 'pool' ? 'Pool Prints' : 'waterski Prints';
+  const imgUrl  = get(row, 'image');
+  const alt     = get(row, 'alt')     || 'Art print';
+  const title   = get(row, 'title')   || 'Art Print';
+  const pinDesc = get(row, 'pinDesc') || '';
+  const etsyUrl = get(row, 'etsy')    || '#';
+  const tagsRaw = get(row, 'tags');
+  const catLabel = row._catLabel      || '';
 
   const tagsHtml = tagsRaw
     ? tagsRaw.split(',').map(t => `<span class="print-tag">${t.trim()}</span>`).join('')
     : '';
 
   const printPageUrl = window.location.origin + window.location.pathname + '#print/' + slug;
-
-  /* Build the Pinterest save URL — this is the direct link approach which
-     works reliably without needing the SDK to re-init on dynamic content. */
-  const pinSaveUrl = 'https://pinterest.com/pin/create/button/'
+  const pinSaveUrl   = 'https://pinterest.com/pin/create/button/'
     + '?url='         + encodeURIComponent(printPageUrl)
-    + '&media='       + encodeURIComponent(imageUrl)
-    + '&description=' + encodeURIComponent(pinDesc || pinTitle);
+    + '&media='       + encodeURIComponent(imgUrl)
+    + '&description=' + encodeURIComponent(pinDesc || title);
 
   document.getElementById('printContent').innerHTML = `
     <div class="print-layout">
       <div class="print-image-wrap">
-        <img src="${imageUrl}" alt="${altText}"
+        <img src="${imgUrl}" alt="${alt}"
              data-pin-url="${printPageUrl}"
-             data-pin-media="${imageUrl}"
+             data-pin-media="${imgUrl}"
              data-pin-description="${pinDesc}"
-             data-pin-title="${pinTitle}">
+             data-pin-title="${title}">
       </div>
-
       <div class="print-info">
-        <p class="print-collection-label">${collLabel}</p>
+        ${catLabel ? `<p class="print-collection-label">${catLabel}</p>` : ''}
         <h1 class="print-title">${title}</h1>
-
-        ${description ? `<p class="print-description">${description}</p>` : ''}
+        ${pinDesc ? `<p class="print-description">${pinDesc}</p>` : ''}
         ${tagsHtml ? `<div class="print-tags">${tagsHtml}</div>` : ''}
-
         <hr class="print-divider">
-
         <div class="print-actions">
           ${etsyUrl !== '#' ? `
           <a href="${etsyUrl}" class="print-btn-etsy" target="_blank" rel="noopener">
@@ -1096,10 +1174,13 @@ function renderPrintPage(row, slug) {
   `;
 }
 
+/* Back button — returns to the category the print belongs to */
 document.getElementById('printBack').addEventListener('click', () => {
   resetMeta();
-  history.pushState(null, '', '#menu');
+  const cs = currentCatSlug || categoryOrder[0] || '';
+  history.pushState(null, '', '#prints/' + cs);
   showPage('menu', false);
+  if (cs) switchTab(cs, false);
 });
 
 /* ══ ROUTING ══ */
@@ -1107,49 +1188,92 @@ function routeFromHash() {
   const hash = window.location.hash.replace('#', '');
   if (!hash) return;
 
+  /* ── /print/:slug ── detail page */
   if (hash.startsWith('print/')) {
     const slug = hash.replace('print/', '');
-    const row  = printStore[slug];
-    if (row) {
-      openPrint(slug);
-    } else {
-      Papa.parse(collectionUrls['summer'], {
-        download: true, header: true, skipEmptyLines: true,
-        complete: r => {
-          buildGallery(r.data, 'summer');
-          Papa.parse(collectionUrls['pool'], {
-            download: true, header: true, skipEmptyLines: true,
-            complete: r2 => {
-              buildGallery(r2.data, 'pool');
-              Papa.parse(collectionUrls['waterski'], {
-                download: true, header: true, skipEmptyLines: true,
-                complete: r3 => {
-                  buildGallery(r3.data, 'waterski');
-                  if (printStore[slug]) openPrint(slug);
-                  else showPage('menu', false);
-                }
-              });
-            }
-          });
+    const tryOpen = () => {
+      const row = printStore[slug];
+      if (row) {
+        // remember which category this print belongs to for the back button
+        currentCatSlug = row._catSlug || categoryOrder[0] || null;
+        openPrint(slug);
+      } else {
+        // Data not loaded yet but couldn't find it — show gallery
+        if (categoryOrder.length) {
+          showPage('menu', false);
+          switchTab(currentCatSlug || categoryOrder[0], false);
         }
+      }
+    };
+
+    if (allDataLoaded) {
+      tryOpen();
+    } else {
+      loadAllPrints(() => tryOpen());
+    }
+    return;
+  }
+
+  /* ── /prints/:catSlug ── gallery with specific tab */
+  if (hash.startsWith('prints/')) {
+    const cs = hash.replace('prints/', '');
+    showPage('menu', false);
+    if (allDataLoaded) {
+      const target = categoryMap[cs] ? cs : (categoryOrder[0] || null);
+      if (target) switchTab(target, false);
+    } else {
+      loadAllPrints(() => {
+        const target = categoryMap[cs] ? cs : (categoryOrder[0] || null);
+        if (target) switchTab(target, false);
       });
     }
     return;
   }
 
+
+ /* ── legacy: #menu ── go to gallery, first tab */
+if (hash === 'menu') {
+  showPage('menu', false);
+  if (!allDataLoaded) {
+    loadAllPrints(() => {
+      if (categoryOrder.length) switchTab(categoryOrder[0], false);
+    });
+  } else if (categoryOrder.length) {
+    // Explicitly select first tab if data is already there
+    switchTab(categoryOrder[0], false);
+  }
+  return;
+}
+
+  /* ── any other page ── */
   if (document.getElementById('page-' + hash)) {
     showPage(hash, false);
   }
 }
 
 window.addEventListener('hashchange', routeFromHash);
+window.addEventListener('popstate',   routeFromHash);
 
 /* ══ INIT ══ */
 window.addEventListener('load', () => {
   document.getElementById('loader').classList.add('gone');
   initCarousel();
-  loadCollection('summer');
-  routeFromHash();
+
+  const hash = window.location.hash.replace('#', '');
+  const needsGallery = !hash || hash === 'menu' || hash.startsWith('prints/') || hash.startsWith('print/');
+
+  if (needsGallery) {
+    // Load data now; routing will happen inside the callback
+    if (!allDataLoaded) {
+      loadAllPrints(() => routeFromHash());
+    } else {
+      routeFromHash();
+    }
+  } else {
+    routeFromHash();
+    // Pre-load gallery data in background for faster tab switching later
+    loadAllPrints(null);
+  }
 });
 </script>
 </body>
