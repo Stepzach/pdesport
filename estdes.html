@@ -73,7 +73,7 @@ a { text-decoration: none; color: inherit; }
 ul { list-style: none; }
 button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
-/* LOADER */
+/* ── LOADER ── */
 #loader {
   position: fixed; inset: 0; z-index: 1000;
   background: var(--cream);
@@ -88,11 +88,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 @keyframes pulse { 0%,100%{opacity:.25} 50%{opacity:1} }
 
-/* PAGE SYSTEM */
+/* ── PAGE SYSTEM ── */
 .page { display: none; }
 .page.active { display: block; }
 
-/* NAV */
+/* ── NAV ── */
 .nav-wrap {
   position: sticky; top: 0; z-index: 500;
   background: rgba(253,246,240,.97);
@@ -106,9 +106,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 48px;
 }
-.brand {
-  display: flex; align-items: center;
-}
+.brand { display: flex; align-items: center; }
 .brand img { width: 52px; height: auto; display: block; }
 
 .nav-list { display: flex; gap: 0; }
@@ -164,7 +162,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .nav-drawer a:hover { color: var(--ink); background: var(--warm); }
 
-/* HERO */
+/* ── HERO ── */
 .hero {
   display: grid;
   grid-template-columns: 44% 1fr;
@@ -182,8 +180,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   color: var(--ink-soft); margin-bottom: 32px;
 }
 .hero-eyebrow::before {
-  content: '';
-  display: block; width: 24px; height: 1px; background: var(--stone);
+  content: ''; display: block; width: 24px; height: 1px; background: var(--stone);
 }
 .hero-title {
   font-family: var(--ff-display);
@@ -221,7 +218,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .carousel-slide.active { opacity: 1; }
 .carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
 
-/* SECTION SHARED */
+/* ── SECTION SHARED ── */
 .sec { padding: 96px 48px; }
 .sec-inner { max-width: var(--max); margin: 0 auto; }
 .sec-label {
@@ -242,7 +239,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   color: var(--ink-mid); max-width: 560px;
 }
 
-/* SERVICES */
+/* ── SERVICES ── */
 .services { background: var(--warm); }
 .services-grid {
   display: grid;
@@ -250,7 +247,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   gap: 20px;
   margin-top: 52px;
 }
-.service-card { display: flex; flex-direction: column; gap: 0; }
+.service-card { display: flex; flex-direction: column; gap: 0; cursor: pointer; }
 .service-img {
   overflow: hidden; border-radius: var(--r-md);
   aspect-ratio: 1;
@@ -269,11 +266,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   font-size: 1rem; font-weight: 600;
   color: var(--ink); margin-bottom: 5px;
 }
-.service-desc {
-  font-size: .76rem; color: var(--ink-soft); line-height: 1.5;
-}
+.service-desc { font-size: .76rem; color: var(--ink-soft); line-height: 1.5; }
 
-/* GALLERY */
+/* ── GALLERY (shared by all 5 section pages) ── */
 .gallery-sec { background: var(--cream); }
 .gallery-header {
   display: flex; align-items: flex-end; justify-content: space-between;
@@ -291,10 +286,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .gallery-tab:hover { border-color: var(--stone); color: var(--ink-mid); }
 .gallery-tab.active { background: var(--ink); border-color: var(--ink); color: var(--cream); }
 
-/* Tabs loading skeleton */
-.gallery-tabs-skeleton {
-  display: flex; gap: 8px;
-}
+.gallery-tabs-skeleton { display: flex; gap: 8px; }
 .tab-skel {
   width: 110px; height: 36px; border-radius: var(--r-pill);
   background: var(--blush);
@@ -351,88 +343,77 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-/* PRINT DETAIL */
-.print-detail-sec {
-  padding: 52px 48px 96px;
+/* ── ITEM DETAIL (single item overlay, shared) ── */
+#page-item {
+  position: fixed; inset: 0; z-index: 1000;
   background: var(--cream);
-  min-height: calc(100vh - var(--nav-h));
+  overflow-y: auto;
+  display: none;
 }
-.print-detail-inner { max-width: 1060px; margin: 0 auto; }
+#page-item.active { display: block; }
 
-.print-back {
+.item-detail-sec { padding: 20px 48px 96px; min-height: calc(100vh - var(--nav-h)); }
+.item-detail-inner { max-width: 1060px; margin: 0 auto; }
+
+.item-back {
   display: inline-flex; align-items: center; gap: 9px;
   font-size: .68rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
   color: var(--stone); margin-bottom: 18px;
-  transition: color .2s;
-  cursor: pointer;
+  transition: color .2s; cursor: pointer;
 }
-.print-back:hover { color: var(--ink-mid); }
-.print-back:hover i { transform: translateX(-3px); }
-.print-back i { font-size: .85rem; transition: transform .2s var(--ease-out); }
+.item-back:hover { color: var(--ink-mid); }
+.item-back:hover i { transform: translateX(-3px); }
+.item-back i { font-size: .85rem; transition: transform .2s var(--ease-out); }
 
-.print-layout {
+.item-layout {
   display: grid;
   grid-template-columns: 1fr 380px;
   gap: 64px;
   align-items: start;
 }
-
-.print-image-wrap {
-  position: sticky;
-  top: calc(var(--nav-h) + 32px);
+.item-image-wrap {
+  position: sticky; top: calc(var(--nav-h) + 32px);
   border-radius: var(--r-lg);
-  overflow: hidden;
-  aspect-ratio: 1;
+  overflow: hidden; aspect-ratio: 1;
   display: flex; align-items: center; justify-content: center;
   max-height: calc(100vh - var(--nav-h) - 80px);
 }
-.print-image-wrap img {
-  width: 100%; height: 100%; object-fit: contain;
-  padding: 24px;
+.item-image-wrap img {
+  width: 100%; height: 100%; object-fit: contain; padding: 24px;
 }
 
-.print-info { padding-top: 4px; }
-
-.print-collection-label {
+.item-info { padding-top: 4px; }
+.item-collection-label {
   font-size: .63rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
   color: var(--stone); margin-bottom: 12px;
   display: flex; align-items: center; gap: 8px;
 }
-.print-collection-label::before { content: ''; display: block; width: 16px; height: 1px; background: var(--stone); }
-
-.print-title {
+.item-collection-label::before { content: ''; display: block; width: 16px; height: 1px; background: var(--stone); }
+.item-title {
   font-family: var(--ff-display);
   font-size: clamp(1.7rem, 2.6vw, 2.4rem);
-  line-height: 1.05; color: var(--ink);
-  margin-bottom: 16px;
+  line-height: 1.05; color: var(--ink); margin-bottom: 16px;
 }
-
-.print-description {
+.item-description {
   font-family: var(--ff-serif);
   font-size: .95rem; line-height: 1.75;
-  color: var(--ink-soft);
-  margin-bottom: 28px;
+  color: var(--ink-soft); margin-bottom: 28px;
 }
+.item-divider { border: none; border-top: 1px solid var(--sand); margin-bottom: 28px; }
+.item-actions { display: flex; flex-direction: column; gap: 10px; }
 
-.print-divider {
-  border: none; border-top: 1px solid var(--sand);
-  margin-bottom: 28px;
-}
-
-.print-actions { display: flex; flex-direction: column; gap: 10px; }
-
-.print-btn-etsy {
+.item-btn-etsy {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
   padding: 15px 28px; border-radius: var(--r-pill);
   font-size: .72rem; font-weight: 600; letter-spacing: .09em; text-transform: uppercase;
   border: 1px solid var(--sand); color: var(--ink-mid);
-  transition: background .25s, transform .2s var(--ease-spring);
+  transition: background .25s, color .25s, transform .2s var(--ease-spring);
   width: 100%;
 }
-.print-btn-etsy:hover { background: var(--ink-mid); transform: translateY(-2px); color:var(--cream); }
-.print-btn-etsy i { color: #f1641e; font-size: .9rem; }
+.item-btn-etsy:hover { background: var(--ink-mid); color: var(--cream); transform: translateY(-2px); }
+.item-btn-etsy i { color: #f1641e; font-size: .9rem; }
 
-.print-btn-pin {
+.item-btn-pin {
   display: inline-flex; align-items: center; justify-content: center; gap: 10px;
   padding: 14px 28px; border-radius: var(--r-pill);
   font-size: .72rem; font-weight: 600; letter-spacing: .09em; text-transform: uppercase;
@@ -440,11 +421,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   transition: border-color .25s, color .25s, transform .2s var(--ease-spring);
   width: 100%;
 }
-.print-btn-pin:hover { border-color: #e60023; color: #e60023; transform: translateY(-2px); }
-.print-btn-pin i { color: #e60023; font-size: .9rem; }
+.item-btn-pin:hover { border-color: #e60023; color: #e60023; transform: translateY(-2px); }
+.item-btn-pin i { color: #e60023; font-size: .9rem; }
 
-.print-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px; }
-.print-tag {
+.item-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 20px; }
+.item-tag {
   display: inline-block;
   padding: 4px 12px; border-radius: var(--r-pill);
   font-size: .62rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
@@ -452,18 +433,16 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   border: 1px solid var(--sand);
 }
 
-/* print loader */
-.print-loading {
-  display: flex; align-items: center; justify-content: center;
-  min-height: 60vh;
+.item-loading {
+  display: flex; align-items: center; justify-content: center; min-height: 60vh;
 }
-.print-loading-mark {
+.item-loading-mark {
   font-family: var(--ff-display);
   font-size: 1.4rem; font-style: italic; color: var(--ink-mid);
   animation: pulse 1.4s ease-in-out infinite;
 }
 
-/* FOOTER */
+/* ── FOOTER ── */
 .site-footer { background: var(--warm); border-top: 1px solid var(--sand); }
 .footer-top {
   max-width: var(--max); margin: 0 auto;
@@ -483,14 +462,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .footer-links a:hover { color: var(--ink); }
 .footer-links i { width: 13px; text-align: center; font-size: .75rem; }
-.footer-brand {
-  font-family: var(--ff-display);
-  font-size: 1.15rem; font-style: italic;
-  color: var(--ink-mid); margin-bottom: 12px;
-}
-.footer-tagline {
-  font-size: .8rem; color: var(--ink-soft); line-height: 1.65;
-}
+.footer-brand { font-family: var(--ff-display); font-size: 1.15rem; font-style: italic; color: var(--ink-mid); margin-bottom: 12px; }
+.footer-tagline { font-size: .8rem; color: var(--ink-soft); line-height: 1.65; }
 .footer-bottom {
   max-width: var(--max); margin: 0 auto;
   display: flex; align-items: center; justify-content: space-between;
@@ -501,7 +474,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .footer-bottom a { color: var(--ink-soft); transition: color .2s; }
 .footer-bottom a:hover { color: var(--ink-mid); }
 
-/* SCROLL REVEAL */
+/* ── SCROLL REVEAL ── */
 .reveal {
   opacity: 0; transform: translateY(20px);
   transition: opacity .65s var(--ease-out), transform .65s var(--ease-out);
@@ -513,38 +486,31 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .reveal-d4 { transition-delay: .32s; }
 .reveal-d5 { transition-delay: .40s; }
 
-/* RESPONSIVE */
+/* ── RESPONSIVE ── */
 @media (max-width: 1100px) {
   .services-grid { grid-template-columns: repeat(3, 1fr); }
-  .print-layout { grid-template-columns: 1fr 340px; gap: 40px; }
+  .item-layout { grid-template-columns: 1fr 340px; gap: 40px; }
 }
-
 @media (max-width: 960px) {
   .nav-inner { padding: 0 24px; }
   .nav-list { display: none; }
   .nav-burger { display: flex; }
-
   .hero { grid-template-columns: 1fr; min-height: auto; }
   .hero-copy { padding: 52px 28px; order: 2; border-right: none; border-top: 1px solid var(--sand); }
   .hero-visual { min-height: 55svh; order: 1; }
   .hero-title { font-size: 2.4rem; }
-
   .sec { padding: 64px 24px; }
   .services-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-
   .gallery-grid { grid-template-columns: repeat(3, 1fr); }
   .gallery-header { flex-direction: column; align-items: flex-start; gap: 16px; }
-
-  .print-detail-sec { padding: 36px 24px 80px; }
-  .print-layout { grid-template-columns: 1fr; gap: 28px; }
-  .print-image-wrap { position: relative; top: 0; max-height: 50vh; }
-
+  .item-detail-sec { padding: 20px 24px 80px; }
+  .item-layout { grid-template-columns: 1fr; gap: 28px; }
+  .item-image-wrap { position: relative; top: 0; max-height: 50vh; }
   .footer-top { grid-template-columns: 1fr 1fr; }
   .footer-col { padding: 36px 24px; }
   .footer-col:nth-child(3) { grid-column: 1/-1; border-right: none; border-top: 1px solid var(--sand); }
   .footer-bottom { flex-direction: column; gap: 8px; text-align: center; padding: 16px 24px; }
 }
-
 @media (max-width: 640px) {
   .hero-copy { padding: 36px 20px; }
   .hero-title { font-size: 2rem; }
@@ -557,67 +523,45 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .footer-col:nth-child(n+2) { border-top: 1px solid var(--sand); }
   .footer-bottom { padding: 14px 20px; }
 }
+@media (max-width: 799px) { .gallery-overlay { display: none; } }
 
-@media (max-width: 799px) {
-  .gallery-overlay { display: none; }
-}
-
-/* Print page overlay */
-#page-print {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  background: var(--cream);
-  overflow-y: auto;
-  display: none;
-}
-#page-print.active { display: block; }
-.print-detail-sec { padding-top: 20px; }
-
-.print-description,
-.print-tags { position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-   opacity: 0.01; position: absolute; pointer-events: none; }
+/* hidden seo fields */
+.item-description,
+.item-tags { position: absolute; width: 1px; height: 1px; padding: 0; opacity: 0.01; pointer-events: none; }
 </style>
 </head>
 <body>
 
-<!-- LOADER -->
 <div id="loader" role="status" aria-label="Loading">
   <span class="loader-mark">ES</span>
 </div>
 
-<!-- NAVIGATION -->
 <div class="nav-wrap">
   <nav class="nav-inner" aria-label="Main navigation">
     <a href="#" class="brand" data-page="home" aria-label="Estelle Stephens – Home">
       <img src="https://static.wixstatic.com/media/e9d02f_90b6b493853e4683b47857769f433bc7~mv2.gif" alt="Estelle Stephens" style="width:52px;height:auto;object-fit:contain;">
     </a>
     <ul class="nav-list" role="list">
-      <li class="nav-item"><a href="#" data-page="menu">Art Prints</a></li>
-      <li class="nav-item"><a href="#" data-page="home">Craft Designs</a></li>
-      <li class="nav-item"><a href="#" data-page="home">Animated E-Cards</a></li>
-      <li class="nav-item"><a href="#" data-page="home">Brand Identity</a></li>
-      <li class="nav-item"><a href="#" data-page="home">Custom</a></li>
+      <li class="nav-item"><a href="#" data-page="prints">Art Prints</a></li>
+      <li class="nav-item"><a href="#" data-page="commercial">Commercial Assets</a></li>
+      <li class="nav-item"><a href="#" data-page="ecards">Animated E-Cards</a></li>
+      <li class="nav-item"><a href="#" data-page="brand">Brand Identity</a></li>
+      <li class="nav-item"><a href="#" data-page="custom">Custom</a></li>
     </ul>
     <button class="nav-burger" id="navBurger" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
   </nav>
   <nav class="nav-drawer" id="navDrawer" aria-label="Mobile navigation">
-    <a href="#" data-page="menu">Art Prints</a>
-    <a href="#" data-page="home">Craft Designs</a>
-    <a href="#" data-page="home">Animated E-Cards</a>
-    <a href="#" data-page="home">Brand Identity</a>
-    <a href="#" data-page="home">Custom</a>
+    <a href="#" data-page="prints">Art Prints</a>
+    <a href="#" data-page="commercial">Commercial Assets</a>
+    <a href="#" data-page="ecards">Animated E-Cards</a>
+    <a href="#" data-page="brand">Brand Identity</a>
+    <a href="#" data-page="custom">Custom</a>
   </nav>
 </div>
 
-<!-- PAGE: HOME -->
 <main id="page-home" class="page active">
-
   <section class="hero" aria-label="Introduction">
     <div class="hero-copy">
       <p class="hero-eyebrow">Based in London, UK</p>
@@ -628,6 +572,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <p class="hero-desc">
         From festival campaigns, social media visuals to bespoke wedding invitations or seasonal graphics, I create cohesive stories for brands and homes alike. Explore my collection of customisable wall art, or let's collaborate to bring a unique, high-impact aesthetic to your next commercial project or private event.
       </p>
+      <div class="hero-actions">
+        <a href="#" class="btn-primary" data-page="prints">Browse Prints</a>
+        <a href="#" class="btn-ghost" data-page="custom">Commission Work</a>
+      </div>
     </div>
     <div class="hero-visual" id="heroCarousel" aria-hidden="true"></div>
   </section>
@@ -638,9 +586,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       <h2 class="sec-title reveal" id="services-heading">Creative <em>Services</em></h2>
       <div class="services-grid" style="margin-top:52px;">
 
-        <article class="service-card reveal reveal-d1">
+        <article class="service-card reveal reveal-d1" data-page="prints">
           <div class="service-img">
-            <img src="https://ik.imagekit.io/ngoo36zmk/IMG_7434.png" alt="Collection of framed art prints displayed on a wall" loading="lazy">
+            <img src="https://ik.imagekit.io/ngoo36zmk/IMG_7434.png" alt="Collection of framed art prints" loading="lazy">
           </div>
           <div class="service-info">
             <h3 class="service-name">Art Prints</h3>
@@ -648,7 +596,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           </div>
         </article>
 
-        <article class="service-card reveal reveal-d2">
+        <article class="service-card reveal reveal-d2" data-page="commercial">
           <div class="service-img">
             <img src="https://ik.imagekit.io/ngoo36zmk/IMG_7417.png" alt="Digital design files for commercial craft projects" loading="lazy">
           </div>
@@ -658,7 +606,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           </div>
         </article>
 
-        <article class="service-card reveal reveal-d3">
+        <article class="service-card reveal reveal-d3" data-page="ecards">
           <div class="service-img">
             <img src="https://github.com/Stepzach/pdesport/blob/main/IMG_7438.gif?raw=true" alt="Example animated birthday e-card" loading="lazy">
           </div>
@@ -668,9 +616,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           </div>
         </article>
 
-        <article class="service-card reveal reveal-d4">
+        <article class="service-card reveal reveal-d4" data-page="brand">
           <div class="service-img">
-            <img src="https://github.com/Stepzach/pdesport/blob/main/Untitled_Artwork.gif?raw=true" alt="Visual brand identity elements for a new business" loading="lazy">
+            <img src="https://github.com/Stepzach/pdesport/blob/main/Untitled_Artwork.gif?raw=true" alt="Visual brand identity elements" loading="lazy">
           </div>
           <div class="service-info">
             <h3 class="service-name">Brand Identity</h3>
@@ -678,9 +626,9 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
           </div>
         </article>
 
-        <article class="service-card reveal reveal-d5">
+        <article class="service-card reveal reveal-d5" data-page="custom">
           <div class="service-img">
-            <img src="https://ik.imagekit.io/ngoo36zmk/IMG_7424.gif" alt="Bespoke custom illustration commission example" loading="lazy">
+            <img src="https://ik.imagekit.io/ngoo36zmk/IMG_7424.gif" alt="Bespoke custom illustration commission" loading="lazy">
           </div>
           <div class="service-info">
             <h3 class="service-name">Custom Commissions</h3>
@@ -691,56 +639,121 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
       </div>
     </div>
   </section>
-
 </main>
 
-<!-- PAGE: ART PRINTS GALLERY -->
-<main id="page-menu" class="page" aria-label="Art prints gallery">
+<main id="page-prints" class="page" aria-label="Art prints gallery">
   <section class="sec gallery-sec">
     <div class="sec-inner">
       <div class="gallery-header reveal">
         <div>
           <p class="sec-label">Shop</p>
-          <h2 class="sec-title" id="gallery-heading">Art <em>Prints</em></h2>
+          <h2 class="sec-title" id="prints-heading">Art <em>Prints</em></h2>
         </div>
-        <!-- Tabs are rendered dynamically once sheet data loads -->
-        <div class="gallery-tabs" id="galleryTabs">
+        <div class="gallery-tabs" id="printsTabs">
           <div class="gallery-tabs-skeleton">
-            <div class="tab-skel"></div>
-            <div class="tab-skel"></div>
-            <div class="tab-skel"></div>
+            <div class="tab-skel"></div><div class="tab-skel"></div><div class="tab-skel"></div>
           </div>
         </div>
       </div>
-      <div class="gallery-grid" id="gallery" role="list" aria-labelledby="gallery-heading">
-        <div class="skel-item" aria-hidden="true"></div>
-        <div class="skel-item" aria-hidden="true"></div>
-        <div class="skel-item" aria-hidden="true"></div>
-        <div class="skel-item" aria-hidden="true"></div>
-        <div class="skel-item" aria-hidden="true"></div>
-        <div class="skel-item" aria-hidden="true"></div>
-        <div class="skel-item" aria-hidden="true"></div>
-        <div class="skel-item" aria-hidden="true"></div>
+      <div class="gallery-grid" id="printsGrid" role="list" aria-labelledby="prints-heading">
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
       </div>
     </div>
   </section>
 </main>
 
-<!-- PAGE: SINGLE PRINT -->
-<main id="page-print" class="page" aria-label="Print detail">
-  <section class="print-detail-sec">
-    <div class="print-detail-inner">
-      <button class="print-back" id="printBack" aria-label="Back to gallery">
-        <i class="fas fa-arrow-left"></i> Back to prints
+<main id="page-commercial" class="page" aria-label="Commercial assets gallery">
+  <section class="sec gallery-sec">
+    <div class="sec-inner">
+      <div class="gallery-header reveal">
+        <div>
+          <p class="sec-label">Shop</p>
+          <h2 class="sec-title" id="commercial-heading">Commercial <em>Assets</em></h2>
+        </div>
+      </div>
+      <div class="gallery-grid" id="commercialGrid" role="list" aria-labelledby="commercial-heading">
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<main id="page-ecards" class="page" aria-label="Animated e-cards gallery">
+  <section class="sec gallery-sec">
+    <div class="sec-inner">
+      <div class="gallery-header reveal">
+        <div>
+          <p class="sec-label">Shop</p>
+          <h2 class="sec-title" id="ecards-heading">Animated <em>E-Cards</em></h2>
+        </div>
+      </div>
+      <div class="gallery-grid" id="ecardsGrid" role="list" aria-labelledby="ecards-heading">
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<main id="page-brand" class="page" aria-label="Brand identity gallery">
+  <section class="sec gallery-sec">
+    <div class="sec-inner">
+      <div class="gallery-header reveal">
+        <div>
+          <p class="sec-label">Portfolio</p>
+          <h2 class="sec-title" id="brand-heading">Brand <em>Identity</em></h2>
+        </div>
+      </div>
+      <div class="gallery-grid" id="brandGrid" role="list" aria-labelledby="brand-heading">
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<main id="page-custom" class="page" aria-label="Custom commissions gallery">
+  <section class="sec gallery-sec">
+    <div class="sec-inner">
+      <div class="gallery-header reveal">
+        <div>
+          <p class="sec-label">Commissions</p>
+          <h2 class="sec-title" id="custom-heading">Custom <em>Work</em></h2>
+        </div>
+      </div>
+      <div class="gallery-grid" id="customGrid" role="list" aria-labelledby="custom-heading">
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+        <div class="skel-item" aria-hidden="true"></div><div class="skel-item" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<main id="page-item" class="page" aria-label="Item detail">
+  <section class="item-detail-sec">
+    <div class="item-detail-inner">
+      <button class="item-back" id="itemBack" aria-label="Back to gallery">
+        <i class="fas fa-arrow-left"></i> Back
       </button>
-      <div id="printContent">
-        <div class="print-loading"><span class="print-loading-mark">ES</span></div>
+      <div id="itemContent">
+        <div class="item-loading"><span class="item-loading-mark">ES</span></div>
       </div>
     </div>
   </section>
 </main>
 
-<!-- FOOTER -->
 <footer class="site-footer" aria-label="Site footer">
   <div class="footer-top">
     <div class="footer-col">
@@ -770,14 +783,48 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 
 <script>
 /* ══════════════════════════════════════════
-   SINGLE-SHEET DATA SOURCE
-   All prints live in one sheet; categories
-   are identified by a CATEGORY column.
-═══════════════════════════════════════════ */
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?gid=611338961&output=csv';
+   SECTION DEFINITIONS
+   Each section has its own sheet GID, page
+   ID, heading IDs, tab/grid element IDs,
+   and URL namespace.
+══════════════════════════════════════════ */
+const SECTIONS = {
+  prints: {
+    gid:      '611338961',
+    pageId:   'page-prints',
+    tabsId:   'printsTabs',
+    gridId:   'printsGrid',
+    urlKey:   'prints',
+  },
+  commercial: {
+    gid:      '553657743',
+    pageId:   'page-commercial',
+    gridId:   'commercialGrid',
+    urlKey:   'commercial',
+  },
+  ecards: {
+    gid:      '410511174',
+    pageId:   'page-ecards',
+    gridId:   'ecardsGrid',
+    urlKey:   'ecards',
+  },
+  brand: {
+    gid:      '834260665',
+    pageId:   'page-brand',
+    gridId:   'brandGrid',
+    urlKey:   'brand',
+  },
+  custom: {
+    gid:      '1262380022',
+    pageId:   'page-custom',
+    gridId:   'customGrid',
+    urlKey:   'custom',
+  },
+};
 
-/* ══ COLUMN MAP — matches new header row ══ */
-// CATEGORY | IMAGE | ETSY_LINK | ALT_TEXT | TAGS | TITLE | PIN_DESC
+const SHEET_BASE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?output=csv&gid=';
+
+/* ── Column map (same for all sheets) ── */
 const C = {
   category: 'CATEGORY',
   image:     'IMAGE',
@@ -788,33 +835,32 @@ const C = {
   pinDesc:   'PIN_DESC',
 };
 
-/* ══ DATA STORE ══ */
-// printStore  : slug  → row
-// categoryMap : slug  → { label, rows[] }
-// categoryOrder : slug[] (preserves sheet order)
-const printStore    = {};
-const categoryMap   = {};
-const categoryOrder = [];
+/* ── Per-section data stores ── */
+// sectionData[sectionKey] = { loaded, store, categoryMap, categoryOrder, currentCat }
+const sectionData = {};
+Object.keys(SECTIONS).forEach(k => {
+  sectionData[k] = {
+    loaded:        false,
+    store:         {},      // slug → row
+    categoryMap:   {},      // catSlug → { label, rows }
+    categoryOrder: [],      // catSlug[]
+    currentCat:    null,
+  };
+});
 
-let allDataLoaded   = false;
-let currentCatSlug  = null;   // active tab slug
+/* Currently open item */
+let openItemSection = null;  // which section the open item belongs to
+let openItemSlug    = null;
 
-/* ══ HELPERS ══ */
-function get(row, key) {
-  return (row[C[key]] || '').trim();
-}
-
-function slugify(str) {
-  return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-}
-
-function printSlug(row) {
+/* ── Helpers ── */
+function get(row, key) { return (row[C[key]] || '').trim(); }
+function slugify(s)    { return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
+function itemSlug(row) {
   const t = get(row, 'title');
   if (t) return slugify(t);
   const img = get(row, 'image');
-  return slugify(img.split('/').pop().replace(/\.[^.]+$/, '') || 'print');
+  return slugify(img.split('/').pop().replace(/\.[^.]+$/, '') || 'item');
 }
-
 function catSlug(label) { return slugify(label); }
 
 function setMeta(attr, key, val) {
@@ -822,44 +868,32 @@ function setMeta(attr, key, val) {
   if (!tag) { tag = document.createElement('meta'); tag.setAttribute(attr, key); document.head.appendChild(tag); }
   tag.setAttribute('content', val);
 }
-
-function injectPrintMeta(row, slug) {
-  const base   = window.location.origin + window.location.pathname;
-  const url    = base + '#print/' + slug;
-  const image  = get(row, 'image');
-  const title  = get(row, 'title')   || 'Art Print — Estelle Stephens';
-  const desc   = get(row, 'pinDesc') || title;
-
+function injectItemMeta(row, slug, sectionKey) {
+  const base  = window.location.origin + window.location.pathname;
+  const url   = base + '#item/' + sectionKey + '/' + slug;
+  const image = get(row, 'image');
+  const title = get(row, 'title')   || 'Estelle Stephens';
+  const desc  = get(row, 'pinDesc') || title;
   document.title = title + ' — Estelle Stephens';
-  setMeta('name',     'description',         desc);
-  setMeta('property', 'og:type',             'website');
-  setMeta('property', 'og:site_name',        'Estelle Stephens');
-  setMeta('property', 'og:url',              url);
-  setMeta('property', 'og:title',            title);
-  setMeta('property', 'og:description',      desc);
-  setMeta('property', 'og:image',            image);
-  setMeta('name',     'twitter:card',        'summary_large_image');
-  setMeta('name',     'twitter:title',       title);
-  setMeta('name',     'twitter:description', desc);
-  setMeta('name',     'twitter:image',       image);
-
+  setMeta('name','description',desc);
+  setMeta('property','og:url',url); setMeta('property','og:title',title);
+  setMeta('property','og:description',desc); setMeta('property','og:image',image);
+  setMeta('name','twitter:title',title); setMeta('name','twitter:description',desc);
+  setMeta('name','twitter:image',image);
   let canon = document.querySelector('link[rel="canonical"]');
-  if (!canon) { canon = document.createElement('link'); canon.rel = 'canonical'; document.head.appendChild(canon); }
+  if (!canon) { canon = document.createElement('link'); canon.rel='canonical'; document.head.appendChild(canon); }
   canon.href = url;
-
-  history.replaceState(null, '', '#print/' + slug);
+  history.replaceState(null,'','#item/'+sectionKey+'/'+slug);
 }
-
 function resetMeta() {
   document.title = 'Estelle Stephens — Illustrator & Designer';
-  setMeta('name',     'description',         'London-based illustrator & designer.');
-  setMeta('property', 'og:title',            'Estelle Stephens — Illustrator & Designer');
-  setMeta('property', 'og:description',      'London-based illustrator & designer.');
-  setMeta('property', 'og:image',            '');
-  setMeta('property', 'og:url',              window.location.origin + window.location.pathname);
-  setMeta('name',     'twitter:title',       'Estelle Stephens — Illustrator & Designer');
-  setMeta('name',     'twitter:description', 'London-based illustrator & designer.');
-  setMeta('name',     'twitter:image',       '');
+  setMeta('name','description','London-based illustrator & designer.');
+  setMeta('property','og:title','Estelle Stephens — Illustrator & Designer');
+  setMeta('property','og:description','London-based illustrator & designer.');
+  setMeta('property','og:image',''); setMeta('property','og:url',window.location.origin+window.location.pathname);
+  setMeta('name','twitter:title','Estelle Stephens — Illustrator & Designer');
+  setMeta('name','twitter:description','London-based illustrator & designer.');
+  setMeta('name','twitter:image','');
 }
 
 /* ══ NAVIGATION ══ */
@@ -883,16 +917,17 @@ function showPage(id, pushState = true) {
   const target = document.getElementById('page-' + id);
   if (target) {
     target.classList.add('active');
-    if (id !== 'print') window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (id !== 'item') window.scrollTo({ top: 0, behavior: 'smooth' });
     observeReveals(target);
   }
 
+  // Update nav active state — map page IDs to nav data-page values
   allLinks.forEach(l => {
     l.classList.remove('active');
     if (l.dataset.page === id) l.classList.add('active');
   });
 
-  if (pushState && id !== 'print') {
+  if (pushState && id !== 'item') {
     history.pushState(null, '', '#' + id);
     resetMeta();
   }
@@ -902,21 +937,29 @@ allLinks.forEach(l => {
   l.addEventListener('click', e => {
     e.preventDefault();
     const pageId = l.dataset.page;
-    
-    if (pageId === 'menu') {
-      // If data is already loaded, go to first category
-      if (allDataLoaded && categoryOrder.length > 0) {
-        switchTab(categoryOrder[0]); // This calls showPage('menu') internally via switchTab logic
-        showPage('menu');
-      } else {
-        // If data isn't loaded, show the page and let loadAllPrints handle it
-        showPage('menu');
-      }
+    const sectionKey = pageId; // section keys match page data-page values
+    if (SECTIONS[sectionKey]) {
+      navigateToSection(sectionKey);
     } else {
       showPage(pageId);
     }
   });
 });
+
+/* Navigate to a section page, loading data if needed */
+function navigateToSection(sectionKey) {
+  showPage(sectionKey);
+  const sd = sectionData[sectionKey];
+  if (!sd.loaded) {
+    loadSection(sectionKey, () => {
+      if (!sd.currentCat && sd.categoryOrder.length) sd.currentCat = sd.categoryOrder[0];
+      if (sd.currentCat) switchTab(sectionKey, sd.currentCat, false);
+    });
+  } else {
+    if (!sd.currentCat && sd.categoryOrder.length) sd.currentCat = sd.categoryOrder[0];
+    if (sd.currentCat) switchTab(sectionKey, sd.currentCat, false);
+  }
+}
 
 /* ══ SCROLL REVEAL ══ */
 const revealObs = new IntersectionObserver(entries => {
@@ -924,7 +967,6 @@ const revealObs = new IntersectionObserver(entries => {
     if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
   });
 }, { threshold: 0.1 });
-
 function observeReveals(root = document) {
   root.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObs.observe(el));
 }
@@ -936,15 +978,15 @@ async function initCarousel() {
   const container = document.getElementById('heroCarousel');
   if (!container) return;
   try {
-    const res   = await fetch(csvUrl);
-    const text  = await res.text();
-    const rows  = text.trim().split('\n').slice(1);
+    const res  = await fetch(csvUrl);
+    const text = await res.text();
+    const rows = text.trim().split('\n').slice(1);
     const slides = [];
     rows.forEach(row => {
       const comma = row.indexOf(',');
       if (comma < 1) return;
       const url = row.substring(0, comma).trim();
-      const alt = row.substring(comma + 1).replace(/^"|"$/g, '').replace(/""/g, '"').trim();
+      const alt = row.substring(comma + 1).replace(/^"|"$/g,'').replace(/""/g,'"').trim();
       if (!url.startsWith('http')) return;
       const slide = document.createElement('div');
       slide.className = 'carousel-slide';
@@ -968,92 +1010,131 @@ async function initCarousel() {
 }
 
 /* ══════════════════════════════════════════
-   SINGLE-SHEET LOADING + CATEGORY GROUPING
-═══════════════════════════════════════════ */
-function parseSheetData(rows) {
-  // Clear previous data
-  categoryOrder.length = 0;
-  Object.keys(categoryMap).forEach(k => delete categoryMap[k]);
+   SECTION DATA LOADING
+══════════════════════════════════════════ */
+const skeletonsHtml = Array(8).fill('<div class="skel-item" aria-hidden="true"></div>').join('');
+
+function loadSection(sectionKey, onReady) {
+  const sec = SECTIONS[sectionKey];
+  const sd  = sectionData[sectionKey];
+  const grid = document.getElementById(sec.gridId);
+  if (grid) grid.innerHTML = skeletonsHtml;
+
+  const url = SHEET_BASE + sec.gid;
+  Papa.parse(url, {
+    download: true, header: true, skipEmptyLines: true,
+    complete: r => {
+      parseData(sectionKey, r.data);
+      renderTabs(sectionKey);
+      if (onReady) onReady();
+    },
+    error: () => {
+      if (grid) grid.innerHTML = '<p style="padding:40px;color:var(--ink-soft);grid-column:1/-1">Gallery unavailable. Please try again later.</p>';
+      const tabsEl = document.getElementById(sec.tabsId);
+      if (tabsEl) tabsEl.innerHTML = '';
+    }
+  });
+}
+
+function parseData(sectionKey, rows) {
+  const sd = sectionData[sectionKey];
+  sd.categoryOrder.length = 0;
+  Object.keys(sd.categoryMap).forEach(k => delete sd.categoryMap[k]);
 
   rows.forEach(row => {
-    const cat = get(row, 'category');
+    let cat = get(row, 'category');
+    
+    // Group everything into a single 'All' collection for pages without tabs
+    if (sectionKey !== 'prints') {
+      cat = 'All';
+    }
+
     const img = get(row, 'image');
-    if (!cat || !img) return;          // skip blank / header-only rows
+    if ((sectionKey === 'prints' && !cat) || !img) return;
 
     const cs = catSlug(cat);
-    const ps = printSlug(row);
-
+    const ps = itemSlug(row);
     row._catSlug  = cs;
     row._catLabel = cat;
     row._slug     = ps;
+    row._section  = sectionKey;
 
-    printStore[ps] = row;
+    sd.store[ps] = row;
 
-    if (!categoryMap[cs]) {
-      categoryMap[cs] = { label: cat, rows: [] };
-      categoryOrder.push(cs);
+    if (!sd.categoryMap[cs]) {
+      sd.categoryMap[cs] = { label: cat, rows: [] };
+      sd.categoryOrder.push(cs);
     }
-    categoryMap[cs].rows.push(row);
+    sd.categoryMap[cs].rows.push(row);
   });
 
-  allDataLoaded = true;
+  sd.loaded = true;
 }
 
-/* Build / rebuild the tab bar from categoryOrder */
-function renderTabs() {
-  const tabsEl = document.getElementById('galleryTabs');
+function renderTabs(sectionKey) {
+  // Only the prints section gets visual tabs
+  if (sectionKey !== 'prints') return;
+  
+  const sec    = SECTIONS[sectionKey];
+  const sd     = sectionData[sectionKey];
+  const tabsEl = document.getElementById(sec.tabsId);
+  if (!tabsEl) return;
   tabsEl.innerHTML = '';
 
-  categoryOrder.forEach(cs => {
-    const { label } = categoryMap[cs];
+  sd.categoryOrder.forEach(cs => {
+    const { label } = sd.categoryMap[cs];
     const btn = document.createElement('button');
     btn.className = 'gallery-tab';
     btn.dataset.catSlug = cs;
     btn.textContent = label;
-    btn.addEventListener('click', () => switchTab(cs));
+    btn.addEventListener('click', () => switchTab(sectionKey, cs));
     tabsEl.appendChild(btn);
   });
 }
 
-/* Switch to a category tab — updates URL, active state, and gallery */
-function switchTab(cs, pushState = true) {
-  currentCatSlug = cs;
+function switchTab(sectionKey, cs, pushState = true) {
+  const sec = SECTIONS[sectionKey];
+  const sd  = sectionData[sectionKey];
+  sd.currentCat = cs;
 
-  // URL: #prints/category-slug
   if (pushState) {
-    history.pushState(null, '', '#prints/' + cs);
+    // Prevent routing sub-categories (like /all) for pages without categories
+    const hashUrl = '#' + sec.urlKey + (sectionKey === 'prints' ? '/' + cs : '');
+    history.pushState(null, '', hashUrl);
     resetMeta();
   }
 
-  // Active tab styling
-  document.querySelectorAll('.gallery-tab').forEach(t => {
-    t.classList.toggle('active', t.dataset.catSlug === cs);
-  });
+  // Update tab active state only within this section's tab container
+  const tabsEl = document.getElementById(sec.tabsId);
+  if (tabsEl) {
+    tabsEl.querySelectorAll('.gallery-tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.catSlug === cs);
+    });
+  }
 
-  buildGallery(categoryMap[cs]?.rows || []);
+  buildGallery(sectionKey, sd.categoryMap[cs]?.rows || []);
 }
 
 /* ══ GALLERY RENDERER ══ */
-const skeletonsHtml = Array(8).fill('<div class="skel-item" aria-hidden="true"></div>').join('');
-
-function buildGallery(rows) {
-  const grid = document.getElementById('gallery');
+function buildGallery(sectionKey, rows) {
+  const sec = SECTIONS[sectionKey];
+  const grid = document.getElementById(sec.gridId);
   if (!grid) return;
   grid.innerHTML = '';
 
   if (!rows.length) {
-    grid.innerHTML = '<p style="padding:40px;color:var(--ink-soft);grid-column:1/-1">No prints in this collection yet.</p>';
+    grid.innerHTML = '<p style="padding:40px;color:var(--ink-soft);grid-column:1/-1">No items in this collection yet.</p>';
     return;
   }
 
   rows.forEach((row, i) => {
     const slug    = row._slug;
     const imgUrl  = get(row, 'image');
-    const alt     = get(row, 'alt')     || 'Art print';
+    const alt     = get(row, 'alt')     || 'Artwork';
     const etsyUrl = get(row, 'etsy')    || '#';
-    const title   = get(row, 'title')   || 'Art Print';
+    const title   = get(row, 'title')   || 'Item';
     const pinDesc = get(row, 'pinDesc') || '';
-    const printPageUrl = window.location.origin + window.location.pathname + '#print/' + slug;
+    const itemPageUrl = window.location.origin + window.location.pathname + '#item/' + sectionKey + '/' + slug;
 
     const item = document.createElement('article');
     item.className = 'gallery-item reveal' + (i % 4 !== 0 ? ` reveal-d${Math.min(i % 4, 4)}` : '');
@@ -1061,7 +1142,7 @@ function buildGallery(rows) {
 
     item.innerHTML = `
       <img src="${imgUrl}" alt="${alt}"
-           data-pin-url="${printPageUrl}"
+           data-pin-url="${itemPageUrl}"
            data-pin-media="${imgUrl}"
            data-pin-description="${pinDesc}"
            data-pin-title="${title}" loading="lazy">
@@ -1080,194 +1161,170 @@ function buildGallery(rows) {
     item.addEventListener('click', e => {
       if (e.target.closest('.ov-link.etsy')) return;
       e.preventDefault();
-      openPrint(slug);
+      openItem(sectionKey, slug);
     });
 
     grid.appendChild(item);
   });
 
   observeReveals(grid);
-  // This forces Pinterest to re-scan the new DOM elements for data-pin attributes
-if (window.PinUtils) {
-    window.PinUtils.build();
-}
+  if (window.PinUtils) window.PinUtils.build();
 }
 
-/* Main data fetch — called once on init */
-function loadAllPrints(onReady) {
-  const grid = document.getElementById('gallery');
-  if (grid) grid.innerHTML = skeletonsHtml;
-
-  Papa.parse(SHEET_URL, {
-    download: true, header: true, skipEmptyLines: true,
-   /* Inside loadAllPrints -> complete callback */
-complete: r => {
-  parseSheetData(r.data);
-  renderTabs();
-
-  // If we are currently looking at the menu page and no category is selected
-  const isMenuPage = document.getElementById('page-menu').classList.contains('active');
-  const hash = window.location.hash;
-
-  if (!currentCatSlug && categoryOrder.length) {
-    currentCatSlug = categoryOrder[0];
-  }
-
-  if (onReady) {
-    onReady();
-  } else if (isMenuPage || hash === '#menu') {
-    // Force switch to the first tab if no specific category hash is present
-    switchTab(currentCatSlug, false); 
-  }
-},
-    error: () => {
-      if (grid) grid.innerHTML = '<p style="padding:40px;color:var(--ink-soft);grid-column:1/-1">Gallery unavailable. Please try again later.</p>';
-      const tabsEl = document.getElementById('galleryTabs');
-      if (tabsEl) tabsEl.innerHTML = '';
-    }
-  });
-}
-
-/* ══ PRINT DETAIL ══ */
-function openPrint(slug) {
-  const row = printStore[slug];
+/* ══ ITEM DETAIL ══ */
+function openItem(sectionKey, slug) {
+  const sd  = sectionData[sectionKey];
+  const row = sd.store[slug];
   if (!row) return;
-  renderPrintPage(row, slug);
-  showPage('print', false);
-  injectPrintMeta(row, slug);
+  openItemSection = sectionKey;
+  openItemSlug    = slug;
+  renderItemPage(sectionKey, row, slug);
+  showPage('item', false);
+  injectItemMeta(row, slug, sectionKey);
 }
 
-function renderPrintPage(row, slug) {
-  const imgUrl  = get(row, 'image');
-  const alt     = get(row, 'alt')     || 'Art print';
-  const title   = get(row, 'title')   || 'Art Print';
-  const pinDesc = get(row, 'pinDesc') || '';
-  const etsyUrl = get(row, 'etsy')    || '#';
-  const tagsRaw = get(row, 'tags');
-  const catLabel = row._catLabel      || '';
+function renderItemPage(sectionKey, row, slug) {
+  const imgUrl   = get(row, 'image');
+  const alt      = get(row, 'alt')     || 'Artwork';
+  const title    = get(row, 'title')   || 'Item';
+  const pinDesc  = get(row, 'pinDesc') || '';
+  const etsyUrl  = get(row, 'etsy')    || '#';
+  const tagsRaw  = get(row, 'tags');
+  const catLabel = row._catLabel || '';
 
   const tagsHtml = tagsRaw
-    ? tagsRaw.split(',').map(t => `<span class="print-tag">${t.trim()}</span>`).join('')
+    ? tagsRaw.split(',').map(t => `<span class="item-tag">${t.trim()}</span>`).join('')
     : '';
 
-
-const printPageUrl = window.location.origin + window.location.pathname + '#print/' + slug;
-
-// 2. Build the "Force-Feed" link for Pinterest
-const pinSaveUrl = 'https://www.pinterest.com/pin/create/button/'
-    + '?url='         + encodeURIComponent(printPageUrl)
+  const itemPageUrl = window.location.origin + window.location.pathname + '#item/' + sectionKey + '/' + slug;
+  const pinSaveUrl  = 'https://www.pinterest.com/pin/create/button/'
+    + '?url='         + encodeURIComponent(itemPageUrl)
     + '&media='       + encodeURIComponent(imgUrl)
-    + '&description=' + encodeURIComponent(title + " - " + pinDesc);
-    + '&title='       + encodeURIComponent(title); // This line is vital!
+    + '&description=' + encodeURIComponent(title + (pinDesc ? ' - ' + pinDesc : ''))
+    + '&title='       + encodeURIComponent(title);
 
-  document.getElementById('printContent').innerHTML = `
-    <div class="print-layout">
-      <div class="print-image-wrap">
+  document.getElementById('itemContent').innerHTML = `
+    <div class="item-layout">
+      <div class="item-image-wrap">
         <img src="${imgUrl}" alt="${alt}"
-             data-pin-url="${printPageUrl}"
+             data-pin-url="${itemPageUrl}"
              data-pin-media="${imgUrl}"
              data-pin-description="${pinDesc}"
              data-pin-title="${title}">
       </div>
-      <div class="print-info">
-        ${catLabel ? `<p class="print-collection-label">${catLabel}</p>` : ''}
-        <h1 class="print-title">${title}</h1>
-        ${pinDesc ? `<p class="print-description">${pinDesc}</p>` : ''}
-        ${tagsHtml ? `<div class="print-tags">${tagsHtml}</div>` : ''}
-        <hr class="print-divider">
-        <div class="print-actions">
+      <div class="item-info">
+        ${(catLabel && sectionKey === 'prints') ? `<p class="item-collection-label">${catLabel}</p>` : ''}
+        <h1 class="item-title">${title}</h1>
+        ${pinDesc ? `<p class="item-description">${pinDesc}</p>` : ''}
+        ${tagsHtml ? `<div class="item-tags">${tagsHtml}</div>` : ''}
+        <hr class="item-divider">
+        <div class="item-actions">
           ${etsyUrl !== '#' ? `
-          <a href="${etsyUrl}" class="print-btn-etsy" target="_blank" rel="noopener">
+          <a href="${etsyUrl}" class="item-btn-etsy" target="_blank" rel="noopener">
             <i class="fa-brands fa-etsy"></i> Shop on Etsy
           </a>` : ''}
-      
-<button onclick="window.open('${pinSaveUrl}', 'Pinterest', 'width=600,height=700'); return false;" class="print-btn-pin">
-    <i class="fa-brands fa-pinterest"></i> Save to Pinterest
-</button>
+          <button onclick="window.open('${pinSaveUrl}','Pinterest','width=600,height=700');return false;" class="item-btn-pin">
+            <i class="fa-brands fa-pinterest"></i> Save to Pinterest
+          </button>
         </div>
       </div>
     </div>
   `;
-  // This forces Pinterest to re-scan the new DOM elements for data-pin attributes
-if (window.PinUtils) {
-    window.PinUtils.build();
-}
+  if (window.PinUtils) window.PinUtils.build();
 }
 
-/* Back button — returns to the category the print belongs to */
-document.getElementById('printBack').addEventListener('click', () => {
+/* Back button — returns to the section the item belongs to */
+document.getElementById('itemBack').addEventListener('click', () => {
   resetMeta();
-  const cs = currentCatSlug || categoryOrder[0] || '';
-  history.pushState(null, '', '#prints/' + cs);
-  showPage('menu', false);
-  if (cs) switchTab(cs, false);
+  if (openItemSection) {
+    const sec = SECTIONS[openItemSection];
+    const sd  = sectionData[openItemSection];
+    const cs  = sd.currentCat || sd.categoryOrder[0] || '';
+    
+    const hashUrl = '#' + sec.urlKey + ((openItemSection === 'prints' && cs) ? '/' + cs : '');
+    history.pushState(null, '', hashUrl);
+    showPage(openItemSection, false);
+    if (cs) switchTab(openItemSection, cs, false);
+  } else {
+    showPage('home');
+  }
+});
+
+/* ══ SERVICE CARDS on home page → navigate to section ══ */
+document.querySelectorAll('.service-card[data-page]').forEach(card => {
+  card.addEventListener('click', () => {
+    const pageId = card.dataset.page;
+    if (SECTIONS[pageId]) {
+      navigateToSection(pageId);
+    } else {
+      showPage(pageId);
+    }
+  });
 });
 
 /* ══ ROUTING ══ */
 function routeFromHash() {
   const hash = window.location.hash.replace('#', '');
-  if (!hash) return;
+  if (!hash) { showPage('home', false); return; }
 
-  /* ── /print/:slug ── detail page */
-  if (hash.startsWith('print/')) {
-    const slug = hash.replace('print/', '');
+  /* #item/:sectionKey/:slug — detail overlay */
+  if (hash.startsWith('item/')) {
+    const parts      = hash.replace('item/', '').split('/');
+    const sectionKey = parts[0];
+    const slug       = parts[1];
+    if (!sectionKey || !slug || !SECTIONS[sectionKey]) { showPage('home', false); return; }
+
     const tryOpen = () => {
-      const row = printStore[slug];
+      const sd  = sectionData[sectionKey];
+      const row = sd.store[slug];
       if (row) {
-        // remember which category this print belongs to for the back button
-        currentCatSlug = row._catSlug || categoryOrder[0] || null;
-        openPrint(slug);
+        openItemSection = sectionKey;
+        openItemSlug    = slug;
+        sd.currentCat   = row._catSlug || sd.categoryOrder[0] || null;
+        openItem(sectionKey, slug);
       } else {
-        // Data not loaded yet but couldn't find it — show gallery
-        if (categoryOrder.length) {
-          showPage('menu', false);
-          switchTab(currentCatSlug || categoryOrder[0], false);
-        }
+        navigateToSection(sectionKey);
       }
     };
 
-    if (allDataLoaded) {
-      tryOpen();
-    } else {
-      loadAllPrints(() => tryOpen());
-    }
+    const sd = sectionData[sectionKey];
+    if (sd.loaded) tryOpen();
+    else loadSection(sectionKey, tryOpen);
     return;
   }
 
-  /* ── /prints/:catSlug ── gallery with specific tab */
-  if (hash.startsWith('prints/')) {
-    const cs = hash.replace('prints/', '');
-    showPage('menu', false);
-    if (allDataLoaded) {
-      const target = categoryMap[cs] ? cs : (categoryOrder[0] || null);
-      if (target) switchTab(target, false);
-    } else {
-      loadAllPrints(() => {
-        const target = categoryMap[cs] ? cs : (categoryOrder[0] || null);
-        if (target) switchTab(target, false);
-      });
+  /* #:sectionKey/:catSlug — gallery with tab */
+  const firstSlash = hash.indexOf('/');
+  if (firstSlash > 0) {
+    const sectionKey = hash.substring(0, firstSlash);
+    const cs         = hash.substring(firstSlash + 1);
+    if (SECTIONS[sectionKey]) {
+      showPage(sectionKey, false);
+      const sd = sectionData[sectionKey];
+      if (sd.loaded) {
+        const target = sd.categoryMap[cs] ? cs : (sd.categoryOrder[0] || null);
+        if (target) switchTab(sectionKey, target, false);
+      } else {
+        loadSection(sectionKey, () => {
+          const target = sd.categoryMap[cs] ? cs : (sd.categoryOrder[0] || null);
+          if (target) switchTab(sectionKey, target, false);
+        });
+      }
+      return;
     }
+  }
+
+  /* #:sectionKey — gallery, first tab */
+  if (SECTIONS[hash]) {
+    navigateToSection(hash);
     return;
   }
 
-
- /* ── legacy: #menu ── go to gallery, first tab */
-if (hash === 'menu') {
-  showPage('menu', false);
-  if (!allDataLoaded) {
-    loadAllPrints(() => {
-      if (categoryOrder.length) switchTab(categoryOrder[0], false);
-    });
-  } else if (categoryOrder.length) {
-    // Explicitly select first tab if data is already there
-    switchTab(categoryOrder[0], false);
-  }
-  return;
-}
-
-  /* ── any other page ── */
+  /* #home or unknown */
   if (document.getElementById('page-' + hash)) {
     showPage(hash, false);
+  } else {
+    showPage('home', false);
   }
 }
 
@@ -1280,19 +1337,12 @@ window.addEventListener('load', () => {
   initCarousel();
 
   const hash = window.location.hash.replace('#', '');
-  const needsGallery = !hash || hash === 'menu' || hash.startsWith('prints/') || hash.startsWith('print/');
-
-  if (needsGallery) {
-    // Load data now; routing will happen inside the callback
-    if (!allDataLoaded) {
-      loadAllPrints(() => routeFromHash());
-    } else {
-      routeFromHash();
-    }
+  if (!hash || hash === 'home') {
+    showPage('home', false);
+    // Pre-load the first section in the background for faster nav
+    loadSection('prints', null);
   } else {
     routeFromHash();
-    // Pre-load gallery data in background for faster tab switching later
-    loadAllPrints(null);
   }
 });
 </script>
