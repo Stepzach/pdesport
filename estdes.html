@@ -532,10 +532,12 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 </head>
 <body>
 
+<!-- LOADER -->
 <div id="loader" role="status" aria-label="Loading">
   <span class="loader-mark">ES</span>
 </div>
 
+<!-- NAVIGATION -->
 <div class="nav-wrap">
   <nav class="nav-inner" aria-label="Main navigation">
     <a href="#" class="brand" data-page="home" aria-label="Estelle Stephens – Home">
@@ -561,6 +563,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   </nav>
 </div>
 
+<!-- PAGE: HOME -->
 <main id="page-home" class="page active">
   <section class="hero" aria-label="Introduction">
     <div class="hero-copy">
@@ -641,6 +644,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   </section>
 </main>
 
+<!-- PAGE: ART PRINTS -->
 <main id="page-prints" class="page" aria-label="Art prints gallery">
   <section class="sec gallery-sec">
     <div class="sec-inner">
@@ -665,6 +669,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   </section>
 </main>
 
+<!-- PAGE: COMMERCIAL ASSETS -->
 <main id="page-commercial" class="page" aria-label="Commercial assets gallery">
   <section class="sec gallery-sec">
     <div class="sec-inner">
@@ -684,6 +689,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   </section>
 </main>
 
+<!-- PAGE: ANIMATED E-CARDS -->
 <main id="page-ecards" class="page" aria-label="Animated e-cards gallery">
   <section class="sec gallery-sec">
     <div class="sec-inner">
@@ -703,6 +709,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   </section>
 </main>
 
+<!-- PAGE: BRAND IDENTITY -->
 <main id="page-brand" class="page" aria-label="Brand identity gallery">
   <section class="sec gallery-sec">
     <div class="sec-inner">
@@ -722,6 +729,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   </section>
 </main>
 
+<!-- PAGE: CUSTOM COMMISSIONS -->
 <main id="page-custom" class="page" aria-label="Custom commissions gallery">
   <section class="sec gallery-sec">
     <div class="sec-inner">
@@ -741,6 +749,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   </section>
 </main>
 
+<!-- PAGE: ITEM DETAIL (shared overlay for all sections) -->
 <main id="page-item" class="page" aria-label="Item detail">
   <section class="item-detail-sec">
     <div class="item-detail-inner">
@@ -754,6 +763,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   </section>
 </main>
 
+<!-- FOOTER -->
 <footer class="site-footer" aria-label="Site footer">
   <div class="footer-top">
     <div class="footer-col">
@@ -784,47 +794,59 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 <script>
 /* ══════════════════════════════════════════
    SECTION DEFINITIONS
-   Each section has its own sheet GID, page
-   ID, heading IDs, tab/grid element IDs,
-   and URL namespace.
+   hasCategories: true  → CATEGORY column + tab UI (Art Prints only)
+   hasCategories: false → flat sheet, ALT_TEXT TAGS ETSY_LINK TITLE PIN_DESC
 ══════════════════════════════════════════ */
 const SECTIONS = {
   prints: {
-    gid:      '611338961',
-    pageId:   'page-prints',
-    tabsId:   'printsTabs',
-    gridId:   'printsGrid',
-    urlKey:   'prints',
+    gid:           '611338961',
+    pageId:        'page-prints',
+    tabsId:        'printsTabs',
+    gridId:        'printsGrid',
+    urlKey:        'prints',
+    hasCategories: true,
   },
   commercial: {
-    gid:      '553657743',
-    pageId:   'page-commercial',
-    gridId:   'commercialGrid',
-    urlKey:   'commercial',
+    gid:           '553657743',
+    pageId:        'page-commercial',
+    tabsId:        null,
+    gridId:        'commercialGrid',
+    urlKey:        'commercial',
+    hasCategories: false,
   },
   ecards: {
-    gid:      '410511174',
-    pageId:   'page-ecards',
-    gridId:   'ecardsGrid',
-    urlKey:   'ecards',
+    gid:           '410511174',
+    pageId:        'page-ecards',
+    tabsId:        null,
+    gridId:        'ecardsGrid',
+    urlKey:        'ecards',
+    hasCategories: false,
   },
   brand: {
-    gid:      '834260665',
-    pageId:   'page-brand',
-    gridId:   'brandGrid',
-    urlKey:   'brand',
+    gid:           '834260665',
+    pageId:        'page-brand',
+    tabsId:        null,
+    gridId:        'brandGrid',
+    urlKey:        'brand',
+    hasCategories: false,
   },
   custom: {
-    gid:      '1262380022',
-    pageId:   'page-custom',
-    gridId:   'customGrid',
-    urlKey:   'custom',
+    gid:           '1262380022',
+    pageId:        'page-custom',
+    tabsId:        null,
+    gridId:        'customGrid',
+    urlKey:        'custom',
+    hasCategories: false,
   },
 };
 
 const SHEET_BASE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqEPfwqk0ju0h0kXT7IWt9iUoykb6PhJgCPTDNWnmC3zuPTMYbjhG7fzV6dNBs7LZzNeTtysfopkAv/pub?output=csv&gid=';
 
-/* ── Column map (same for all sheets) ── */
+/* ── Column map ──
+   Art Prints sheet:   CATEGORY | IMAGE | ETSY_LINK | ALT_TEXT | TAGS | TITLE | PIN_DESC
+   Flat sheets:        IMAGE | ALT_TEXT | TAGS | ETSY_LINK | TITLE | PIN_DESC
+   (IMAGE column is present in all sheets)
+*/
 const C = {
   category: 'CATEGORY',
   image:     'IMAGE',
@@ -836,24 +858,37 @@ const C = {
 };
 
 /* ── Per-section data stores ── */
-// sectionData[sectionKey] = { loaded, store, categoryMap, categoryOrder, currentCat }
 const sectionData = {};
 Object.keys(SECTIONS).forEach(k => {
   sectionData[k] = {
     loaded:        false,
-    store:         {},      // slug → row
-    categoryMap:   {},      // catSlug → { label, rows }
-    categoryOrder: [],      // catSlug[]
-    currentCat:    null,
+    store:         {},   // slug → row
+    categoryMap:   {},   // catSlug → { label, rows[] }  (prints only)
+    categoryOrder: [],   // catSlug[]                     (prints only)
+    flatRows:      [],   // all rows in order             (flat sections)
+    currentCat:    null, // active tab slug               (prints only)
   };
 });
 
 /* Currently open item */
-let openItemSection = null;  // which section the open item belongs to
+let openItemSection = null;
 let openItemSlug    = null;
 
 /* ── Helpers ── */
 function get(row, key) { return (row[C[key]] || '').trim(); }
+/* For flat sheets the image URL may be in the first column (no named IMAGE header).
+   Try C['image'] first; fall back to the first non-empty cell value. */
+function getImage(row) {
+  const named = get(row, 'image');
+  if (named) return named;
+  // Grab first cell value — works when the column header differs from 'IMAGE'
+  const vals = Object.values(row);
+  for (let v of vals) {
+    const s = (v || '').trim();
+    if (s.startsWith('http')) return s;
+  }
+  return '';
+}
 function slugify(s)    { return s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
 function itemSlug(row) {
   const t = get(row, 'title');
@@ -871,29 +906,33 @@ function setMeta(attr, key, val) {
 function injectItemMeta(row, slug, sectionKey) {
   const base  = window.location.origin + window.location.pathname;
   const url   = base + '#item/' + sectionKey + '/' + slug;
-  const image = get(row, 'image');
+  const image = getImage(row);
   const title = get(row, 'title')   || 'Estelle Stephens';
   const desc  = get(row, 'pinDesc') || title;
   document.title = title + ' — Estelle Stephens';
-  setMeta('name','description',desc);
-  setMeta('property','og:url',url); setMeta('property','og:title',title);
-  setMeta('property','og:description',desc); setMeta('property','og:image',image);
-  setMeta('name','twitter:title',title); setMeta('name','twitter:description',desc);
-  setMeta('name','twitter:image',image);
+  setMeta('name',     'description',         desc);
+  setMeta('property', 'og:url',              url);
+  setMeta('property', 'og:title',            title);
+  setMeta('property', 'og:description',      desc);
+  setMeta('property', 'og:image',            image);
+  setMeta('name',     'twitter:title',       title);
+  setMeta('name',     'twitter:description', desc);
+  setMeta('name',     'twitter:image',       image);
   let canon = document.querySelector('link[rel="canonical"]');
-  if (!canon) { canon = document.createElement('link'); canon.rel='canonical'; document.head.appendChild(canon); }
+  if (!canon) { canon = document.createElement('link'); canon.rel = 'canonical'; document.head.appendChild(canon); }
   canon.href = url;
-  history.replaceState(null,'','#item/'+sectionKey+'/'+slug);
+  history.replaceState(null, '', '#item/' + sectionKey + '/' + slug);
 }
 function resetMeta() {
   document.title = 'Estelle Stephens — Illustrator & Designer';
-  setMeta('name','description','London-based illustrator & designer.');
-  setMeta('property','og:title','Estelle Stephens — Illustrator & Designer');
-  setMeta('property','og:description','London-based illustrator & designer.');
-  setMeta('property','og:image',''); setMeta('property','og:url',window.location.origin+window.location.pathname);
-  setMeta('name','twitter:title','Estelle Stephens — Illustrator & Designer');
-  setMeta('name','twitter:description','London-based illustrator & designer.');
-  setMeta('name','twitter:image','');
+  setMeta('name',     'description',         'London-based illustrator & designer.');
+  setMeta('property', 'og:title',            'Estelle Stephens — Illustrator & Designer');
+  setMeta('property', 'og:description',      'London-based illustrator & designer.');
+  setMeta('property', 'og:image',            '');
+  setMeta('property', 'og:url',              window.location.origin + window.location.pathname);
+  setMeta('name',     'twitter:title',       'Estelle Stephens — Illustrator & Designer');
+  setMeta('name',     'twitter:description', 'London-based illustrator & designer.');
+  setMeta('name',     'twitter:image',       '');
 }
 
 /* ══ NAVIGATION ══ */
@@ -921,7 +960,6 @@ function showPage(id, pushState = true) {
     observeReveals(target);
   }
 
-  // Update nav active state — map page IDs to nav data-page values
   allLinks.forEach(l => {
     l.classList.remove('active');
     if (l.dataset.page === id) l.classList.add('active');
@@ -937,27 +975,37 @@ allLinks.forEach(l => {
   l.addEventListener('click', e => {
     e.preventDefault();
     const pageId = l.dataset.page;
-    const sectionKey = pageId; // section keys match page data-page values
-    if (SECTIONS[sectionKey]) {
-      navigateToSection(sectionKey);
+    if (SECTIONS[pageId]) {
+      navigateToSection(pageId);
     } else {
       showPage(pageId);
     }
   });
 });
 
-/* Navigate to a section page, loading data if needed */
+/* Navigate to a section — loads data if needed, then renders */
 function navigateToSection(sectionKey) {
   showPage(sectionKey);
-  const sd = sectionData[sectionKey];
+  const sec = SECTIONS[sectionKey];
+  const sd  = sectionData[sectionKey];
+
   if (!sd.loaded) {
-    loadSection(sectionKey, () => {
-      if (!sd.currentCat && sd.categoryOrder.length) sd.currentCat = sd.categoryOrder[0];
-      if (sd.currentCat) switchTab(sectionKey, sd.currentCat, false);
-    });
+    loadSection(sectionKey, () => afterSectionLoaded(sectionKey));
   } else {
+    afterSectionLoaded(sectionKey);
+  }
+}
+
+/* Called once data is ready — either activates first tab (prints) or renders flat gallery */
+function afterSectionLoaded(sectionKey) {
+  const sec = SECTIONS[sectionKey];
+  const sd  = sectionData[sectionKey];
+
+  if (sec.hasCategories) {
     if (!sd.currentCat && sd.categoryOrder.length) sd.currentCat = sd.categoryOrder[0];
     if (sd.currentCat) switchTab(sectionKey, sd.currentCat, false);
+  } else {
+    buildGallery(sectionKey, sd.flatRows);
   }
 }
 
@@ -986,7 +1034,7 @@ async function initCarousel() {
       const comma = row.indexOf(',');
       if (comma < 1) return;
       const url = row.substring(0, comma).trim();
-      const alt = row.substring(comma + 1).replace(/^"|"$/g,'').replace(/""/g,'"').trim();
+      const alt = row.substring(comma + 1).replace(/^"|"$/g, '').replace(/""/g, '"').trim();
       if (!url.startsWith('http')) return;
       const slide = document.createElement('div');
       slide.className = 'carousel-slide';
@@ -1015,66 +1063,68 @@ async function initCarousel() {
 const skeletonsHtml = Array(8).fill('<div class="skel-item" aria-hidden="true"></div>').join('');
 
 function loadSection(sectionKey, onReady) {
-  const sec = SECTIONS[sectionKey];
-  const sd  = sectionData[sectionKey];
+  const sec  = SECTIONS[sectionKey];
   const grid = document.getElementById(sec.gridId);
   if (grid) grid.innerHTML = skeletonsHtml;
 
-  const url = SHEET_BASE + sec.gid;
-  Papa.parse(url, {
+  Papa.parse(SHEET_BASE + sec.gid, {
     download: true, header: true, skipEmptyLines: true,
     complete: r => {
       parseData(sectionKey, r.data);
-      renderTabs(sectionKey);
+      if (sec.hasCategories) renderTabs(sectionKey);
       if (onReady) onReady();
     },
     error: () => {
       if (grid) grid.innerHTML = '<p style="padding:40px;color:var(--ink-soft);grid-column:1/-1">Gallery unavailable. Please try again later.</p>';
-      const tabsEl = document.getElementById(sec.tabsId);
-      if (tabsEl) tabsEl.innerHTML = '';
     }
   });
 }
 
 function parseData(sectionKey, rows) {
-  const sd = sectionData[sectionKey];
+  const sec = SECTIONS[sectionKey];
+  const sd  = sectionData[sectionKey];
   sd.categoryOrder.length = 0;
   Object.keys(sd.categoryMap).forEach(k => delete sd.categoryMap[k]);
+  sd.flatRows = [];
+
+  // Log first row keys to console so column names are visible in devtools
+  if (rows.length) console.log('[ES] ' + sectionKey + ' columns:', Object.keys(rows[0]));
 
   rows.forEach(row => {
-    let cat = get(row, 'category');
-    
-    // Group everything into a single 'All' collection for pages without tabs
-    if (sectionKey !== 'prints') {
-      cat = 'All';
-    }
+    const img = getImage(row);
+    if (!img) return;  // skip rows without an image URL
 
-    const img = get(row, 'image');
-    if ((sectionKey === 'prints' && !cat) || !img) return;
-
-    const cs = catSlug(cat);
     const ps = itemSlug(row);
-    row._catSlug  = cs;
-    row._catLabel = cat;
-    row._slug     = ps;
-    row._section  = sectionKey;
+    row._slug    = ps;
+    row._section = sectionKey;
 
-    sd.store[ps] = row;
-
-    if (!sd.categoryMap[cs]) {
-      sd.categoryMap[cs] = { label: cat, rows: [] };
-      sd.categoryOrder.push(cs);
+    if (sec.hasCategories) {
+      /* Art Prints — group by CATEGORY */
+      const cat = get(row, 'category');
+      if (!cat) return;
+      const cs = catSlug(cat);
+      row._catSlug  = cs;
+      row._catLabel = cat;
+      sd.store[ps]  = row;
+      if (!sd.categoryMap[cs]) {
+        sd.categoryMap[cs] = { label: cat, rows: [] };
+        sd.categoryOrder.push(cs);
+      }
+      sd.categoryMap[cs].rows.push(row);
+    } else {
+      /* Flat sections — no category column */
+      row._catSlug  = '';
+      row._catLabel = '';
+      sd.store[ps]  = row;
+      sd.flatRows.push(row);
     }
-    sd.categoryMap[cs].rows.push(row);
   });
 
   sd.loaded = true;
 }
 
+/* Build tab bar — only called for the prints section */
 function renderTabs(sectionKey) {
-  // Only the prints section gets visual tabs
-  if (sectionKey !== 'prints') return;
-  
   const sec    = SECTIONS[sectionKey];
   const sd     = sectionData[sectionKey];
   const tabsEl = document.getElementById(sec.tabsId);
@@ -1092,19 +1142,17 @@ function renderTabs(sectionKey) {
   });
 }
 
+/* Switch category tab — prints only */
 function switchTab(sectionKey, cs, pushState = true) {
   const sec = SECTIONS[sectionKey];
   const sd  = sectionData[sectionKey];
   sd.currentCat = cs;
 
   if (pushState) {
-    // Prevent routing sub-categories (like /all) for pages without categories
-    const hashUrl = '#' + sec.urlKey + (sectionKey === 'prints' ? '/' + cs : '');
-    history.pushState(null, '', hashUrl);
+    history.pushState(null, '', '#' + sec.urlKey + '/' + cs);
     resetMeta();
   }
 
-  // Update tab active state only within this section's tab container
   const tabsEl = document.getElementById(sec.tabsId);
   if (tabsEl) {
     tabsEl.querySelectorAll('.gallery-tab').forEach(t => {
@@ -1115,9 +1163,9 @@ function switchTab(sectionKey, cs, pushState = true) {
   buildGallery(sectionKey, sd.categoryMap[cs]?.rows || []);
 }
 
-/* ══ GALLERY RENDERER ══ */
+/* ══ GALLERY RENDERER (shared for all sections) ══ */
 function buildGallery(sectionKey, rows) {
-  const sec = SECTIONS[sectionKey];
+  const sec  = SECTIONS[sectionKey];
   const grid = document.getElementById(sec.gridId);
   if (!grid) return;
   grid.innerHTML = '';
@@ -1128,12 +1176,12 @@ function buildGallery(sectionKey, rows) {
   }
 
   rows.forEach((row, i) => {
-    const slug    = row._slug;
-    const imgUrl  = get(row, 'image');
-    const alt     = get(row, 'alt')     || 'Artwork';
-    const etsyUrl = get(row, 'etsy')    || '#';
-    const title   = get(row, 'title')   || 'Item';
-    const pinDesc = get(row, 'pinDesc') || '';
+    const slug       = row._slug;
+    const imgUrl     = getImage(row);
+    const alt        = get(row, 'alt')     || 'Artwork';
+    const etsyUrl    = get(row, 'etsy')    || '#';
+    const title      = get(row, 'title')   || 'Item';
+    const pinDesc    = get(row, 'pinDesc') || '';
     const itemPageUrl = window.location.origin + window.location.pathname + '#item/' + sectionKey + '/' + slug;
 
     const item = document.createElement('article');
@@ -1173,8 +1221,7 @@ function buildGallery(sectionKey, rows) {
 
 /* ══ ITEM DETAIL ══ */
 function openItem(sectionKey, slug) {
-  const sd  = sectionData[sectionKey];
-  const row = sd.store[slug];
+  const row = sectionData[sectionKey].store[slug];
   if (!row) return;
   openItemSection = sectionKey;
   openItemSlug    = slug;
@@ -1184,13 +1231,13 @@ function openItem(sectionKey, slug) {
 }
 
 function renderItemPage(sectionKey, row, slug) {
-  const imgUrl   = get(row, 'image');
-  const alt      = get(row, 'alt')     || 'Artwork';
-  const title    = get(row, 'title')   || 'Item';
-  const pinDesc  = get(row, 'pinDesc') || '';
-  const etsyUrl  = get(row, 'etsy')    || '#';
-  const tagsRaw  = get(row, 'tags');
-  const catLabel = row._catLabel || '';
+  const imgUrl     = getImage(row);
+  const alt        = get(row, 'alt')     || 'Artwork';
+  const title      = get(row, 'title')   || 'Item';
+  const pinDesc    = get(row, 'pinDesc') || '';
+  const etsyUrl    = get(row, 'etsy')    || '#';
+  const tagsRaw    = get(row, 'tags');
+  const catLabel   = row._catLabel || '';
 
   const tagsHtml = tagsRaw
     ? tagsRaw.split(',').map(t => `<span class="item-tag">${t.trim()}</span>`).join('')
@@ -1213,7 +1260,7 @@ function renderItemPage(sectionKey, row, slug) {
              data-pin-title="${title}">
       </div>
       <div class="item-info">
-        ${(catLabel && sectionKey === 'prints') ? `<p class="item-collection-label">${catLabel}</p>` : ''}
+        ${catLabel ? `<p class="item-collection-label">${catLabel}</p>` : ''}
         <h1 class="item-title">${title}</h1>
         ${pinDesc ? `<p class="item-description">${pinDesc}</p>` : ''}
         ${tagsHtml ? `<div class="item-tags">${tagsHtml}</div>` : ''}
@@ -1233,32 +1280,31 @@ function renderItemPage(sectionKey, row, slug) {
   if (window.PinUtils) window.PinUtils.build();
 }
 
-/* Back button — returns to the section the item belongs to */
+/* Back button — returns to whichever section/tab the item came from */
 document.getElementById('itemBack').addEventListener('click', () => {
   resetMeta();
-  if (openItemSection) {
-    const sec = SECTIONS[openItemSection];
-    const sd  = sectionData[openItemSection];
-    const cs  = sd.currentCat || sd.categoryOrder[0] || '';
-    
-    const hashUrl = '#' + sec.urlKey + ((openItemSection === 'prints' && cs) ? '/' + cs : '');
-    history.pushState(null, '', hashUrl);
-    showPage(openItemSection, false);
+  if (!openItemSection) { showPage('home'); return; }
+
+  const sec = SECTIONS[openItemSection];
+  const sd  = sectionData[openItemSection];
+  showPage(openItemSection, false);
+
+  if (sec.hasCategories) {
+    const cs = sd.currentCat || sd.categoryOrder[0] || '';
+    history.pushState(null, '', '#' + sec.urlKey + (cs ? '/' + cs : ''));
     if (cs) switchTab(openItemSection, cs, false);
   } else {
-    showPage('home');
+    history.pushState(null, '', '#' + sec.urlKey);
+    buildGallery(openItemSection, sd.flatRows);
   }
 });
 
-/* ══ SERVICE CARDS on home page → navigate to section ══ */
+/* ══ SERVICE CARDS on home page ══ */
 document.querySelectorAll('.service-card[data-page]').forEach(card => {
   card.addEventListener('click', () => {
     const pageId = card.dataset.page;
-    if (SECTIONS[pageId]) {
-      navigateToSection(pageId);
-    } else {
-      showPage(pageId);
-    }
+    if (SECTIONS[pageId]) navigateToSection(pageId);
+    else showPage(pageId);
   });
 });
 
@@ -1267,7 +1313,7 @@ function routeFromHash() {
   const hash = window.location.hash.replace('#', '');
   if (!hash) { showPage('home', false); return; }
 
-  /* #item/:sectionKey/:slug — detail overlay */
+  /* #item/:sectionKey/:slug */
   if (hash.startsWith('item/')) {
     const parts      = hash.replace('item/', '').split('/');
     const sectionKey = parts[0];
@@ -1280,7 +1326,9 @@ function routeFromHash() {
       if (row) {
         openItemSection = sectionKey;
         openItemSlug    = slug;
-        sd.currentCat   = row._catSlug || sd.categoryOrder[0] || null;
+        if (SECTIONS[sectionKey].hasCategories) {
+          sd.currentCat = row._catSlug || sd.categoryOrder[0] || null;
+        }
         openItem(sectionKey, slug);
       } else {
         navigateToSection(sectionKey);
@@ -1293,39 +1341,45 @@ function routeFromHash() {
     return;
   }
 
-  /* #:sectionKey/:catSlug — gallery with tab */
+  /* #prints/:catSlug — categorised section with specific tab */
   const firstSlash = hash.indexOf('/');
   if (firstSlash > 0) {
     const sectionKey = hash.substring(0, firstSlash);
     const cs         = hash.substring(firstSlash + 1);
     if (SECTIONS[sectionKey]) {
       showPage(sectionKey, false);
-      const sd = sectionData[sectionKey];
+      const sec = SECTIONS[sectionKey];
+      const sd  = sectionData[sectionKey];
       if (sd.loaded) {
-        const target = sd.categoryMap[cs] ? cs : (sd.categoryOrder[0] || null);
-        if (target) switchTab(sectionKey, target, false);
-      } else {
-        loadSection(sectionKey, () => {
+        if (sec.hasCategories) {
           const target = sd.categoryMap[cs] ? cs : (sd.categoryOrder[0] || null);
           if (target) switchTab(sectionKey, target, false);
+        } else {
+          buildGallery(sectionKey, sd.flatRows);
+        }
+      } else {
+        loadSection(sectionKey, () => {
+          if (sec.hasCategories) {
+            const target = sd.categoryMap[cs] ? cs : (sd.categoryOrder[0] || null);
+            if (target) switchTab(sectionKey, target, false);
+          } else {
+            buildGallery(sectionKey, sd.flatRows);
+          }
         });
       }
       return;
     }
   }
 
-  /* #:sectionKey — gallery, first tab */
+  /* #sectionKey — top-level section URL */
   if (SECTIONS[hash]) {
     navigateToSection(hash);
     return;
   }
 
-  /* #home or unknown */
-  if (document.getElementById('page-' + hash)) {
-    showPage(hash, false);
-  } else {
-    showPage('home', false);
-  }
+  /* #home or fallback */
+  if (document.getElementById('page-' + hash)) showPage(hash, false);
+  else showPage('home', false);
 }
 
 window.addEventListener('hashchange', routeFromHash);
@@ -1339,8 +1393,7 @@ window.addEventListener('load', () => {
   const hash = window.location.hash.replace('#', '');
   if (!hash || hash === 'home') {
     showPage('home', false);
-    // Pre-load the first section in the background for faster nav
-    loadSection('prints', null);
+    loadSection('prints', null);  // background prefetch
   } else {
     routeFromHash();
   }
