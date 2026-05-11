@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Le Guide Gastronomique du Siège</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "000000000",
+    appId: "1:000000000:web:000000000"
+  };
+
+  let db = null;
+  try { const app = initializeApp(firebaseConfig); db = getFirestore(app); } catch(e) {}
+  window._fb = { db, collection, addDoc, query, where, getDocs };
+</script>
+
+<style>
+:root {
+  --bg: #f4f2ee;
+  --ink: #111;
+  --mid: #666;
+  --faint: #999;
+  --border: #ddd9d2;
+  --white: #fff;
+  --tag: #ebebeb;
+  --r: 3px;
+  --mono: monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body { font-family: var(--mono); background: var(--bg); color: var(--ink); display: flex; flex-direction: column; height: 100dvh; }
+
+/* LOADER */
+#loader {
+  position: fixed; inset: 0; background: var(--bg);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 9999; gap: 18px; transition: opacity .5s ease;
+}
+#loader.fade { opacity: 0; pointer-events: none; }
+.loader-title { font-family: var(--mono); font-size: 13px; letter-spacing: .08em; color: var(--ink); opacity: .7; }
+.loader-dots { display: flex; gap: 7px; }
+.loader-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--ink); opacity: .15;
+  animation: dotpulse 1.2s infinite ease-in-out;
+}
+.loader-dot:nth-child(2) { animation-delay: .2s; }
+.loader-dot:nth-child(3) { animation-delay: .4s; }
+@keyframes dotpulse { 0%,80%,100% { opacity:.15; transform:scale(.85); } 40% { opacity:.9; transform:scale(1); } }
+
+/* HEADER */
+header {
+  flex-shrink: 0; display: flex; align-items: center; gap: 10px;
+  padding: 9px 14px; border-bottom: 1px solid var(--border); background: var(--bg); flex-wrap: wrap;
+  line-height:1; justify-content:space-between;
+}
+.h-title { font-size: 12px; letter-spacing: .04em; white-space: nowrap; opacity: .7; flex-shrink: 0; }
+.h-btn {
+  font-family: var(--mono); font-size: 11px; border: 1px solid var(--border);
+  background: var(--white); padding: 4px 9px; border-radius: var(--r);
+  cursor: pointer; color: var(--ink); white-space: nowrap; flex-shrink: 0;
+}
+.h-btn:hover { background: var(--tag); }
+.h-btn.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
+/* BODY */
+.app-body { flex: 1; display: flex; overflow: hidden; position: relative; }
+#map { flex: 1; height: 100%; z-index: 1; }
+
+/* PANEL */
+#panel {
+  width: 310px; background: var(--white); border-left: 1px solid var(--border);
+  display: flex; flex-direction: column; overflow: hidden;
+  transition: transform .22s ease; z-index: 10; flex-shrink: 0;
+}
+#panel.hidden { transform: translateX(100%); pointer-events: none; }
+
+@media (max-width: 660px) {
+  #panel { position: absolute; top: 0; right: 0; bottom: 0; width: 100%; border-left: none; }
+  #panel.hidden { transform: translateX(100%); }
+  #panel-close { display: flex !important; }
+  #ldrawer { bottom: 0; top: 0; max-height: 100%; }
+}
+
+#panel-close {
+  position: absolute; top: 9px; right: 12px; font-size: 20px; line-height: 1;
+  background: none; border: none; cursor: pointer; color: var(--faint); z-index: 2;
+  display: none;
+}
+#panel-scroll { 
+    flex: 1; 
+    overflow-y: auto; 
+    padding: 16px 15px 16px; 
+    position: relative; 
+    display: flex;         /* Added */
+    flex-direction: column; /* Added */
+}
+
+/* Create a wrapper style for welcome content to ensure it fills height */
+.welcome-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%; /* Important: allows children to push against each other */
+    flex: 1;
+}
+
+.contribute-box {
+    margin-top: auto; /* This pushes the box to the bottom */
+    background: var(--bg);
+    padding: 15px; 
+    border-radius: var(--r);
+    
+}
+#panel-scroll::-webkit-scrollbar { width: 3px; }
+#panel-scroll::-webkit-scrollbar-thumb { background: var(--border); }
+
+/* Panel content */
+.p-type { font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: var(--faint); margin-bottom: 3px; }
+.p-name { font-size: 19px; font-weight: bold; line-height: 1.2; margin-bottom: 9px; padding-right: 20px; }
+.p-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 11px; }
+.tag { font-size: 10px; padding: 2px 7px; border-radius: 20px; background: var(--tag); color: var(--mid); }
+.tag.g { background: #e6efe6; color: #3a6040; }
+.tag.b { background: #e6ecf5; color: #2a4488; }
+.p-prices { display: flex; gap: 18px; margin-bottom: 12px; }
+.p-pbox { display: flex; flex-direction: column; gap: 2px; }
+.p-plabel { font-size: 9px; text-transform: uppercase; letter-spacing: .1em; color: var(--faint); }
+.p-pval { font-size: 17px; font-weight: bold; }
+.p-hr { border: none; border-top: 1px solid var(--border); margin: 11px 0; }
+.p-comment { font-size: 12px; line-height: 1.65; color: var(--mid); margin-bottom: 10px; }
+.p-meta { font-size: 11px; color: var(--mid); display: flex; align-items: flex-start; gap: 5px; margin-bottom: 5px; }
+.p-link { font-size: 11px; color: var(--ink); text-decoration: underline; text-underline-offset: 3px; display: inline-block; margin-bottom: 14px; }
+.sec-label { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--faint); margin: 14px 0 7px; }
+.avg-row { display: flex; align-items: center; gap: 7px; margin-bottom: 4px; }
+.rv-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+.rv-item { border: 1px solid var(--border); padding: 8px 10px; border-radius: var(--r); }
+.rv-stars { font-size: 12px; margin-bottom: 3px; }
+.rv-text { font-size: 12px; color: var(--mid); line-height: 1.6; }
+.rv-date { font-size: 10px; color: #bbb; margin-top: 3px; }
+.rv-form { display: flex; flex-direction: column; gap: 7px; }
+.star-row { display: flex; gap: 4px; }
+.star-row span { font-size: 22px; cursor: pointer; opacity: .25; transition: opacity .12s, transform .1s; user-select: none; }
+.star-row span.on { opacity: 1; }
+.star-row span:hover { transform: scale(1.15); }
+textarea.rv-input {
+  font-family: var(--mono); font-size: 12px; border: 1px solid var(--border);
+  background: var(--bg); padding: 7px 9px; resize: vertical; min-height: 65px;
+  border-radius: var(--r); outline: none; color: var(--ink); line-height: 1.55;
+}
+textarea.rv-input:focus { border-color: var(--ink); }
+.rv-submit {
+  font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .06em;
+  background: var(--ink); color: #fff; border: none; padding: 7px 12px;
+  cursor: pointer; border-radius: var(--r); align-self: flex-start;
+}
+.rv-submit:hover { opacity: .8; }
+.rv-submit:disabled { opacity: .35; cursor: default; }
+.rv-msg { font-size: 11px; color: var(--mid); }
+
+/* FILTER DRAWER */
+#fdrawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--white);
+  border-left: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 14px;
+  z-index: 20;
+  width: 220px; /* Default for smaller/medium screens */
+  display: none;
+}
+
+#fdrawer.open {
+  display: block;
+}
+   
+#fdrawer h3 { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--faint); margin-bottom: 9px; }
+.f-check { font-size: 12px; display: flex; align-items: center; gap: 6px; cursor: pointer; margin-bottom: 6px; }
+.f-check input { accent-color: var(--ink); }
+.f-types { max-height: 180px; overflow-y: auto; margin-top: 8px; }
+#f-clear { font-family: var(--mono); font-size: 11px; background: none; border: 1px solid var(--border); padding: 4px 8px; cursor: pointer; border-radius: var(--r); margin-top: 8px; }
+.f-types::-webkit-scrollbar {
+  width: 4px;
+}
+.f-types::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
+}
+   
+   @media (min-width: 661px) {
+  #fdrawer {
+    width: 310px; /* Matches #panel width */
+    border-bottom: none; /* Optional: makes it look more integrated */
+  }
+  
+  .f-types {
+    max-height: none !important; /* Removes the scrollbar */
+    overflow-y: visible !important;
+  }
+}
+
+   
+/* LIST DRAWER */
+#ldrawer {
+  position: absolute; bottom: 0; left: 0; right: 0; max-height: 52%;
+  background: var(--white); border-top: 2px solid var(--ink);
+  z-index: 15; display: none; flex-direction: column; overflow: hidden;
+}
+#ldrawer.open { display: flex; }
+.l-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 9px 13px; border-bottom: 1px solid var(--border);
+  font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--mid); flex-shrink: 0;
+}
+.l-header button { font-family: var(--mono); font-size: 11px; background: none; border: none; cursor: pointer; color: var(--mid); }
+.l-rows { overflow-y: auto; flex: 1; }
+.l-rows::-webkit-scrollbar { width: 3px; }
+.l-rows::-webkit-scrollbar-thumb { background: var(--border); }
+.l-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 13px; border-bottom: 1px solid var(--border); cursor: pointer; gap: 10px; }
+.l-row:hover { background: var(--tag); }
+.l-row-left { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.l-name { font-size: 13px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.l-sub { font-size: 10px; color: var(--faint); text-transform: uppercase; letter-spacing: .05em; }
+.l-price { font-size: 12px; white-space: nowrap; }
+
+/* STATUS */
+#status { flex-shrink: 0; font-size: 10px; color: var(--faint); padding: 5px 14px; border-top: 1px solid var(--border); letter-spacing: .04em; background: var(--bg); }
+
+/* LEAFLET */
+.pin {
+  width: 26px; 
+  height: 26px; 
+  border-radius: 50% 50% 50% 0; /* Classic pin/teardrop shape */
+  border: 1.5px solid var(--ink); 
+  background: #fff;
+  cursor: pointer; 
+  box-shadow: -1px 2px 4px rgba(0,0,0,.16); 
+  transition: transform .1s;
+  transform: rotate(-45deg); /* Rotates the teardrop to point down */
+}
+.pin:hover { 
+  transform: rotate(-45deg) scale(1.18); 
+}
+
+/* Overrides for the HO Pin to keep it round and centered */
+.pin.ho {
+  display: flex; align-items: center; justify-content: center;
+  background: var(--ink); color: #fff; width: 32px; height: 32px;
+  font-size: 10px; font-family: var(--mono); font-weight: bold; border-width: 2px;
+  box-shadow: 1px 2px 6px rgba(0,0,0,.25); cursor: pointer;
+  border-radius: 50%; /* Revert back to perfect circle */
+  transform: none; /* Cancel the teardrop rotation */
+}
+.pin.ho:hover { 
+  transform: scale(1.18); 
+}
+
+.leaflet-popup-content-wrapper {
+  font-family: var(--mono); font-size: 12px; border-radius: var(--r);
+  box-shadow: 2px 3px 8px rgba(0,0,0,.1); border: 1px solid var(--border);
+}
+.leaflet-popup-tip-container { display: none; }
+.pu-name { font-size: 13px; font-weight: bold; margin-bottom: 2px; }
+.pu-type { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); }
+.pu-price { font-size: 11px; margin-top: 4px; }
+
+   /* MAP STYLE TOGGLE */
+#map-style-toggle {
+  position: absolute;
+bottom: 14px;
+  left: 14px;
+  z-index: 3;
+  display: flex;
+  gap: 4px;
+  background: rgba(255,255,255,.92);
+  border: 1px solid var(--border);
+  padding: 4px;
+  border-radius: var(--r);
+  backdrop-filter: blur(8px);
+}
+
+.map-style-btn {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .04em;
+  border: none;
+  background: transparent;
+  color: var(--mid);
+  padding: 5px 8px;
+  border-radius: 2px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.map-style-btn:hover {
+  background: var(--tag);
+  color: var(--ink);
+}
+
+.map-style-btn.active {
+  background: var(--ink);
+  color: var(--white);
+}
+
+@media (max-width: 660px) {
+  #map-style-toggle {
+      bottom: 10px;
+  left: 10px;
+  }
+
+  .map-style-btn {
+    font-size: 9px;
+    padding: 5px 7px;
+  }
+}
+/* This targets the tiles only when they are satellite tiles */
+.satellite-fade .leaflet-tile-container {
+    filter: opacity(0.9) saturate(0.9) brightness(0.96);
+}
+   
+</style>
+</head>
+<body>
+
+<div id="loader">
+  <div class="loader-title">Le Guide Gastronomique du Siège</div>
+  <div class="loader-dots">
+    <div class="loader-dot"></div>
+    <div class="loader-dot"></div>
+    <div class="loader-dot"></div>
+  </div>
+</div>
+
+<header>
+  <div class="h-title">Le Guide<br>Gastronomique<br>du Siège</div>
+  <span>
+    <button class="h-btn" id="btn-list">list</button>
+    <button class="h-btn" id="btn-filter">filter ▾</button>
+  </span>
+</header>
+
+<div class="app-body">
+  <div id="map"></div>
+<div id="map-style-toggle">
+  <button class="map-style-btn active" data-style="color">classic</button>
+  <button class="map-style-btn" data-style="satellite">satellite</button>
+</div>
+  <div id="panel" class="hidden">
+    <button id="panel-close">×</button>
+    <div id="panel-scroll"></div>
+  </div>
+
+  <div id="fdrawer">
+    <h3>Filter</h3>
+    <label class="f-check"><input type="checkbox" id="f-veggie"> ✓ Veggie option</label>
+    <label class="f-check"><input type="checkbox" id="f-takeway"> ✓ Takeaway</label>
+    <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);margin-top:8px;margin-bottom:4px;">Food type</div>
+    <div class="f-types" id="f-types"></div>
+    <button id="f-clear">clear all</button>
+  </div>
+
+  <div id="ldrawer">
+    <div class="l-header">
+      <span id="l-count">—</span>
+      <button id="l-close">close ×</button>
+    </div>
+    <div class="l-rows" id="l-rows"></div>
+  </div>
+</div>
+
+<div id="status">loading…</div>
+
+<script>
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR9viASh_DhBBOV3FVoJmDmWf7l4DYPQFfeXZGKo832FYcoS0dagyD0qrXhWbDzoxY9_BYpngKc1Pow/pub?output=csv";
+const HQ = { lat: 48.862233, lng: 2.304713 };
+
+const map = L.map('map', { zoomControl: false }).setView([HQ.lat - 0.003, HQ.lng], 16);
+L.control.zoom({ position: 'bottomright' }).addTo(map);
+const mapStyles = {
+  color: L.tileLayer(
+    'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    {
+      attribution: '© OpenStreetMap © CARTO',
+      subdomains: 'abcd',
+      maxZoom: 20
+    }
+  ),
+
+  satellite: L.tileLayer(
+    'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    {
+      attribution: 'Tiles © Esri',
+      maxZoom: 19
+    }
+  )
+};
+
+let currentLayer = mapStyles.color;
+   
+currentLayer.addTo(map);
+const isMobile = () => window.innerWidth <= 660;
+const hoIcon = L.divIcon({ html: '<div class="pin ho">HO</div>', className: '', iconSize:[32,32], iconAnchor:[16,16] });
+const hoMarker = L.marker([HQ.lat, HQ.lng], { icon: hoIcon }).addTo(map);
+
+// The "Rectangle" popup
+hoMarker.bindPopup(`
+  <div class="pu-name">Air Liquide</div>
+  <div class="pu-type">Head Office</div>
+`);
+
+// Combined Marker Click Logic
+hoMarker.on('click', (e) => {
+  // Only open the panel if the user is NOT on a mobile-sized screen
+  if (!isMobile()) {
+    showWelcomePanel(true);
+  }
+  // On mobile, Leaflet's default behavior will still show the popup 
+  // defined above, but the side/bottom panel will remain hidden.
+});
+   
+hoMarker.on('click', () => showWelcomePanel(true));
+
+let allR = [], markerObjs = [];
+const filters = { search:'', veggie:false, takeway:false, types: new Set() };
+let filtered = new Set();
+let selRating = 0;
+
+
+
+function showWelcomePanel(fromPin) {
+  const panel  = document.getElementById('panel');
+  const scroll = document.getElementById('panel-scroll');
+  const closeBtn = document.getElementById('panel-close');
+
+  if (isMobile()) return;
+
+  panel.classList.remove('hidden');
+  closeBtn.style.display = 'none';
+
+  scroll.innerHTML = `
+    <div class="welcome-content">
+      <div style="padding-top: 5px;">
+        <div class="p-type">Welcome</div>
+        <p class="p-comment" style="font-size: 13px; margin-bottom: 25px;">
+          Click on any pin on the map to explore details, view prices, and read reviews from AL colleagues :)
+        </p>
+      </div>
+      
+      <div class="contribute-box">
+        <div style="font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--faint); margin-bottom: 8px;">Contribute</div>
+        <p style="font-size: 12px; color: var(--mid); margin-bottom: 12px; line-height: 1.5;">
+          You can add your own suggestions and help grow the guide!
+        </p>
+        <a href="YOUR_GOOGLE_SHEET_LINK" target="_blank" rel="noopener" class="p-link" style="margin-bottom: 0; font-weight: bold; font-size: 12px;">Add suggestions to Google Sheet ↗</a>
+      </div>
+    </div>
+  `;
+}
+
+Papa.parse(CSV_URL, {
+  download: true, header: true, skipEmptyLines: true,
+  complete: ({ data }) => {
+    allR = data
+      .map((row, i) => {
+        const r = {};
+        for (const k in row) r[k.trim()] = (row[k] || '').trim();
+        r._id  = i;
+        r._lat = parseFloat(r['Latitude']  || r['latitude']  || '');
+        r._lng = parseFloat(r['Longitude'] || r['longitude'] || '');
+        return r;
+      })
+      .filter(r => !isNaN(r._lat) && !isNaN(r._lng));
+
+    buildTypeFilters();
+    applyFilters();
+    setStatus(`${allR.length} restaurants · click a pin`);
+
+    setTimeout(() => {
+      const loader = document.getElementById('loader');
+      loader.classList.add('fade');
+      setTimeout(() => loader.remove(), 500);
+      if (!isMobile()) showWelcomePanel(false);
+    }, 600);
+  },
+  error: () => {
+    setStatus('error loading CSV');
+    const loader = document.getElementById('loader');
+    loader.classList.add('fade');
+    setTimeout(() => loader.remove(), 500);
+  }
+});
+
+function buildMarkers() {
+  markerObjs.forEach(m => m.remove());
+  markerObjs = [];
+  allR.filter(r => filtered.has(r._id)).forEach(r => {
+    // Removed the initials logic here, just pass the empty pin div
+    const icon = L.divIcon({ html: `<div class="pin"></div>`, className: '', iconSize:[24,24], iconAnchor:[12, 29] });
+    const m = L.marker([r._lat, r._lng], { icon }).addTo(map)
+      .bindPopup(`
+        <div class="pu-name">${r['Name'] || '—'}</div>
+        <div class="pu-type">${r['Food type'] || ''}</div>`);
+    m.on('click', () => openPanel(r));
+    markerObjs.push(m);
+  });
+}
+
+function applyFilters() {
+  const q = filters.search.toLowerCase();
+  filtered = new Set();
+  allR.forEach(r => {
+    if (q && !(r['Name']||'').toLowerCase().includes(q) && !(r['Food type']||'').toLowerCase().includes(q)) return;
+    if (filters.veggie  && (r['Veggie Option']||r['Veggie option']||'').toLowerCase() !== 'oui') return;
+    if (filters.takeway && (r['Take away']||r['Takeaway']||'').toLowerCase() !== 'oui') return;
+    if (filters.types.size && !filters.types.has((r['Food type']||'').toLowerCase())) return;
+    filtered.add(r._id);
+  });
+  buildMarkers();
+  buildList();
+  setStatus(`${filtered.size} restaurant${filtered.size!==1?'s':''} · click a pin`);
+}
+
+function buildTypeFilters() {
+  const types = [...new Set(allR.map(r => (r['Food type']||'').toLowerCase()))].filter(Boolean).sort();
+  const el = document.getElementById('f-types');
+  types.forEach(t => {
+    const lbl = document.createElement('label');
+    lbl.className = 'f-check';
+    lbl.innerHTML = `<input type="checkbox" value="${t}"> ${t}`;
+    lbl.querySelector('input').addEventListener('change', e => {
+      e.target.checked ? filters.types.add(t) : filters.types.delete(t);
+      applyFilters();
+    });
+    el.appendChild(lbl);
+  });
+}
+
+async function openPanel(r) {
+  const panel  = document.getElementById('panel');
+  const scroll = document.getElementById('panel-scroll');
+  const closeBtn = document.getElementById('panel-close');
+
+  panel.classList.remove('hidden');
+  closeBtn.style.display = 'flex';
+
+  const name    = r['Name'] || '—';
+  const type    = r['Food type'] || '';
+  const small   = r['Small price'] || 'N/A';
+  const formula = r['Formula price'] || r['Formula'] || 'N/A';
+  const comment = r['Comments'] || r['Comment'] || '';
+  const walk    = r['Walkable Distance'] || r['Walk'] || '';
+  const addr    = r['Address'] || '';
+  const takeway = (r['Take away']||r['Takeaway']||'').toLowerCase() === 'oui';
+  const veggie  = (r['Veggie Option']||r['Veggie option']||'').toLowerCase() === 'oui';
+  const website = r['Website'] || '';
+
+  scroll.innerHTML = `
+    <div class="p-type">${type}</div>
+    <div class="p-name">${name}</div>
+    <div class="p-tags">
+      ${takeway ? '<span class="tag b">✓ takeaway</span>' : ''}
+      ${veggie  ? '<span class="tag g">✓ veggie</span>'   : ''}
+    </div>
+    <div class="p-prices">
+      <div class="p-pbox"><div class="p-plabel">small</div><div class="p-pval">${small}</div></div>
+      ${formula ? `<div class="p-pbox"><div class="p-plabel">formule</div><div class="p-pval">${formula}</div></div>` : ''}
+    </div>
+    ${comment ? `<hr class="p-hr"><p class="p-comment">${comment}</p>` : ''}
+    <hr class="p-hr">
+    ${walk  ? `<div class="p-meta">🚶 <span>${walk} walk</span></div>` : ''}
+    ${addr  ? `<div class="p-meta">📍 <span style="font-size:11px">${addr}</span></div>` : ''}
+    ${website ? `<a class="p-link" href="${website}" target="_blank" rel="noopener">Website ↗</a>` : ''}
+    <div id="reviews-container">
+      <div style="font-size:11px;color:var(--faint);padding-top:14px">loading reviews...</div>
+    </div>`;
+
+  map.flyTo([r._lat, r._lng], Math.max(map.getZoom(), 16), { duration: .6 });
+
+  loadReviews(name).then(reviews => {
+    const avg = reviews.length ? (reviews.reduce((a,b) => a+b.stars, 0) / reviews.length).toFixed(1) : null;
+    const container = document.getElementById('reviews-container');
+    if (!container) return;
+
+    container.innerHTML = `
+      ${avg ? `<div class="avg-row">
+        <span style="font-size:14px">${starStr(+avg)}</span>
+        <span style="font-size:11px;color:var(--mid)">${avg} · ${reviews.length} review${reviews.length>1?'s':''}</span>
+      </div>` : ''}
+      <div class="sec-label">reviews</div>
+      <div class="rv-list" id="rv-list">
+        ${reviews.length
+          ? reviews.map(rv => `
+            <div class="rv-item">
+              <div class="rv-stars">${starStr(rv.stars)}</div>
+              ${rv.text ? `<div class="rv-text">${rv.text}</div>` : ''}
+              <div class="rv-date">${rv.date || ''}</div>
+            </div>`).join('')
+          : '<div style="font-size:12px;color:#bbb">no reviews yet</div>'}
+      </div>
+      <div class="sec-label">leave a review</div>
+      <div class="rv-form">
+        <div class="star-row" id="star-row">
+          <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
+        </div>
+        <textarea class="rv-input" id="rv-text" placeholder="your thoughts… (optional)"></textarea>
+        <button class="rv-submit" id="rv-submit">post review</button>
+        <div class="rv-msg" id="rv-msg"></div>
+      </div>`;
+
+    selRating = 0;
+    document.querySelectorAll('#star-row span').forEach(s => {
+      s.addEventListener('mouseover', () => hlStars(+s.dataset.v));
+      s.addEventListener('mouseout',  () => hlStars(selRating));
+      s.addEventListener('click',     () => { selRating = +s.dataset.v; hlStars(selRating); });
+    });
+
+    document.getElementById('rv-submit').addEventListener('click', async () => {
+      if (!selRating) { document.getElementById('rv-msg').textContent = 'select a rating first'; return; }
+      const btn = document.getElementById('rv-submit');
+      btn.disabled = true; btn.textContent = 'posting…';
+      await saveReview(name, selRating, document.getElementById('rv-text').value.trim());
+      document.getElementById('rv-msg').textContent = '✓ posted!';
+      btn.textContent = 'posted';
+      const fresh = await loadReviews(name);
+      const el = document.getElementById('rv-list');
+      if (el) el.innerHTML = fresh.map(rv => `
+        <div class="rv-item">
+          <div class="rv-stars">${starStr(rv.stars)}</div>
+          ${rv.text ? `<div class="rv-text">${rv.text}</div>` : ''}
+          <div class="rv-date">${rv.date || ''}</div>
+        </div>`).join('');
+    });
+  });
+}
+
+function hlStars(n) { document.querySelectorAll('#star-row span').forEach(s => s.classList.toggle('on', +s.dataset.v <= n)); }
+function starStr(n) { const f = Math.round(n); return '★'.repeat(f) + '☆'.repeat(5-f); }
+
+const _local = {};
+async function saveReview(rname, rating, text) {
+  const date = new Date().toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' });
+  const rv = { restaurantName: rname, stars: rating, text, date };
+  const fb = window._fb;
+  if (fb?.db) { try { await fb.addDoc(fb.collection(fb.db, 'reviews'), rv); return; } catch {} }
+  (_local[rname] = _local[rname] || []).unshift(rv);
+}
+async function loadReviews(rname) {
+  const fb = window._fb;
+  if (fb?.db) {
+    try {
+      const snap = await fb.getDocs(fb.query(fb.collection(fb.db,'reviews'), fb.where('restaurantName','==',rname)));
+      return snap.docs.map(d => d.data());
+    } catch {}
+  }
+  return _local[rname] || [];
+}
+
+function buildList() {
+  const vis = allR.filter(r => filtered.has(r._id));
+  document.getElementById('l-count').textContent = `${vis.length} restaurant${vis.length!==1?'s':''}`;
+  const el = document.getElementById('l-rows');
+  el.innerHTML = '';
+  vis.forEach(r => {
+    const row = document.createElement('div');
+    row.className = 'l-row';
+    row.innerHTML = `
+      <div class="l-row-left">
+        <div class="l-name">${r['Name'] || '—'}</div>
+        <div class="l-sub">${r['Food type']||''} · ${r['Walkable Distance']||''}</div>
+      </div>
+      <div class="l-price">
+        <div style="font-size:9px;color:var(--faint);text-transform:uppercase;">small</div>
+        <div style="font-size:11px">${r['Small price'] || 'N/A'}</div>
+        ${(r['Formula price']) ? `<div style="font-size:9px;color:var(--faint);text-transform:uppercase;margin-top:4px;">formule</div><div style="font-size:11px;">${r['Formula price']}</div>` : ''}
+      </div>`;
+    row.addEventListener('click', () => {
+      document.getElementById('ldrawer').classList.remove('open');
+      document.getElementById('btn-list').classList.remove('active');
+      openPanel(r);
+    });
+    el.appendChild(row);
+  });
+}
+
+document.getElementById('panel-close').addEventListener('click', () => {
+  const panel = document.getElementById('panel');
+  if (isMobile()) {
+    panel.classList.add('hidden');
+  } else {
+    showWelcomePanel(false);
+  }
+});
+
+document.getElementById('f-veggie').addEventListener('change',  e => { filters.veggie  = e.target.checked; applyFilters(); });
+document.getElementById('f-takeway').addEventListener('change', e => { filters.takeway = e.target.checked; applyFilters(); });
+document.getElementById('f-clear').addEventListener('click', () => {
+  filters.veggie = false; filters.takeway = false; filters.types = new Set();
+  document.querySelectorAll('#fdrawer input').forEach(i => i.checked = false);
+  applyFilters();
+});
+document.querySelectorAll('.map-style-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const style = btn.dataset.style;
+
+    map.removeLayer(currentLayer);
+    currentLayer = mapStyles[style];
+    currentLayer.addTo(map);
+
+    // Toggle the fade class based on the style
+    const mapContainer = document.getElementById('map');
+    if (style === 'satellite') {
+      mapContainer.classList.add('satellite-fade');
+    } else {
+      mapContainer.classList.remove('satellite-fade');
+    }
+
+    document.querySelectorAll('.map-style-btn')
+      .forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+});
+const btnFilter = document.getElementById('btn-filter');
+const fdrawer   = document.getElementById('fdrawer');
+btnFilter.addEventListener('click', e => { e.stopPropagation(); fdrawer.classList.toggle('open'); btnFilter.classList.toggle('active'); });
+document.addEventListener('click', e => { if (!fdrawer.contains(e.target) && e.target !== btnFilter) { fdrawer.classList.remove('open'); btnFilter.classList.remove('active'); } });
+
+const btnList = document.getElementById('btn-list');
+const ldrawer = document.getElementById('ldrawer');
+btnList.addEventListener('click', () => { ldrawer.classList.toggle('open'); btnList.classList.toggle('active'); buildList(); });
+document.getElementById('l-close').addEventListener('click', () => { ldrawer.classList.remove('open'); btnList.classList.remove('active'); });
+map.on('click', () => { ldrawer.classList.remove('open'); btnList.classList.remove('active'); fdrawer.classList.remove('open'); btnFilter.classList.remove('active'); });
+
+function setStatus(t) { document.getElementById('status').textContent = t; }
+</script>
+</body>
+</html>
