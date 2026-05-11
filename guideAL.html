@@ -13,13 +13,14 @@
   import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_PROJECT.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT.appspot.com",
-    messagingSenderId: "000000000",
-    appId: "1:000000000:web:000000000"
+    apiKey: "AIzaSyBS9EXAMlw_9n1ufIBUH7_N1rwspqLAQWU",
+    authDomain: "guide-gastronomique.firebaseapp.com",
+    projectId: "guide-gastronomique",
+    storageBucket: "guide-gastronomique.firebasestorage.app",
+    messagingSenderId: "531350210168",
+    appId: "1:531350210168:web:a31841e593cdf870208f8d"
   };
+
 
   let db = null;
   try { const app = initializeApp(firebaseConfig); db = getFirestore(app); } catch(e) {}
