@@ -10,7 +10,7 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, query, where, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBS9EXAMlw_9n1ufIBUH7_N1rwspqLAQWU",
@@ -21,10 +21,9 @@
     appId: "1:531350210168:web:a31841e593cdf870208f8d"
   };
 
-
   let db = null;
   try { const app = initializeApp(firebaseConfig); db = getFirestore(app); } catch(e) {}
-  window._fb = { db, collection, addDoc, query, where, getDocs };
+  window._fb = { db, collection, addDoc, query, where, getDocs, deleteDoc, doc };
 </script>
 
 <style>
@@ -95,7 +94,7 @@ header {
 }
 
 #panel-close {
-  position: absolute; top: 9px; right: 12px; font-size: 20px; line-height: 1;
+  position: absolute; top: 9px; right: 12px; font-size: 36px; line-height: 1;
   background: none; border: none; cursor: pointer; color: var(--faint); z-index: 2;
   display: none;
 }
@@ -145,20 +144,24 @@ header {
 .avg-row { display: flex; align-items: center; gap: 7px; margin-bottom: 4px; }
 .rv-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
 .rv-item { border: 1px solid var(--border); padding: 8px 10px; border-radius: var(--r); }
-.rv-stars { font-size: 12px; margin-bottom: 3px; }
+.rv-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+.rv-author { font-size: 12px; font-weight: bold; }
+.rv-stars { font-size: 12px; margin-top: 2px; }
+.rv-delete { background: none; border: none; font-size: 16px; cursor: pointer; color: var(--faint); line-height: 1; padding: 0 4px; }
+.rv-delete:hover { color: #d44; }
 .rv-text { font-size: 12px; color: var(--mid); line-height: 1.6; }
-.rv-date { font-size: 10px; color: #bbb; margin-top: 3px; }
+.rv-date { font-size: 10px; color: #bbb; margin-top: 5px; }
 .rv-form { display: flex; flex-direction: column; gap: 7px; }
 .star-row { display: flex; gap: 4px; }
 .star-row span { font-size: 22px; cursor: pointer; opacity: .25; transition: opacity .12s, transform .1s; user-select: none; }
 .star-row span.on { opacity: 1; }
 .star-row span:hover { transform: scale(1.15); }
-textarea.rv-input {
+.rv-input {
   font-family: var(--mono); font-size: 12px; border: 1px solid var(--border);
-  background: var(--bg); padding: 7px 9px; resize: vertical; min-height: 65px;
-  border-radius: var(--r); outline: none; color: var(--ink); line-height: 1.55;
+  background: var(--bg); padding: 7px 9px; border-radius: var(--r); outline: none; color: var(--ink); line-height: 1.55;
 }
-textarea.rv-input:focus { border-color: var(--ink); }
+textarea.rv-input { resize: vertical; min-height: 65px; }
+.rv-input:focus { border-color: var(--ink); }
 .rv-submit {
   font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .06em;
   background: var(--ink); color: #fff; border: none; padding: 7px 12px;
@@ -426,8 +429,6 @@ hoMarker.on('click', (e) => {
   if (!isMobile()) {
     showWelcomePanel(true);
   }
-  // On mobile, Leaflet's default behavior will still show the popup 
-  // defined above, but the side/bottom panel will remain hidden.
 });
    
 hoMarker.on('click', () => showWelcomePanel(true));
@@ -436,7 +437,7 @@ let allR = [], markerObjs = [];
 const filters = { search:'', veggie:false, takeway:false, types: new Set() };
 let filtered = new Set();
 let selRating = 0;
-
+let myReviews = JSON.parse(localStorage.getItem('myReviews') || '[]');
 
 
 function showWelcomePanel(fromPin) {
@@ -506,7 +507,6 @@ function buildMarkers() {
   markerObjs.forEach(m => m.remove());
   markerObjs = [];
   allR.filter(r => filtered.has(r._id)).forEach(r => {
-    // Removed the initials logic here, just pass the empty pin div
     const icon = L.divIcon({ html: `<div class="pin"></div>`, className: '', iconSize:[24,24], iconAnchor:[12, 29] });
     const m = L.marker([r._lat, r._lng], { icon }).addTo(map)
       .bindPopup(`
@@ -596,28 +596,22 @@ async function openPanel(r) {
     container.innerHTML = `
       ${avg ? `<div class="avg-row">
         <span style="font-size:14px">${starStr(+avg)}</span>
-        <span style="font-size:11px;color:var(--mid)">${avg} · ${reviews.length} review${reviews.length>1?'s':''}</span>
+        <span style="font-size:11px;color:var(--mid)">${avg} · <span id="rv-count">${reviews.length}</span> review${reviews.length>1?'s':''}</span>
       </div>` : ''}
       <div class="sec-label">reviews</div>
-      <div class="rv-list" id="rv-list">
-        ${reviews.length
-          ? reviews.map(rv => `
-            <div class="rv-item">
-              <div class="rv-stars">${starStr(rv.stars)}</div>
-              ${rv.text ? `<div class="rv-text">${rv.text}</div>` : ''}
-              <div class="rv-date">${rv.date || ''}</div>
-            </div>`).join('')
-          : '<div style="font-size:12px;color:#bbb">no reviews yet</div>'}
-      </div>
+      <div class="rv-list" id="rv-list"></div>
       <div class="sec-label">leave a review</div>
       <div class="rv-form">
+        <input type="text" class="rv-input" id="rv-name" placeholder="your name">
         <div class="star-row" id="star-row">
           <span data-v="1">★</span><span data-v="2">★</span><span data-v="3">★</span><span data-v="4">★</span><span data-v="5">★</span>
         </div>
-        <textarea class="rv-input" id="rv-text" placeholder="your thoughts… (optional)"></textarea>
+        <textarea class="rv-input" id="rv-text" placeholder="your thoughts…"></textarea>
         <button class="rv-submit" id="rv-submit">post review</button>
         <div class="rv-msg" id="rv-msg"></div>
       </div>`;
+
+    updateReviewsList(reviews, name);
 
     selRating = 0;
     document.querySelectorAll('#star-row span').forEach(s => {
@@ -627,44 +621,157 @@ async function openPanel(r) {
     });
 
     document.getElementById('rv-submit').addEventListener('click', async () => {
-      if (!selRating) { document.getElementById('rv-msg').textContent = 'select a rating first'; return; }
+      const authorName = document.getElementById('rv-name').value.trim();
+      const reviewText = document.getElementById('rv-text').value.trim();
+
+      if (!authorName) { document.getElementById('rv-msg').textContent = 'enter your name'; return; }
+      if (!selRating) { document.getElementById('rv-msg').textContent = 'select a rating'; return; }
+      if (!reviewText) { document.getElementById('rv-msg').textContent = 'share your thoughts'; return; }
+
       const btn = document.getElementById('rv-submit');
       btn.disabled = true; btn.textContent = 'posting…';
-      await saveReview(name, selRating, document.getElementById('rv-text').value.trim());
+      
+      const newId = await saveReview(name, selRating, reviewText, authorName);
+      if (newId) {
+        myReviews.push(newId);
+        localStorage.setItem('myReviews', JSON.stringify(myReviews));
+      }
+
       document.getElementById('rv-msg').textContent = '✓ posted!';
-      btn.textContent = 'posted';
+      btn.textContent = 'post review';
+      btn.disabled = false;
+      
+      // Clear inputs
+      document.getElementById('rv-name').value = '';
+      document.getElementById('rv-text').value = '';
+      selRating = 0; hlStars(0);
+
       const fresh = await loadReviews(name);
-      const el = document.getElementById('rv-list');
-      if (el) el.innerHTML = fresh.map(rv => `
-        <div class="rv-item">
-          <div class="rv-stars">${starStr(rv.stars)}</div>
-          ${rv.text ? `<div class="rv-text">${rv.text}</div>` : ''}
-          <div class="rv-date">${rv.date || ''}</div>
-        </div>`).join('');
+      updateReviewsList(fresh, name);
     });
   });
+}
+
+// 1. Update the display logic to look for multiple possible field names
+function updateReviewsList(reviews, rname) {
+  const el = document.getElementById('rv-list');
+  if (!el) return;
+  
+  if (document.getElementById('rv-count')) {
+    document.getElementById('rv-count').textContent = reviews.length;
+  }
+
+  if (!reviews.length) {
+    el.innerHTML = '<div style="font-size:12px;color:#bbb">no reviews yet</div>';
+    return;
+  }
+
+  el.innerHTML = reviews.map(rv => {
+    const isMine = myReviews.includes(rv.id);
+    
+    // DEFENSIVE CHECK: Try authorName, then name, then author, then fallback to Anonymous
+    const displayAuthor = rv.authorName || rv.name || rv.author || 'Anonymous';
+    
+    return `
+    <div class="rv-item">
+      <div class="rv-header">
+        <div>
+          <div class="rv-author">${displayAuthor}</div>
+          <div class="rv-stars">${starStr(rv.stars)}</div>
+        </div>
+        ${isMine ? `<button class="rv-delete" data-id="${rv.id}" title="Delete review">×</button>` : ''}
+      </div>
+      <div class="rv-text">${rv.text}</div>
+      <div class="rv-date">${rv.date || ''}</div>
+    </div>`;
+  }).join('');
+
+  // Re-attach delete listeners
+  el.querySelectorAll('.rv-delete').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      btn.style.opacity = '0.3';
+      const id = btn.dataset.id;
+      await deleteReview(rname, id);
+      myReviews = myReviews.filter(rId => rId !== id);
+      localStorage.setItem('myReviews', JSON.stringify(myReviews));
+      const fresh = await loadReviews(rname);
+      updateReviewsList(fresh, rname);
+    });
+  });
+}
+
+// 2. Ensure saveReview is explicitly using 'authorName'
+async function saveReview(rname, rating, text, authorName) {
+  const date = new Date().toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' });
+  
+  // We save it as authorName, but you can add 'name' too for double safety
+  const rv = { 
+    restaurantName: rname, 
+    stars: rating, 
+    text: text, 
+    authorName: authorName, // Modern field
+    name: authorName,       // Legacy fallback field
+    date: date 
+  };
+
+  const fb = window._fb;
+  if (fb?.db) { 
+    try { 
+      const docRef = await fb.addDoc(fb.collection(fb.db, 'reviews'), rv); 
+      return docRef.id; 
+    } catch (e) {
+      console.error("Firebase Error:", e);
+    } 
+  }
+  
+  // Local fallback if Firebase fails
+  rv.id = Date.now().toString();
+  (_local[rname] = _local[rname] || []).unshift(rv);
+  return rv.id;
 }
 
 function hlStars(n) { document.querySelectorAll('#star-row span').forEach(s => s.classList.toggle('on', +s.dataset.v <= n)); }
 function starStr(n) { const f = Math.round(n); return '★'.repeat(f) + '☆'.repeat(5-f); }
 
 const _local = {};
-async function saveReview(rname, rating, text) {
+async function saveReview(rname, rating, text, authorName) {
   const date = new Date().toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' });
-  const rv = { restaurantName: rname, stars: rating, text, date };
+  const rv = { restaurantName: rname, stars: rating, text, authorName, date };
   const fb = window._fb;
-  if (fb?.db) { try { await fb.addDoc(fb.collection(fb.db, 'reviews'), rv); return; } catch {} }
+  if (fb?.db) { 
+    try { 
+      const docRef = await fb.addDoc(fb.collection(fb.db, 'reviews'), rv); 
+      return docRef.id; 
+    } catch {} 
+  }
+  rv.id = Date.now().toString();
   (_local[rname] = _local[rname] || []).unshift(rv);
+  return rv.id;
 }
+
 async function loadReviews(rname) {
   const fb = window._fb;
   if (fb?.db) {
     try {
       const snap = await fb.getDocs(fb.query(fb.collection(fb.db,'reviews'), fb.where('restaurantName','==',rname)));
-      return snap.docs.map(d => d.data());
+      // Map over docs to attach their unique Firebase ID for deletion mapping later
+      return snap.docs.map(d => ({ ...d.data(), id: d.id }));
     } catch {}
   }
   return _local[rname] || [];
+}
+
+async function deleteReview(rname, id) {
+  const fb = window._fb;
+  if (fb?.db) {
+    try {
+      await fb.deleteDoc(fb.doc(fb.db, 'reviews', id));
+      return;
+    } catch {}
+  }
+  if (_local[rname]) {
+    _local[rname] = _local[rname].filter(r => r.id !== id);
+  }
 }
 
 function buildList() {
