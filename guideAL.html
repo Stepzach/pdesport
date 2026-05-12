@@ -37,6 +37,10 @@
   --tag: #ebebeb;
   --r: 3px;
   --mono: monospace;
+  --header-h: 54px;
+  --status-h: 28px;
+  --panel-w: 310px;
+  --filter-active-color: #2a6db5;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { height: 100%; overflow: hidden; }
@@ -62,8 +66,8 @@ body { font-family: var(--mono); background: var(--bg); color: var(--ink); displ
 /* HEADER */
 header {
   flex-shrink: 0; display: flex; align-items: center; gap: 10px;
-  padding: 9px 14px; border-bottom: 1px solid var(--border); background: var(--bg); flex-wrap: wrap;
-  line-height:1; justify-content:space-between;
+  padding: 9px 14px; border-bottom: 1px solid var(--border); background: var(--bg);
+  line-height: 1; justify-content: space-between; height: var(--header-h);
 }
 .h-title { font-size: 12px; letter-spacing: .04em; white-space: nowrap; opacity: .7; flex-shrink: 0; }
 .h-btn {
@@ -73,57 +77,48 @@ header {
 }
 .h-btn:hover { background: var(--tag); }
 .h-btn.active { background: var(--ink); color: var(--white); border-color: var(--ink); }
+/* Filter button active-filter state: blueish border */
+.h-btn.filter-has-active {
+  border: 1.5px solid var(--filter-active-color);
+  color: var(--filter-active-color);
+}
+.h-btn.filter-has-active.active {
+  background: var(--filter-active-color);
+  color: var(--white);
+  border-color: var(--filter-active-color);
+}
 
 /* BODY */
-.app-body { flex: 1; display: flex; overflow: hidden; position: relative; }
+.app-body { flex: 1; display: flex; overflow: hidden; position: relative; min-height: 0; }
 #map { flex: 1; height: 100%; z-index: 1; }
 
 /* PANEL */
 #panel {
-  width: 310px; background: var(--white); border-left: 1px solid var(--border);
+  width: var(--panel-w); background: var(--white); border-left: 1px solid var(--border);
   display: flex; flex-direction: column; overflow: hidden;
   transition: transform .22s ease; z-index: 10; flex-shrink: 0;
 }
 #panel.hidden { transform: translateX(100%); pointer-events: none; }
 
-@media (max-width: 660px) {
-  #panel { position: absolute; top: 0; right: 0; bottom: 0; width: 100%; border-left: none; }
-  #panel.hidden { transform: translateX(100%); }
-  #panel-close { display: flex !important; }
-  #ldrawer { bottom: 0; top: 0; max-height: 100%; }
+#panel-scroll {
+  flex: 1; overflow-y: auto; padding: 16px 15px 16px;
+  position: relative; display: flex; flex-direction: column;
 }
+#panel-scroll::-webkit-scrollbar { width: 3px; }
+#panel-scroll::-webkit-scrollbar-thumb { background: var(--border); }
 
 #panel-close {
   position: absolute; top: 9px; right: 12px; font-size: 36px; line-height: 1;
   background: none; border: none; cursor: pointer; color: var(--faint); z-index: 2;
   display: none;
 }
-#panel-scroll { 
-    flex: 1; 
-    overflow-y: auto; 
-    padding: 16px 15px 16px; 
-    position: relative; 
-    display: flex;         /* Added */
-    flex-direction: column; /* Added */
-}
 
-/* Create a wrapper style for welcome content to ensure it fills height */
 .welcome-content {
-    display: flex;
-    flex-direction: column;
-    min-height: 100%; /* Important: allows children to push against each other */
-    flex: 1;
+  display: flex; flex-direction: column; min-height: 100%; flex: 1;
 }
-
 .contribute-box {
-    margin-top: auto; /* This pushes the box to the bottom */
-    background: var(--bg);
-    padding: 15px; 
-    border-radius: var(--r);
-    
+  margin-top: auto; background: var(--bg); padding: 15px; border-radius: var(--r);
 }
-#panel-scroll::-webkit-scrollbar { width: 3px; }
-#panel-scroll::-webkit-scrollbar-thumb { background: var(--border); }
 
 /* Panel content */
 .p-type { font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: var(--faint); margin-bottom: 3px; }
@@ -171,104 +166,311 @@ textarea.rv-input { resize: vertical; min-height: 65px; }
 .rv-submit:disabled { opacity: .35; cursor: default; }
 .rv-msg { font-size: 11px; color: var(--mid); }
 
-/* FILTER DRAWER */
+/* ── ACTIVE FILTER CHIPS on map ──────────────────────────────────── */
+#filter-chips {
+  position: absolute;
+  z-index: 4;
+  display: none;
+  flex-wrap: wrap;
+  gap: 5px;
+  max-width: 320px;
+  pointer-events: auto;
+}
+/* Desktop: top-left */
+@media (min-width: 661px) {
+  #filter-chips {
+    top: 12px; left: 12px;
+  }
+}
+/* Mobile map view: top-right */
+@media (max-width: 660px) {
+  #filter-chips {
+    top: 12px; right: 12px; left: auto;
+    max-width: 200px;
+    justify-content: flex-end;
+  }
+}
+#filter-chips.visible { display: flex; }
+
+.fchip {
+  font-family: var(--mono); font-size: 10px;
+  background: rgba(255,255,255,.95);
+  border: 1px solid var(--filter-active-color);
+  color: var(--filter-active-color);
+  border-radius: 20px;
+  padding: 3px 8px;
+  white-space: nowrap;
+  backdrop-filter: blur(4px);
+}
+.fchip-clear {
+  font-family: var(--mono); font-size: 10px;
+  background: var(--filter-active-color);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 3px 9px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.fchip-clear:hover { opacity: .85; }
+
+/* ── FILTER DRAWER — desktop: full-height panel on right ─────────── */
 #fdrawer {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 0; right: 0; bottom: 0;
   background: var(--white);
   border-left: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 14px;
   z-index: 20;
-  width: 220px; /* Default for smaller/medium screens */
+  width: var(--panel-w);
   display: none;
+  flex-direction: column;
+  overflow: hidden;
 }
-
-#fdrawer.open {
-  display: block;
-}
-   
+#fdrawer.open { display: flex; }
 #fdrawer h3 { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--faint); margin-bottom: 9px; }
 .f-check { font-size: 12px; display: flex; align-items: center; gap: 6px; cursor: pointer; margin-bottom: 6px; }
 .f-check input { accent-color: var(--ink); }
-.f-types { max-height: 180px; overflow-y: auto; margin-top: 8px; }
-#f-clear { font-family: var(--mono); font-size: 11px; background: none; border: 1px solid var(--border); padding: 4px 8px; cursor: pointer; border-radius: var(--r); margin-top: 8px; }
-.f-types::-webkit-scrollbar {
-  width: 4px;
-}
-.f-types::-webkit-scrollbar-thumb {
-  background: var(--border);
-  border-radius: 10px;
-}
-   
-   @media (min-width: 661px) {
+.f-types { overflow-y: visible; margin-top: 8px; }
+.f-types::-webkit-scrollbar { width: 4px; }
+.f-types::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+#f-clear { font-family: var(--mono); font-size: 11px; background: none; border: 1px solid var(--border); padding: 4px 8px; cursor: pointer; border-radius: var(--r); margin-top: 8px; display: none; }
+
+/* ── MOBILE FILTER OVERLAY ─────────────────────────────────────────
+   On mobile, #fdrawer becomes a full-screen overlay below the header.
+   It stacks above everything so the user can scroll through all types.
+*/
+@media (max-width: 660px) {
   #fdrawer {
-    width: 310px; /* Matches #panel width */
-    border-bottom: none; /* Optional: makes it look more integrated */
+    position: fixed;
+    top: var(--header-h);
+    left: 0; right: 0; bottom: 0;
+    width: 100%;
+    border: none;
+    border-top: 1px solid var(--border);
+    display: none;
+    flex-direction: column;
+    padding: 0;
+    z-index: 25;
+    overflow: hidden;
   }
-  
+  #fdrawer.open { display: flex; }
+
+  #fdrawer-inner {
+    flex: 1; overflow-y: auto; padding: 16px 16px 0;
+  }
+  #fdrawer-inner::-webkit-scrollbar { width: 3px; }
+  #fdrawer-inner::-webkit-scrollbar-thumb { background: var(--border); }
+
+  #fdrawer h3 { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--faint); margin-bottom: 9px; }
+
   .f-types {
-    max-height: none !important; /* Removes the scrollbar */
-    overflow-y: visible !important;
+    max-height: none;
+    overflow-y: visible;
+  }
+
+  #f-clear {
+    display: none; /* replaced by Apply button on mobile */
+  }
+
+  #fdrawer-footer {
+    flex-shrink: 0;
+    padding: 12px 16px;
+    border-top: 1px solid var(--border);
+    background: var(--white);
+    display: flex;
+    gap: 8px;
+  }
+
+  #f-mobile-clear {
+    font-family: var(--mono); font-size: 12px;
+    background: none; border: 1px solid var(--border);
+    padding: 9px 14px; cursor: pointer; border-radius: var(--r);
+    color: var(--mid); flex: 0 0 auto;
+  }
+  #f-mobile-apply {
+    font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: .06em;
+    background: var(--ink); color: #fff; border: none;
+    padding: 9px 14px; cursor: pointer; border-radius: var(--r);
+    flex: 1;
+  }
+  #f-mobile-apply:hover { opacity: .85; }
+}
+
+/* Desktop fdrawer: inner scrolls, footer is sticky */
+@media (min-width: 661px) {
+  #fdrawer-inner {
+    flex: 1; overflow-y: auto; padding: 16px 15px 0;
+    display: flex; flex-direction: column;
+  }
+  #fdrawer-inner::-webkit-scrollbar { width: 3px; }
+  #fdrawer-inner::-webkit-scrollbar-thumb { background: var(--border); }
+  #fdrawer-footer {
+    flex-shrink: 0;
+    padding: 12px 15px;
+    border-top: 1px solid var(--border);
+    background: var(--white);
+    display: flex;
+    gap: 8px;
+  }
+  #f-mobile-clear {
+    font-family: var(--mono); font-size: 11px;
+    background: none; border: 1px solid var(--border);
+    padding: 7px 12px; cursor: pointer; border-radius: var(--r);
+    color: var(--mid); flex: 0 0 auto;
+  }
+  #f-mobile-apply {
+    font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .06em;
+    background: var(--ink); color: #fff; border: none;
+    padding: 7px 12px; cursor: pointer; border-radius: var(--r);
+    flex: 1;
+  }
+  #f-mobile-apply:hover { opacity: .85; }
+}
+
+/* LIST DRAWER */
+#ldrawer {
+  position: absolute;
+  z-index: 15;
+  background: var(--white);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+@media (min-width: 661px) {
+  #ldrawer {
+    bottom: 0; left: 0;
+    right: 0;
+    max-height: 38%;
+    border-top: 2px solid var(--ink);
+  }
+  body.panel-open #ldrawer {
+    right: var(--panel-w);
   }
 }
 
-   
-/* LIST DRAWER */
-#ldrawer {
-  position: absolute; bottom: 0; left: 0; right: 0; max-height: 38%;
-  background: var(--white); border-top: 2px solid var(--ink);
-  z-index: 15; display: none; flex-direction: column; overflow: hidden;
+@media (max-width: 660px) {
+  #ldrawer {
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 15;
+  }
+  #panel {
+    position: absolute; top: 0; right: 0; bottom: 0;
+    width: 100%; border-left: none;
+    z-index: 16;
+    display: flex !important;
+    transition: transform .25s ease;
+  }
+  #panel.hidden { transform: translateX(100%); pointer-events: none; }
+  #panel-close { display: flex !important; }
+  #fdrawer { width: 100%; border-left: none; border-right: none; border-top: none; }
 }
+
 #ldrawer.open { display: flex; }
+
 .l-header {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 9px 13px; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 9px 13px; border-bottom: 2px solid var(--ink);
   font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: var(--mid); flex-shrink: 0;
+  gap: 8px;
 }
-.l-header button { font-family: var(--mono); font-size: 11px; background: none; border: none; cursor: pointer; color: var(--mid); }
+.l-header-left { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; flex-wrap: wrap; row-gap: 5px; }
+.l-header button.l-close-btn { font-family: var(--mono); font-size: 32px; background: none; line-height:1; border: none; cursor: pointer; color: var(--faint); flex-shrink: 0; margin-top: -4px; }
+
+/* Filter summary chips inside list header — mobile only */
+.l-fchip {
+  font-size: 10px;
+  background: #e6ecf5;
+  color: var(--filter-active-color);
+  border: 1px solid #b5cde8;
+  border-radius: 20px;
+  padding: 2px 7px;
+  white-space: nowrap;
+}
+.l-fchip-clear {
+  font-size: 10px;
+  background: var(--filter-active-color);
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+.l-fchip-clear:hover { opacity: .85; }
+
+/* l-filter-chips visibility is controlled by JS (renderFilterChips) on all screen sizes */
+
 .l-rows { overflow-y: auto; flex: 1; }
 .l-rows::-webkit-scrollbar { width: 3px; }
 .l-rows::-webkit-scrollbar-thumb { background: var(--border); }
-.l-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 13px; border-bottom: 1px solid var(--border); cursor: pointer; gap: 10px; }
+.l-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 8px 13px; border-bottom: 1px solid var(--border);
+  cursor: pointer; gap: 10px; transition: background .1s;
+}
 .l-row:hover { background: var(--tag); }
+.l-row.selected { background: var(--ink); color: var(--white); }
+.l-row.selected .l-sub,
+.l-row.selected .l-price { color: rgba(255,255,255,.6); }
 .l-row-left { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
 .l-name { font-size: 13px; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .l-sub { font-size: 10px; color: var(--faint); text-transform: uppercase; letter-spacing: .05em; }
-.l-price { font-size: 12px; white-space: nowrap; }
+.l-price { font-size: 12px; white-space: nowrap; flex-shrink: 0; }
 
 /* STATUS */
-#status { flex-shrink: 0; font-size: 10px; color: var(--faint); padding: 5px 14px; border-top: 1px solid var(--border); letter-spacing: .04em; background: var(--bg); }
+#status {
+  flex-shrink: 0; font-size: 10px; color: var(--faint);
+  padding: 5px 14px; border-top: 1px solid var(--border);
+  letter-spacing: .04em; background: var(--bg); height: var(--status-h);
+}
+
+/* MAP STYLE TOGGLE */
+#map-style-toggle {
+  position: absolute; bottom: 14px; left: 14px; z-index: 3;
+  display: flex; gap: 4px;
+  background: rgba(255,255,255,.92);
+  border: 1px solid var(--border); padding: 4px; border-radius: var(--r);
+  backdrop-filter: blur(8px);
+}
+.map-style-btn {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .04em;
+  border: none; background: transparent; color: var(--mid);
+  padding: 5px 8px; border-radius: 2px; cursor: pointer; text-transform: uppercase;
+}
+.map-style-btn:hover { background: var(--tag); color: var(--ink); }
+.map-style-btn.active { background: var(--ink); color: var(--white); }
+
+@media (max-width: 660px) {
+  #map-style-toggle { bottom: 10px; left: 10px; }
+  .map-style-btn { font-size: 9px; padding: 5px 7px; }
+}
+
+.satellite-fade .leaflet-tile-container {
+  filter: opacity(0.9) saturate(0.9) brightness(0.96);
+}
 
 /* LEAFLET */
 .pin {
-  width: 26px; 
-  height: 26px; 
-  border-radius: 50% 50% 50% 0; /* Classic pin/teardrop shape */
-  border: 1.5px solid var(--ink); 
-  background: #fff;
-  cursor: pointer; 
-  box-shadow: -1px 2px 4px rgba(0,0,0,.16); 
+  width: 26px; height: 26px;
+  border-radius: 50% 50% 50% 0;
+  border: 1.5px solid var(--ink); background: #fff;
+  cursor: pointer; box-shadow: -1px 2px 4px rgba(0,0,0,.16);
   transition: transform .1s;
-  transform: rotate(-45deg); /* Rotates the teardrop to point down */
+  transform: rotate(-45deg);
 }
-.pin:hover { 
-  transform: rotate(-45deg) scale(1.18); 
-}
+.pin:hover { transform: rotate(-45deg) scale(1.18); }
+.pin.selected { background: var(--ink); }
 
-/* Overrides for the HO Pin to keep it round and centered */
 .pin.ho {
   display: flex; align-items: center; justify-content: center;
   background: var(--ink); color: #fff; width: 32px; height: 32px;
   font-size: 10px; font-family: var(--mono); font-weight: bold; border-width: 2px;
   box-shadow: 1px 2px 6px rgba(0,0,0,.25); cursor: pointer;
-  border-radius: 50%; /* Revert back to perfect circle */
-  transform: none; /* Cancel the teardrop rotation */
+  border-radius: 50%; transform: none;
 }
-.pin.ho:hover { 
-  transform: scale(1.18); 
-}
+.pin.ho:hover { transform: scale(1.18); }
 
 .leaflet-popup-content-wrapper {
   font-family: var(--mono); font-size: 12px; border-radius: var(--r);
@@ -278,61 +480,6 @@ textarea.rv-input { resize: vertical; min-height: 65px; }
 .pu-name { font-size: 13px; font-weight: bold; margin-bottom: 2px; }
 .pu-type { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--faint); }
 .pu-price { font-size: 11px; margin-top: 4px; }
-
-   /* MAP STYLE TOGGLE */
-#map-style-toggle {
-  position: absolute;
-bottom: 14px;
-  left: 14px;
-  z-index: 3;
-  display: flex;
-  gap: 4px;
-  background: rgba(255,255,255,.92);
-  border: 1px solid var(--border);
-  padding: 4px;
-  border-radius: var(--r);
-  backdrop-filter: blur(8px);
-}
-
-.map-style-btn {
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: .04em;
-  border: none;
-  background: transparent;
-  color: var(--mid);
-  padding: 5px 8px;
-  border-radius: 2px;
-  cursor: pointer;
-  text-transform: uppercase;
-}
-
-.map-style-btn:hover {
-  background: var(--tag);
-  color: var(--ink);
-}
-
-.map-style-btn.active {
-  background: var(--ink);
-  color: var(--white);
-}
-
-@media (max-width: 660px) {
-  #map-style-toggle {
-      bottom: 10px;
-  left: 10px;
-  }
-
-  .map-style-btn {
-    font-size: 9px;
-    padding: 5px 7px;
-  }
-}
-/* This targets the tiles only when they are satellite tiles */
-.satellite-fade .leaflet-tile-container {
-    filter: opacity(0.9) saturate(0.9) brightness(0.96);
-}
-   
 </style>
 </head>
 <body>
@@ -356,30 +503,45 @@ bottom: 14px;
 
 <div class="app-body">
   <div id="map"></div>
-<div id="map-style-toggle">
-  <button class="map-style-btn active" data-style="color">classic</button>
-  <button class="map-style-btn" data-style="satellite">satellite</button>
-</div>
+  <div id="map-style-toggle">
+    <button class="map-style-btn active" data-style="color">classic</button>
+    <button class="map-style-btn" data-style="satellite">satellite</button>
+  </div>
+
+  <!-- Active filter chips shown on the map -->
+  <div id="filter-chips"></div>
+
+  <div id="ldrawer">
+    <div class="l-header">
+      <div class="l-header-left">
+        <span id="l-count">—</span>
+        <div id="l-filter-chips"></div>
+      </div>
+      <button class="l-close-btn" id="l-close">×</button>
+    </div>
+    <div class="l-rows" id="l-rows"></div>
+  </div>
+
   <div id="panel" class="hidden">
     <button id="panel-close">×</button>
     <div id="panel-scroll"></div>
   </div>
 
+  <!-- Filter drawer: on desktop a dropdown; on mobile a full-page overlay -->
   <div id="fdrawer">
-    <h3>Filter</h3>
-    <label class="f-check"><input type="checkbox" id="f-veggie"> ✓ Veggie option</label>
-    <label class="f-check"><input type="checkbox" id="f-takeway"> ✓ Takeaway</label>
-    <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);margin-top:8px;margin-bottom:4px;">Food type</div>
-    <div class="f-types" id="f-types"></div>
-    <button id="f-clear">clear all</button>
-  </div>
-
-  <div id="ldrawer">
-    <div class="l-header">
-      <span id="l-count">—</span>
-      <button id="l-close">close ×</button>
+    <div id="fdrawer-inner">
+      <h3>Filter</h3>
+      <label class="f-check"><input type="checkbox" id="f-veggie"> ✓ Veggie option</label>
+      <label class="f-check"><input type="checkbox" id="f-takeway"> ✓ Takeaway</label>
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--faint);margin-top:8px;margin-bottom:4px;">Food type</div>
+      <div class="f-types" id="f-types"></div>
+      <button id="f-clear">clear all</button>
     </div>
-    <div class="l-rows" id="l-rows"></div>
+    <!-- Mobile-only footer with Apply button -->
+    <div id="fdrawer-footer">
+      <button id="f-mobile-clear">clear</button>
+      <button id="f-mobile-apply">apply selection</button>
+    </div>
   </div>
 </div>
 
@@ -391,64 +553,123 @@ const HQ = { lat: 48.862233, lng: 2.304713 };
 
 const map = L.map('map', { zoomControl: false }).setView([HQ.lat - 0.003, HQ.lng], 16);
 L.control.zoom({ position: 'bottomright' }).addTo(map);
+
 const mapStyles = {
   color: L.tileLayer(
     'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-    {
-      attribution: '© OpenStreetMap © CARTO',
-      subdomains: 'abcd',
-      maxZoom: 20
-    }
+    { attribution: '© OpenStreetMap © CARTO', subdomains: 'abcd', maxZoom: 20 }
   ),
-
   satellite: L.tileLayer(
     'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-    {
-      attribution: 'Tiles © Esri',
-      maxZoom: 19
-    }
+    { attribution: 'Tiles © Esri', maxZoom: 19 }
   )
 };
 
 let currentLayer = mapStyles.color;
-   
 currentLayer.addTo(map);
+
 const isMobile = () => window.innerWidth <= 660;
 const hoIcon = L.divIcon({ html: '<div class="pin ho">HO</div>', className: '', iconSize:[32,32], iconAnchor:[16,16] });
 const hoMarker = L.marker([HQ.lat, HQ.lng], { icon: hoIcon }).addTo(map);
-
-// The "Rectangle" popup
-hoMarker.bindPopup(`
-  <div class="pu-name">Air Liquide</div>
-  <div class="pu-type">Head Office</div>
-`);
-
-// Combined Marker Click Logic
-hoMarker.on('click', (e) => {
-  // Only open the panel if the user is NOT on a mobile-sized screen
-  if (!isMobile()) {
-    showWelcomePanel(true);
-  }
-});
-   
-hoMarker.on('click', () => showWelcomePanel(true));
+hoMarker.bindPopup(`<div class="pu-name">Air Liquide</div><div class="pu-type">Head Office</div>`);
+hoMarker.on('click', () => { if (!isMobile()) showWelcomePanel(); });
 
 let allR = [], markerObjs = [];
-const filters = { search:'', veggie:false, takeway:false, types: new Set() };
+const filters = { veggie: false, takeway: false, types: new Set() };
 let filtered = new Set();
 let selRating = 0;
+let selectedId = null;
+let listWasOpen = false;
 let myReviews = JSON.parse(localStorage.getItem('myReviews') || '[]');
 
+// ── Panel state helpers ──────────────────────────────────────────────
+function setPanelOpen(open) {
+  document.body.classList.toggle('panel-open', open);
+}
 
-function showWelcomePanel(fromPin) {
+// ── Count active filters ─────────────────────────────────────────────
+function activeFilterCount() {
+  return (filters.veggie ? 1 : 0) + (filters.takeway ? 1 : 0) + filters.types.size;
+}
+
+function activeFilterLabels() {
+  const labels = [];
+  if (filters.veggie)  labels.push('veggie');
+  if (filters.takeway) labels.push('takeaway');
+  filters.types.forEach(t => labels.push(t));
+  return labels;
+}
+
+// ── Update filter button appearance ─────────────────────────────────
+function updateFilterButtonStyle() {
+  const btn = document.getElementById('btn-filter');
+  const hasActive = activeFilterCount() > 0;
+  btn.classList.toggle('filter-has-active', hasActive);
+}
+
+// ── Render filter chips on map and in list header ────────────────────
+// Desktop: chips show on map when list is closed, in l-header when list is open.
+// Mobile: chips always show on map (top-right) and in l-header when list is open.
+function renderFilterChips() {
+  const labels = activeFilterLabels();
+  const mapChipsEl = document.getElementById('filter-chips');
+  const listChipsEl = document.getElementById('l-filter-chips');
+  const listOpen = document.getElementById('ldrawer').classList.contains('open');
+  const desktopListOpen = !isMobile() && listOpen;
+
+  // Map chips: show on mobile always; on desktop only when list drawer is closed
+  mapChipsEl.innerHTML = '';
+  if (labels.length && !desktopListOpen) {
+    mapChipsEl.classList.add('visible');
+    labels.forEach(lbl => {
+      const span = document.createElement('span');
+      span.className = 'fchip';
+      span.textContent = lbl;
+      mapChipsEl.appendChild(span);
+    });
+    const clearBtn = document.createElement('button');
+    clearBtn.className = 'fchip-clear';
+    clearBtn.textContent = 'clear ×';
+    clearBtn.addEventListener('click', clearAllFilters);
+    mapChipsEl.appendChild(clearBtn);
+  } else {
+    mapChipsEl.classList.remove('visible');
+  }
+
+  // List header chips: mobile when list open; desktop when list open
+  listChipsEl.innerHTML = '';
+  if (labels.length && listOpen) {
+    labels.forEach(lbl => {
+      const span = document.createElement('span');
+      span.className = 'l-fchip';
+      span.textContent = lbl;
+      listChipsEl.appendChild(span);
+    });
+    const clearBtn = document.createElement('button');
+    clearBtn.className = 'l-fchip-clear';
+    clearBtn.textContent = 'clear';
+    clearBtn.addEventListener('click', clearAllFilters);
+    listChipsEl.appendChild(clearBtn);
+  }
+}
+
+function clearAllFilters() {
+  filters.veggie = false; filters.takeway = false; filters.types = new Set();
+  document.querySelectorAll('#fdrawer input').forEach(i => i.checked = false);
+  applyFilters();
+}
+
+// ── Welcome panel ────────────────────────────────────────────────────
+function showWelcomePanel() {
+  if (isMobile()) return;
   const panel  = document.getElementById('panel');
   const scroll = document.getElementById('panel-scroll');
-  const closeBtn = document.getElementById('panel-close');
-
-  if (isMobile()) return;
-
+  selectedId = null;
+  highlightListRow(null);
+  clearSelectedMarker();
   panel.classList.remove('hidden');
-  closeBtn.style.display = 'none';
+  setPanelOpen(true);
+  document.getElementById('panel-close').style.display = 'none';
 
   scroll.innerHTML = `
     <div class="welcome-content">
@@ -458,7 +679,6 @@ function showWelcomePanel(fromPin) {
           Click on any pin on the map to explore details, view prices, and read reviews from AL colleagues :)
         </p>
       </div>
-      
       <div class="contribute-box">
         <div style="font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--faint); margin-bottom: 8px;">Contribute</div>
         <p style="font-size: 12px; color: var(--mid); margin-bottom: 12px; line-height: 1.5;">
@@ -466,23 +686,21 @@ function showWelcomePanel(fromPin) {
         </p>
         <a href="YOUR_GOOGLE_SHEET_LINK" target="_blank" rel="noopener" class="p-link" style="margin-bottom: 0; font-weight: bold; font-size: 12px;">Add suggestions to Google Sheet ↗</a>
       </div>
-    </div>
-  `;
+    </div>`;
 }
 
+// ── CSV load ─────────────────────────────────────────────────────────
 Papa.parse(CSV_URL, {
   download: true, header: true, skipEmptyLines: true,
   complete: ({ data }) => {
-    allR = data
-      .map((row, i) => {
-        const r = {};
-        for (const k in row) r[k.trim()] = (row[k] || '').trim();
-        r._id  = i;
-        r._lat = parseFloat(r['Latitude']  || r['latitude']  || '');
-        r._lng = parseFloat(r['Longitude'] || r['longitude'] || '');
-        return r;
-      })
-      .filter(r => !isNaN(r._lat) && !isNaN(r._lng));
+    allR = data.map((row, i) => {
+      const r = {};
+      for (const k in row) r[k.trim()] = (row[k] || '').trim();
+      r._id  = i;
+      r._lat = parseFloat(r['Latitude']  || r['latitude']  || '');
+      r._lng = parseFloat(r['Longitude'] || r['longitude'] || '');
+      return r;
+    }).filter(r => !isNaN(r._lat) && !isNaN(r._lng));
 
     buildTypeFilters();
     applyFilters();
@@ -492,39 +710,41 @@ Papa.parse(CSV_URL, {
       const loader = document.getElementById('loader');
       loader.classList.add('fade');
       setTimeout(() => loader.remove(), 500);
-      if (!isMobile()) showWelcomePanel(false);
+      if (!isMobile()) showWelcomePanel();
     }, 600);
   },
   error: () => {
     setStatus('error loading CSV');
-    const loader = document.getElementById('loader');
-    loader.classList.add('fade');
-    setTimeout(() => loader.remove(), 500);
+    document.getElementById('loader').classList.add('fade');
   }
 });
+
+// ── Markers ──────────────────────────────────────────────────────────
+let selectedMarker = null;
+
+function clearSelectedMarker() {
+  if (selectedMarker) {
+    const icon = L.divIcon({ html: `<div class="pin"></div>`, className: '', iconSize:[24,24], iconAnchor:[12,29] });
+    selectedMarker.setIcon(icon);
+    selectedMarker = null;
+  }
+}
 
 function buildMarkers() {
   markerObjs.forEach(m => m.remove());
   markerObjs = [];
   allR.filter(r => filtered.has(r._id)).forEach(r => {
-    const icon = L.divIcon({ html: `<div class="pin"></div>`, className: '', iconSize:[24,24], iconAnchor:[12, 29] });
-    const m = L.marker([r._lat, r._lng], { icon }).addTo(map)
-      .bindPopup(`
-        <div class="pu-name">${r['Name'] || '—'}</div>
-        <div class="pu-type">${r['Food type'] || ''}</div>`);
-    
-    m.r_id = r._id; // <-- ADD THIS LINE
-
+    const icon = L.divIcon({ html: `<div class="pin"></div>`, className: '', iconSize:[24,24], iconAnchor:[12,29] });
+    const m = L.marker([r._lat, r._lng], { icon }).addTo(map);
+    m.r_id = r._id;
     m.on('click', () => openPanel(r));
     markerObjs.push(m);
   });
 }
 
 function applyFilters() {
-  const q = filters.search.toLowerCase();
   filtered = new Set();
   allR.forEach(r => {
-    if (q && !(r['Name']||'').toLowerCase().includes(q) && !(r['Food type']||'').toLowerCase().includes(q)) return;
     if (filters.veggie  && (r['Veggie Option']||r['Veggie option']||'').toLowerCase() !== 'oui') return;
     if (filters.takeway && (r['Take away']||r['Takeaway']||'').toLowerCase() !== 'oui') return;
     if (filters.types.size && !filters.types.has((r['Food type']||'').toLowerCase())) return;
@@ -532,7 +752,10 @@ function applyFilters() {
   });
   buildMarkers();
   buildList();
-  setStatus(`${filtered.size} restaurant${filtered.size!==1?'s':''} · click a pin`);
+  const n = filtered.size;
+  setStatus(`${n} restaurant${n !== 1 ? 's' : ''} · click a pin`);
+  updateFilterButtonStyle();
+  renderFilterChips();
 }
 
 function buildTypeFilters() {
@@ -543,20 +766,43 @@ function buildTypeFilters() {
     lbl.className = 'f-check';
     lbl.innerHTML = `<input type="checkbox" value="${t}"> ${t}`;
     lbl.querySelector('input').addEventListener('change', e => {
-      e.target.checked ? filters.types.add(t) : filters.types.delete(t);
-      applyFilters();
+      // pending — committed when Apply is clicked
     });
     el.appendChild(lbl);
   });
 }
 
+// ── Open panel ───────────────────────────────────────────────────────
 async function openPanel(r) {
   const panel  = document.getElementById('panel');
   const scroll = document.getElementById('panel-scroll');
-  const closeBtn = document.getElementById('panel-close');
 
+  selectedId = r._id;
   panel.classList.remove('hidden');
-  closeBtn.style.display = 'flex';
+  setPanelOpen(true);
+  document.getElementById('panel-close').style.display = 'flex';
+
+  clearSelectedMarker();
+  const m = markerObjs.find(m => m.r_id === r._id);
+  if (m) {
+    const selIcon = L.divIcon({ html: `<div class="pin selected"></div>`, className: '', iconSize:[24,24], iconAnchor:[12,29] });
+    m.setIcon(selIcon);
+    selectedMarker = m;
+    m.closePopup();
+  }
+
+  highlightListRow(r._id);
+  if (!isMobile()) {
+    const lDrawerEl = document.getElementById('ldrawer');
+    if (lDrawerEl.classList.contains('open')) {
+      const rowsEl = lDrawerEl.querySelector('.l-rows');
+      const sel = lDrawerEl.querySelector('.l-row.selected');
+      if (rowsEl && sel) {
+        const target = sel.offsetTop - (rowsEl.clientHeight / 2) + (sel.offsetHeight / 2);
+        rowsEl.scrollTo({ top: target, behavior: 'smooth' });
+      }
+    }
+  }
 
   const name    = r['Name'] || '—';
   const type    = r['Food type'] || '';
@@ -589,23 +835,18 @@ async function openPanel(r) {
       <div style="font-size:11px;color:var(--faint);padding-top:14px">loading reviews...</div>
     </div>`;
 
-const targetZoom = Math.max(map.getZoom(), 16);
-  const targetPoint = map.project([r._lat, r._lng], targetZoom);
-
-  // If on large screens and the list is open, shift the center down by 25%
-  // This places the pin visually in the "center top" of the map viewport
-  if (!isMobile() && document.getElementById('ldrawer').classList.contains('open')) {
-    targetPoint.y += document.getElementById('map').offsetHeight / 5;
-  }
-
-  map.flyTo(map.unproject(targetPoint, targetZoom), targetZoom, { duration: .6 });
-const targetMarker = markerObjs.find(m => m.r_id === r._id);
-  if (targetMarker) {
-    targetMarker.openPopup();
+  const targetZoom = Math.max(map.getZoom(), 16);
+  const targetPoint = map.project([r._lat, r._lng], targetZoom);
+  const lDrawerEl = document.getElementById('ldrawer');
+  if (!isMobile() && lDrawerEl.classList.contains('open')) {
+    targetPoint.y += lDrawerEl.offsetHeight / 2;
   }
-  
+  map.flyTo(map.unproject(targetPoint, targetZoom), targetZoom, { duration: .6 });
+
   loadReviews(name).then(reviews => {
-    const avg = reviews.length ? (reviews.reduce((a,b) => a+b.stars, 0) / reviews.length).toFixed(1) : null;
+    const avg = reviews.length
+      ? (reviews.reduce((a,b) => a+b.stars, 0) / reviews.length).toFixed(1)
+      : null;
     const container = document.getElementById('reviews-container');
     if (!container) return;
 
@@ -639,25 +880,22 @@ const targetMarker = markerObjs.find(m => m.r_id === r._id);
     document.getElementById('rv-submit').addEventListener('click', async () => {
       const authorName = document.getElementById('rv-name').value.trim();
       const reviewText = document.getElementById('rv-text').value.trim();
-
-      if (!authorName) { document.getElementById('rv-msg').textContent = 'enter your name'; return; }
-      if (!selRating) { document.getElementById('rv-msg').textContent = 'select a rating'; return; }
-      if (!reviewText) { document.getElementById('rv-msg').textContent = 'share your thoughts'; return; }
+      const msg = document.getElementById('rv-msg');
+      if (!authorName) { msg.textContent = 'enter your name'; return; }
+      if (!selRating)  { msg.textContent = 'select a rating'; return; }
+      if (!reviewText) { msg.textContent = 'share your thoughts'; return; }
 
       const btn = document.getElementById('rv-submit');
       btn.disabled = true; btn.textContent = 'posting…';
-      
+
       const newId = await saveReview(name, selRating, reviewText, authorName);
       if (newId) {
         myReviews.push(newId);
         localStorage.setItem('myReviews', JSON.stringify(myReviews));
       }
 
-      document.getElementById('rv-msg').textContent = '✓ posted!';
-      btn.textContent = 'post review';
-      btn.disabled = false;
-      
-      // Clear inputs
+      msg.textContent = '✓ posted!';
+      btn.textContent = 'post review'; btn.disabled = false;
       document.getElementById('rv-name').value = '';
       document.getElementById('rv-text').value = '';
       selRating = 0; hlStars(0);
@@ -668,26 +906,57 @@ const targetMarker = markerObjs.find(m => m.r_id === r._id);
   });
 }
 
-// 1. Update the display logic to look for multiple possible field names
+// ── List ─────────────────────────────────────────────────────────────
+function highlightListRow(id) {
+  document.querySelectorAll('.l-row').forEach(el => {
+    el.classList.toggle('selected', +el.dataset.id === id);
+  });
+}
+
+function buildList() {
+  const vis = allR.filter(r => filtered.has(r._id));
+  document.getElementById('l-count').textContent = `${vis.length} restaurant${vis.length!==1?'s':''}`;
+  const el = document.getElementById('l-rows');
+  el.innerHTML = '';
+  vis.forEach(r => {
+    const row = document.createElement('div');
+    row.className = 'l-row' + (r._id === selectedId ? ' selected' : '');
+    row.dataset.id = r._id;
+    row.innerHTML = `
+      <div class="l-row-left">
+        <div class="l-name">${r['Name'] || '—'}</div>
+        <div class="l-sub">${r['Food type']||''} · ${r['Walkable Distance']||''}</div>
+      </div>
+      <div class="l-price">
+        <div style="font-size:9px;text-transform:uppercase;opacity:.6;">small</div>
+        <div style="font-size:11px">${r['Small price'] || 'N/A'}</div>
+        ${r['Formula price'] ? `<div style="font-size:9px;text-transform:uppercase;opacity:.6;margin-top:4px;">formule</div><div style="font-size:11px;">${r['Formula price']}</div>` : ''}
+      </div>`;
+    row.addEventListener('click', () => {
+      if (isMobile()) { listWasOpen = true; }
+      openPanel(r);
+    });
+    el.appendChild(row);
+  });
+
+  // Re-render list-header chips (in case buildList called independently)
+  renderFilterChips();
+}
+
+// ── Reviews ──────────────────────────────────────────────────────────
 function updateReviewsList(reviews, rname) {
   const el = document.getElementById('rv-list');
   if (!el) return;
-  
   if (document.getElementById('rv-count')) {
     document.getElementById('rv-count').textContent = reviews.length;
   }
-
   if (!reviews.length) {
     el.innerHTML = '<div style="font-size:12px;color:#bbb">no reviews yet</div>';
     return;
   }
-
   el.innerHTML = reviews.map(rv => {
     const isMine = myReviews.includes(rv.id);
-    
-    // DEFENSIVE CHECK: Try authorName, then name, then author, then fallback to Anonymous
     const displayAuthor = rv.authorName || rv.name || rv.author || 'Anonymous';
-    
     return `
     <div class="rv-item">
       <div class="rv-header">
@@ -702,7 +971,6 @@ function updateReviewsList(reviews, rname) {
     </div>`;
   }).join('');
 
-  // Re-attach delete listeners
   el.querySelectorAll('.rv-delete').forEach(btn => {
     btn.addEventListener('click', async () => {
       btn.style.opacity = '0.3';
@@ -716,49 +984,17 @@ function updateReviewsList(reviews, rname) {
   });
 }
 
-// 2. Ensure saveReview is explicitly using 'authorName'
-async function saveReview(rname, rating, text, authorName) {
-  const date = new Date().toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' });
-  
-  // We save it as authorName, but you can add 'name' too for double safety
-  const rv = { 
-    restaurantName: rname, 
-    stars: rating, 
-    text: text, 
-    authorName: authorName, // Modern field
-    name: authorName,       // Legacy fallback field
-    date: date 
-  };
-
-  const fb = window._fb;
-  if (fb?.db) { 
-    try { 
-      const docRef = await fb.addDoc(fb.collection(fb.db, 'reviews'), rv); 
-      return docRef.id; 
-    } catch (e) {
-      console.error("Firebase Error:", e);
-    } 
-  }
-  
-  // Local fallback if Firebase fails
-  rv.id = Date.now().toString();
-  (_local[rname] = _local[rname] || []).unshift(rv);
-  return rv.id;
-}
-
-function hlStars(n) { document.querySelectorAll('#star-row span').forEach(s => s.classList.toggle('on', +s.dataset.v <= n)); }
-function starStr(n) { const f = Math.round(n); return '★'.repeat(f) + '☆'.repeat(5-f); }
-
 const _local = {};
+
 async function saveReview(rname, rating, text, authorName) {
   const date = new Date().toLocaleDateString('fr-FR', { day:'2-digit', month:'short', year:'numeric' });
-  const rv = { restaurantName: rname, stars: rating, text, authorName, date };
+  const rv = { restaurantName: rname, stars: rating, text, authorName, name: authorName, date };
   const fb = window._fb;
-  if (fb?.db) { 
-    try { 
-      const docRef = await fb.addDoc(fb.collection(fb.db, 'reviews'), rv); 
-      return docRef.id; 
-    } catch {} 
+  if (fb?.db) {
+    try {
+      const docRef = await fb.addDoc(fb.collection(fb.db, 'reviews'), rv);
+      return docRef.id;
+    } catch(e) { console.error('Firebase error:', e); }
   }
   rv.id = Date.now().toString();
   (_local[rname] = _local[rname] || []).unshift(rv);
@@ -770,7 +1006,6 @@ async function loadReviews(rname) {
   if (fb?.db) {
     try {
       const snap = await fb.getDocs(fb.query(fb.collection(fb.db,'reviews'), fb.where('restaurantName','==',rname)));
-      // Map over docs to attach their unique Firebase ID for deletion mapping later
       return snap.docs.map(d => ({ ...d.data(), id: d.id }));
     } catch {}
   }
@@ -780,94 +1015,131 @@ async function loadReviews(rname) {
 async function deleteReview(rname, id) {
   const fb = window._fb;
   if (fb?.db) {
-    try {
-      await fb.deleteDoc(fb.doc(fb.db, 'reviews', id));
-      return;
-    } catch {}
+    try { await fb.deleteDoc(fb.doc(fb.db, 'reviews', id)); return; } catch {}
   }
-  if (_local[rname]) {
-    _local[rname] = _local[rname].filter(r => r.id !== id);
-  }
+  if (_local[rname]) _local[rname] = _local[rname].filter(r => r.id !== id);
 }
 
-function buildList() {
-  const vis = allR.filter(r => filtered.has(r._id));
-  document.getElementById('l-count').textContent = `${vis.length} restaurant${vis.length!==1?'s':''}`;
-  const el = document.getElementById('l-rows');
-  el.innerHTML = '';
-  vis.forEach(r => {
-    const row = document.createElement('div');
-    row.className = 'l-row';
-    row.innerHTML = `
-      <div class="l-row-left">
-        <div class="l-name">${r['Name'] || '—'}</div>
-        <div class="l-sub">${r['Food type']||''} · ${r['Walkable Distance']||''}</div>
-      </div>
-      <div class="l-price">
-        <div style="font-size:9px;color:var(--faint);text-transform:uppercase;">small</div>
-        <div style="font-size:11px">${r['Small price'] || 'N/A'}</div>
-        ${(r['Formula price']) ? `<div style="font-size:9px;color:var(--faint);text-transform:uppercase;margin-top:4px;">formule</div><div style="font-size:11px;">${r['Formula price']}</div>` : ''}
-      </div>`;
-    row.addEventListener('click', () => {
-      if (isMobile()) {
-        document.getElementById('ldrawer').classList.remove('open');
-        document.getElementById('btn-list').classList.remove('active');
-      }
-      openPanel(r);
-    });
-    el.appendChild(row);
-  });
-}
+function hlStars(n) { document.querySelectorAll('#star-row span').forEach(s => s.classList.toggle('on', +s.dataset.v <= n)); }
+function starStr(n) { const f = Math.round(n); return '★'.repeat(f) + '☆'.repeat(5-f); }
+function setStatus(t) { document.getElementById('status').textContent = t; }
 
+// ── UI event wiring ──────────────────────────────────────────────────
 document.getElementById('panel-close').addEventListener('click', () => {
-  const panel = document.getElementById('panel');
   if (isMobile()) {
-    panel.classList.add('hidden');
+    document.getElementById('panel').classList.add('hidden');
+    setPanelOpen(false);
+    if (listWasOpen) { listWasOpen = false; }
   } else {
-    showWelcomePanel(false);
+    selectedId = null;
+    clearSelectedMarker();
+    highlightListRow(null);
+    showWelcomePanel();
   }
 });
 
-document.getElementById('f-veggie').addEventListener('change',  e => { filters.veggie  = e.target.checked; applyFilters(); });
-document.getElementById('f-takeway').addEventListener('change', e => { filters.takeway = e.target.checked; applyFilters(); });
-document.getElementById('f-clear').addEventListener('click', () => {
-  filters.veggie = false; filters.takeway = false; filters.types = new Set();
-  document.querySelectorAll('#fdrawer input').forEach(i => i.checked = false);
+// Filter checkboxes never apply immediately — Apply button commits on both desktop and mobile
+document.getElementById('f-veggie').addEventListener('change',  e => { /* pending — applied on submit */ });
+document.getElementById('f-takeway').addEventListener('change', e => { /* pending — applied on submit */ });
+
+// Desktop clear button
+document.getElementById('f-clear').addEventListener('click', clearAllFilters);
+
+// Mobile apply button: commit pending checkbox state then close
+document.getElementById('f-mobile-apply').addEventListener('click', () => {
+  // Read checkbox states into filters (they may have been changed without applying)
+  filters.veggie  = document.getElementById('f-veggie').checked;
+  filters.takeway = document.getElementById('f-takeway').checked;
+  filters.types   = new Set();
+  document.querySelectorAll('#f-types input:checked').forEach(inp => {
+    filters.types.add(inp.value);
+  });
   applyFilters();
+  closeFdrawer();
 });
+
+// Mobile clear button (inside overlay)
+document.getElementById('f-mobile-clear').addEventListener('click', () => {
+  clearAllFilters();
+  closeFdrawer();
+});
+
+function closeFdrawer() {
+  fdrawer.classList.remove('open');
+  document.getElementById('btn-filter').classList.remove('active');
+}
+
+// Filter drawer toggle
+const btnFilter = document.getElementById('btn-filter');
+const fdrawer   = document.getElementById('fdrawer');
+btnFilter.addEventListener('click', e => {
+  e.stopPropagation();
+  const opening = !fdrawer.classList.contains('open');
+  fdrawer.classList.toggle('open', opening);
+  btnFilter.classList.toggle('active', opening);
+});
+
+// Desktop: click outside closes filter drawer and discards uncommitted changes
+document.addEventListener('click', e => {
+  if (!isMobile() && fdrawer.classList.contains('open') && !fdrawer.contains(e.target) && e.target !== btnFilter) {
+    // Discard: reset checkboxes back to committed filter state
+    document.getElementById('f-veggie').checked  = filters.veggie;
+    document.getElementById('f-takeway').checked = filters.takeway;
+    document.querySelectorAll('#f-types input').forEach(inp => {
+      inp.checked = filters.types.has(inp.value);
+    });
+    fdrawer.classList.remove('open');
+    btnFilter.classList.remove('active');
+  }
+});
+
+// List drawer toggle
+const btnList = document.getElementById('btn-list');
+const ldrawer = document.getElementById('ldrawer');
+btnList.addEventListener('click', () => {
+  const opening = !ldrawer.classList.contains('open');
+  listWasOpen = false;
+  if (opening) { buildList(); }
+  ldrawer.classList.toggle('open', opening);
+  btnList.classList.toggle('active', opening);
+  renderFilterChips(); // chips move between map and l-header on desktop
+});
+document.getElementById('l-close').addEventListener('click', () => {
+  ldrawer.classList.remove('open');
+  btnList.classList.remove('active');
+  renderFilterChips(); // chips move back to map on desktop
+});
+
+// Map click
+map.on('click', () => {
+  if (!isMobile() && fdrawer.classList.contains('open')) {
+    document.getElementById('f-veggie').checked  = filters.veggie;
+    document.getElementById('f-takeway').checked = filters.takeway;
+    document.querySelectorAll('#f-types input').forEach(inp => {
+      inp.checked = filters.types.has(inp.value);
+    });
+    fdrawer.classList.remove('open'); btnFilter.classList.remove('active');
+  }
+  if (isMobile()) {
+    ldrawer.classList.remove('open'); btnList.classList.remove('active');
+    if (document.getElementById('panel').classList.contains('hidden')) {
+      selectedId = null;
+      clearSelectedMarker();
+    }
+  }
+});
+
+// Map style toggle
 document.querySelectorAll('.map-style-btn').forEach(btn => {
   btn.addEventListener('click', () => {
-    const style = btn.dataset.style;
-
     map.removeLayer(currentLayer);
-    currentLayer = mapStyles[style];
+    currentLayer = mapStyles[btn.dataset.style];
     currentLayer.addTo(map);
-
-    // Toggle the fade class based on the style
-    const mapContainer = document.getElementById('map');
-    if (style === 'satellite') {
-      mapContainer.classList.add('satellite-fade');
-    } else {
-      mapContainer.classList.remove('satellite-fade');
-    }
-
-    document.querySelectorAll('.map-style-btn')
-      .forEach(b => b.classList.remove('active'));
+    document.getElementById('map').classList.toggle('satellite-fade', btn.dataset.style === 'satellite');
+    document.querySelectorAll('.map-style-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
   });
 });
-const btnFilter = document.getElementById('btn-filter');
-const fdrawer   = document.getElementById('fdrawer');
-btnFilter.addEventListener('click', e => { e.stopPropagation(); fdrawer.classList.toggle('open'); btnFilter.classList.toggle('active'); });
-document.addEventListener('click', e => { if (!fdrawer.contains(e.target) && e.target !== btnFilter) { fdrawer.classList.remove('open'); btnFilter.classList.remove('active'); } });
-
-const btnList = document.getElementById('btn-list');
-const ldrawer = document.getElementById('ldrawer');
-btnList.addEventListener('click', () => { ldrawer.classList.toggle('open'); btnList.classList.toggle('active'); buildList(); });
-document.getElementById('l-close').addEventListener('click', () => { ldrawer.classList.remove('open'); btnList.classList.remove('active'); });
-map.on('click', () => { ldrawer.classList.remove('open'); btnList.classList.remove('active'); fdrawer.classList.remove('open'); btnFilter.classList.remove('active'); });
-
-function setStatus(t) { document.getElementById('status').textContent = t; }
 </script>
 </body>
 </html>
