@@ -217,7 +217,7 @@ textarea.rv-input { resize: vertical; min-height: 65px; }
    
 /* LIST DRAWER */
 #ldrawer {
-  position: absolute; bottom: 0; left: 0; right: 0; max-height: 52%;
+  position: absolute; bottom: 0; left: 0; right: 0; max-height: 38%;
   background: var(--white); border-top: 2px solid var(--ink);
   z-index: 15; display: none; flex-direction: column; overflow: hidden;
 }
@@ -512,6 +512,9 @@ function buildMarkers() {
       .bindPopup(`
         <div class="pu-name">${r['Name'] || '—'}</div>
         <div class="pu-type">${r['Food type'] || ''}</div>`);
+    
+    m.r_id = r._id; // <-- ADD THIS LINE
+
     m.on('click', () => openPanel(r));
     markerObjs.push(m);
   });
@@ -586,8 +589,21 @@ async function openPanel(r) {
       <div style="font-size:11px;color:var(--faint);padding-top:14px">loading reviews...</div>
     </div>`;
 
-  map.flyTo([r._lat, r._lng], Math.max(map.getZoom(), 16), { duration: .6 });
+const targetZoom = Math.max(map.getZoom(), 16);
+  const targetPoint = map.project([r._lat, r._lng], targetZoom);
 
+  // If on large screens and the list is open, shift the center down by 25%
+  // This places the pin visually in the "center top" of the map viewport
+  if (!isMobile() && document.getElementById('ldrawer').classList.contains('open')) {
+    targetPoint.y += document.getElementById('map').offsetHeight / 5;
+  }
+
+  map.flyTo(map.unproject(targetPoint, targetZoom), targetZoom, { duration: .6 });
+const targetMarker = markerObjs.find(m => m.r_id === r._id);
+  if (targetMarker) {
+    targetMarker.openPopup();
+  }
+  
   loadReviews(name).then(reviews => {
     const avg = reviews.length ? (reviews.reduce((a,b) => a+b.stars, 0) / reviews.length).toFixed(1) : null;
     const container = document.getElementById('reviews-container');
@@ -793,8 +809,10 @@ function buildList() {
         ${(r['Formula price']) ? `<div style="font-size:9px;color:var(--faint);text-transform:uppercase;margin-top:4px;">formule</div><div style="font-size:11px;">${r['Formula price']}</div>` : ''}
       </div>`;
     row.addEventListener('click', () => {
-      document.getElementById('ldrawer').classList.remove('open');
-      document.getElementById('btn-list').classList.remove('active');
+      if (isMobile()) {
+        document.getElementById('ldrawer').classList.remove('open');
+        document.getElementById('btn-list').classList.remove('active');
+      }
       openPanel(r);
     });
     el.appendChild(row);
