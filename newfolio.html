@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zachary Stephens — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --ink: #0d0d0d;
+    --ink-mid: #3a3a3a;
+    --ink-light: #666666;
+    --ink-faint: #999999;
+    --rule: #e0e0e0;
+    --orange: #c45a22;
+    --page-max: 1560px;
+    --page-padding: clamp(2rem, 6vw, 5rem);
+    --section-gap: clamp(4.5rem, 9vw, 8rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem var(--page-padding);
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    will-change: transform;
+  }
+  nav.nav-hidden { transform: translateY(-100%); }
+  .nav-name {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink); text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-faint); text-decoration: none; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+
+  /* ─── PAGE WRAPPER ─── */
+  main { max-width: var(--page-max); margin: 0 auto; padding: 0 var(--page-padding); }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100svh; display: grid; grid-template-columns: 1fr 1fr;
+    padding-top: 4rem; position: relative; overflow: hidden; max-width: 100vw;
+    padding-bottom: calc(1 * var(--page-padding));
+  }
+  .hero-left {
+    background: linear-gradient(145deg, #e8874a 0%, #c45a22 35%, #8a3a18 65%, #2d2418 100%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: clamp(2.5rem, 5vw, 4rem); position: relative; overflow: hidden;
+  }
+  .hero-left::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at 30% 20%, rgba(255,200,120,0.25) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(40,20,5,0.4) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero-title {
+    font-weight: 750; font-size: clamp(2.2rem, 4.8vw, 3.8rem);
+    line-height: 1.05; color: #fff; position: relative; z-index: 1;
+    margin-bottom: 1.25rem; letter-spacing: -0.02em;
+  }
+  .hero-meta { position: relative; z-index: 1; }
+  .hero-meta p { color: rgba(255,255,255,0.9); font-size: 0.98rem; font-weight: 500; line-height: 1.4; }
+  .hero-meta .name { font-size: 1.65rem; font-weight: 700; margin-bottom: 0.3rem; }
+  .hero-right {
+    background: #1a0a05; position: relative; overflow: hidden;
+    min-height: clamp(360px, 55vw, 620px);
+  }
+  .hero-art {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 60% 20%, #c0392b 0%, transparent 55%),
+      radial-gradient(ellipse 50% 80% at 85% 70%, #8b1a0a 0%, transparent 50%),
+      radial-gradient(ellipse 70% 40% at 20% 80%, #f0e8d0 0%, transparent 45%),
+      radial-gradient(ellipse 40% 60% at 70% 50%, #2a1005 0%, transparent 40%),
+      linear-gradient(165deg, #1a0a05 0%, #3d1408 40%, #8b2210 70%, #1a0a05 100%);
+  }
+
+  /* ─── FADE-IN ─── */
+  .section, .project-split, .proj-sub {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+  }
+  .section.visible, .project-split.visible, .proj-sub.visible {
+    opacity: 1; transform: translateY(0);
+  }
+  .section { padding: var(--section-gap) 0; border-bottom: 1px solid var(--rule); }
+  .section:last-child { border-bottom: none; }
+
+  /* ─── ABOUT ─── */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2.5rem,5vw,5rem); align-items: start; }
+  .about-heading {
+    font-weight: 700; font-size: clamp(1.8rem,3vw,2.6rem);
+    line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.75rem;
+  }
+  .about-body { font-size: 0.98rem; line-height: 1.5; font-weight: 400; }
+  .about-body p + p { margin-top: 0.85rem; }
+  .about-photo { width: 100%; aspect-ratio: 9/10; background: #d5d0c8; overflow: hidden; }
+  .about-photo-inner {
+    width: 100%; height: 100%;
+    background: linear-gradient(175deg, #cdc8c0 0%, #a8a39b 100%);
+    display: flex; align-items: flex-end; padding: 1.5rem;
+  }
+  .photo-caption { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+
+  /* ─── TOC ─── */
+  .toc-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
+  .toc-item {
+    padding: 2rem 1.5rem 2rem 0; border-right: 1px solid var(--rule);
+    cursor: pointer; transition: background 0.2s; position: relative;
+    text-decoration: none; color: inherit; display: block;
+  }
+  .toc-item:last-child { border-right: none; padding-right: 0; }
+  .toc-item:first-child { padding-left: 0; }
+  .toc-item:hover .toc-img-wrap { transform: scale(1.02); }
+  .toc-number { font-size: 1.7rem; font-weight: 600; margin-bottom: 1rem; color: var(--ink); }
+  .toc-img-wrap {
+    width: 100%; aspect-ratio: 4/3; background: var(--rule);
+    margin-bottom: 1rem; overflow: hidden; transition: transform 0.4s ease;
+  }
+  .toc-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; color: var(--ink-faint); letter-spacing: 0.08em; }
+  .toc-item:nth-child(1) .toc-img-wrap { background: #e8ddd0; }
+  .toc-item:nth-child(2) .toc-img-wrap { background: #d4c5b0; }
+  .toc-item:nth-child(3) .toc-img-wrap { background: #dde0e8; }
+  .toc-item:nth-child(4) .toc-img-wrap { background: #e0e8e0; }
+  .toc-title { font-size: 0.98rem; font-weight: 600; line-height: 1.4; }
+  
+ 
+
+  /* ─── PROJECT SPLIT ─── */
+  .project-split {
+    display: grid; grid-template-columns: 1fr 1fr;
+    max-width: 100vw;
+    margin-left: calc(-1 * var(--page-padding));
+    margin-right: calc(-1 * var(--page-padding));
+    padding-top: var(--section-gap); padding-bottom: var(--section-gap);
+    border-bottom: 1px solid var(--rule);
+  }
+  .project-split-content {
+    padding: clamp(2.5rem,5vw,4.5rem) var(--page-padding);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .project-split-image { position: relative; overflow: hidden; min-height: clamp(320px,45vw,580px); }
+  .project-split-image > div { width: 100%; height: 100%; position: absolute; inset: 0; }
+  .project-number { font-size: clamp(4rem,9vw,8rem); line-height: 0.9; color: var(--ink); margin-bottom: 1rem; }
+  .project-title { font-size: clamp(1.6rem,3vw,2.4rem); line-height: 1.2; margin-bottom: 1.25rem; font-weight: 700; letter-spacing: -0.02em; }
+  .project-tag {
+    display: inline-block; font-size: 0.68rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-light); 
+    padding: 0.25em 0em; margin-bottom: 1.5rem;
+  }
+  .project-desc { font-size: 0.98rem; line-height: 1.6; font-weight: 400; max-width: 48ch; }
+  .proj-bg-1 { background: linear-gradient(135deg, #e8ddd0 0%, #c8b8a0 100%); }
+  .proj-bg-2 { background: linear-gradient(135deg, #c8b090 0%, #8a6848 100%); }
+  .proj-bg-3 { background: linear-gradient(135deg, #dde0ee 0%, #9098c0 100%); }
+  .proj-bg-4 { background: linear-gradient(135deg, #d8e8d8 0%, #8aac8a 100%); }
+  .img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+  .img-placeholder-text { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(0,0,0,0.25); }
+  .image-trio { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; margin-top: 1.5rem; background: var(--rule); }
+  .image-trio > div { aspect-ratio: 3/2; }
+
+  /* ─────────────────────────────────────────
+     NEW: SUBSECTION STYLES
+  ───────────────────────────────────────── */
+
+  /* Full-bleed wrapper helper */
+  .bleed {
+    max-width: 100vw;
+    margin-left: calc(-1 * var(--page-padding));
+    margin-right: calc(-1 * var(--page-padding));
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* ─── SECTION EYEBROW ─── */
+  .eyebrow {
+    font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--ink-faint); display: block; margin-bottom: 0.65rem;
+  }
+
+  /* ─── CONCEPT & MOOD ─── */
+  .mood-wrap {
+    display: grid;
+    grid-template-columns: 55% 45%;
+    min-height: clamp(440px, 60vw, 700px);
+  }
+
+  .mood-board {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 2fr 1.5fr 1.5fr;
+    gap: 3px;
+    background: #c0b8b0;
+    overflow: hidden;
+  }
+
+  .mb { overflow: hidden; background: #c8b8a0; }
+  .mb-span2c { grid-column: span 2; }
+  .mb-span2r { grid-row: span 2; }
+
+  .mood-content {
+    background: #fff;
+    padding: clamp(2.5rem, 5vw, 5rem) clamp(2rem, 4vw, 3.5rem);
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; gap: 1.2rem;
+  }
+
+  .mood-title {
+    font-size: clamp(1.8rem, 2.8vw, 2.5rem); font-weight: 700;
+    letter-spacing: -0.025em; line-height: 1.1; color: var(--ink);
+  }
+
+  .mood-para {
+    font-size: 0.9rem; line-height: 1.8; color: var(--ink); max-width: 44ch;
+  }
+
+  .keywords-row { font-size: 0.88rem; color: var(--ink); }
+  .keywords-row strong { font-weight: 700; }
+
+  /* Palette card */
+  .palette-card {
+    width: 100%; max-width: 340px;
+    border: 1px solid var(--rule); overflow: hidden;
+  }
+  .pe { display: flex; align-items: stretch; border-bottom: 1px solid var(--rule); }
+  .pe:last-child { border-bottom: none; }
+  .pe-sw { width: 56px; height: 44px; flex-shrink: 0; }
+  .pe-label {
+    padding: 0 0.85rem; font-size: 0.7rem; font-weight: 500;
+    color: var(--ink-mid); display: flex; align-items: center; flex: 1;
+  }
+
+  /* ─── TEXTURE GRID ─── */
+  .t-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    height: clamp(320px, 44vw, 520px);
+    gap: 2px;
+    background: #c0c0c0;
+  }
+  .tc { overflow: hidden; }
+
+  .texture-desc {
+    padding: clamp(2.5rem, 4vw, 3.5rem) var(--page-padding);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(3rem, 5vw, 7rem);
+    align-items: start;
+  }
+
+  .texture-heading {
+    font-size: clamp(1.5rem, 2.8vw, 2.4rem); font-weight: 700;
+    letter-spacing: -0.02em; margin-bottom: 1rem; white-space: nowrap;
+  }
+
+  .texture-para { font-size: 0.95rem; line-height: 1.75; max-width: 58ch; }
+
+  /* ─── ENGOBE / LABELED PHOTO GRID ─── */
+  .engobe-wrap {
+    display: grid;
+    grid-template-columns: 38% 62%;
+    min-height: clamp(400px, 55vw, 680px);
+  }
+
+  .engobe-text {
+    padding: clamp(2.5rem, 5vw, 4rem) var(--page-padding);
+    display: flex; flex-direction: column; gap: 1rem;
+    border-right: 1px solid var(--rule);
+  }
+
+  .engobe-proj-no {
+    font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--ink-faint); display: block;
+  }
+
+  .engobe-title {
+    font-size: clamp(1.5rem, 2.5vw, 2.2rem); font-weight: 700;
+    letter-spacing: -0.025em; line-height: 1.15;
+  }
+
+  .engobe-desc { font-size: 0.92rem; line-height: 1.75; max-width: 42ch; }
+
+  .engobe-caption {
+    font-style: italic; font-size: 0.82rem; color: var(--ink-faint);
+    line-height: 1.65; margin-top: auto; padding-top: 1.25rem;
+    border-top: 1px solid var(--rule); text-align: right;
+  }
+
+  /* Labeled photo grid — mirroring the PDF mosaic */
+  .engobe-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 3px;
+    background: #c0b8b0;
+  }
+
+  .eg { position: relative; overflow: hidden; background: #c8c0b8; }
+  .eg-inner { width: 100%; height: 100%; }
+
+  .eg-label {
+    position: absolute; bottom: 0.65rem; left: 0.65rem;
+    font-size: 0.68rem; font-weight: 700; line-height: 1.4;
+    background: rgba(255,255,255,0.88); padding: 0.2em 0.55em;
+    color: var(--ink);
+    backdrop-filter: blur(4px);
+  }
+
+  .eg-label-inv {
+    position: absolute; top: 0.65rem; right: 0.65rem;
+    font-size: 0.68rem; font-weight: 700; line-height: 1.4;
+    color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,0.65);
+  }
+
+  /* ─── MATERIAL PANELS (Project 2) ─── */
+  .mat-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; background: #c0c0c0;
+    height: clamp(280px, 38vw, 460px);
+  }
+
+  .mat-panel {
+    position: relative; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 1.75rem;
+  }
+
+  .mat-text { position: relative; z-index: 1; }
+  .mat-name {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; margin-bottom: 0.25rem;
+  }
+  .mat-note { font-size: 0.78rem; line-height: 1.5; opacity: 0.72; }
+
+  /* Content row (text beside grid) */
+  .content-row {
+    padding: clamp(2.5rem, 4vw, 3.5rem) var(--page-padding);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(3rem, 6vw, 7rem);
+    align-items: start;
+  }
+
+  .content-heading {
+    font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 700;
+    letter-spacing: -0.02em; margin-bottom: 1rem;
+  }
+
+  .content-para { font-size: 0.93rem; line-height: 1.75; }
+
+  /* ─── PROCESS STEPS (Project 2 detail) ─── */
+  .steps-row {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .step {
+    padding: 2rem 1.5rem 2rem 0;
+    border-right: 1px solid var(--rule);
+  }
+  .step:last-child { border-right: none; }
+  .step:first-child { padding-left: 0; }
+
+  .step-num {
+    font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 0.5rem;
+  }
+
+  .step-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .step-desc { font-size: 0.82rem; line-height: 1.6; color: var(--ink-light); }
+
+  /* ─── PATTERN GRID (Project 4) ─── */
+  .pattern-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 3px;
+    background: #c0c0c0;
+    height: clamp(300px, 42vw, 520px);
+  }
+
+  .pg { overflow: hidden; position: relative; }
+  .pg-span { grid-column: span 2; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 4rem var(--page-padding); border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: var(--page-max); margin: 0 auto;
+  }
+  .footer-name { font-weight: 700; font-size: 1.5rem; color: var(--ink); letter-spacing: -0.02em; }
+  .footer-meta { display: flex; flex-direction: column; gap: 0.75rem; }
+  .footer-link {
+    display: inline-flex; align-items: center; gap: 0.65rem;
+    font-size: 0.88rem; font-weight: 500; color: var(--ink-mid);
+    text-decoration: none; transition: color 0.2s;
+  }
+  .footer-link:hover { color: var(--ink); }
+  .footer-link svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
+
+  /* ─── GRAIN ─── */
+  body::after {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+    opacity: 0.018;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { min-height: 85svh; }
+    .about-grid { grid-template-columns: 1fr; }
+    .about-photo { aspect-ratio: 4/3; order: -1; }
+    .toc-grid { grid-template-columns: 1fr 1fr; }
+    .toc-item { border-right: none; border-bottom: 1px solid var(--rule); padding: 1.5rem 0; }
+    .project-split, .mood-wrap, .engobe-wrap { grid-template-columns: 1fr; }
+    .project-split-image, .mood-board { min-height: 55vw; }
+    .engobe-grid { grid-template-columns: 1fr 1fr; }
+    .mat-grid { grid-template-columns: 1fr 1fr; }
+    .texture-desc { grid-template-columns: 1fr; gap: 1.5rem; }
+    .content-row { grid-template-columns: 1fr; gap: 1.5rem; }
+    .steps-row { grid-template-columns: 1fr 1fr; }
+    .pattern-grid { grid-template-columns: 1fr 1fr; }
+    .pg-span { grid-column: span 1; }
+  }
+
+  @media (max-width: 600px) {
+    .toc-grid { grid-template-columns: 1fr; }
+    .steps-row { grid-template-columns: 1fr; }
+    .mat-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .texture-heading { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="#" class="nav-name">Zachary Stephens</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════
+     HERO
+═══════════════════════════════════ -->
+<div class="hero" id="home">
+  <div class="hero-left">
+    <h1 class="hero-title">PDES Web<br>Portfolio</h1>
+    <div class="hero-meta">
+      <p class="name">Zachary Stephens</p>
+      <p>4th Year · Product Design</p>
+      <p>University of Leeds, UK</p>
+    </div>
+  </div>
+  <div class="hero-right"><div class="hero-art"></div></div>
+</div>
+
+<!-- ═══════════════════════════════════
+     ABOUT
+═══════════════════════════════════ -->
+<section class="section" id="about">
+  <div class="about-grid">
+    <div>
+      <h2 class="about-heading">About me:</h2>
+      <div class="about-body">
+        <p>A 22-year-old multidisciplinary artist and designer from Pune, Maharashtra — currently wrapping up my Graduation Project in Ceramic and Glass Design at NID Ahmedabad.</p>
+        <p>One of my biggest inspirations is nature, in all its glory and beauty. I am also deeply influenced by the rich history of creativity in India — Mughal architecture, ancient carvings, folk paintings, and textile prints.</p>
+        <p>I believe that indigenous techniques of working with materials are the core knowledge all designers need. My goal is to create designs that are inspired by the past, relevant to the present, and sustainable for the future.</p>
+      </div>
+    </div>
+    <div class="about-photo">
+      <div class="about-photo-inner">
+        <span class="photo-caption">Mansi Sonawane · 2025</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     TABLE OF CONTENTS
+═══════════════════════════════════ -->
+<section class="section" id="work">
+  <h2 class="about-heading">Table of Contents:</h2>
+  <div class="toc-grid">
+    <a href="#project-1" class="toc-item">
+      <div class="toc-number">1.</div>
+      <div class="toc-img-wrap"><div class="img-placeholder proj-bg-1"><span class="img-placeholder-text">Tile Design</span></div></div>
+      <div class="toc-title">Texture Development<br>for Accent Tiles</div>
+    </a>
+    <a href="#project-2" class="toc-item">
+      <div class="toc-number">2.</div>
+      <div class="toc-img-wrap"><div class="img-placeholder proj-bg-2"><span class="img-placeholder-text">Tangram</span></div></div>
+      <div class="toc-title">Tangram for Motor &<br>Sensory Development</div>
+    </a>
+    <a href="#project-3" class="toc-item">
+      <div class="toc-number">3.</div>
+      <div class="toc-img-wrap"><div class="img-placeholder proj-bg-3"><span class="img-placeholder-text">Surface Dev</span></div></div>
+      <div class="toc-title">Surface Development<br>Projects</div>
+    </a>
+    <a href="#project-4" class="toc-item">
+      <div class="toc-number">4.</div>
+      <div class="toc-img-wrap"><div class="img-placeholder proj-bg-4"><span class="img-placeholder-text">Print Design</span></div></div>
+      <div class="toc-title">Print Design</div>
+    </a>
+  </div>
+</section>
+
+
+
+<!-- ═══════════════════════════════════
+     PROJECT 1 — TILE DESIGN
+═══════════════════════════════════ -->
+
+<!-- 1a. INTRO SPLIT -->
+<div class="project-split proj-sub" id="project-1">
+  <div class="project-split-content">
+    <div class="project-number">1</div>
+    <div class="project-tag">Internship · Qutone Ceramics</div>
+    <h2 class="project-title">Tile Design</h2>
+    <p class="project-desc">A project assigned during a 1-month internship at Qutone Ceramics. I followed a linear design process starting with a root inspiration via a theme selected from a relevant trend forecast, then translating the same into textures and interesting patterns for accent tiles of 200×200 mm and 75×300 mm.</p>
+  </div>
+  <div class="project-split-image">
+    <div class="proj-bg-1 img-placeholder"><span class="img-placeholder-text">Tile Photography</span></div>
+  </div>
+</div>
+
+<!-- 1b. CONCEPT & MOOD -->
+<div class="bleed proj-sub" id="p1-mood">
+  <div class="mood-wrap">
+    <!-- Moodboard: CSS colour collage echoing screenshot 3 -->
+    <div class="mood-board">
+      <!-- Row 1: top row — insects / warm textures -->
+      <div class="mb" style="background:linear-gradient(135deg,#1a1208 0%,#3a280a 60%,#c89030 100%);grid-row:span 2;"></div>
+      <div class="mb" style="background:linear-gradient(160deg,#c89858 0%,#8a5820 60%,#5a3010 100%);
+        background-image:repeating-linear-gradient(5deg,transparent 0,transparent 9px,rgba(255,255,255,0.07) 9px,rgba(255,255,255,0.07) 11px);"></div>
+      <div class="mb" style="background:linear-gradient(135deg,#c8a070 0%,#e8d0a0 50%,#a87840 100%);
+        background-image:repeating-linear-gradient(90deg,rgba(0,0,0,0.06) 0,rgba(0,0,0,0.06) 1px,transparent 1px,transparent 9px),
+        repeating-linear-gradient(0deg,rgba(0,0,0,0.06) 0,rgba(0,0,0,0.06) 1px,transparent 1px,transparent 9px);"></div>
+      <!-- Row 2 -->
+      <div class="mb" style="background:linear-gradient(170deg,#7a4a18 0%,#b87040 50%,#d0a060 100%);
+        background-image:repeating-linear-gradient(175deg,transparent 0,transparent 8px,rgba(200,120,40,0.2) 8px,rgba(200,120,40,0.2) 10px);"></div>
+      <div class="mb" style="background:linear-gradient(145deg,#e8d8b8 0%,#c8b898 40%,#f0e8c8 100%);
+        background-image:repeating-linear-gradient(135deg,rgba(0,0,0,0.04) 0,rgba(0,0,0,0.04) 1px,transparent 1px,transparent 6px);"></div>
+      <!-- Row 3 -->
+      <div class="mb mb-span2c" style="background:linear-gradient(155deg,#8a5820 0%,#5a3010 40%,#3a1808 70%,#6a3818 100%);"></div>
+      <div class="mb" style="background:linear-gradient(135deg,#d0b890 0%,#b89060 60%,#906030 100%);
+        background-image:repeating-linear-gradient(45deg,rgba(0,0,0,0.05) 0,rgba(0,0,0,0.05) 1px,transparent 1px,transparent 8px),
+        repeating-linear-gradient(-45deg,rgba(0,0,0,0.05) 0,rgba(0,0,0,0.05) 1px,transparent 1px,transparent 8px);"></div>
+    </div>
+
+    <!-- Right: concept text + palette -->
+    <div class="mood-content">
+      <span class="eyebrow">Project 1 · Concept</span>
+      <h3 class="mood-title">Concept and mood</h3>
+      <p class="mood-para">The inspiration for this project stemmed from the Fashion Prints Forecast for Autumn/Winter 2024, under the theme <em>Fired Earth</em>. The material chosen directly resonates with the theme, reflecting the raw and grounded quality suggested by the concept. This theme was selected to spread awareness about global warming and the urgency for global action in regard to climate change. Textures naturally occurring in nature were explored in combination with textures created using natural and non-polluting materials.</p>
+      <p class="keywords-row"><strong>Key words:</strong> Earthy, Natural, Sustainable, Rustic</p>
+      <div class="palette-card">
+        <div class="pe">
+          <div class="pe-sw" style="background:#964523;"></div>
+          <div class="pe-label">#964523 &nbsp; Terracotta</div>
+        </div>
+        <div class="pe">
+          <div class="pe-sw" style="background:#531915;"></div>
+          <div class="pe-label">#531915 &nbsp; Dark Red</div>
+        </div>
+        <div class="pe">
+          <div class="pe-sw" style="background:#895421;"></div>
+          <div class="pe-label">#895421 &nbsp; Grey Brown</div>
+        </div>
+        <div class="pe">
+          <div class="pe-sw" style="background:#382f02;"></div>
+          <div class="pe-label">#382f02 &nbsp; Green Bark</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 1c. DIGITAL EXPLORATIONS -->
+<div class="bleed proj-sub" id="p1-textures">
+  <!-- Texture grid — 4×5 CSS swatches mirroring the Procreate explorations -->
+  <div class="t-grid">
+    <!-- Row 1 -->
+    <div class="tc" style="background:radial-gradient(ellipse 80% 80% at 50% 50%,#c8a070 20%,#e8c890 70%);background-image:radial-gradient(circle at 30% 40%,rgba(0,0,0,0.12) 1px,transparent 1px),radial-gradient(circle at 70% 60%,rgba(0,0,0,0.08) 1px,transparent 1px);background-size:100%,7px 7px,9px 9px;"></div>
+    <div class="tc" style="background:#5a7040;background-image:repeating-linear-gradient(8deg,transparent 0,transparent 7px,rgba(255,255,255,0.12) 7px,rgba(255,255,255,0.12) 9px);"></div>
+    <div class="tc" style="background:#6b3a20;"></div>
+    <div class="tc" style="background:#4a5a28;"></div>
+    <!-- Row 2 -->
+    <div class="tc" style="background:linear-gradient(135deg,#8a4818 0%,#9a5820 100%);"></div>
+    <div class="tc" style="background:#2a3a1a;background-image:repeating-linear-gradient(175deg,transparent 0,transparent 11px,rgba(80,120,40,0.2) 11px,rgba(80,120,40,0.2) 13px);"></div>
+    <div class="tc" style="background:#f0e8d0;background-image:radial-gradient(ellipse 60% 30% at 40% 50%,rgba(30,15,5,0.18) 0%,transparent 70%),radial-gradient(ellipse 60% 30% at 75% 60%,rgba(30,15,5,0.12) 0%,transparent 65%);"></div>
+    <div class="tc" style="background:#b8bac0;background-image:repeating-linear-gradient(170deg,transparent 0,transparent 14px,rgba(40,40,60,0.18) 14px,rgba(40,40,60,0.18) 16px);"></div>
+    <!-- Row 3 -->
+    <div class="tc" style="background:linear-gradient(135deg,#5a1010 0%,#3a0808 100%);"></div>
+    <div class="tc" style="background:linear-gradient(145deg,#7a8020 0%,#909830 50%,#686820 100%);opacity:0.9;"></div>
+    <div class="tc" style="background:#2a1a10;"></div>
+    <div class="tc" style="background:#e8e0d0;background-image:repeating-linear-gradient(30deg,rgba(180,60,30,0.15) 0,rgba(180,60,30,0.15) 1px,transparent 1px,transparent 8px),repeating-linear-gradient(-30deg,rgba(180,60,30,0.12) 0,rgba(180,60,30,0.12) 1px,transparent 1px,transparent 8px);"></div>
+    <!-- Row 4 -->
+    <div class="tc" style="background:linear-gradient(135deg,#c07010 0%,#d08020 50%,#b06010 100%);background-image:repeating-linear-gradient(0deg,rgba(0,0,0,0.1) 0,rgba(0,0,0,0.1) 8px,transparent 8px,transparent 16px),repeating-linear-gradient(90deg,rgba(0,0,0,0.1) 0,rgba(0,0,0,0.1) 8px,transparent 8px,transparent 16px);"></div>
+    <div class="tc" style="background:linear-gradient(160deg,#c8b8a0 0%,#d8c8b0 100%);"></div>
+    <div class="tc" style="background:linear-gradient(145deg,#a8a0a0 0%,#b8b0b0 100%);"></div>
+    <div class="tc" style="background:linear-gradient(135deg,#6a4830 0%,#7a5840 50%,#5a3820 100%);background-image:repeating-linear-gradient(85deg,rgba(255,255,255,0.04) 0,rgba(255,255,255,0.04) 2px,transparent 2px,transparent 12px);"></div>
+    <!-- Row 5 -->
+    <div class="tc" style="background:linear-gradient(145deg,#3a0808 0%,#280505 100%);"></div>
+    <div class="tc" style="background:#e8dcc0;background-image:radial-gradient(ellipse 15% 25% at 25% 40%,rgba(80,50,20,0.15) 0%,transparent 80%),radial-gradient(ellipse 15% 25% at 65% 65%,rgba(80,50,20,0.12) 0%,transparent 80%),radial-gradient(ellipse 15% 25% at 80% 25%,rgba(80,50,20,0.1) 0%,transparent 80%);"></div>
+    <div class="tc" style="background:#c0a870;background-image:radial-gradient(ellipse 40% 20% at 35% 55%,rgba(40,20,5,0.15) 0%,transparent 80%),radial-gradient(ellipse 40% 20% at 70% 35%,rgba(40,20,5,0.12) 0%,transparent 80%);"></div>
+    <div class="tc" style="background:#b8c8a8;background-image:radial-gradient(circle 18% at 25% 30%,rgba(50,80,30,0.18) 0%,transparent 100%),radial-gradient(circle 18% at 65% 65%,rgba(50,80,30,0.14) 0%,transparent 100%),radial-gradient(circle 18% at 80% 20%,rgba(50,80,30,0.12) 0%,transparent 100%);"></div>
+  </div>
+  <!-- Description below -->
+  <div class="texture-desc">
+    <div>
+      <h3 class="texture-heading">Digital<br>Explorations</h3>
+    </div>
+    <div>
+      <p class="texture-para">These are some of the many textures explored digitally using Procreate. I have tried to understand the basics of the chosen inspiration materials and break them down to their core, extracting lines, patterns, and organic shapes that subtly reflect the core inspiration in a stylized manner.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     PROJECT 2 — TANGRAM
+═══════════════════════════════════ -->
+
+<!-- 2a. INTRO SPLIT (reversed) -->
+<div class="project-split proj-sub" id="project-2" style="direction:rtl">
+  <div class="project-split-content" style="direction:ltr">
+    <div class="project-number">2</div>
+    <div class="project-tag">NID · Product Design</div>
+    <h2 class="project-title">Tangram for Motor &amp; Sensory Development</h2>
+    <p class="project-desc">An exploration into tactile play objects that support motor skill development and sensory engagement in early childhood. Designed using a material-first approach — walnut, copper, leather — to heighten material awareness and invite touch.</p>
+  </div>
+  <div class="project-split-image" style="direction:ltr">
+    <div class="proj-bg-2 img-placeholder"><span class="img-placeholder-text">Tangram Photography</span></div>
+  </div>
+</div>
+
+<!-- 2b. RESEARCH & INSPIRATION -->
+<div class="bleed proj-sub" id="p2-research">
+  <div class="content-row" style="border-bottom:1px solid var(--rule);padding-top:var(--section-gap);padding-bottom:var(--section-gap);">
+    <div>
+      <span class="eyebrow">Project 2 · Research</span>
+      <h3 class="content-heading">Research &amp; Inspiration</h3>
+      <p class="content-para">The project began with an extensive study of existing therapeutic play objects and Montessori learning tools. Research revealed that children aged 2–6 benefit most from objects that demand grip variation, weight awareness, and visual pattern recognition — simultaneously developing fine motor skills and cognitive sorting.</p>
+      <p class="content-para" style="margin-top:1rem;">The traditional Chinese tangram — seven flat shapes that assemble into a square — proved the ideal structural starting point. Its constraint-based logic forces spatial reasoning while the material differentiation layer adds a sensory dimension absent in most commercial variants.</p>
+    </div>
+    <div>
+      <span class="eyebrow">Project 2 · Design intent</span>
+      <h3 class="content-heading">Material-first approach</h3>
+      <p class="content-para">Rather than treating material as finish, each piece was assigned a distinct substance based on its intended sensory contribution. Walnut brings warmth and smoothness; hammered copper introduces a cool, tactile surface requiring careful handling; undyed leather provides grip contrast and a pliable, yielding resistance unfamiliar to most children's objects.</p>
+      <p class="content-para" style="margin-top:1rem;">The interplay of these three materials across the seven geometric pieces creates an implicit hierarchy that guides play without explicit instruction — a core principle drawn from Montessori pedagogy.</p>
+    </div>
+  </div>
+  <!-- Process steps -->
+  <div style="padding:0 var(--page-padding);">
+    <div class="steps-row">
+      <div class="step">
+        <div class="step-num">Step 01</div>
+        <div class="step-title">Literature Review</div>
+        <div class="step-desc">Child development studies, Montessori frameworks, and tactile cognition research.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 02</div>
+        <div class="step-title">Material Testing</div>
+        <div class="step-desc">20+ material samples evaluated by texture, weight, temperature, and child-safe finish.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 03</div>
+        <div class="step-title">Form Iteration</div>
+        <div class="step-desc">Seven geometric variations modelled in clay, then refined into final tangram set.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">Step 04</div>
+        <div class="step-title">User Testing</div>
+        <div class="step-desc">Play sessions with children aged 3–5 at two Ahmedabad nurseries with feedback documentation.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 2c. MATERIAL EXPLORATIONS -->
+<div class="bleed proj-sub" id="p2-materials">
+  <!-- Material panel grid -->
+  <div class="mat-grid">
+    <!-- Walnut -->
+    <div class="mat-panel" style="background:linear-gradient(155deg,#6a4830 0%,#3a2010 50%,#4a3018 100%);">
+      <div class="mat-text" style="color:#fff;">
+        <div class="mat-name">Walnut Wood</div>
+        <div class="mat-note">Warmth · Smooth grain · Natural oils</div>
+      </div>
+    </div>
+    <!-- Copper -->
+    <div class="mat-panel" style="background:linear-gradient(155deg,#b05820 0%,#803818 50%,#a04818 100%);background-image:radial-gradient(ellipse 50% 40% at 40% 35%,rgba(200,130,60,0.3) 0%,transparent 60%);">
+      <div class="mat-text" style="color:#fff;">
+        <div class="mat-name">Hammered Copper</div>
+        <div class="mat-note">Cool to touch · Tactile surface · Weight</div>
+      </div>
+    </div>
+    <!-- Leather -->
+    <div class="mat-panel" style="background:linear-gradient(155deg,#8a7060 0%,#6a5040 50%,#7a6050 100%);background-image:repeating-linear-gradient(90deg,rgba(0,0,0,0.04) 0,rgba(0,0,0,0.04) 1px,transparent 1px,transparent 9px),repeating-linear-gradient(0deg,rgba(0,0,0,0.04) 0,rgba(0,0,0,0.04) 1px,transparent 1px,transparent 9px);">
+      <div class="mat-text" style="color:#fff;">
+        <div class="mat-name">Undyed Leather</div>
+        <div class="mat-note">Grip contrast · Pliable resistance · Natural</div>
+      </div>
+    </div>
+  </div>
+  <div class="texture-desc">
+    <div>
+      <h3 class="texture-heading">Material<br>Explorations</h3>
+    </div>
+    <div>
+      <p class="texture-para">Each material was sourced from regional Indian craftspeople — walnut from Kashmir, copper from Rajasthani workshops, leather from Dharavi's natural-tan tanneries. This grounding in local supply chains not only reduced the carbon footprint of the project but ensured each material carried authentic craft character rather than industrial uniformity.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     PROJECT 3 — SURFACE DEVELOPMENT
+═══════════════════════════════════ -->
+
+<!-- 3a. INTRO SPLIT -->
+<div class="project-split proj-sub" id="project-3">
+  <div class="project-split-content">
+    <div class="project-number">3</div>
+    <div class="project-tag">NID · Surface Development</div>
+    <h2 class="project-title">Surface Development Projects</h2>
+    <p class="project-desc">A culmination of all the surface development projects undertaken during my time at NID. Developed as part of the Surface Development course in Semester 3, exploring various techniques used in ceramic surface treatment — with emphasis on material effects and hands-on exploration.</p>
+  </div>
+  <div class="project-split-image">
+    <div class="proj-bg-3 img-placeholder"><span class="img-placeholder-text">Teapot Photography</span></div>
+  </div>
+</div>
+
+<!-- 3b. ENGOBE EXPLORATION — mirrors screenshot 1 layout exactly -->
+<div class="bleed proj-sub" id="p3-engobe">
+  <div class="engobe-wrap">
+    <!-- Left: text -->
+    <div class="engobe-text">
+      <span class="engobe-proj-no">Project No: 3</span>
+      <h3 class="engobe-title">Engobe Exploration</h3>
+      <p class="engobe-desc">Engobe was the chosen method of surface decoration for this piece — because I love painting and based on the previously done works I concluded that this would be the best way to go about it. I explored various different colours and observed the contrast seen against the clay body post firing to decide which one works the best and gives the perfect results.</p>
+      <p class="engobe-caption">These products have been developed as a part of my systems project via a workshop with women potters from Kachchh. The painting has been done by them; the design direction suggested by me.</p>
+    </div>
+
+    <!-- Right: labeled photo grid -->
+    <div class="engobe-grid">
+      <!-- Cell 1: Black and Mustard Yellow -->
+      <div class="eg" style="background:linear-gradient(145deg,#e8ddb8 0%,#d8cc98 50%,#e0d0a0 100%);">
+        <div class="eg-label">Black and Mustard Yellow</div>
+      </div>
+      <!-- Cell 2: Blue over white / White over blue — larger, spans 2 cols -->
+      <div class="eg" style="grid-column:span 1;background:linear-gradient(145deg,#e8eaf8 0%,#c0c8f0 50%,#d8dff8 100%);background-image:radial-gradient(ellipse 60% 50% at 40% 40%,rgba(60,80,200,0.15) 0%,transparent 70%);">
+        <div class="eg-label-inv" style="text-align:right;">Blue over white<br>White over blue (sgraffito)</div>
+      </div>
+      <!-- Cell 3: Olive Green -->
+      <div class="eg" style="background:linear-gradient(145deg,#c8cca8 0%,#a8ac80 50%,#b8bc90 100%);">
+        <div class="eg-label">Olive Green</div>
+      </div>
+      <!-- Cell 4: White over terracotta -->
+      <div class="eg" style="background:linear-gradient(145deg,#c86040 0%,#a84828 50%,#b85030 100%);background-image:repeating-radial-gradient(ellipse 30% 15% at 30% 40%,rgba(255,255,255,0.1) 0%,transparent 60%);">
+        <div class="eg-label" style="background:rgba(255,255,255,0.9);">White over terracotta</div>
+      </div>
+      <!-- Cell 5: Red and Mustard Yellow -->
+      <div class="eg" style="background:linear-gradient(145deg,#f0d890 0%,#e0c070 50%,#d8b860 100%);background-image:radial-gradient(ellipse 50% 40% at 50% 50%,rgba(180,40,20,0.12) 0%,transparent 70%);">
+        <div class="eg-label">Red and Mustard Yellow</div>
+      </div>
+      <!-- Cell 6: Black -->
+      <div class="eg" style="background:linear-gradient(145deg,#2a2020 0%,#180c0c 100%);">
+        <div class="eg-label" style="color:#fff;background:rgba(0,0,0,0.5);">Black</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3c. TECHNIQUE SUMMARY -->
+<div class="bleed proj-sub" id="p3-techniques">
+  <div class="content-row" style="padding-top:var(--section-gap);padding-bottom:var(--section-gap);">
+    <div>
+      <span class="eyebrow">Project 3 · Techniques</span>
+      <h3 class="content-heading">Surface Technique Studies</h3>
+      <p class="content-para">The course required systematic exploration of at least six distinct ceramic surface decoration methods. Each study was conducted as a controlled experiment — identical forms treated differently — allowing direct comparison of visual and tactile outcomes.</p>
+      <p class="content-para" style="margin-top:1rem;">Engobe slip painting was ultimately selected for the final collection due to its compatibility with my design vocabulary: fluid, gestural, and rooted in the painting traditions of Indian folk crafts.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);align-self:stretch;">
+      <div style="background:#f4f0e8;padding:1.5rem;display:flex;flex-direction:column;gap:0.4rem;">
+        <span style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-faint);">Technique 01</span>
+        <span style="font-weight:600;font-size:0.92rem;">Engobe Slip Painting</span>
+        <span style="font-size:0.8rem;color:var(--ink-light);line-height:1.5;">Coloured clay slips applied over leather-hard greenware, creating a matt painted surface post-glaze.</span>
+      </div>
+      <div style="background:#f0f0f4;padding:1.5rem;display:flex;flex-direction:column;gap:0.4rem;">
+        <span style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-faint);">Technique 02</span>
+        <span style="font-weight:600;font-size:0.92rem;">Sgraffito</span>
+        <span style="font-size:0.8rem;color:var(--ink-light);line-height:1.5;">Incising through a layer of slip to reveal the contrasting clay body beneath — crisp and graphic.</span>
+      </div>
+      <div style="background:#f4ede8;padding:1.5rem;display:flex;flex-direction:column;gap:0.4rem;">
+        <span style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-faint);">Technique 03</span>
+        <span style="font-weight:600;font-size:0.92rem;">Wax Resist</span>
+        <span style="font-size:0.8rem;color:var(--ink-light);line-height:1.5;">Hot wax applied to define areas that resist the glaze, producing sharp negative-space patterns.</span>
+      </div>
+      <div style="background:#eef4ee;padding:1.5rem;display:flex;flex-direction:column;gap:0.4rem;">
+        <span style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-faint);">Technique 04</span>
+        <span style="font-weight:600;font-size:0.92rem;">Terrasigillata</span>
+        <span style="font-size:0.8rem;color:var(--ink-light);line-height:1.5;">Ultra-fine clay particle slip burnished onto the surface for a satin sheen without glaze.</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════
+     PROJECT 4 — PRINT DESIGN
+═══════════════════════════════════ -->
+
+<!-- 4a. INTRO SPLIT -->
+<div class="project-split proj-sub" id="project-4" style="border-bottom:none">
+  <div class="project-split-content">
+    <div class="project-number">4</div>
+    <div class="project-tag">NID · Print &amp; Pattern</div>
+    <h2 class="project-title">Print Design</h2>
+    <p class="project-desc">An exploration of pattern and print as a surface language — drawing from Indian textile traditions and translating them into contemporary ceramic surface applications. The work bridges heritage craft techniques with modern material sensibilities.</p>
+  </div>
+  <div class="project-split-image">
+    <div class="proj-bg-4 img-placeholder"><span class="img-placeholder-text">Print Photography</span></div>
+  </div>
+</div>
+
+<!-- 4b. PATTERN DEVELOPMENT -->
+<div class="bleed proj-sub" id="p4-patterns">
+  <!-- Pattern grid -->
+  <div class="pattern-grid">
+    <!-- Botanical floral repeat -->
+    <div class="pg" style="background:#e8dcc8;background-image:radial-gradient(ellipse 20% 30% at 20% 30%,rgba(60,40,10,0.1) 0%,transparent 70%),radial-gradient(ellipse 20% 30% at 70% 65%,rgba(60,40,10,0.09) 0%,transparent 70%),radial-gradient(ellipse 20% 30% at 50% 10%,rgba(60,40,10,0.08) 0%,transparent 70%);"></div>
+    <!-- Geometric grid — indigo-blue -->
+    <div class="pg pg-span" style="background:linear-gradient(155deg,#2a3858 0%,#384868 50%,#1a2840 100%);background-image:repeating-linear-gradient(0deg,rgba(255,255,255,0.06) 0,rgba(255,255,255,0.06) 1px,transparent 1px,transparent 28px),repeating-linear-gradient(90deg,rgba(255,255,255,0.06) 0,rgba(255,255,255,0.06) 1px,transparent 1px,transparent 28px);"></div>
+    <!-- Block print motif -->
+    <div class="pg" style="background:#c8b898;background-image:repeating-radial-gradient(ellipse 12% 18% at 25% 30%,rgba(40,20,5,0.12) 0%,transparent 60%),repeating-radial-gradient(ellipse 12% 18% at 65% 70%,rgba(40,20,5,0.1) 0%,transparent 60%);"></div>
+    <!-- Textile weave -->
+    <div class="pg" style="background:#a8c098;background-image:repeating-linear-gradient(135deg,rgba(0,0,0,0.06) 0,rgba(0,0,0,0.06) 2px,transparent 2px,transparent 10px),repeating-linear-gradient(45deg,rgba(0,0,0,0.06) 0,rgba(0,0,0,0.06) 2px,transparent 2px,transparent 10px);"></div>
+  </div>
+  <!-- Description -->
+  <div class="texture-desc">
+    <div>
+      <h3 class="texture-heading">Pattern<br>Development</h3>
+    </div>
+    <div>
+      <p class="texture-para">The pattern work began with primary research — sketching Mughal floral motifs at the Sidi Saiyyed Mosque in Ahmedabad, recording block-print stamps at the Bagru workshops in Rajasthan, and photographing textile repeat structures across Delhi's Chandni Chowk. These were then translated into a scalable repeat system adaptable to flat ceramic surface application.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 4c. DESIGN PROCESS -->
+<div class="bleed proj-sub" id="p4-process">
+  <div class="content-row" style="padding-top:var(--section-gap);padding-bottom:var(--section-gap);border-bottom:1px solid var(--rule);">
+    <div>
+      <span class="eyebrow">Project 4 · Process</span>
+      <h3 class="content-heading">From Heritage to Surface</h3>
+      <p class="content-para">Each pattern went through three translation stages: field documentation → digital abstraction → material application. The abstraction stage was critical — stripping the source motif to its essential geometry while retaining cultural legibility. A Mughal jaali lattice becomes a ceramic grid; a Bagru floral stamp becomes a slip-trail repeat.</p>
+      <p class="content-para" style="margin-top:1rem;">The final collection of four prints was applied across a family of 150×150 mm stoneware tiles, demonstrating how the same pattern adapts to different glaze palettes and firing temperatures.</p>
+    </div>
+    <div>
+      <span class="eyebrow">Project 4 · Outcomes</span>
+      <h3 class="content-heading">Final Application</h3>
+      <p class="content-para">The four patterns were produced as screen-print transfers and tested on both earthenware and stoneware bodies. Thermal expansion differences required pattern scaling adjustments between clay bodies — an unexpected technical constraint that informed a deeper understanding of print-to-surface material compatibility.</p>
+      <p class="content-para" style="margin-top:1rem;">A secondary outcome was a set of design guidelines for adapting traditional Indian textile prints to ceramic surfaces — submitted as documentation to the NID library as a reference for future students.</p>
+    </div>
+  </div>
+</div>
+</main>
+<!-- ═══════════════════════════════════
+     FOOTER / CONTACT
+═══════════════════════════════════ -->
+<footer id="contact">
+  <div class="footer-name">Thank you!</div>
+  <div class="footer-meta">
+    <a href="mailto:zachstep05@gmail.com" class="footer-link">
+      <svg viewBox="0 0 24 24"><path d="M22 4H2C0.9 4 0 4.9 0 6v12c0 1.1 0.9 2 2 2h20c1.1 0 2-0.9 2-2V6c0-1.1-0.9-2-2-2zm-2 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      zachstep05@gmail.com
+    </a>
+    <a href="https://linkedin.com/in/zacharystephens05/" target="_blank" rel="noopener noreferrer" class="footer-link">
+      <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+      linkedin.com/in/zacharystephens05/
+    </a>
+  </div>
+</footer>
+
+<script>
+  // ─── Nav hide/reveal ───
+  const nav = document.getElementById('navbar');
+  let lastScrollY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+    nav.classList.toggle('nav-hidden', y > lastScrollY && y > 80);
+    lastScrollY = y;
+  }, { passive: true });
+
+  // ─── Fade-in observer ───
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.06 });
+
+  document.querySelectorAll('.section, .project-split, .proj-sub').forEach(el => {
+    observer.observe(el);
+  });
+
+  // ─── Smooth scroll ───
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', function(e) {
+      const t = document.querySelector(this.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
+</script>
+</body>
+</html>
