@@ -36,24 +36,54 @@
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
-    padding: 1.25rem var(--page-padding);
-    background: rgba(255,255,255,0.92);
+    padding: 1rem var(--page-padding);
+    background: rgba(255,255,255,0.95);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
-    will-change: transform;
+    border-bottom: 1px solid var(--rule);
   }
-  nav.nav-hidden { transform: translateY(-100%); }
-  .nav-name {
-    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em;
-    text-transform: uppercase; color: var(--ink); text-decoration: none;
+  
+  .nav-item-container {
+    position: relative;
+    height: 1.2rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--ink);
+    white-space: pre;
   }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a {
-    font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--ink-faint); text-decoration: none; transition: color 0.2s;
+  .nav-left { flex: 1; text-align: left; }
+  .nav-right { flex: none; justify-content: flex-end; }
+
+  /* Token Diff Animation Styles */
+  .diff-container {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
   }
-  .nav-links a:hover { color: var(--ink); }
+  .diff-new, .diff-old {
+    display: inline-block;
+    white-space: pre;
+  }
+  .diff-old {
+    position: absolute;
+    left: 0;
+    pointer-events: none;
+    animation: slideUpOut 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+  .diff-new {
+    animation: slideUpIn 0.4s cubic-bezier(0.16,1,0.3,1) forwards;
+  }
+
+  @keyframes slideUpIn {
+    0% { transform: translateY(100%); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+  }
+  @keyframes slideUpOut {
+    0% { transform: translateY(0); opacity: 1; }
+    100% { transform: translateY(-100%); opacity: 0; }
+  }
 
   /* ─── PAGE WRAPPER ─── */
   main { max-width: var(--page-max); margin: 0 auto; padding: 0 var(--page-padding); }
@@ -130,6 +160,7 @@
     padding: 2rem 1.5rem 2rem 0; border-right: 1px solid var(--rule);
     cursor: pointer; transition: background 0.2s; position: relative;
     text-decoration: none; color: inherit; display: block;
+    -webkit-tap-highlight-color: transparent;
   }
   .toc-item:last-child { border-right: none; padding-right: 0; }
   .toc-item:first-child { padding-left: 0; }
@@ -145,8 +176,6 @@
   .toc-item:nth-child(3) .toc-img-wrap { background: #dde0e8; }
   .toc-item:nth-child(4) .toc-img-wrap { background: #e0e8e0; }
   .toc-title { font-size: 0.98rem; font-weight: 600; line-height: 1.4; }
-  
- 
 
   /* ─── PROJECT SPLIT ─── */
   .project-split {
@@ -155,7 +184,6 @@
     margin-left: calc(-1 * var(--page-padding));
     margin-right: calc(-1 * var(--page-padding));
     padding-top: var(--section-gap); padding-bottom: var(--section-gap);
-   
   }
   .project-split-content {
     padding: clamp(2.5rem,5vw,4.5rem) var(--page-padding);
@@ -167,7 +195,7 @@
   .project-title { font-size: clamp(1.6rem,3vw,2.4rem); line-height: 1.2; margin-bottom: 1.25rem; font-weight: 700; letter-spacing: -0.02em; }
   .project-tag {
     display: inline-block; font-size: 0.68rem; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--ink-light); 
+    text-transform: uppercase; color: var(--ink-light);
     padding: 0.25em 0em; margin-bottom: 1.5rem;
   }
   .project-desc { font-size: 0.98rem; line-height: 1.6; font-weight: 400; max-width: 48ch; }
@@ -177,23 +205,14 @@
   .proj-bg-4 { background: linear-gradient(135deg, #d8e8d8 0%, #8aac8a 100%); }
   .img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
   .img-placeholder-text { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(0,0,0,0.25); }
-  .image-trio { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; margin-top: 1.5rem; background: var(--rule); }
-  .image-trio > div { aspect-ratio: 3/2; }
 
-  /* ─────────────────────────────────────────
-     NEW: SUBSECTION STYLES
-  ───────────────────────────────────────── */
-
-  /* Full-bleed wrapper helper */
+  /* ─── SUBSECTION STYLES ─── */
   .bleed {
     max-width: 100vw;
     margin-left: calc(-1 * var(--page-padding));
     margin-right: calc(-1 * var(--page-padding));
-   
-   
   }
 
-  /* ─── SECTION EYEBROW ─── */
   .eyebrow {
     font-size: 0.66rem; letter-spacing: 0.2em; text-transform: uppercase;
     color: var(--ink-faint); display: block; margin-bottom: 0.65rem;
@@ -205,7 +224,6 @@
     grid-template-columns: 55% 45%;
     min-height: clamp(440px, 60vw, 700px);
   }
-
   .mood-board {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -214,11 +232,9 @@
     background: #c0b8b0;
     overflow: hidden;
   }
-
   .mb { overflow: hidden; background: #c8b8a0; }
   .mb-span2c { grid-column: span 2; }
   .mb-span2r { grid-row: span 2; }
-
   .mood-content {
     background: #fff;
     padding: clamp(2.5rem, 5vw, 5rem) clamp(2rem, 4vw, 3.5rem);
@@ -226,20 +242,16 @@
     justify-content: center; align-items: center;
     text-align: center; gap: 1.2rem;
   }
-
   .mood-title {
     font-size: clamp(1.8rem, 2.8vw, 2.5rem); font-weight: 700;
     letter-spacing: -0.025em; line-height: 1.1; color: var(--ink);
   }
-
   .mood-para {
     font-size: 0.9rem; line-height: 1.8; color: var(--ink); max-width: 44ch;
   }
-
   .keywords-row { font-size: 0.88rem; color: var(--ink); }
   .keywords-row strong { font-weight: 700; }
 
-  /* Palette card */
   .palette-card {
     width: 100%; max-width: 340px;
     border: 1px solid var(--rule); overflow: hidden;
@@ -262,7 +274,6 @@
     background: #c0c0c0;
   }
   .tc { overflow: hidden; }
-
   .texture-desc {
     padding: clamp(2.5rem, 4vw, 3.5rem) var(--page-padding);
     display: grid;
@@ -270,46 +281,37 @@
     gap: clamp(3rem, 5vw, 7rem);
     align-items: start;
   }
-
   .texture-heading {
     font-size: clamp(1.5rem, 2.8vw, 2.4rem); font-weight: 700;
     letter-spacing: -0.02em; margin-bottom: 1rem; white-space: nowrap;
   }
-
   .texture-para { font-size: 0.95rem; line-height: 1.75; max-width: 58ch; }
 
-  /* ─── ENGOBE / LABELED PHOTO GRID ─── */
+  /* ─── ENGOBE ─── */
   .engobe-wrap {
     display: grid;
     grid-template-columns: 38% 62%;
     min-height: clamp(400px, 55vw, 680px);
   }
-
   .engobe-text {
     padding: clamp(2.5rem, 5vw, 4rem) var(--page-padding);
     display: flex; flex-direction: column; gap: 1rem;
     border-right: 1px solid var(--rule);
   }
-
   .engobe-proj-no {
     font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
     color: var(--ink-faint); display: block;
   }
-
   .engobe-title {
     font-size: clamp(1.5rem, 2.5vw, 2.2rem); font-weight: 700;
     letter-spacing: -0.025em; line-height: 1.15;
   }
-
   .engobe-desc { font-size: 0.92rem; line-height: 1.75; max-width: 42ch; }
-
   .engobe-caption {
     font-style: italic; font-size: 0.82rem; color: var(--ink-faint);
     line-height: 1.65; margin-top: auto; padding-top: 1.25rem;
     border-top: 1px solid var(--rule); text-align: right;
   }
-
-  /* Labeled photo grid — mirroring the PDF mosaic */
   .engobe-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -317,10 +319,8 @@
     gap: 3px;
     background: #c0b8b0;
   }
-
   .eg { position: relative; overflow: hidden; background: #c8c0b8; }
   .eg-inner { width: 100%; height: 100%; }
-
   .eg-label {
     position: absolute; bottom: 0.65rem; left: 0.65rem;
     font-size: 0.68rem; font-weight: 700; line-height: 1.4;
@@ -328,26 +328,23 @@
     color: var(--ink);
     backdrop-filter: blur(4px);
   }
-
   .eg-label-inv {
     position: absolute; top: 0.65rem; right: 0.65rem;
     font-size: 0.68rem; font-weight: 700; line-height: 1.4;
     color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,0.65);
   }
 
-  /* ─── MATERIAL PANELS (Project 2) ─── */
+  /* ─── MATERIAL PANELS ─── */
   .mat-grid {
     display: grid; grid-template-columns: repeat(3, 1fr);
     gap: 2px; background: #c0c0c0;
     height: clamp(280px, 38vw, 460px);
   }
-
   .mat-panel {
     position: relative; overflow: hidden;
     display: flex; flex-direction: column; justify-content: flex-end;
     padding: 1.75rem;
   }
-
   .mat-text { position: relative; z-index: 1; }
   .mat-name {
     font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
@@ -355,7 +352,7 @@
   }
   .mat-note { font-size: 0.78rem; line-height: 1.5; opacity: 0.72; }
 
-  /* Content row (text beside grid) */
+  /* ─── CONTENT ROW ─── */
   .content-row {
     padding: clamp(2.5rem, 4vw, 3.5rem) var(--page-padding);
     display: grid;
@@ -363,36 +360,31 @@
     gap: clamp(3rem, 6vw, 7rem);
     align-items: start;
   }
-
   .content-heading {
     font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 700;
     letter-spacing: -0.02em; margin-bottom: 1rem;
   }
-
   .content-para { font-size: 0.93rem; line-height: 1.75; }
 
-  /* ─── PROCESS STEPS (Project 2 detail) ─── */
+  /* ─── PROCESS STEPS ─── */
   .steps-row {
     display: grid; grid-template-columns: repeat(4, 1fr); gap: 0;
     border-top: 1px solid var(--rule);
   }
-
   .step {
     padding: 2rem 1.5rem 2rem 0;
     border-right: 1px solid var(--rule);
   }
   .step:last-child { border-right: none; }
   .step:first-child { padding-left: 0; }
-
   .step-num {
     font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
     color: var(--ink-faint); margin-bottom: 0.5rem;
   }
-
   .step-title { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
   .step-desc { font-size: 0.82rem; line-height: 1.6; color: var(--ink-light); }
 
-  /* ─── PATTERN GRID (Project 4) ─── */
+  /* ─── PATTERN GRID ─── */
   .pattern-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -401,7 +393,6 @@
     background: #c0c0c0;
     height: clamp(300px, 42vw, 520px);
   }
-
   .pg { overflow: hidden; position: relative; }
   .pg-span { grid-column: span 2; }
 
@@ -429,55 +420,313 @@
     background-size: 200px;
   }
 
-  /* ─── RESPONSIVE ─── */
-  @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; }
-    .hero-right { display: none; }
-    .hero-left { min-height: 85svh; }
-    .about-grid { grid-template-columns: 1fr; }
-    .about-photo { aspect-ratio: 4/3; order: -1; }
-    .toc-grid { grid-template-columns: 1fr 1fr; }
-    .toc-item { border-right: none; border-bottom: 1px solid var(--rule); padding: 1.5rem 0; }
-    .project-split, .mood-wrap, .engobe-wrap { grid-template-columns: 1fr; }
-    .project-split-image, .mood-board { min-height: 55vw; }
-    .engobe-grid { grid-template-columns: 1fr 1fr; }
-    .mat-grid { grid-template-columns: 1fr 1fr; }
-    .texture-desc { grid-template-columns: 1fr; gap: 1.5rem; }
-    .content-row { grid-template-columns: 1fr; gap: 1.5rem; }
-    .steps-row { grid-template-columns: 1fr 1fr; }
-    .pattern-grid { grid-template-columns: 1fr 1fr; }
-    .pg-span { grid-column: span 1; }
+  #p1-textures {
+    margin-top: var(--page-padding);
   }
 
-  @media (max-width: 600px) {
-    .toc-grid { grid-template-columns: 1fr; }
-    .steps-row { grid-template-columns: 1fr; }
-    .mat-grid { grid-template-columns: 1fr; }
-    .nav-links { display: none; }
-    .texture-heading { white-space: normal; }
+  /* ═══════════════════════════════════
+     MOBILE OVERRIDES — < 768px
+  ═══════════════════════════════════ */
+  @media (max-width: 768px) {
+    :root {
+      --page-padding: 1.25rem;
+      --section-gap: 3rem;
+    }
+
+    /* NAV */
+    nav {
+      padding: 0.85rem var(--page-padding);
+    }
+    .nav-right {
+      display: none;
+    }
+
+    /* HERO */
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+      padding-top: 3.5rem;
+      padding-bottom: 0;
+    }
+    .hero-right { display: none; }
+    .hero-left {
+      min-height: 75svh;
+      padding: 2rem var(--page-padding) 2.5rem;
+      justify-content: flex-end;
+    }
+    .hero-title {
+      font-size: clamp(2rem, 9vw, 2.8rem);
+      margin-bottom: 1rem;
+    }
+    .hero-meta .name { font-size: 1.2rem; }
+    .hero-meta p { font-size: 0.88rem; }
+
+    /* ABOUT */
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .about-photo {
+      aspect-ratio: 3/2;
+      order: -1;
+    }
+    .about-heading {
+      font-size: clamp(1.5rem, 6vw, 2rem);
+      margin-bottom: 1rem;
+    }
+    .about-body { font-size: 0.92rem; }
+
+    /* TOC */
+    .toc-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+    .toc-item {
+      border-right: none;
+      border-bottom: 1px solid var(--rule);
+      padding: 1.25rem 0.5rem 1.25rem 0;
+    }
+    .toc-item:nth-child(odd) {
+      padding-right: 0.75rem;
+      border-right: 1px solid var(--rule);
+    }
+    .toc-item:nth-child(even) {
+      padding-left: 0.75rem;
+    }
+    .toc-item:nth-child(3),
+    .toc-item:nth-child(4) {
+      border-bottom: none;
+    }
+    .toc-number { font-size: 1.2rem; margin-bottom: 0.6rem; }
+    .toc-img-wrap { margin-bottom: 0.65rem; }
+    .toc-title { font-size: 0.82rem; line-height: 1.35; }
+
+    /* PROJECT SPLIT */
+    .project-split {
+      grid-template-columns: 1fr;
+      padding-top: var(--section-gap);
+      padding-bottom: 0;
+      margin-left: calc(-1 * var(--page-padding));
+      margin-right: calc(-1 * var(--page-padding));
+    }
+    .project-split-content {
+      padding: 2rem var(--page-padding) 1.5rem;
+    }
+    .project-split[style*="rtl"] .project-split-content {
+      order: 1;
+    }
+    .project-split[style*="rtl"] .project-split-image {
+      order: 2;
+    }
+    .project-split-image {
+      min-height: 55vw;
+      position: relative;
+    }
+    .project-split-image > div {
+      position: relative;
+      height: 100%;
+      min-height: 55vw;
+    }
+    .project-number {
+      font-size: clamp(3rem, 12vw, 5rem);
+      margin-bottom: 0.5rem;
+    }
+    .project-title {
+      font-size: clamp(1.4rem, 5vw, 1.8rem);
+      margin-bottom: 0.75rem;
+    }
+    .project-tag { margin-bottom: 0.75rem; font-size: 0.62rem; }
+    .project-desc { font-size: 0.88rem; }
+
+    /* MOOD */
+    .mood-wrap {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .mood-board {
+      height: clamp(200px, 55vw, 320px);
+    }
+    .mood-content {
+      padding: 2rem var(--page-padding);
+      gap: 0.85rem;
+    }
+    .mood-title { font-size: clamp(1.4rem, 5vw, 1.8rem); }
+    .mood-para { font-size: 0.85rem; line-height: 1.7; }
+    .keywords-row { font-size: 0.82rem; }
+    .palette-card { max-width: 100%; }
+    .pe-sw { width: 44px; height: 36px; }
+    .pe-label { font-size: 0.65rem; }
+
+    /* TEXTURE GRID */
+    .t-grid {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(7, 1fr);
+      height: clamp(280px, 80vw, 420px);
+    }
+    .texture-desc {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+      padding: 1.75rem var(--page-padding);
+    }
+    .texture-heading {
+      font-size: clamp(1.3rem, 5vw, 1.7rem);
+      white-space: normal;
+      margin-bottom: 0.5rem;
+    }
+    .texture-para { font-size: 0.88rem; }
+
+    /* ENGOBE */
+    .engobe-wrap {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+    .engobe-text {
+      padding: 1.75rem var(--page-padding);
+      border-right: none;
+      border-bottom: 1px solid var(--rule);
+    }
+    .engobe-title { font-size: clamp(1.3rem, 5vw, 1.7rem); }
+    .engobe-desc { font-size: 0.88rem; }
+    .engobe-caption { font-size: 0.76rem; margin-top: 1rem; }
+    .engobe-grid {
+      grid-template-columns: 1fr 1fr;
+      min-height: clamp(260px, 65vw, 380px);
+    }
+
+    /* MATERIAL PANELS */
+    .mat-grid {
+      grid-template-columns: 1fr;
+      height: auto;
+    }
+    .mat-panel {
+      min-height: 120px;
+      padding: 1.25rem var(--page-padding);
+    }
+    .mat-name { font-size: 0.68rem; }
+    .mat-note { font-size: 0.75rem; }
+
+    /* CONTENT ROW */
+    .content-row {
+      grid-template-columns: 1fr;
+      gap: 1.75rem;
+      padding: 2rem var(--page-padding);
+    }
+    .content-heading {
+      font-size: clamp(1.2rem, 4.5vw, 1.6rem);
+      margin-bottom: 0.65rem;
+    }
+    .content-para { font-size: 0.88rem; }
+
+    .content-row .content-para + div,
+    .techniques-grid {
+      grid-template-columns: 1fr 1fr !important;
+    }
+
+    /* PROCESS STEPS */
+    .steps-row {
+      grid-template-columns: 1fr 1fr;
+    }
+    .step {
+      padding: 1.25rem 1rem 1.25rem 0;
+    }
+    .step:nth-child(even) {
+      border-right: none;
+      padding-right: 0;
+      padding-left: 1rem;
+    }
+    .step:nth-child(3),
+    .step:nth-child(4) {
+      border-top: 1px solid var(--rule);
+    }
+    .step-title { font-size: 0.9rem; }
+    .step-desc { font-size: 0.78rem; }
+
+    /* PATTERN GRID */
+    .pattern-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+      height: clamp(280px, 75vw, 420px);
+    }
+    .pg-span {
+      grid-column: span 1;
+    }
+
+    /* FOOTER */
+    footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.75rem;
+      padding: 2.5rem var(--page-padding);
+    }
+    .footer-name { font-size: 1.2rem; }
+    .footer-link { font-size: 0.82rem; }
+    .footer-meta { gap: 0.6rem; }
+
+    .section {
+      padding: 2.25rem 0;
+    }
+
+    #p1-textures {
+      margin-top: 0;
+    }
   }
-  
-  #p1-textures { 
-  margin-top: var(--page-padding);
+
+  /* ─── VERY SMALL (≤ 380px) ─── */
+  @media (max-width: 380px) {
+    :root { --page-padding: 1rem; }
+    .nav-links { display: none; }
+    .toc-grid { grid-template-columns: 1fr; }
+    .toc-item {
+      border-right: none !important;
+      border-bottom: 1px solid var(--rule) !important;
+      padding: 1rem 0 !important;
+    }
+    .toc-item:last-child { border-bottom: none !important; }
+    .steps-row { grid-template-columns: 1fr; }
+    .step { border-right: none; border-top: 1px solid var(--rule); padding: 1rem 0; }
+    .step:first-child { border-top: none; }
+    .engobe-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ─── MEDIUM TABLET (769–1023px) ─── */
+  @media (min-width: 769px) and (max-width: 1023px) {
+    :root {
+      --page-padding: 2rem;
+      --section-gap: 4rem;
+    }
+    .toc-grid { grid-template-columns: 1fr 1fr; gap: 0; }
+    .toc-item:nth-child(2) { border-right: none; }
+    .toc-item:nth-child(3) { border-bottom: none; padding-left: 0; }
+    .toc-item:nth-child(4) { border-bottom: none; border-right: none; }
+    .toc-item { border-bottom: 1px solid var(--rule); }
+
+    .project-split {
+      grid-template-columns: 1fr 1fr;
+    }
+    .mood-wrap { grid-template-columns: 50% 50%; min-height: clamp(360px, 50vw, 560px); }
+    .engobe-wrap { grid-template-columns: 40% 60%; }
+    .content-row { gap: clamp(2rem, 4vw, 4rem); }
+    .steps-row { grid-template-columns: repeat(2, 1fr); }
+    .step:nth-child(even) { border-right: none; }
+    .step:nth-child(3),
+    .step:nth-child(4) { border-top: 1px solid var(--rule); }
   }
 </style>
 </head>
 <body>
 
 <nav id="navbar">
-  <a href="#" class="nav-name">Zachary Stephens</a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#work">Work</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
+  <div class="nav-left nav-item-container">
+    <!-- Populated by JS Tokens -->
+  </div>
+  <div class="nav-right nav-item-container">
+    <!-- Populated by JS Tokens -->
+  </div>
 </nav>
 
 <main>
 
-<!-- ═══════════════════════════════════
-     HERO
-═══════════════════════════════════ -->
+<!-- HERO -->
 <div class="hero" id="home">
   <div class="hero-left">
     <h1 class="hero-title">PDES Web<br>Portfolio</h1>
@@ -490,9 +739,7 @@
   <div class="hero-right"><div class="hero-art"></div></div>
 </div>
 
-<!-- ═══════════════════════════════════
-     ABOUT
-═══════════════════════════════════ -->
+<!-- ABOUT -->
 <section class="section" id="about">
   <div class="about-grid">
     <div>
@@ -511,26 +758,24 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════════
-     TABLE OF CONTENTS
-═══════════════════════════════════ -->
+<!-- TABLE OF CONTENTS -->
 <section class="section" id="work">
   <h2 class="about-heading">Table of Contents:</h2>
   <div class="toc-grid">
     <a href="#project-1" class="toc-item">
       <div class="toc-number">1.</div>
       <div class="toc-img-wrap"><div class="img-placeholder proj-bg-1"><span class="img-placeholder-text">Tile Design</span></div></div>
-      <div class="toc-title">Texture Development<br>for Accent Tiles</div>
+      <div class="toc-title">Texture Development for Accent Tiles</div>
     </a>
     <a href="#project-2" class="toc-item">
       <div class="toc-number">2.</div>
       <div class="toc-img-wrap"><div class="img-placeholder proj-bg-2"><span class="img-placeholder-text">Tangram</span></div></div>
-      <div class="toc-title">Tangram for Motor &<br>Sensory Development</div>
+      <div class="toc-title">Tangram for Motor &amp; Sensory Development</div>
     </a>
     <a href="#project-3" class="toc-item">
       <div class="toc-number">3.</div>
       <div class="toc-img-wrap"><div class="img-placeholder proj-bg-3"><span class="img-placeholder-text">Surface Dev</span></div></div>
-      <div class="toc-title">Surface Development<br>Projects</div>
+      <div class="toc-title">Surface Development Projects</div>
     </a>
     <a href="#project-4" class="toc-item">
       <div class="toc-number">4.</div>
@@ -540,13 +785,7 @@
   </div>
 </section>
 
-
-
-<!-- ═══════════════════════════════════
-     PROJECT 1 — TILE DESIGN
-═══════════════════════════════════ -->
-
-<!-- 1a. INTRO SPLIT -->
+<!-- PROJECT 1 — TILE DESIGN -->
 <div class="project-split proj-sub" id="project-1">
   <div class="project-split-content">
     <div class="project-number">1</div>
@@ -562,50 +801,25 @@
 <!-- 1b. CONCEPT & MOOD -->
 <div class="bleed proj-sub" id="p1-mood">
   <div class="mood-wrap">
-    <!-- Moodboard: CSS colour collage echoing screenshot 3 -->
     <div class="mood-board">
-      <!-- Row 1: top row — insects / warm textures -->
       <div class="mb" style="background:linear-gradient(135deg,#1a1208 0%,#3a280a 60%,#c89030 100%);grid-row:span 2;"></div>
-      <div class="mb" style="background:linear-gradient(160deg,#c89858 0%,#8a5820 60%,#5a3010 100%);
-        background-image:repeating-linear-gradient(5deg,transparent 0,transparent 9px,rgba(255,255,255,0.07) 9px,rgba(255,255,255,0.07) 11px);"></div>
-      <div class="mb" style="background:linear-gradient(135deg,#c8a070 0%,#e8d0a0 50%,#a87840 100%);
-        background-image:repeating-linear-gradient(90deg,rgba(0,0,0,0.06) 0,rgba(0,0,0,0.06) 1px,transparent 1px,transparent 9px),
-        repeating-linear-gradient(0deg,rgba(0,0,0,0.06) 0,rgba(0,0,0,0.06) 1px,transparent 1px,transparent 9px);"></div>
-      <!-- Row 2 -->
-      <div class="mb" style="background:linear-gradient(170deg,#7a4a18 0%,#b87040 50%,#d0a060 100%);
-        background-image:repeating-linear-gradient(175deg,transparent 0,transparent 8px,rgba(200,120,40,0.2) 8px,rgba(200,120,40,0.2) 10px);"></div>
-      <div class="mb" style="background:linear-gradient(145deg,#e8d8b8 0%,#c8b898 40%,#f0e8c8 100%);
-        background-image:repeating-linear-gradient(135deg,rgba(0,0,0,0.04) 0,rgba(0,0,0,0.04) 1px,transparent 1px,transparent 6px);"></div>
-      <!-- Row 3 -->
+      <div class="mb" style="background:linear-gradient(160deg,#c89858 0%,#8a5820 60%,#5a3010 100%);background-image:repeating-linear-gradient(5deg,transparent 0,transparent 9px,rgba(255,255,255,0.07) 9px,rgba(255,255,255,0.07) 11px);"></div>
+      <div class="mb" style="background:linear-gradient(135deg,#c8a070 0%,#e8d0a0 50%,#a87840 100%);background-image:repeating-linear-gradient(90deg,rgba(0,0,0,0.06) 0,rgba(0,0,0,0.06) 1px,transparent 1px,transparent 9px),repeating-linear-gradient(0deg,rgba(0,0,0,0.06) 0,rgba(0,0,0,0.06) 1px,transparent 1px,transparent 9px);"></div>
+      <div class="mb" style="background:linear-gradient(170deg,#7a4a18 0%,#b87040 50%,#d0a060 100%);background-image:repeating-linear-gradient(175deg,transparent 0,transparent 8px,rgba(200,120,40,0.2) 8px,rgba(200,120,40,0.2) 10px);"></div>
+      <div class="mb" style="background:linear-gradient(145deg,#e8d8b8 0%,#c8b898 40%,#f0e8c8 100%);background-image:repeating-linear-gradient(135deg,rgba(0,0,0,0.04) 0,rgba(0,0,0,0.04) 1px,transparent 1px,transparent 6px);"></div>
       <div class="mb mb-span2c" style="background:linear-gradient(155deg,#8a5820 0%,#5a3010 40%,#3a1808 70%,#6a3818 100%);"></div>
-      <div class="mb" style="background:linear-gradient(135deg,#d0b890 0%,#b89060 60%,#906030 100%);
-        background-image:repeating-linear-gradient(45deg,rgba(0,0,0,0.05) 0,rgba(0,0,0,0.05) 1px,transparent 1px,transparent 8px),
-        repeating-linear-gradient(-45deg,rgba(0,0,0,0.05) 0,rgba(0,0,0,0.05) 1px,transparent 1px,transparent 8px);"></div>
+      <div class="mb" style="background:linear-gradient(135deg,#d0b890 0%,#b89060 60%,#906030 100%);background-image:repeating-linear-gradient(45deg,rgba(0,0,0,0.05) 0,rgba(0,0,0,0.05) 1px,transparent 1px,transparent 8px),repeating-linear-gradient(-45deg,rgba(0,0,0,0.05) 0,rgba(0,0,0,0.05) 1px,transparent 1px,transparent 8px);"></div>
     </div>
-
-    <!-- Right: concept text + palette -->
     <div class="mood-content">
       <span class="eyebrow">Project 1 · Concept</span>
       <h3 class="mood-title">Concept and mood</h3>
-      <p class="mood-para">The inspiration for this project stemmed from the Fashion Prints Forecast for Autumn/Winter 2024, under the theme <em>Fired Earth</em>. The material chosen directly resonates with the theme, reflecting the raw and grounded quality suggested by the concept. This theme was selected to spread awareness about global warming and the urgency for global action in regard to climate change. Textures naturally occurring in nature were explored in combination with textures created using natural and non-polluting materials.</p>
+      <p class="mood-para">The inspiration for this project stemmed from the Fashion Prints Forecast for Autumn/Winter 2024, under the theme <em>Fired Earth</em>. This theme was selected to spread awareness about global warming. Textures naturally occurring in nature were explored in combination with non-polluting materials.</p>
       <p class="keywords-row"><strong>Key words:</strong> Earthy, Natural, Sustainable, Rustic</p>
       <div class="palette-card">
-        <div class="pe">
-          <div class="pe-sw" style="background:#964523;"></div>
-          <div class="pe-label">#964523 &nbsp; Terracotta</div>
-        </div>
-        <div class="pe">
-          <div class="pe-sw" style="background:#531915;"></div>
-          <div class="pe-label">#531915 &nbsp; Dark Red</div>
-        </div>
-        <div class="pe">
-          <div class="pe-sw" style="background:#895421;"></div>
-          <div class="pe-label">#895421 &nbsp; Grey Brown</div>
-        </div>
-        <div class="pe">
-          <div class="pe-sw" style="background:#382f02;"></div>
-          <div class="pe-label">#382f02 &nbsp; Green Bark</div>
-        </div>
+        <div class="pe"><div class="pe-sw" style="background:#964523;"></div><div class="pe-label">#964523 &nbsp; Terracotta</div></div>
+        <div class="pe"><div class="pe-sw" style="background:#531915;"></div><div class="pe-label">#531915 &nbsp; Dark Red</div></div>
+        <div class="pe"><div class="pe-sw" style="background:#895421;"></div><div class="pe-label">#895421 &nbsp; Grey Brown</div></div>
+        <div class="pe"><div class="pe-sw" style="background:#382f02;"></div><div class="pe-label">#382f02 &nbsp; Green Bark</div></div>
       </div>
     </div>
   </div>
@@ -613,35 +827,28 @@
 
 <!-- 1c. DIGITAL EXPLORATIONS -->
 <div class="bleed proj-sub" id="p1-textures">
-  <!-- Texture grid — 4×5 CSS swatches mirroring the Procreate explorations -->
   <div class="t-grid">
-    <!-- Row 1 -->
-    <div class="tc" style="background:radial-gradient(ellipse 80% 80% at 50% 50%,#c8a070 20%,#e8c890 70%);background-image:radial-gradient(circle at 30% 40%,rgba(0,0,0,0.12) 1px,transparent 1px),radial-gradient(circle at 70% 60%,rgba(0,0,0,0.08) 1px,transparent 1px);background-size:100%,7px 7px,9px 9px;"></div>
+    <div class="tc" style="background:radial-gradient(ellipse 80% 80% at 50% 50%,#c8a070 20%,#e8c890 70%);"></div>
     <div class="tc" style="background:#5a7040;background-image:repeating-linear-gradient(8deg,transparent 0,transparent 7px,rgba(255,255,255,0.12) 7px,rgba(255,255,255,0.12) 9px);"></div>
     <div class="tc" style="background:#6b3a20;"></div>
     <div class="tc" style="background:#4a5a28;"></div>
-    <!-- Row 2 -->
     <div class="tc" style="background:linear-gradient(135deg,#8a4818 0%,#9a5820 100%);"></div>
     <div class="tc" style="background:#2a3a1a;background-image:repeating-linear-gradient(175deg,transparent 0,transparent 11px,rgba(80,120,40,0.2) 11px,rgba(80,120,40,0.2) 13px);"></div>
-    <div class="tc" style="background:#f0e8d0;background-image:radial-gradient(ellipse 60% 30% at 40% 50%,rgba(30,15,5,0.18) 0%,transparent 70%),radial-gradient(ellipse 60% 30% at 75% 60%,rgba(30,15,5,0.12) 0%,transparent 65%);"></div>
+    <div class="tc" style="background:#f0e8d0;background-image:radial-gradient(ellipse 60% 30% at 40% 50%,rgba(30,15,5,0.18) 0%,transparent 70%);"></div>
     <div class="tc" style="background:#b8bac0;background-image:repeating-linear-gradient(170deg,transparent 0,transparent 14px,rgba(40,40,60,0.18) 14px,rgba(40,40,60,0.18) 16px);"></div>
-    <!-- Row 3 -->
     <div class="tc" style="background:linear-gradient(135deg,#5a1010 0%,#3a0808 100%);"></div>
-    <div class="tc" style="background:linear-gradient(145deg,#7a8020 0%,#909830 50%,#686820 100%);opacity:0.9;"></div>
+    <div class="tc" style="background:linear-gradient(145deg,#7a8020 0%,#909830 50%,#686820 100%);"></div>
     <div class="tc" style="background:#2a1a10;"></div>
     <div class="tc" style="background:#e8e0d0;background-image:repeating-linear-gradient(30deg,rgba(180,60,30,0.15) 0,rgba(180,60,30,0.15) 1px,transparent 1px,transparent 8px),repeating-linear-gradient(-30deg,rgba(180,60,30,0.12) 0,rgba(180,60,30,0.12) 1px,transparent 1px,transparent 8px);"></div>
-    <!-- Row 4 -->
-    <div class="tc" style="background:linear-gradient(135deg,#c07010 0%,#d08020 50%,#b06010 100%);background-image:repeating-linear-gradient(0deg,rgba(0,0,0,0.1) 0,rgba(0,0,0,0.1) 8px,transparent 8px,transparent 16px),repeating-linear-gradient(90deg,rgba(0,0,0,0.1) 0,rgba(0,0,0,0.1) 8px,transparent 8px,transparent 16px);"></div>
+    <div class="tc" style="background:linear-gradient(135deg,#c07010 0%,#d08020 50%,#b06010 100%);"></div>
     <div class="tc" style="background:linear-gradient(160deg,#c8b8a0 0%,#d8c8b0 100%);"></div>
     <div class="tc" style="background:linear-gradient(145deg,#a8a0a0 0%,#b8b0b0 100%);"></div>
-    <div class="tc" style="background:linear-gradient(135deg,#6a4830 0%,#7a5840 50%,#5a3820 100%);background-image:repeating-linear-gradient(85deg,rgba(255,255,255,0.04) 0,rgba(255,255,255,0.04) 2px,transparent 2px,transparent 12px);"></div>
-    <!-- Row 5 -->
+    <div class="tc" style="background:linear-gradient(135deg,#6a4830 0%,#7a5840 50%,#5a3820 100%);"></div>
     <div class="tc" style="background:linear-gradient(145deg,#3a0808 0%,#280505 100%);"></div>
-    <div class="tc" style="background:#e8dcc0;background-image:radial-gradient(ellipse 15% 25% at 25% 40%,rgba(80,50,20,0.15) 0%,transparent 80%),radial-gradient(ellipse 15% 25% at 65% 65%,rgba(80,50,20,0.12) 0%,transparent 80%),radial-gradient(ellipse 15% 25% at 80% 25%,rgba(80,50,20,0.1) 0%,transparent 80%);"></div>
-    <div class="tc" style="background:#c0a870;background-image:radial-gradient(ellipse 40% 20% at 35% 55%,rgba(40,20,5,0.15) 0%,transparent 80%),radial-gradient(ellipse 40% 20% at 70% 35%,rgba(40,20,5,0.12) 0%,transparent 80%);"></div>
-    <div class="tc" style="background:#b8c8a8;background-image:radial-gradient(circle 18% at 25% 30%,rgba(50,80,30,0.18) 0%,transparent 100%),radial-gradient(circle 18% at 65% 65%,rgba(50,80,30,0.14) 0%,transparent 100%),radial-gradient(circle 18% at 80% 20%,rgba(50,80,30,0.12) 0%,transparent 100%);"></div>
+    <div class="tc" style="background:#e8dcc0;background-image:radial-gradient(ellipse 15% 25% at 25% 40%,rgba(80,50,20,0.15) 0%,transparent 80%);"></div>
+    <div class="tc" style="background:#c0a870;"></div>
+    <div class="tc" style="background:#b8c8a8;"></div>
   </div>
-  <!-- Description below -->
   <div class="texture-desc">
     <div>
       <h3 class="texture-heading">Digital<br>Explorations</h3>
@@ -652,11 +859,7 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════
-     PROJECT 2 — TANGRAM
-═══════════════════════════════════ -->
-
-<!-- 2a. INTRO SPLIT (reversed) -->
+<!-- PROJECT 2 — TANGRAM -->
 <div class="project-split proj-sub" id="project-2" style="direction:rtl">
   <div class="project-split-content" style="direction:ltr">
     <div class="project-number">2</div>
@@ -675,17 +878,16 @@
     <div>
       <span class="eyebrow">Project 2 · Research</span>
       <h3 class="content-heading">Research &amp; Inspiration</h3>
-      <p class="content-para">The project began with an extensive study of existing therapeutic play objects and Montessori learning tools. Research revealed that children aged 2–6 benefit most from objects that demand grip variation, weight awareness, and visual pattern recognition — simultaneously developing fine motor skills and cognitive sorting.</p>
-      <p class="content-para" style="margin-top:1rem;">The traditional Chinese tangram — seven flat shapes that assemble into a square — proved the ideal structural starting point. Its constraint-based logic forces spatial reasoning while the material differentiation layer adds a sensory dimension absent in most commercial variants.</p>
+      <p class="content-para">The project began with an extensive study of existing therapeutic play objects and Montessori learning tools. Research revealed that children aged 2–6 benefit most from objects that demand grip variation, weight awareness, and visual pattern recognition.</p>
+      <p class="content-para" style="margin-top:1rem;">The traditional Chinese tangram — seven flat shapes that assemble into a square — proved the ideal structural starting point for developing spatial reasoning alongside a sensory dimension.</p>
     </div>
     <div>
       <span class="eyebrow">Project 2 · Design intent</span>
       <h3 class="content-heading">Material-first approach</h3>
-      <p class="content-para">Rather than treating material as finish, each piece was assigned a distinct substance based on its intended sensory contribution. Walnut brings warmth and smoothness; hammered copper introduces a cool, tactile surface requiring careful handling; undyed leather provides grip contrast and a pliable, yielding resistance unfamiliar to most children's objects.</p>
-      <p class="content-para" style="margin-top:1rem;">The interplay of these three materials across the seven geometric pieces creates an implicit hierarchy that guides play without explicit instruction — a core principle drawn from Montessori pedagogy.</p>
+      <p class="content-para">Rather than treating material as finish, each piece was assigned a distinct substance based on its intended sensory contribution. Walnut brings warmth; hammered copper introduces a cool, tactile surface; undyed leather provides grip contrast and pliable resistance.</p>
+      <p class="content-para" style="margin-top:1rem;">The interplay of these three materials across seven geometric pieces creates an implicit hierarchy that guides play without explicit instruction — a core principle from Montessori pedagogy.</p>
     </div>
   </div>
-  <!-- Process steps -->
   <div style="padding:0 var(--page-padding);">
     <div class="steps-row">
       <div class="step">
@@ -714,24 +916,20 @@
 
 <!-- 2c. MATERIAL EXPLORATIONS -->
 <div class="bleed proj-sub" id="p2-materials">
-  <!-- Material panel grid -->
   <div class="mat-grid">
-    <!-- Walnut -->
     <div class="mat-panel" style="background:linear-gradient(155deg,#6a4830 0%,#3a2010 50%,#4a3018 100%);">
       <div class="mat-text" style="color:#fff;">
         <div class="mat-name">Walnut Wood</div>
         <div class="mat-note">Warmth · Smooth grain · Natural oils</div>
       </div>
     </div>
-    <!-- Copper -->
-    <div class="mat-panel" style="background:linear-gradient(155deg,#b05820 0%,#803818 50%,#a04818 100%);background-image:radial-gradient(ellipse 50% 40% at 40% 35%,rgba(200,130,60,0.3) 0%,transparent 60%);">
+    <div class="mat-panel" style="background:linear-gradient(155deg,#b05820 0%,#803818 50%,#a04818 100%);">
       <div class="mat-text" style="color:#fff;">
         <div class="mat-name">Hammered Copper</div>
         <div class="mat-note">Cool to touch · Tactile surface · Weight</div>
       </div>
     </div>
-    <!-- Leather -->
-    <div class="mat-panel" style="background:linear-gradient(155deg,#8a7060 0%,#6a5040 50%,#7a6050 100%);background-image:repeating-linear-gradient(90deg,rgba(0,0,0,0.04) 0,rgba(0,0,0,0.04) 1px,transparent 1px,transparent 9px),repeating-linear-gradient(0deg,rgba(0,0,0,0.04) 0,rgba(0,0,0,0.04) 1px,transparent 1px,transparent 9px);">
+    <div class="mat-panel" style="background:linear-gradient(155deg,#8a7060 0%,#6a5040 50%,#7a6050 100%);">
       <div class="mat-text" style="color:#fff;">
         <div class="mat-name">Undyed Leather</div>
         <div class="mat-note">Grip contrast · Pliable resistance · Natural</div>
@@ -743,16 +941,12 @@
       <h3 class="texture-heading">Material<br>Explorations</h3>
     </div>
     <div>
-      <p class="texture-para">Each material was sourced from regional Indian craftspeople — walnut from Kashmir, copper from Rajasthani workshops, leather from Dharavi's natural-tan tanneries. This grounding in local supply chains not only reduced the carbon footprint of the project but ensured each material carried authentic craft character rather than industrial uniformity.</p>
+      <p class="texture-para">Each material was sourced from regional Indian craftspeople — walnut from Kashmir, copper from Rajasthani workshops, leather from Dharavi's natural-tan tanneries. This grounding in local supply chains ensured each material carried authentic craft character rather than industrial uniformity.</p>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════
-     PROJECT 3 — SURFACE DEVELOPMENT
-═══════════════════════════════════ -->
-
-<!-- 3a. INTRO SPLIT -->
+<!-- PROJECT 3 — SURFACE DEVELOPMENT -->
 <div class="project-split proj-sub" id="project-3">
   <div class="project-split-content">
     <div class="project-number">3</div>
@@ -765,40 +959,31 @@
   </div>
 </div>
 
-<!-- 3b. ENGOBE EXPLORATION — mirrors screenshot 1 layout exactly -->
+<!-- 3b. ENGOBE EXPLORATION -->
 <div class="bleed proj-sub" id="p3-engobe">
   <div class="engobe-wrap">
-    <!-- Left: text -->
     <div class="engobe-text">
       <span class="engobe-proj-no">Project No: 3</span>
       <h3 class="engobe-title">Engobe Exploration</h3>
-      <p class="engobe-desc">Engobe was the chosen method of surface decoration for this piece — because I love painting and based on the previously done works I concluded that this would be the best way to go about it. I explored various different colours and observed the contrast seen against the clay body post firing to decide which one works the best and gives the perfect results.</p>
+      <p class="engobe-desc">Engobe was the chosen method of surface decoration — because I love painting and based on the previously done works I concluded that this would be the best way to go about it. I explored various different colours and observed the contrast seen against the clay body post firing.</p>
       <p class="engobe-caption">These products have been developed as a part of my systems project via a workshop with women potters from Kachchh. The painting has been done by them; the design direction suggested by me.</p>
     </div>
-
-    <!-- Right: labeled photo grid -->
     <div class="engobe-grid">
-      <!-- Cell 1: Black and Mustard Yellow -->
       <div class="eg" style="background:linear-gradient(145deg,#e8ddb8 0%,#d8cc98 50%,#e0d0a0 100%);">
         <div class="eg-label">Black and Mustard Yellow</div>
       </div>
-      <!-- Cell 2: Blue over white / White over blue — larger, spans 2 cols -->
-      <div class="eg" style="grid-column:span 1;background:linear-gradient(145deg,#e8eaf8 0%,#c0c8f0 50%,#d8dff8 100%);background-image:radial-gradient(ellipse 60% 50% at 40% 40%,rgba(60,80,200,0.15) 0%,transparent 70%);">
-        <div class="eg-label-inv" style="text-align:right;">Blue over white<br>White over blue (sgraffito)</div>
+      <div class="eg" style="background:linear-gradient(145deg,#e8eaf8 0%,#c0c8f0 50%,#d8dff8 100%);">
+        <div class="eg-label-inv" style="text-align:right;">Blue over white<br>Sgraffito</div>
       </div>
-      <!-- Cell 3: Olive Green -->
       <div class="eg" style="background:linear-gradient(145deg,#c8cca8 0%,#a8ac80 50%,#b8bc90 100%);">
         <div class="eg-label">Olive Green</div>
       </div>
-      <!-- Cell 4: White over terracotta -->
-      <div class="eg" style="background:linear-gradient(145deg,#c86040 0%,#a84828 50%,#b85030 100%);background-image:repeating-radial-gradient(ellipse 30% 15% at 30% 40%,rgba(255,255,255,0.1) 0%,transparent 60%);">
+      <div class="eg" style="background:linear-gradient(145deg,#c86040 0%,#a84828 50%,#b85030 100%);">
         <div class="eg-label" style="background:rgba(255,255,255,0.9);">White over terracotta</div>
       </div>
-      <!-- Cell 5: Red and Mustard Yellow -->
-      <div class="eg" style="background:linear-gradient(145deg,#f0d890 0%,#e0c070 50%,#d8b860 100%);background-image:radial-gradient(ellipse 50% 40% at 50% 50%,rgba(180,40,20,0.12) 0%,transparent 70%);">
+      <div class="eg" style="background:linear-gradient(145deg,#f0d890 0%,#e0c070 50%,#d8b860 100%);">
         <div class="eg-label">Red and Mustard Yellow</div>
       </div>
-      <!-- Cell 6: Black -->
       <div class="eg" style="background:linear-gradient(145deg,#2a2020 0%,#180c0c 100%);">
         <div class="eg-label" style="color:#fff;background:rgba(0,0,0,0.5);">Black</div>
       </div>
@@ -816,35 +1001,31 @@
       <p class="content-para" style="margin-top:1rem;">Engobe slip painting was ultimately selected for the final collection due to its compatibility with my design vocabulary: fluid, gestural, and rooted in the painting traditions of Indian folk crafts.</p>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule);align-self:stretch;">
-      <div style="background:#f4f0e8;padding:1.5rem;display:flex;flex-direction:column;gap:0.4rem;">
-        <span style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-faint);">Technique 01</span>
-        <span style="font-weight:600;font-size:0.92rem;">Engobe Slip Painting</span>
-        <span style="font-size:0.8rem;color:var(--ink-light);line-height:1.5;">Coloured clay slips applied over leather-hard greenware, creating a matt painted surface post-glaze.</span>
+      <div style="background:#f4f0e8;padding:1.25rem;display:flex;flex-direction:column;gap:0.3rem;">
+        <span style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-faint);">Technique 01</span>
+        <span style="font-weight:600;font-size:0.88rem;">Engobe Slip Painting</span>
+        <span style="font-size:0.78rem;color:var(--ink-light);line-height:1.5;">Coloured clay slips applied over leather-hard greenware, creating a matt painted surface post-glaze.</span>
       </div>
-      <div style="background:#f0f0f4;padding:1.5rem;display:flex;flex-direction:column;gap:0.4rem;">
-        <span style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-faint);">Technique 02</span>
-        <span style="font-weight:600;font-size:0.92rem;">Sgraffito</span>
-        <span style="font-size:0.8rem;color:var(--ink-light);line-height:1.5;">Incising through a layer of slip to reveal the contrasting clay body beneath — crisp and graphic.</span>
+      <div style="background:#f0f0f4;padding:1.25rem;display:flex;flex-direction:column;gap:0.3rem;">
+        <span style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-faint);">Technique 02</span>
+        <span style="font-weight:600;font-size:0.88rem;">Sgraffito</span>
+        <span style="font-size:0.78rem;color:var(--ink-light);line-height:1.5;">Incising through a layer of slip to reveal the contrasting clay body beneath — crisp and graphic.</span>
       </div>
-      <div style="background:#f4ede8;padding:1.5rem;display:flex;flex-direction:column;gap:0.4rem;">
-        <span style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-faint);">Technique 03</span>
-        <span style="font-weight:600;font-size:0.92rem;">Wax Resist</span>
-        <span style="font-size:0.8rem;color:var(--ink-light);line-height:1.5;">Hot wax applied to define areas that resist the glaze, producing sharp negative-space patterns.</span>
+      <div style="background:#f4ede8;padding:1.25rem;display:flex;flex-direction:column;gap:0.3rem;">
+        <span style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-faint);">Technique 03</span>
+        <span style="font-weight:600;font-size:0.88rem;">Wax Resist</span>
+        <span style="font-size:0.78rem;color:var(--ink-light);line-height:1.5;">Hot wax applied to define areas that resist the glaze, producing sharp negative-space patterns.</span>
       </div>
-      <div style="background:#eef4ee;padding:1.5rem;display:flex;flex-direction:column;gap:0.4rem;">
-        <span style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-faint);">Technique 04</span>
-        <span style="font-weight:600;font-size:0.92rem;">Terrasigillata</span>
-        <span style="font-size:0.8rem;color:var(--ink-light);line-height:1.5;">Ultra-fine clay particle slip burnished onto the surface for a satin sheen without glaze.</span>
+      <div style="background:#eef4ee;padding:1.25rem;display:flex;flex-direction:column;gap:0.3rem;">
+        <span style="font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink-faint);">Technique 04</span>
+        <span style="font-weight:600;font-size:0.88rem;">Terrasigillata</span>
+        <span style="font-size:0.78rem;color:var(--ink-light);line-height:1.5;">Ultra-fine clay particle slip burnished onto the surface for a satin sheen without glaze.</span>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════════════════════════════
-     PROJECT 4 — PRINT DESIGN
-═══════════════════════════════════ -->
-
-<!-- 4a. INTRO SPLIT -->
+<!-- PROJECT 4 — PRINT DESIGN -->
 <div class="project-split proj-sub" id="project-4" style="border-bottom:none">
   <div class="project-split-content">
     <div class="project-number">4</div>
@@ -859,18 +1040,12 @@
 
 <!-- 4b. PATTERN DEVELOPMENT -->
 <div class="bleed proj-sub" id="p4-patterns">
-  <!-- Pattern grid -->
   <div class="pattern-grid">
-    <!-- Botanical floral repeat -->
-    <div class="pg" style="background:#e8dcc8;background-image:radial-gradient(ellipse 20% 30% at 20% 30%,rgba(60,40,10,0.1) 0%,transparent 70%),radial-gradient(ellipse 20% 30% at 70% 65%,rgba(60,40,10,0.09) 0%,transparent 70%),radial-gradient(ellipse 20% 30% at 50% 10%,rgba(60,40,10,0.08) 0%,transparent 70%);"></div>
-    <!-- Geometric grid — indigo-blue -->
+    <div class="pg" style="background:#e8dcc8;"></div>
     <div class="pg pg-span" style="background:linear-gradient(155deg,#2a3858 0%,#384868 50%,#1a2840 100%);background-image:repeating-linear-gradient(0deg,rgba(255,255,255,0.06) 0,rgba(255,255,255,0.06) 1px,transparent 1px,transparent 28px),repeating-linear-gradient(90deg,rgba(255,255,255,0.06) 0,rgba(255,255,255,0.06) 1px,transparent 1px,transparent 28px);"></div>
-    <!-- Block print motif -->
-    <div class="pg" style="background:#c8b898;background-image:repeating-radial-gradient(ellipse 12% 18% at 25% 30%,rgba(40,20,5,0.12) 0%,transparent 60%),repeating-radial-gradient(ellipse 12% 18% at 65% 70%,rgba(40,20,5,0.1) 0%,transparent 60%);"></div>
-    <!-- Textile weave -->
+    <div class="pg" style="background:#c8b898;"></div>
     <div class="pg" style="background:#a8c098;background-image:repeating-linear-gradient(135deg,rgba(0,0,0,0.06) 0,rgba(0,0,0,0.06) 2px,transparent 2px,transparent 10px),repeating-linear-gradient(45deg,rgba(0,0,0,0.06) 0,rgba(0,0,0,0.06) 2px,transparent 2px,transparent 10px);"></div>
   </div>
-  <!-- Description -->
   <div class="texture-desc">
     <div>
       <h3 class="texture-heading">Pattern<br>Development</h3>
@@ -898,10 +1073,9 @@
     </div>
   </div>
 </div>
+
 </main>
-<!-- ═══════════════════════════════════
-     FOOTER / CONTACT
-═══════════════════════════════════ -->
+
 <footer id="contact">
   <div class="footer-name">Thank you!</div>
   <div class="footer-meta">
@@ -917,31 +1091,148 @@
 </footer>
 
 <script>
-  // ─── Nav hide/reveal ───
-  const nav = document.getElementById('navbar');
-  let lastScrollY = window.scrollY;
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    nav.classList.toggle('nav-hidden', y > lastScrollY && y > 80);
-    lastScrollY = y;
-  }, { passive: true });
-
-  // ─── Fade-in observer ───
+  // 1. Fade-in Observer
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.06 });
+  }, { threshold: 0.05 });
 
   document.querySelectorAll('.section, .project-split, .proj-sub').forEach(el => {
     observer.observe(el);
   });
 
-  // ─── Smooth scroll ───
+  // 2. Smooth scroll for anchor links
   document.querySelectorAll('a[href^="#"]').forEach(a => {
     a.addEventListener('click', function(e) {
       const t = document.querySelector(this.getAttribute('href'));
       if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     });
   });
+
+  // 3. Dynamic Tokenized Animation Logic
+  const sectionsData = [
+    { id: 'home', label: 'Zachary Stephens', page: 0 },
+    { id: 'about', label: 'About', page: 1 },
+    { id: 'work', label: 'Table of Contents', page: 2 },
+    { id: 'project-1', label: 'Project 1: Tile Design', page: 3 },
+    { id: 'p1-mood', label: 'Project 1: Concept and Mood', page: 4 },
+    { id: 'p1-textures', label: 'Project 1: Digital Explorations', page: 5 },
+    { id: 'project-2', label: 'Project 2: Tangram', page: 6 },
+    { id: 'p2-research', label: 'Project 2: Research & Inspiration', page: 7 },
+    { id: 'p2-materials', label: 'Project 2: Material Explorations', page: 8 },
+    { id: 'project-3', label: 'Project 3: Surface Dev', page: 9 },
+    { id: 'p3-engobe', label: 'Project 3: Engobe Exploration', page: 10 },
+    { id: 'p3-techniques', label: 'Project 3: Technique Studies', page: 11 },
+    { id: 'project-4', label: 'Project 4: Print Design', page: 12 },
+    { id: 'p4-patterns', label: 'Project 4: Pattern Development', page: 13 },
+    { id: 'p4-process', label: 'Project 4: Design Process', page: 14 },
+    { id: 'contact', label: 'Contact', page: 15 }
+  ];
+
+  const navLeft = document.querySelector('.nav-left');
+  const navRight = document.querySelector('.nav-right');
+  let activeIndex = -1;
+
+  // Split string into [Words, Numbers, Spaces/Punctuation]
+  function tokenize(str) {
+    return str.match(/([a-zA-Z]+|[0-9]+|[^a-zA-Z0-9]+)/g) || [];
+  }
+
+  function updateSide(container, newText, isInitial) {
+    const currentTokens = container.dataset.tokens ? JSON.parse(container.dataset.tokens) : [];
+    const nextTokens = tokenize(newText);
+    
+    // Clear out DOM and store the new token state
+    container.innerHTML = '';
+    container.dataset.tokens = JSON.stringify(nextTokens);
+
+    // On first load, render static spans without animation
+    if (isInitial) {
+      nextTokens.forEach(token => {
+        const span = document.createElement('span');
+        span.style.whiteSpace = 'pre';
+        span.textContent = token;
+        container.appendChild(span);
+      });
+      return;
+    }
+
+    // Diff tokens up to the maximum length of both arrays
+    const maxLen = Math.max(currentTokens.length, nextTokens.length);
+    for (let i = 0; i < maxLen; i++) {
+      const oldT = currentTokens[i];
+      const newT = nextTokens[i];
+
+      if (oldT === newT) {
+        // MATCH: Render static
+        const span = document.createElement('span');
+        span.style.whiteSpace = 'pre';
+        span.textContent = newT;
+        container.appendChild(span);
+      } else {
+        // MISMATCH: Animate the diff
+        const wrapper = document.createElement('span');
+        wrapper.className = 'diff-container';
+        
+        if (newT !== undefined) {
+          const newSpan = document.createElement('span');
+          newSpan.className = 'diff-new';
+          newSpan.textContent = newT;
+          wrapper.appendChild(newSpan);
+        }
+        
+        if (oldT !== undefined) {
+          const oldSpan = document.createElement('span');
+          oldSpan.className = 'diff-old';
+          oldSpan.textContent = oldT;
+          wrapper.appendChild(oldSpan);
+        }
+        
+        container.appendChild(wrapper);
+      }
+    }
+  }
+ 
+  function updateNav(index) {
+    if (index === activeIndex) return;
+    const isInitial = activeIndex === -1;
+    activeIndex = index;
+
+    const data = sectionsData[index];
+    updateSide(navLeft, data.label, isInitial);
+    updateSide(navRight, `Page ${data.page}`, isInitial);
+  }
+
+  // Determine active section based on scroll
+  function findActiveSection() {
+    const triggerPoint = window.innerHeight * 0.4; 
+    let currentIdx = 0;
+    
+    for (let i = 0; i < sectionsData.length; i++) {
+      const el = document.getElementById(sectionsData[i].id);
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= triggerPoint) {
+          currentIdx = i;
+        }
+      }
+    }
+    updateNav(currentIdx);
+  }
+
+  // Throttled scroll listener
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      window.requestAnimationFrame(() => {
+        findActiveSection();
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // Init
+  findActiveSection();
 </script>
 </body>
 </html>
