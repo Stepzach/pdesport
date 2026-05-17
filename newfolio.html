@@ -7,8 +7,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Inter:wght@300;400;500;700;900&family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-  :root {
+:root {
     --bg: #ffffff;
     --ink: #0d0d0d;
     --ink-mid: #3a3a3a;
@@ -19,7 +20,15 @@
     --page-max: 1560px;
     --page-padding: clamp(2rem, 6vw, 5rem);
     --section-gap: clamp(4.5rem, 9vw, 8rem);
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-pill: 50px;
+    --shadow-card: 0 4px 15px rgba(0, 0, 0, 0.15);
+    --shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.35);
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   }
+  
+  
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -139,13 +148,14 @@
   }
   .about-body { font-size: 0.98rem; line-height: 1.5; font-weight: 400; }
   .about-body p + p { margin-top: 0.85rem; }
-  .about-photo { width: 100%; aspect-ratio: 9/10; background: #d5d0c8; overflow: hidden; }
+  .about-photo { width: 100%; aspect-ratio: 9/10; background: #d5d0c8; overflow: hidden; position: relative; }
+  .about-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
   .about-photo-inner {
-    width: 100%; height: 100%;
-    background: linear-gradient(175deg, #cdc8c0 0%, #a8a39b 100%);
+    position: absolute; inset: 0; z-index: 2;
+    background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.6) 100%);
     display: flex; align-items: flex-end; padding: 1.5rem;
   }
-  .photo-caption { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+  .photo-caption { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.9); }
 
   /* ─── TOC ─── */
   .toc-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
@@ -163,8 +173,11 @@
     width: 100%; aspect-ratio: 4/3; background: var(--rule);
     margin-bottom: 1rem; overflow: hidden; transition: transform 0.4s ease;
   }
-  .toc-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; color: var(--ink-faint); letter-spacing: 0.08em; }
-  .toc-item:nth-child(1) .toc-img-wrap { background: #e8ddd0; }
+     .toc-item:nth-child(1) .toc-img-wrap img {
+   transform: scale(0.8); object-fit:contain; background: #b60a05;
+  }
+  
+  .toc-item:nth-child(1) .toc-img-wrap { background: #b60a05; }
   .toc-item:nth-child(2) .toc-img-wrap { background: #d4c5b0; }
   .toc-item:nth-child(3) .toc-img-wrap { background: #dde0e8; }
   .toc-item:nth-child(4) .toc-img-wrap { background: #e0e8e0; }
@@ -183,7 +196,7 @@
     display: flex; flex-direction: column; justify-content: center;
   }
   .project-split-image { position: relative; overflow: hidden; min-height: clamp(320px,45vw,580px); }
-  .project-split-image > div { width: 100%; height: 100%; position: absolute; inset: 0; }
+  .project-split-image > div, .project-split-image > img { width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; }
   .project-number { font-size: clamp(4rem,9vw,8rem); line-height: 0.9; color: var(--ink); margin-bottom: 1rem; }
   .project-title { font-size: clamp(1.6rem,3vw,2.4rem); line-height: 1.2; margin-bottom: 1.25rem; font-weight: 700; letter-spacing: -0.02em; }
   .project-tag {
@@ -196,8 +209,8 @@
   .proj-bg-2 { background: linear-gradient(135deg, #c8b090 0%, #8a6848 100%); }
   .proj-bg-3 { background: linear-gradient(135deg, #dde0ee 0%, #9098c0 100%); }
   .proj-bg-4 { background: linear-gradient(135deg, #d8e8d8 0%, #8aac8a 100%); }
-  .img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
-  .img-placeholder-text { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(0,0,0,0.25); }
+  .img-placeholder { width: 100%; height: 100%; display: block; object-fit: cover; }
+  .img-placeholder-text { display: none; } /* Kept for fallback safety but removed from HTML */
 
   /* ─── SUBSECTION STYLES ─── */
   .bleed {
@@ -214,7 +227,7 @@
   .mood-wrap {
     display: grid;
     grid-template-columns: 55% 45%;
-    min-height: clamp(440px, 60vw, 700px);
+    
   }
   .mood-board {
     display: grid;
@@ -233,7 +246,7 @@
     height: 100%;
   }
   .mb img, .mb video {
-    width: 100%; height: 100%; max-height: 310px;
+    width: 100%; height: 100%; max-height: 225px;
     object-fit: cover; display: block;
   }
   .mood-content {
@@ -508,7 +521,7 @@
   #p1-textures { margin-top: var(--page-padding); }
 
   /* ═══════════════════════════════
-      MOBILE OVERRIDES — < 768px
+     MOBILE OVERRIDES — < 768px
   ═══════════════════════════════ */
   @media (max-width: 768px) {
     :root { --page-padding: 1.25rem; --section-gap: 3rem; }
@@ -536,10 +549,10 @@
     .toc-img-wrap { margin-bottom: 0.65rem; }
     .toc-title { font-size: 0.82rem; line-height: 1.35; }
 
-    .project-split { grid-template-columns: 1fr; padding-top: var(--section-gap); padding-bottom: 0; }
+    .project-split { grid-template-columns: 1fr; padding-top: var(--section-gap); }
     .project-split-content { padding: 2rem var(--page-padding) 1.5rem; }
     .project-split-image { min-height: 55vw; position: relative; }
-    .project-split-image > div { position: relative; height: 100%; min-height: 55vw; }
+    .project-split-image > div, .project-split-image > img { position: relative; height: 100%; min-height: 55vw; object-fit: cover; }
     .project-number { font-size: clamp(3rem, 12vw, 5rem); margin-bottom: 0.5rem; }
     .project-title { font-size: clamp(1.4rem, 5vw, 1.8rem); margin-bottom: 0.75rem; }
     .project-tag { margin-bottom: 0.75rem; font-size: 0.62rem; }
@@ -622,7 +635,7 @@
     .toc-item:nth-child(3) { border-bottom: none; padding-left: 0; }
     .toc-item:nth-child(4) { border-bottom: none; border-right: none; }
     .toc-item { border-bottom: 1px solid var(--rule); }
-    .mood-wrap { grid-template-columns: 50% 50%; min-height: clamp(360px, 50vw, 560px); }
+    .mood-wrap { grid-template-columns: 50% 50%; }
     .engobe-wrap { grid-template-columns: 40% 60%; }
     .content-row { gap: clamp(2rem, 4vw, 4rem); }
     .steps-row { grid-template-columns: repeat(2, 1fr); }
@@ -673,6 +686,7 @@
       </div>
     </div>
     <div class="about-photo">
+      <img src="https://stephenszachary.com/me.jpeg" alt="Zachary Stephens">
       <div class="about-photo-inner">
         <span class="photo-caption">Mansi Sonawane · 2025</span>
       </div>
@@ -686,22 +700,22 @@
   <div class="toc-grid">
     <a href="#project-1" class="toc-item">
       <div class="toc-number">1.</div>
-      <div class="toc-img-wrap"><div class="img-placeholder proj-bg-1"><span class="img-placeholder-text">Leeds Student Radio</span></div></div>
+      <div class="toc-img-wrap"><img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Ourlogo2026LSR.jpg" class="img-placeholder proj-bg-1" alt="Leeds Student Radio"></div>
       <div class="toc-title">Leeds Student Radio</div>
     </a>
     <a href="#project-2" class="toc-item">
       <div class="toc-number">2.</div>
-      <div class="toc-img-wrap"><div class="img-placeholder proj-bg-2"><span class="img-placeholder-text">Tangram</span></div></div>
+      <div class="toc-img-wrap"><img src="YOUR_IMAGE_URL_HERE" class="img-placeholder proj-bg-2" alt="Tangram for Motor &amp; Sensory Development"></div>
       <div class="toc-title">Tangram for Motor &amp; Sensory Development</div>
     </a>
     <a href="#project-3" class="toc-item">
       <div class="toc-number">3.</div>
-      <div class="toc-img-wrap"><div class="img-placeholder proj-bg-3"><span class="img-placeholder-text">Surface Dev</span></div></div>
+      <div class="toc-img-wrap"><img src="YOUR_IMAGE_URL_HERE" class="img-placeholder proj-bg-3" alt="Surface Development Projects"></div>
       <div class="toc-title">Surface Development Projects</div>
     </a>
     <a href="#project-4" class="toc-item">
       <div class="toc-number">4.</div>
-      <div class="toc-img-wrap"><div class="img-placeholder proj-bg-4"><span class="img-placeholder-text">Print Design</span></div></div>
+      <div class="toc-img-wrap"><img src="YOUR_IMAGE_URL_HERE" class="img-placeholder proj-bg-4" alt="Print Design"></div>
       <div class="toc-title">Print Design</div>
     </a>
   </div>
@@ -716,7 +730,7 @@
     <p class="project-desc">A project that began as a purely aesthetic "improvement" quickly evolved into a full reconstruction of the listening experience.<br><br>Experimental layouts, playful interactions and a bold identity were intentionally embraced to reflect the creativity and constantly evolving nature of student radio.</p>
   </div>
   <div class="project-split-image">
-    <div class="proj-bg-1 img-placeholder"><span class="img-placeholder-text">Tile Photography</span></div>
+    <img src="https://stephenszachary.com/New-Mac-LSR.png" class="proj-bg-1 img-placeholder" alt="Tile Photography">
   </div>
 </div>
 
@@ -757,35 +771,7 @@
   </div>
 </div>
 
-<!-- 1c. DIGITAL EXPLORATIONS -->
-<div class="bleed proj-sub" id="p1-textures">
-  <div class="t-grid">
-    <div class="tc" style="background:radial-gradient(ellipse 80% 80% at 50% 50%,#c8a070 20%,#e8c890 70%);"></div>
-    <div class="tc" style="background:#5a7040;background-image:repeating-linear-gradient(8deg,transparent 0,transparent 7px,rgba(255,255,255,0.12) 7px,rgba(255,255,255,0.12) 9px);"></div>
-    <div class="tc" style="background:#6b3a20;"></div>
-    <div class="tc" style="background:#4a5a28;"></div>
-    <div class="tc" style="background:linear-gradient(135deg,#8a4818 0%,#9a5820 100%);"></div>
-    <div class="tc" style="background:#2a3a1a;background-image:repeating-linear-gradient(175deg,transparent 0,transparent 11px,rgba(80,120,40,0.2) 11px,rgba(80,120,40,0.2) 13px);"></div>
-    <div class="tc" style="background:#f0e8d0;background-image:radial-gradient(ellipse 60% 30% at 40% 50%,rgba(30,15,5,0.18) 0%,transparent 70%);"></div>
-    <div class="tc" style="background:#b8bac0;background-image:repeating-linear-gradient(170deg,transparent 0,transparent 14px,rgba(40,40,60,0.18) 14px,rgba(40,40,60,0.18) 16px);"></div>
-    <div class="tc" style="background:linear-gradient(135deg,#5a1010 0%,#3a0808 100%);"></div>
-    <div class="tc" style="background:linear-gradient(145deg,#7a8020 0%,#909830 50%,#686820 100%);"></div>
-    <div class="tc" style="background:#2a1a10;"></div>
-    <div class="tc" style="background:#e8e0d0;background-image:repeating-linear-gradient(30deg,rgba(180,60,30,0.15) 0,rgba(180,60,30,0.15) 1px,transparent 1px,transparent 8px),repeating-linear-gradient(-30deg,rgba(180,60,30,0.12) 0,rgba(180,60,30,0.12) 1px,transparent 1px,transparent 8px);"></div>
-    <div class="tc" style="background:linear-gradient(135deg,#c07010 0%,#d08020 50%,#b06010 100%);"></div>
-    <div class="tc" style="background:linear-gradient(160deg,#c8b8a0 0%,#d8c8b0 100%);"></div>
-    <div class="tc" style="background:linear-gradient(145deg,#a8a0a0 0%,#b8b0b0 100%);"></div>
-    <div class="tc" style="background:linear-gradient(135deg,#6a4830 0%,#7a5840 50%,#5a3820 100%);"></div>
-    <div class="tc" style="background:linear-gradient(145deg,#3a0808 0%,#280505 100%);"></div>
-    <div class="tc" style="background:#e8dcc0;background-image:radial-gradient(ellipse 15% 25% at 25% 40%,rgba(80,50,20,0.15) 0%,transparent 80%);"></div>
-    <div class="tc" style="background:#c0a870;"></div>
-    <div class="tc" style="background:#b8c8a8;"></div>
-  </div>
-  <div class="texture-desc">
-    <div><h3 class="texture-heading">Digital<br>Explorations</h3></div>
-    <div><p class="texture-para">These are some of the many textures explored digitally using Procreate. I have tried to understand the basics of the chosen inspiration materials and break them down to their core, extracting lines, patterns, and organic shapes that subtly reflect the core inspiration in a stylized manner.</p></div>
-  </div>
-</div>
+
 
 <!-- 1d. TYPOGRAPHY & VISUAL IDENTITY SYSTEM -->
 <div class="bleed proj-sub" id="p1-typography">
@@ -794,9 +780,45 @@
 
     <div class="ident-grid">
       <div>
-        <span style="font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:#F5F5F5;display:block;margin-bottom:clamp(1.25rem,2.5vw,2.5rem);">Project 1 · Visual Identity System</span>
-        <div style="font-size:clamp(3.5rem,7vw,6rem);font-weight:900;color:#2ECC71;line-height:0.93;letter-spacing:-0.04em;margin-bottom:1.1rem;">ON<br>AIR</div>
-        <div style="font-size:clamp(0.85rem,1.4vw,1.15rem);font-weight:300;color:#F5F5F5;letter-spacing:0.16em;text-transform:uppercase;line-height:1.5;">Leeds Student<br>Radio · Est.&nbsp;1968</div>
+       <span style="
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #2ECC71;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: clamp(1.25rem, 2.5vw, 2.5rem);
+">
+  <span style="
+    width: 6px;
+    height: 6px;
+    background-color: #2ECC71;
+    border-radius: 50%;
+    display: inline-block;
+    animation: pulse 1.5s infinite ease-in-out;
+  "></span>
+  Live now
+</span>
+
+<style>
+@keyframes pulse {
+  0% {
+    transform: scale(0.8);
+    box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 6px rgba(46, 204, 113, 0);
+  }
+  100% {
+    transform: scale(0.8);
+    box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+  }
+}
+</style>
+        <div style="font-size:clamp(3.5rem,7vw,6rem);font-weight:900;color:#F5F5F5;line-height:0.93;letter-spacing:-0.04em;margin-bottom:1.1rem;">LSR</div>
+        <div style="font-size:clamp(0.85rem,1.4vw,1.15rem);font-weight:300;color:#F5F5F5;letter-spacing:0.16em;text-transform:uppercase;line-height:1.5;">The Best Student Radio 2023 & 2024</div>
       </div>
 
       <div style="display:flex;flex-direction:column;gap:1.1rem;">
@@ -807,26 +829,35 @@
         <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#F5F5F5;">Label 700</div>
       </div>
 
-      <div>
-        <div style="font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:#F5F5F5;margin-bottom:0.85rem;">Colour System</div>
-        <div style="display:flex;flex-direction:column;gap:2px;">
-          <div style="display:flex;align-items:center;gap:0.65rem;padding:0.55rem 0.75rem;background:#a02B2B;border:1px solid #831C1C; border-radius:8px;">
-            <div style="width:18px;height:18px;background:#cd3232;flex-shrink:0;"></div>
-            <span style="font-size:0.68rem;color:#F5F5F5;font-weight:500;letter-spacing:0.03em;">#CD3232 · LSR Red</span>
+     <div>
+        <div style="display:flex;flex-direction:column;gap:1.5rem;">
+          <div>
+            <div style="font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:#F5F5F5;margin-bottom:0.85rem;">Font Faces</div>
+            <div style="display:flex;flex-direction:column;gap:2px;">
+              <div style="display:flex;align-items:center;gap:0.65rem;padding:0.55rem 0.75rem;background:#a02B2B;border:1px solid #831C1C; border-radius:var(--radius-md);">
+                <span style="font-family:'Montserrat', sans-serif;font-size:0.8rem;color:#F5F5F5;font-weight:700;letter-spacing:0.03em;">Montserrat</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.65rem;padding:0.55rem 0.75rem;background:#a02B2B;border:1px solid #831C1C; border-radius:var(--radius-md);">
+                <span style="font-family:'Indie Flower', cursive;font-size:0.9rem;color:#F5F5F5;letter-spacing:0.03em;">Indie Flower</span>
+              </div>
+            </div>
           </div>
-          <div style="display:flex;align-items:center;gap:0.65rem;padding:0.55rem 0.75rem;background:#a02B2B;border:1px solid #831C1C; border-radius:8px;">
-            <div style="width:18px;height:18px;background:#2ecc71;flex-shrink:0;"></div>
-            <span style="font-size:0.68rem;color:#F5F5F5;font-weight:500;letter-spacing:0.03em;">#2ECC71 · ON-AIR Green</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:0.65rem;padding:0.55rem 0.75rem;background:#a02B2B;border:1px solid #831C1C; border-radius:8px;">
-            <div style="width:18px;height:18px;background:#f5f5f5;flex-shrink:0;"></div>
-            <span style="font-size:0.68rem;color:#F5F5F5;font-weight:500;letter-spacing:0.03em;">#F5F5F5 · Off-White</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:0.65rem;padding:0.55rem 0.75rem;background:#a02B2B;border:1px solid #831C1C; border-radius:8px;">
-            <div style="width:18px;height:18px;background:#831C1C;border:1px solid #2e2e2e;flex-shrink:0;"></div>
-            <span style="font-size:0.68rem;color:#F5F5F5;font-weight:500;letter-spacing:0.03em;">#831C1C · Dark Borders</span>
+          <div>
+            <div style="font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:#F5F5F5;margin-bottom:0.85rem;">Radii & Shadows</div>
+            <div style="display:flex;flex-direction:column;gap:2px;">
+              <div style="display:flex;align-items:center;gap:0.65rem;padding:0.55rem 0.75rem;background:#a02B2B;border:1px solid #831C1C; border-radius:var(--radius-sm); box-shadow:var(--shadow-card);">
+                <span style="font-size:0.68rem;color:#F5F5F5;font-weight:500;letter-spacing:0.03em;">--radius-sm / shadow-card</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.65rem;padding:0.55rem 0.75rem;background:#a02B2B;border:1px solid #831C1C; border-radius:var(--radius-md); box-shadow:var(--shadow-hover);">
+                <span style="font-size:0.68rem;color:#F5F5F5;font-weight:500;letter-spacing:0.03em;">--radius-md / shadow-hover</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:0.65rem;padding:0.55rem 0.75rem;background:#a02B2B;border:1px solid #831C1C; border-radius:var(--radius-pill);">
+                <span style="font-size:0.68rem;color:#F5F5F5;font-weight:500;letter-spacing:0.03em;">--radius-pill</span>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
 
@@ -972,7 +1003,7 @@
     <p class="project-desc">An exploration into tactile play objects that support motor skill development and sensory engagement in early childhood. Designed using a material-first approach — walnut, copper, leather — to heighten material awareness and invite touch.</p>
   </div>
   <div class="project-split-image" style="direction:ltr">
-    <div class="proj-bg-2 img-placeholder"><span class="img-placeholder-text">Tangram Photography</span></div>
+    <img src="YOUR_IMAGE_URL_HERE" class="proj-bg-2 img-placeholder" alt="Tangram Photography">
   </div>
 </div>
 
@@ -1109,7 +1140,7 @@
     <p class="project-desc">A culmination of all the surface development projects undertaken during my time at NID. Developed as part of the Surface Development course in Semester 3, exploring various techniques used in ceramic surface treatment — with emphasis on material effects and hands-on exploration.</p>
   </div>
   <div class="project-split-image">
-    <div class="proj-bg-3 img-placeholder"><span class="img-placeholder-text">Teapot Photography</span></div>
+    <img src="YOUR_IMAGE_URL_HERE" class="proj-bg-3 img-placeholder" alt="Teapot Photography">
   </div>
 </div>
 
@@ -1201,7 +1232,7 @@
     <p class="project-desc">An exploration of pattern and print as a surface language — drawing from Indian textile traditions and translating them into contemporary ceramic surface applications. The work bridges heritage craft techniques with modern material sensibilities.</p>
   </div>
   <div class="project-split-image">
-    <div class="proj-bg-4 img-placeholder"><span class="img-placeholder-text">Print Photography</span></div>
+    <img src="YOUR_IMAGE_URL_HERE" class="proj-bg-4 img-placeholder" alt="Print Photography">
   </div>
 </div>
 
@@ -1345,7 +1376,7 @@
 
   // ── 3. Nav tokenised animation ──
   const sectionsData = [
-    { id: 'home',         label: 'Zachary Stephens',                rightText: '2026'    },
+    { id: 'home',         label: 'Zachary Stephens',               rightText: '2026'    },
     { id: 'about',        label: 'About',                           rightText: 'Page 1'  },
     { id: 'work',         label: 'Table of Contents',               rightText: 'Page 2'  },
     { id: 'project-1',     label: 'Project 1: LSR',                  rightText: 'Page 3'  },
@@ -1356,7 +1387,7 @@
     { id: 'project-2',     label: 'Project 2: Tangram',              rightText: 'Page 8'  },
     { id: 'p2-sketches',   label: 'Project 2: Ideation',             rightText: 'Page 9'  },
     { id: 'p2-research',   label: 'Project 2: Research',             rightText: 'Page 10' },
-    { id: 'p2-materials',  label: 'Project 2: Materials',            rightText: 'Page 11' },
+    { id: 'p2-materials',  label: 'Project 2: Materials',             rightText: 'Page 11' },
     { id: 'project-3',     label: 'Project 3: Surface Dev',         rightText: 'Page 12' },
     { id: 'p3-engobe',     label: 'Project 3: Engobe',               rightText: 'Page 13' },
     { id: 'p3-techniques', label: 'Project 3: Techniques',           rightText: 'Page 14' },
@@ -1364,7 +1395,7 @@
     { id: 'project-4',     label: 'Project 4: Print Design',         rightText: 'Page 16' },
     { id: 'p4-motif',      label: 'Project 4: Motif Extraction',     rightText: 'Page 17' },
     { id: 'p4-patterns',   label: 'Project 4: Pattern Development', rightText: 'Page 18' },
-    { id: 'p4-process',    label: 'Project 4: Design Process',      rightText: 'Page 19' },
+    { id: 'p4-process',    label: 'Project 4: Design Process',       rightText: 'Page 19' },
     { id: 'contact',       label: 'Contact',                         rightText: 'Page 20' }
   ];
 
