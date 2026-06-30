@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The London-Paris Guide</title>
+
+<style>
+  :root {
+    --bg: #f7f5f0;
+    --text: #1f1f1f;
+    --muted: #666;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: "Georgia", "Times New Roman", serif;
+    background: var(--bg);
+    color: var(--text);
+    text-transform: lowercase;
+  }
+
+  /* --- Sticky Header --- */
+  .sticky-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 0.5rem 1rem;
+    z-index: 1000;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sticky-header.visible {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .sticky-header h1 {
+    font-size: 1rem;
+    margin: 0;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: opacity 0.2s ease;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  .back-to-top {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    transition: color 0.2s ease;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  .back-to-top:hover {
+    color: var(--text);
+  }
+
+  /* --- Home / Title Page --- */
+  .hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    letter-spacing: 0.5px;
+    font-weight: 400;
+  }
+
+  .byline {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .toc {
+    margin-top: 2.5rem;
+    border-top: 1px solid #ddd;
+    padding-top: 1.5rem;
+  }
+
+  .toc ul {
+    list-style: none;
+  }
+
+  .toc li {
+    font-size: 1.1rem;
+    padding: 0.4rem 0;
+    letter-spacing: 1px;
+    text-transform: lowercase;
+  }
+
+  .toc a {
+    text-decoration: none;
+    color: var(--text);
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+
+  .toc a:hover {
+    opacity: 0.5;
+  }
+
+  /* --- Content Sections --- */
+  .content-section {
+    min-height: 100vh;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 6rem 2rem 2rem 2rem;
+    text-align: center;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    z-index: 2;
+  }
+
+  .content-section h2 {
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+    color: var(--text);
+  }
+
+  .content-section > p {
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  /* --- Restaurant Entry (Book Feel) --- */
+  .restaurant-entry {
+    width: 100%;
+    margin-top: 2rem;
+    text-align: left;
+    border-top: 1px solid #eee;
+    padding-top: 2rem;
+  }
+
+  /* --- Restaurant Image Collage --- */
+  .restaurant-collage {
+    position: relative;
+    width: 100%;
+    height: 310px;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .restaurant-collage img {
+    position: absolute;
+    width: 48%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .restaurant-collage img:first-child {
+    left: 1%;
+    transform: rotate(-4deg);
+    z-index: 1;
+  }
+
+  .restaurant-collage img:last-child {
+    right: 1%;
+    transform: rotate(2deg);
+    z-index: 2;
+  }
+
+  @media (max-width: 500px) {
+    .restaurant-collage {
+      height: 260px;
+    }
+
+    .restaurant-collage img:first-child {
+      height: 250px;
+      width: 50%;
+    }
+    .restaurant-collage img:last-child {
+      height: 140px;
+      width: 45%;
+    }
+  }
+
+  .restaurant-entry h3 {
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+
+  .restaurant-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    color: var(--muted);
+  }
+
+  .restaurant-desc {
+    line-height: 1.5;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+
+  .restaurant-ratings {
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    max-width: 250px;
+  }
+
+  .rating-row {
+    display: flex;
+   
+    margin-bottom: 0.5rem;
+    font-style: italic;
+  }
+   .rating-row span {
+   width:40px;
+    }
+
+  .stars {
+    font-style: normal;
+    letter-spacing: 2px;
+    margin-left:1rem;
+  }
+
+  .restaurant-address {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    font-style: italic;
+    color: var(--muted);
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .restaurant-address svg {
+    flex-shrink: 0;
+    margin-top: 0.2rem;
+  }
+
+  .map-embed {
+    width: 100%;
+    height: 150px;
+    border: none;
+    margin-bottom: 1.5rem;
+    filter: grayscale(15%) contrast(1.1); /* Keeps the subtle vintage/book treatment */
+  }
+
+  .restaurant-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+
+  .link-website {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.85rem;
+    border-bottom: 1px solid transparent;
+    transition: border-bottom 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .link-website:hover {
+    border-bottom: 1px solid var(--text);
+  }
+
+  /* subtle book-like spacing */
+  .spine {
+    position: fixed;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    height: 100vh;
+    width: 1px;
+    background: rgba(0,0,0,0.06);
+    z-index: 1;
+  }
+
+  @media (max-width: 500px) {
+    .toc li {
+      font-size: 1rem;
+    }
+    .restaurant-actions {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+  <header class="sticky-header" id="sticky-header">
+    <h1 id="sticky-title">The London-Paris Guide</h1>
+    <a href="#home" class="back-to-top" aria-label="Back to top">
+      Back to top
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="19" x2="12" y2="5"></line>
+        <polyline points="5 12 12 5 19 12"></polyline>
+      </svg>
+    </a>
+  </header>
+
+  <div class="spine"></div>
+
+  <main id="home" class="hero" data-title="The London-Paris Guide">
+    <h1>The London-Paris Guide</h1>
+    <div class="byline">by Zach</div>
+
+    <nav class="toc">
+      <ul>
+        <li><a href="#eat">eat</a></li>
+        <li><a href="#drink">drink</a></li>
+        <li><a href="#walk">walk</a></li>
+        <li><a href="#events">events</a></li>
+        <li><a href="#other">other</a></li>
+      </ul>
+    </nav>
+  </main>
+
+  <section id="eat" class="content-section" data-title="Eat">
+    <h2>Eat</h2>
+    <p>Discover the best bistros in Paris and hidden pubs in London. From flaky croissants to perfect fish and chips, this is your culinary roadmap.</p>
+
+    <article class="restaurant-entry">
+     <div class="restaurant-collage">
+  <img 
+    src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    alt="Interior of Le Petit Chêne"
+  />
+
+  <img 
+    src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    alt="Dining table at Le Petit Chêne"
+  />
+</div>
+      
+      <h3>Le Petit Chêne</h3>
+      
+      <div class="restaurant-meta">
+        <span class="tag">french Neo-Bistro</span>
+        <span class="tag">2eme Arr.</span>
+      </div>
+      
+      
+      <p class="restaurant-desc">
+        tucked away down a quiet alley in the 11th arrondissement, Le Petit Chêne redefines classic French comfort food. The seasonal menu relies entirely on hyper-local farm produce, served in an intimate, candle-lit dining room that feels like stepping into a private dinner party. Don't skip the comté gougères.
+      </p>
+
+      <div class="restaurant-ratings">
+        <div class="rating-row">
+          <span>food</span>
+          <span class="stars">★★★★★</span>
+        </div>
+        <div class="rating-row">
+          <span>vibe</span>
+          <span class="stars">★★★★☆</span>
+        </div>
+      </div>
+
+      <p class="restaurant-address">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        <span>
+          14 Rue de la Folie Méricourt, 75011 Paris<br>
+          <b>Nearest metro:</b> Example
+        </span>
+      </p>
+
+      <iframe 
+        class="map-embed" 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.717646547693!2d2.3719001156745426!3d48.86370497928784!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66df160935579%3A0xc312f2771b0c0f99!2s14%20Rue%20de%20la%20Folie%20M%C3%A9ricourt%2C%2075011%20Paris%2C%20France!5e0!3m2!1sen!2sus!4v1680000000000!5m2!1sen!2sus" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+
+      
+    </article>
+  </section>
+
+  <section id="drink" class="content-section" data-title="Drink">
+    <h2>Drink</h2>
+    <p>Whether you prefer natural wine along the Seine or a perfectly poured pint in Soho, explore the top spots for a drink.</p>
+  </section>
+
+  <section id="walk" class="content-section" data-title="Walk">
+    <h2>Walk</h2>
+    <p>Curated strolling routes through Montmartre, Notting Hill, and along the banks of the Thames. Bring comfortable shoes.</p>
+  </section>
+
+  <section id="events" class="content-section" data-title="Events">
+    <h2>Events</h2>
+    <p>Upcoming gallery openings, theater shows in the West End, and seasonal markets across both sides of the Channel.</p>
+  </section>
+
+  <section id="other" class="content-section" data-title="Other">
+    <h2>Other</h2>
+    <p>Essential travel tips, train navigation (hello, Eurostar), and etiquette guides for jumping between the two capitals.</p>
+  </section>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const stickyHeader = document.getElementById("sticky-header");
+      const stickyTitle = document.getElementById("sticky-title");
+      const homeSection = document.getElementById("home");
+      const allSections = document.querySelectorAll("main, section");
+
+      // 1. Observer to show/hide the thin header when leaving the home screen
+      const headerVisibilityObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) {
+            stickyHeader.classList.add("visible");
+          } else {
+            stickyHeader.classList.remove("visible");
+          }
+        });
+      }, {
+        threshold: 0.1 
+      });
+      headerVisibilityObserver.observe(homeSection);
+
+      // 2. Observer to change the text of the thin header based on current section
+      const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const newTitle = entry.target.getAttribute("data-title");
+            
+            stickyTitle.style.opacity = 0;
+            setTimeout(() => {
+              stickyTitle.textContent = newTitle;
+              stickyTitle.style.opacity = 1;
+            }, 200); 
+          }
+        });
+      }, {
+        rootMargin: "-40% 0px -40% 0px"
+      });
+
+      allSections.forEach(section => {
+        sectionObserver.observe(section);
+      });
+    });
+  </script>
+</body>
+</html>
