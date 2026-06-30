@@ -199,28 +199,39 @@
 
   .restaurant-collage img:first-child {
     left: 1%;
-    transform: rotate(-4deg);
+    transform: rotate(3deg);
     z-index: 1;
   }
+  .restaurant-collage img:nth-child(2) {
+  right: 1%;
+  top:1%;
+  transform: rotate(-3deg);
+  z-index: 2;
+}
 
   .restaurant-collage img:last-child {
-    right: 1%;
-    transform: rotate(2deg);
+    right: 2%;
+    bottom: 1%;
+    transform: rotate(1deg);
     z-index: 2;
   }
 
   @media (max-width: 500px) {
     .restaurant-collage {
-      height: 260px;
+      height: 280px;
     }
 
     .restaurant-collage img:first-child {
-      height: 250px;
-      width: 50%;
+      height: 270px;
+      width: 49%;
+    }
+       .restaurant-collage img:nth-child(2) {
+      height: 140px;
+      width: 43%;
     }
     .restaurant-collage img:last-child {
-      height: 140px;
-      width: 45%;
+      height: 120px;
+      width: 46%;
     }
   }
 
@@ -250,38 +261,60 @@
   .restaurant-ratings {
     margin-bottom: 1.5rem;
     font-size: 0.95rem;
-    max-width: 250px;
+   
   }
 
-  .rating-row {
+ .rating-row {
     display: flex;
-   
+    align-items: center; /* Vertically aligns the text and stars */
     margin-bottom: 0.5rem;
     font-style: italic;
   }
-   .rating-row span {
-   width:40px;
-    }
+  
+  /* Apply the 40px width ONLY to the first span (e.g., 'food', 'vibe') */
+  .rating-row span:first-child {
+    width: 40px;
+  }
 
   .stars {
     font-style: normal;
     letter-spacing: 2px;
-    margin-left:1rem;
+    margin-left: 1rem;
   }
 
+  /* Add styling for your new small text */
+  .rating-note {
+    font-size: 0.8rem;       /* Makes the text small */
+    color: var(--muted);      /* Uses your existing muted gray variable */
+    margin-left: 0.5rem;      /* Adds breathing room after the stars */
+    letter-spacing: 0;        /* Overrides the star letter spacing */
+    font-style: italic;
+  }
   .restaurant-address {
     display: flex;
     align-items: flex-start;
+        flex-direction: column;
     gap: 0.4rem;
     font-style: italic;
-    color: var(--muted);
+   
     margin-bottom: 1rem;
+    font-size: 0.95rem;
+  }
+  .metro  {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.4rem;
+    font-style: none;
+   
+    margin-bottom: 1rem;
+    margin-left: 1rem;
     font-size: 0.95rem;
   }
 
   .restaurant-address svg {
     flex-shrink: 0;
-    margin-top: 0.2rem;
+  
+    margin-bottom: -0.2rem;
   }
 
   .map-embed {
@@ -380,57 +413,66 @@
     <article class="restaurant-entry">
      <div class="restaurant-collage">
   <img 
-    src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    src="https://github.com/Stepzach/pdesport/blob/main/IMG_4268.jpg?raw=true"
     alt="Interior of Le Petit Chêne"
   />
 
   <img 
-    src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+    src="https://github.com/Stepzach/pdesport/blob/main/IMG_4266.jpg?raw=true"
+    alt="Dining table at Le Petit Chêne"
+  />
+    <img 
+    src="https://github.com/Stepzach/pdesport/blob/main/IMG_6239.jpg?raw=true"
     alt="Dining table at Le Petit Chêne"
   />
 </div>
       
-      <h3>Le Petit Chêne</h3>
+      <h3>Le Phalsbourg</h3>
       
       <div class="restaurant-meta">
-        <span class="tag">french Neo-Bistro</span>
-        <span class="tag">2eme Arr.</span>
+        <span class="tag">français</span>
+          <span class="tag">30-70€</span>
+        <span class="tag">17eme Arr</span>
       </div>
       
       
       <p class="restaurant-desc">
-        tucked away down a quiet alley in the 11th arrondissement, Le Petit Chêne redefines classic French comfort food. The seasonal menu relies entirely on hyper-local farm produce, served in an intimate, candle-lit dining room that feels like stepping into a private dinner party. Don't skip the comté gougères.
+       Authentic and very high quality french cuisine, everything is sourced in france. Menu is set on a chalkboard every day based on what they have. We had a côte de bœuf sharing platter, with roasted potatoes and a side salad. We also had really nice starters and a red wine recommended by the server. <br><br>10/10 dinner but expect to spend at least 30€ pp without the wine
       </p>
 
       <div class="restaurant-ratings">
-        <div class="rating-row">
-          <span>food</span>
-          <span class="stars">★★★★★</span>
-        </div>
-        <div class="rating-row">
-          <span>vibe</span>
-          <span class="stars">★★★★☆</span>
-        </div>
-      </div>
+  <div class="rating-row">
+    <span>food</span>
+    <span class="stars">★★★★★</span>
+</div>
+  <div class="rating-row">
+    <span>vibe</span>
+    <span class="stars">★★★★☆</span>
+    <span class="rating-note">(we went too early)</span> </div>
+</div>
   <div class="restaurant-actions">
         <a href="#" class="link-website">
-         <u>Menu</u>
+         <u>See Menu</u>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
+          
+          
         </a>
+            <span class="rating-note" style="margin-top:-0.8rem; margin-left:0;">(Image just for reference bcos it changes all the time)</span>
       </div>
       <p class="restaurant-address">
+      <span>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
           <circle cx="12" cy="10" r="3"></circle>
         </svg>
-        <span>
-          14 Rue de la Folie Méricourt, 75011 Paris<br>
-          <b>Nearest metro:</b> Example
-        </span>
-      </p>
+       
+         3 Rue de Phalsbourg, 75017 Paris</span>
+          <span class="metro"><b>Metro:</b>Line 2 or 3</span>
+        </p>
+     
 
       <img 
         class="map-embed" 
