@@ -290,6 +290,7 @@
     border: none;
     margin-bottom: 1.5rem;
     filter: grayscale(15%) contrast(1.1); /* Keeps the subtle vintage/book treatment */
+    object-fit: cover; /* Added so the map image scales without distortion */
   }
 
   .restaurant-actions {
@@ -297,21 +298,25 @@
     align-items: center;
     gap: 1.5rem;
     font-family: system-ui, -apple-system, sans-serif;
+     margin-bottom: 1.5rem;
   }
-
+.restaurant-actions svg {
+  transform: rotate(-45deg);
+}
   .link-website {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     color: var(--text);
     text-decoration: none;
     font-size: 0.85rem;
     border-bottom: 1px solid transparent;
     transition: border-bottom 0.3s ease;
-    text-transform: uppercase;
+
     letter-spacing: 1px;
   }
 
-  .link-website:hover {
-    border-bottom: 1px solid var(--text);
-  }
+  
 
   /* subtle book-like spacing */
   .spine {
@@ -369,8 +374,8 @@
   </main>
 
   <section id="eat" class="content-section" data-title="Eat">
-    <h2>Eat</h2>
-    <p>Discover the best bistros in Paris and hidden pubs in London. From flaky croissants to perfect fish and chips, this is your culinary roadmap.</p>
+    <h2>My favourite Restaurants</h2>
+    <p>A mix of classic french cuisine, cool & fun restaurants i enjoyed, cheap kebab places and some simply with a nice atmospheres.</p>
 
     <article class="restaurant-entry">
      <div class="restaurant-collage">
@@ -407,7 +412,15 @@
           <span class="stars">★★★★☆</span>
         </div>
       </div>
-
+  <div class="restaurant-actions">
+        <a href="#" class="link-website">
+         <u>Menu</u>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
       <p class="restaurant-address">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -419,14 +432,13 @@
         </span>
       </p>
 
-      <iframe 
+      <img 
         class="map-embed" 
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.717646547693!2d2.3719001156745426!3d48.86370497928784!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66df160935579%3A0xc312f2771b0c0f99!2s14%20Rue%20de%20la%20Folie%20M%C3%A9ricourt%2C%2075011%20Paris%2C%20France!5e0!3m2!1sen!2sus!4v1680000000000!5m2!1sen!2sus" 
-        allowfullscreen="" 
-        loading="lazy" 
-        referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
-
+        src="https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+        alt="Map location for Le Petit Chêne"
+      />
+      
+    
       
     </article>
   </section>
