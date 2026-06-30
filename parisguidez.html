@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The London-Paris Guide</title>
+<title>Paris Guide</title>
 
 <style>
   :root {
@@ -36,8 +36,7 @@
     left: 0;
     width: 100%;
     
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(8px);
+   background-color:var(--bg);
     padding: 0.5rem 1rem;
     z-index: 1000;
     transform: translateY(-100%);
@@ -59,7 +58,7 @@
     margin: 0;
     letter-spacing: 1px;
     text-decoration: none;
-    color: var(--muted);
+    color: var(--text);
     letter-spacing: 0.5px;
     display: flex;
     align-items: center;
@@ -70,7 +69,7 @@
 
   .back-to-top {
     text-decoration: none;
-    color: var(--muted);
+    color: var(--text);
     font-size: 0.85rem;
     letter-spacing: 0.5px;
     display: flex;
@@ -208,7 +207,13 @@
   transform: rotate(-3deg);
   z-index: 2;
 }
-
+   #drink .restaurant-collage img:nth-child(2) {
+  right: 1%;
+  top:1%;
+  transform: rotate(-2deg);
+  z-index: 2;
+}
+ 
   .restaurant-collage img:last-child {
     right: 2%;
     bottom: 1%;
@@ -227,6 +232,10 @@
     }
        .restaurant-collage img:nth-child(2) {
       height: 140px;
+      width: 43%;
+    }
+     #drink .restaurant-collage img:nth-child(2) {
+       height: 250px;
       width: 43%;
     }
     .restaurant-collage img:last-child {
@@ -379,7 +388,7 @@
 <body>
 
   <header class="sticky-header" id="sticky-header">
-    <h1 id="sticky-title">The London-Paris Guide</h1>
+    <h1 id="sticky-title">Paris Guide</h1>
     <a href="#home" class="back-to-top" aria-label="Back to top">
       Back to top
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -392,7 +401,7 @@
   <div class="spine"></div>
 
   <main id="home" class="hero" data-title="The London-Paris Guide">
-    <h1>The London-Paris Guide</h1>
+    <h1>Paris Guide <br>(WORK IN PROGRESS)</h1>
     <div class="byline">by Zach</div>
 
     <nav class="toc">
@@ -451,7 +460,7 @@
     <span class="rating-note">(we went too early)</span> </div>
 </div>
   <div class="restaurant-actions">
-        <a href="#" class="link-website">
+        <a href="https://drive.google.com/file/d/1i2e3VNcESEGLqGIBfdd124fOnYPfsCuS/view?usp=sharing" class="link-website">
          <u>See Menu</u>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -500,16 +509,13 @@
      <article class="restaurant-entry">
      <div class="restaurant-collage">
   <img 
-    src="https://github.com/Stepzach/pdesport/blob/main/IMG_4268.jpg?raw=true"
+    src="https://github.com/Stepzach/pdesport/blob/main/IMG_6246.jpg?raw=true"
     alt="Interior of Le Petit Chêne"
   />
 
-  <img 
-    src="https://github.com/Stepzach/pdesport/blob/main/IMG_4266.jpg?raw=true"
-    alt="Dining table at Le Petit Chêne"
-  />
+ 
     <img 
-    src="https://github.com/Stepzach/pdesport/blob/main/IMG_6239.jpg?raw=true"
+    src="https://github.com/Stepzach/pdesport/blob/main/IMG_6245.jpg?raw=true"
     alt="Dining table at Le Petit Chêne"
   />
 </div>
@@ -571,17 +577,17 @@
 
   <section id="walk" class="content-section" data-title="Walk">
     <h2>Walk</h2>
-    <p>Curated strolling routes through Montmartre, Notting Hill, and along the banks of the Thames. Bring comfortable shoes.</p>
+    <p>Description..</p>
   </section>
 
   <section id="events" class="content-section" data-title="Events">
     <h2>Events</h2>
-    <p>Upcoming gallery openings, theater shows in the West End, and seasonal markets across both sides of the Channel.</p>
+    <p>Description..</p>
   </section>
 
   <section id="other" class="content-section" data-title="Other">
     <h2>Other</h2>
-    <p>Essential travel tips, train navigation (hello, Eurostar), and etiquette guides for jumping between the two capitals.</p>
+    <p>Description..</p>
   </section>
 
   <script>
