@@ -204,46 +204,57 @@
     margin-top: 4rem;
   }
 
-  /* --- Restaurant Image Collage --- */
+ /* --- Restaurant Image Collage --- */
   .restaurant-collage {
     position: relative;
     width: 100%;
     height: 310px;
     margin-bottom: 2rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   .restaurant-collage img {
     position: absolute;
-    width: 48%;
-    height: 300px;
     object-fit: cover;
     transition: transform 0.3s ease;
+    /* Optional: adds a slight edge to separate overlapping images in a raw way */
+    border: 1px solid rgba(0,0,0,0.05); 
   }
 
+  /* Left Image (Large) */
   .restaurant-collage img:first-child {
     left: 1%;
-    transform: rotate(3deg);
+    top: 1%;
+    width: 48%;
+    height: 96%;
+    transform: rotate(2deg);
     z-index: 1;
   }
 
+  /* Top Right Image */
   .restaurant-collage img:nth-child(2) {
     right: 1%;
     top: 1%;
-    transform: rotate(-3deg);
+    width: 46%;
+    height: 52%;
+    transform: rotate(-2deg);
     z-index: 2;
   }
 
-  /* third image (only present in 3-photo collages) sits bottom-right,
-     using nth-child(3) rather than :last-child so 2-photo collages
-     don't fight over which rule wins */
+  /* Bottom Right Image */
   .restaurant-collage img:nth-child(3) {
-    right: 2%;
+    right: 3%;
     bottom: 1%;
+    width: 42%;
+    height: 44%;
     transform: rotate(1deg);
-    z-index: 2;
+    z-index: 3;
+  }
+
+  /* If there are only 2 photos, let the second one take up the full right side */
+  .restaurant-collage img:nth-child(2):last-child {
+    height: 92%;
+    top: 4%;
+    transform: rotate(-1deg);
   }
 
   @media (max-width: 500px) {
@@ -252,26 +263,77 @@
     }
 
     .restaurant-collage img:first-child {
-      height: 270px;
+      height: 95%;
       width: 49%;
     }
 
     .restaurant-collage img:nth-child(2) {
-      height: 140px;
-      width: 43%;
+      height: 50%;
+      width: 45%;
     }
 
     .restaurant-collage img:nth-child(3) {
-      height: 120px;
+      height: 45%;
       width: 46%;
     }
 
-    /* two-photo collages (no third image) get a taller second photo */
     .restaurant-collage img:nth-child(2):last-child {
-      height: 250px;
+      height: 90%;
     }
   }
+/* --- Reversed collage: large image right, two small on left --- */
+.restaurant-collage.reverse img:first-child {
+  left: auto;
+  right: 1%;
+  top: 1%;
+  width: 48%;
+  height: 96%;
+  transform: rotate(-2deg);
+  z-index: 1;
+}
 
+.restaurant-collage.reverse img:nth-child(2) {
+  right: auto;
+  left: 1%;
+  top: 1%;
+  width: 46%;
+  height: 52%;
+  transform: rotate(2deg);
+  z-index: 2;
+}
+
+.restaurant-collage.reverse img:nth-child(3) {
+  right: auto;
+  left: 3%;
+  bottom: 1%;
+  width: 42%;
+  height: 44%;
+  transform: rotate(-1deg);
+  z-index: 3;
+}
+
+.restaurant-collage.reverse img:nth-child(2):last-child {
+  height: 92%;
+  top: 4%;
+  transform: rotate(1deg);
+}
+
+@media (max-width: 500px) {
+  .restaurant-collage.reverse img:first-child {
+    height: 95%;
+    width: 49%;
+  }
+
+  .restaurant-collage.reverse img:nth-child(2) {
+    height: 50%;
+    width: 45%;
+  }
+
+  .restaurant-collage.reverse img:nth-child(3) {
+    height: 45%;
+    width: 46%;
+  }
+}
   .restaurant-entry h3 {
     font-size: 1.6rem;
     font-weight: 400;
@@ -516,6 +578,8 @@
       transition: none !important;
     }
   }
+  
+  
 </style>
 </head>
 
@@ -540,11 +604,11 @@
 
     <nav class="toc">
       <ul>
-        <li><a href="#eat" data-nav="eat">eat</a> <span class="count">2 spots</span></li>
-        <li><a href="#drink" data-nav="drink">drink</a> <span class="count">5 spots</span></li>
-        <li><a href="#walk" data-nav="walk">walk</a> <span class="count">5 spots</span></li>
-        <li><a href="#events" data-nav="events">events</a> <span class="count">4 events</span></li>
-        <li><a href="#other" data-nav="other">other</a> <span class="count">practical notes</span></li>
+        <li><a href="#eat" data-nav="eat">eat</a> <span class="count">2 places</span></li>
+        <li><a href="#drink" data-nav="drink">drink</a> <span class="count">5 bars</span></li>
+        <li><a href="#walk" data-nav="walk">walk</a> <span class="count">5 areas</span></li>
+        <li><a href="#events" data-nav="events">events</a> <span class="count">8 events</span></li>
+        <li><a href="#other" data-nav="other">other</a> <span class="count">4 notes</span></li>
       </ul>
     </nav>
   </main>
@@ -640,7 +704,7 @@
     </article>
 
     <article class="restaurant-entry">
-      <div class="restaurant-collage">
+      <div class="restaurant-collage reverse">
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for La Cantine Lourmel" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for La Cantine Lourmel" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for La Cantine Lourmel" loading="lazy" />
@@ -876,7 +940,7 @@
     </article>
 
     <article class="restaurant-entry">
-      <div class="restaurant-collage">
+      <div class="restaurant-collage reverse">
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Les Affranchis" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Les Affranchis" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Les Affranchis" loading="lazy" />
@@ -1048,7 +1112,7 @@
     </article>
 
     <article class="restaurant-entry">
-      <div class="restaurant-collage">
+      <div class="restaurant-collage reverse">
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Les Quais de la Seine" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Les Quais de la Seine" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Les Quais de la Seine" loading="lazy" />
@@ -1258,7 +1322,7 @@
     </article>
 
     <article class="restaurant-entry">
-      <div class="restaurant-collage">
+      <div class="restaurant-collage reverse">
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Le Salon de l'Agriculture" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Le Salon de l'Agriculture" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Le Salon de l'Agriculture" loading="lazy" />
