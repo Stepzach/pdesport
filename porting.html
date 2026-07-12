@@ -28,7 +28,7 @@
     --sz-item:     31px;   /* 23pt  */
     --sz-itemsub:  27px;   /* 20pt  */
     --sz-body:     25px;   /* 19pt  */
-    --sz-detail:   25px;   /* 19pt  */
+    --sz-detail:   23px;   /* 19pt  */
 
     /* ---- font families ---- */
     --f-condensed: 'Barlow Semi Condensed', sans-serif;
@@ -108,6 +108,7 @@
   .detail-text{
     font-family: var(--f-condensed);
     font-weight: 300;                /* Semicondensed Light */
+    line-height:1.5;
     font-size: var(--sz-detail);
     color: var(--grey-54);
   }
@@ -117,13 +118,13 @@
     display: flex;
     align-items: flex-start;
    
-    gap: 16px;
+    gap: 26px;
   }
   .dotted-row .left{ flex: 0 0 auto; white-space: nowrap; }
   .dotted-row .right{ flex: 0 0 auto; white-space: nowrap; text-align: right; }
   .dotted-row .dots{
     flex: 1 1 auto;
-    border-bottom: 1.2pt dotted var(--grey-76);
+    border-bottom: 1.4pt dotted var(--grey-76);
     margin-bottom: 8px;
      padding-top:20px;
   }
@@ -167,11 +168,11 @@
     grid-row: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: start;
     padding: var(--inset);
   }
   .cover-heading{ text-align: right; }
-  .cover-blurb{ text-align: right; margin-top: auto; max-width: 34ch; margin-left: auto; }
+  .cover-blurb{ text-align: right; margin-top: 50%; max-width: 34ch; margin-left: auto; }
   .cover-footer{
     grid-column: 2;
     grid-row: 2;
@@ -179,11 +180,12 @@
     display: flex;
     justify-content: flex-end;
   }
-  .cover-footer .detail-text{ text-align: right; line-height: 1.5; }
+  .cover-footer .detail-text{ text-align: right; line-height: 1.3; }
+  
   .cover-name{
     position: absolute;
-    left: var(--inset);
-    bottom: var(--inset);
+    left: 40px;
+    bottom: 40px;
     font-family: var(--f-standard);
     font-weight: 400;
     font-size: 27px;
