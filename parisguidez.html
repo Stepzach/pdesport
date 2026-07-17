@@ -7,76 +7,98 @@
 <meta name="theme-color" content="#f7f5f0" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%92%3C/text%3E%3C/svg%3E" />
 <title>Paris Guide — by Zach</title>
-
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Emilys+Candy&family=Caveat&family=Cedarville+Cursive&family=Indie+Flower&family=Nothing+You+Could+Do&family=Oooh+Baby&family=Reenie+Beanie&family=Shadows+Into+Light&display=swap');
   :root {
     --bg: #f7f5f0;
     --text: #1f1f1f;
-    --muted: #666;
+    --muted: #5c5850;
+    --note-a: #fffcf6;
+    --note-b: #f7f4ef;
+    --note-c: #f2f1ec;
+    --note-shadow: rgba(48, 38, 16, 0.22);
+    --pin: #8a3a2a;
   }
-
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
-
   html {
     scroll-behavior: smooth;
   }
-
   body {
     font-family: "Georgia", "Times New Roman", serif;
     background: var(--bg);
     color: var(--text);
+    
     text-transform: lowercase;
+          word-spacing: 10px !important;
+         
   }
-
+  /* --- Handwriting Fonts --- */
+  .caveat { font-family: "Caveat", cursive; font-weight: 400; }
+  .shadows-into-light { font-family: "Shadows Into Light", cursive; font-weight: 400; }
+  .indie-flower { font-family: "Indie Flower", cursive; font-weight: 400; }
+  .nothing-you-could-do { font-family: "Nothing You Could Do", cursive; font-weight: 400; }
+  .oooh-baby { font-family: "Oooh Baby", cursive; font-weight: 400; }
+  .reenie-beanie { font-family: "Reenie Beanie", cursive; font-weight: 400; }
+  .cedarville-cursive { font-family: "Cedarville Cursive", cursive; font-weight: 400; }
+  /* Bump the font size slightly so the handwriting matches the original body size */
+  .caveat, .shadows-into-light, .indie-flower, .nothing-you-could-do, .oooh-baby, .reenie-beanie, .cedarville-cursive {
+    font-size: 1.75em;
+     line-height:0.9 !important;
+  }
+  /* --- Emilys Candy Headers (title only) --- */
+  h1 {
+    font-family: "Emilys Candy", serif !important;
+    color: #c0cbff !important;
+    filter: url('#outline');
+    letter-spacing: 2px;
+  }
+  /* --- Section / note headers: plain bold serif, like handwritten labels on a card --- */
+  h2, h3, h4 {
+    font-family: "Georgia", "Times New Roman", serif !important;
+    color: var(--text) !important;
+    filter: none !important;
+    letter-spacing: 0;
+    font-weight: 700;
+  }
   a:focus-visible,
   button:focus-visible {
     outline: 2px dashed var(--text);
     outline-offset: 3px;
   }
-
   /* --- Sticky Header --- */
   .sticky-header {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-
-   background-color:var(--bg);
+    background-color:var(--bg);
     padding: 0.5rem 1rem;
     z-index: 1000;
     transform: translateY(-100%);
     opacity: 0;
     transition: transform 0.4s ease, opacity 0.4s ease;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid rgba(0,0,0,0.08);
   }
-
   .sticky-header.visible {
     transform: translateY(0);
     opacity: 1;
   }
-
   .sticky-header h1 {
-    font-size: 1rem;
+    font-size: 1.2rem;
     margin: 0;
-    letter-spacing: 1px;
     text-decoration: none;
-    color: var(--text);
-    letter-spacing: 0.5px;
     display: flex;
     align-items: center;
     gap: 0.3rem;
     transition: opacity 0.2s ease;
-    font-family: system-ui, -apple-system, sans-serif;
   }
-
   .back-to-top {
     text-decoration: none;
     color: var(--text);
@@ -88,11 +110,9 @@
     transition: color 0.2s ease;
     font-family: system-ui, -apple-system, sans-serif;
   }
-
   .back-to-top:hover {
     color: var(--text);
   }
-
   /* --- Home / Title Page --- */
   .hero {
     min-height: 100vh;
@@ -101,66 +121,97 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 2rem;
-    max-width: 600px;
+    padding: 3rem 1.75rem;
+    max-width: 640px;
     margin: 0 auto;
     position: relative;
     z-index: 2;
     scroll-margin-top: 0;
+    gap: 1.4rem;
   }
-
-  .hero h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
-    letter-spacing: 0.5px;
-    font-weight: 400;
-  }
-
-  .byline {
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
-    color: var(--muted);
-    font-style: italic;
-  }
-
-  .toc {
-    margin-top: 2.5rem;
-    border-top: 1px solid #ddd;
-    padding-top: 1.5rem;
+  .hero-cluster {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
   }
-
+  .note-title-hero {
+    padding: 2.4rem 3rem;
+    transform: rotate(-2deg);
+    z-index: 3;
+  }
+  .note-title-hero::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 46px;
+    height: 46px;
+    background:
+      linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.14) 50%),
+      linear-gradient(135deg, transparent 50%, var(--bg) 50.5%);
+  }
+  .note-title-hero h1 {
+    font-size: clamp(2.6rem, 9vw, 4.4rem);
+    font-weight: 400;
+    line-height: 1.05;
+  }
+  .note-byline {
+    margin-top: -1rem;
+    padding: 0.6rem 1.4rem;
+    transform: rotate(3deg);
+    z-index: 4;
+    font-size: 1rem;
+    color: var(--muted);
+  }
+  .note-toc {
+    margin-top: 1.6rem;
+    padding: 1.6rem 1.9rem;
+    transform: rotate(1.2deg);
+    width: 100%;
+    max-width: 320px;
+    text-align: left;
+  }
+  .toc-eyebrow {
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.7rem;
+  }
   .toc ul {
     list-style: none;
   }
-
   .toc li {
-    font-size: 1.1rem;
-    padding: 0.4rem 0;
-    letter-spacing: 1px;
+    font-size: 1.15rem;
+    padding: 0.45rem 0;
+    letter-spacing: 0.5px;
     text-transform: lowercase;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    border-bottom: 1px dashed rgba(0,0,0,0.12);
   }
-
+  .toc li:last-child {
+    border-bottom: none;
+  }
   .toc a {
     text-decoration: none;
     color: var(--text);
     cursor: pointer;
     transition: opacity 0.2s ease;
   }
-
   .toc a:hover {
     opacity: 0.5;
   }
-
   .toc .count {
     font-family: system-ui, -apple-system, sans-serif;
-    font-size: 0.75rem;
+    font-size: 0.72rem;
     color: var(--muted);
     font-style: italic;
   }
-
   /* --- Content Sections --- */
   .content-section {
     min-height: 100vh;
@@ -177,50 +228,145 @@
     z-index: 2;
     scroll-margin-top: 3.5rem;
   }
-
   .content-section h2 {
     font-size: 2rem;
-    font-weight: 400;
-    margin-bottom: 2rem;
-    color: var(--text);
+    font-weight: 700;
+    margin-bottom: 0.7rem;
   }
-
-  .content-section > p {
-    line-height: 1.6;
-    color: var(--muted);
+  .note-intro {
+    --note-color: var(--note-a);
+    width: 100%;
+    transform: rotate(-0.8deg);
     margin-bottom: 1rem;
   }
-
-  /* --- Restaurant Entry (Book Feel) --- */
+  .note-intro p {
+    line-height: 1.6;
+    color: var(--muted);
+    margin-bottom: 0;
+  }
+  .note-intro::before {
+    content: "";
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%) rotate(-3deg);
+    width: 52px;
+    height: 18px;
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(255,255,255,0.7);
+  }
+  /* --- Restaurant Entry (collage of post-it notes) --- */
   .restaurant-entry {
     width: 100%;
-    margin-top: 2rem;
+    margin-top: 2.5rem;
     text-align: left;
-    border-top: 1px solid #eee;
-    padding-top: 2rem;
+    border-top: 1px dashed rgba(0,0,0,0.14);
+    padding-top: 2.5rem;
   }
-
   .restaurant-entry + .restaurant-entry {
-    margin-top: 4rem;
+    margin-top: 4.5rem;
   }
 
- /* --- Restaurant Image Collage --- */
+  /* --- Post-it note system --- */
+  .note {
+    position: relative;
+    background: var(--note-color, var(--note-a));
+    box-shadow: 3px 5px 0 rgba(0,0,0,0.02), 4px 7px 16px var(--note-shadow);
+    padding: 1.5rem 1.7rem;
+    text-align: left;
+  }
+  .note-title-hero,
+  .note-byline {
+    text-align: center;
+  }
+  .note p, .note li {
+    color: var(--text);
+  }
+  .note-info {
+    --note-color: var(--note-a);
+    transform: rotate(-0.6deg);
+    z-index: 3;
+    margin-bottom: -6px;
+  }
+  .note-info h3 {
+    font-size: 1.9rem;
+    margin-bottom: 0.5rem;
+  }
+  /* signature detail: a curled corner on the lead note, like a page about to turn */
+  .note-info::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 30px;
+    height: 30px;
+    background:
+      linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.12) 50%),
+      linear-gradient(135deg, transparent 50%, var(--bg) 50.5%);
+  }
+  .note-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 1.6rem 1.3rem;
+    position: relative;
+    z-index: 2;
+  }
+  .note-rating {
+    --note-color: var(--note-b);
+    flex: 1 1 210px;
+    transform: rotate(1.1deg) !important;
+    
+  }
+  .note-rating.solo {
+    flex-basis: 100%;
+  }
+  .note-address {
+    --note-color: var(--note-c);
+    flex: 1 1 210px;
+    transform: rotate(-1deg) !important;
+  }
+  /* washi-tape accents holding the smaller notes down */
+  .note-rating::before,
+  .note-address::before {
+    content: "";
+    position: absolute;
+    top: -9px;
+    width: 44px;
+    height: 17px;
+    background: rgba(255,255,255,0.5);
+    border: 1px solid rgba(255,255,255,0.65);
+  }
+  .note-rating::before {
+    left: 22px;
+    transform: rotate(-5deg);
+  }
+  .note-address::before {
+    right: 22px;
+    transform: rotate(5deg);
+  }
+  @media (max-width: 560px) {
+    .note-info,
+    .note-rating,
+    .note-address {
+      transform: rotate(0deg);
+    }
+  }
+  /* --- Restaurant Image Collage --- */
   .restaurant-collage {
     position: relative;
     width: 100%;
     height: 310px;
     margin-bottom: 2rem;
   }
-
   .restaurant-collage img {
     position: absolute;
     object-fit: cover;
     transition: transform 0.3s ease;
-    /* Optional: adds a slight edge to separate overlapping images in a raw way */
-    border: 1px solid rgba(0,0,0,0.05); 
+    background: #fff;
+    border: 6px solid #fff;
+    box-shadow: 3px 5px 12px rgba(0,0,0,0.22);
   }
-
-  /* Left Image (Large) */
   .restaurant-collage img:first-child {
     left: 1%;
     top: 1%;
@@ -229,8 +375,6 @@
     transform: rotate(2deg);
     z-index: 1;
   }
-
-  /* Top Right Image */
   .restaurant-collage img:nth-child(2) {
     right: 1%;
     top: 1%;
@@ -239,8 +383,6 @@
     transform: rotate(-2deg);
     z-index: 2;
   }
-
-  /* Bottom Right Image */
   .restaurant-collage img:nth-child(3) {
     right: 3%;
     bottom: 1%;
@@ -249,120 +391,111 @@
     transform: rotate(1deg);
     z-index: 3;
   }
-
-  /* If there are only 2 photos, let the second one take up the full right side */
   .restaurant-collage img:nth-child(2):last-child {
     height: 92%;
     top: 4%;
     transform: rotate(-1deg);
   }
-
   @media (max-width: 500px) {
     .restaurant-collage {
       height: 280px;
     }
-
     .restaurant-collage img:first-child {
       height: 95%;
       width: 49%;
     }
-
     .restaurant-collage img:nth-child(2) {
       height: 50%;
       width: 45%;
     }
-
     .restaurant-collage img:nth-child(3) {
       height: 45%;
       width: 46%;
     }
-
     .restaurant-collage img:nth-child(2):last-child {
       height: 90%;
     }
   }
-/* --- Reversed collage: large image right, two small on left --- */
-.restaurant-collage.reverse img:first-child {
-  left: auto;
-  right: 1%;
-  top: 1%;
-  width: 48%;
-  height: 96%;
-  transform: rotate(-2deg);
-  z-index: 1;
-}
-
-.restaurant-collage.reverse img:nth-child(2) {
-  right: auto;
-  left: 1%;
-  top: 1%;
-  width: 46%;
-  height: 52%;
-  transform: rotate(2deg);
-  z-index: 2;
-}
-
-.restaurant-collage.reverse img:nth-child(3) {
-  right: auto;
-  left: 3%;
-  bottom: 1%;
-  width: 42%;
-  height: 44%;
-  transform: rotate(-1deg);
-  z-index: 3;
-}
-
-.restaurant-collage.reverse img:nth-child(2):last-child {
-  height: 92%;
-  top: 4%;
-  transform: rotate(1deg);
-}
-
-@media (max-width: 500px) {
+  /* --- Reversed collage: large image right, two small on left --- */
   .restaurant-collage.reverse img:first-child {
-    height: 95%;
-    width: 49%;
+    left: auto;
+    right: 1%;
+    top: 1%;
+    width: 48%;
+    height: 96%;
+    transform: rotate(-2deg);
+    z-index: 1;
   }
-
   .restaurant-collage.reverse img:nth-child(2) {
-    height: 50%;
-    width: 45%;
-  }
-
-  .restaurant-collage.reverse img:nth-child(3) {
-    height: 45%;
+    right: auto;
+    left: 1%;
+    top: 1%;
     width: 46%;
+    height: 52%;
+    transform: rotate(2deg);
+    z-index: 2;
   }
-}
-  .restaurant-entry h3 {
-    font-size: 1.6rem;
-    font-weight: 400;
-    margin-bottom: 0.5rem;
-    color: var(--text);
+  .restaurant-collage.reverse img:nth-child(3) {
+    right: auto;
+    left: 3%;
+    bottom: 1%;
+    width: 42%;
+    height: 44%;
+    transform: rotate(-1deg);
+    z-index: 3;
   }
-
+  .restaurant-collage.reverse img:nth-child(2):last-child {
+    height: 92%;
+    top: 4%;
+    transform: rotate(1deg);
+  }
+  @media (max-width: 500px) {
+    .restaurant-collage.reverse img:first-child {
+      height: 95%;
+      width: 49%;
+    }
+    .restaurant-collage.reverse img:nth-child(2) {
+      height: 50%;
+      width: 45%;
+    }
+    .restaurant-collage.reverse img:nth-child(3) {
+      height: 45%;
+      width: 46%;
+    }
+  }
   .restaurant-meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
+    gap: 0.9rem 1.3rem;
+    margin-bottom: 1.3rem;
     font-family: system-ui, -apple-system, sans-serif;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
+    font-size: 0.78rem;
+    letter-spacing: 0.5px;
     color: var(--muted);
   }
-
   .restaurant-desc {
-    line-height: 1.5;
+    line-height: 1.55;
     color: var(--text);
-    margin-bottom: 1.5rem;
+    margin-bottom: 0;
   }
-
   .restaurant-ratings {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0;
     font-size: 0.95rem;
   }
-
+  .note-rating .restaurant-actions {
+    margin-bottom: 0;
+    margin-top: 1.1rem;
+  }
+  .note-rating .restaurant-ratings {
+    margin-bottom: 1.1rem;
+  }
+  .note-address .restaurant-address {
+    margin-bottom: 0.9rem;
+  }
+  .note-address .map-embed {
+    margin-bottom: 0;
+    border-radius: 1px;
+  }
   .rating-row {
     display: flex;
     align-items: center;
@@ -370,17 +503,14 @@
     font-style: italic;
     flex-wrap: wrap;
   }
-
   .rating-row span:first-child {
     width: 40px;
   }
-
   .stars {
     font-style: normal;
     letter-spacing: 2px;
     margin-left: 1rem;
   }
-
   .rating-note {
     font-size: 0.8rem;
     color: var(--muted);
@@ -388,7 +518,6 @@
     letter-spacing: 0;
     font-style: italic;
   }
-
   .restaurant-address {
     display: flex;
     align-items: flex-start;
@@ -398,7 +527,6 @@
     margin-bottom: 1rem;
     font-size: 0.95rem;
   }
-
   .metro {
     display: flex;
     align-items: flex-start;
@@ -408,12 +536,10 @@
     margin-left: 1rem;
     font-size: 0.95rem;
   }
-
   .restaurant-address svg {
     flex-shrink: 0;
     margin-bottom: -0.2rem;
   }
-
   .map-embed {
     width: 100%;
     height: 150px;
@@ -422,7 +548,6 @@
     filter: grayscale(15%) contrast(1.1);
     object-fit: cover;
   }
-
   .restaurant-actions {
     display: flex;
     align-items: center;
@@ -431,11 +556,9 @@
     margin-bottom: 1.5rem;
     flex-wrap: wrap;
   }
-
   .restaurant-actions svg {
     transform: rotate(-45deg);
   }
-
   .link-website {
     display: inline-flex;
     align-items: center;
@@ -447,81 +570,75 @@
     transition: border-bottom 0.3s ease;
     letter-spacing: 1px;
   }
-
   /* --- Practical notes (Other section) --- */
   .notes-list {
     width: 100%;
     text-align: left;
     margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
   }
-
-  .note-block {
-    border-top: 1px solid #eee;
-    padding: 1.5rem 0;
-  }
-
+  .note.note-a { --note-color: var(--note-a); }
+  .note.note-b { --note-color: var(--note-b); }
+  .note.note-c { --note-color: var(--note-c); }
   .note-block h3 {
-    font-size: 1.2rem;
-    font-weight: 400;
-    margin-bottom: 0.6rem;
+    font-size: 1.3rem;
+    margin-bottom: 0.7rem;
   }
-
   .note-block p,
   .note-block li {
     color: var(--muted);
     line-height: 1.6;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
   }
-
   .note-block ul {
     list-style: none;
     padding-left: 0;
   }
-
   .note-block li {
-    padding: 0.15rem 0;
+    padding: 0.2rem 0;
   }
-
   .note-block li::before {
     content: "— ";
     color: var(--text);
   }
-
-  .day-trip {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px dashed #ddd;
+  .notes-list-heading {
+    font-size: 1.4rem;
+    margin-bottom: -1.4rem;
   }
-
+  .day-trip {
+    margin-top: 0.5rem;
+  }
   .day-trip:first-of-type {
     margin-top: 1rem;
   }
-
-  .day-trip h4 {
-    font-size: 1.1rem;
-    font-weight: 400;
-    margin-bottom: 0.5rem;
-    color: var(--text);
+  .day-trip .note {
+    margin-top: -8px;
+    position: relative;
+    z-index: 2;
   }
-
+  .day-trip h4 {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
   .day-trip p {
     color: var(--muted);
     line-height: 1.6;
-    font-size: 0.95rem;
+    font-size: 0.92rem;
+    margin-bottom: 0;
   }
-
   .scribble-note {
     display: inline-block;
     margin-top: 1rem;
     font-style: italic;
     font-size: 0.85rem;
     color: var(--muted);
-    border: 1px dashed #ccc;
-    padding: 0.75rem 1rem;
-    transform: rotate(-1deg);
+    background: var(--note-b);
+    box-shadow: 3px 5px 12px var(--note-shadow);
+    padding: 0.8rem 1.1rem;
+    transform: rotate(-1.5deg);
   }
-
-  /* subtle book-like spacing */
   .spine {
     position: fixed;
     left: 50%;
@@ -532,7 +649,6 @@
     background: rgba(0,0,0,0.06);
     z-index: 1;
   }
-
   footer {
     max-width: 600px;
     margin: 0 auto;
@@ -545,7 +661,6 @@
     position: relative;
     z-index: 2;
   }
-
   @media (max-width: 500px) {
     .toc li {
       font-size: 1rem;
@@ -556,7 +671,6 @@
       gap: 1rem;
     }
   }
-
   @media print {
     .sticky-header,
     .map-embed,
@@ -569,7 +683,6 @@
       page-break-after: always;
     }
   }
-
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
@@ -578,13 +691,28 @@
       transition: none !important;
     }
   }
-  
-  
 </style>
 </head>
-
 <body>
-
+  <!-- Hidden SVG for the text outline filter -->
+  <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
+    <filter id="outline">
+      <!--   only get the outline   -->
+      <feMorphology operator="dilate" radius="1.5" in="SourceAlpha" result="dilated"/>
+      <feComposite in="dilated" in2="SourceAlpha" operator="out" result="border"/>
+      <!--   add color to the outline   -->
+      <feFlood flood-color="darkblue" result="color"/>
+      <feComposite in="color" in2="border" operator="in" result="coloredBorder"/>
+      <!--   create noise effect   -->
+      <feTurbulence type="fractalNoise" baseFrequency="0.01" stitchTiles="stitch" result="noise"/>
+      <feDisplacementMap in="coloredBorder" in2="noise" scale="16" result="roughBorder"/>
+      <!--   put the outline back on the text   -->
+      <feMerge>
+        <feMergeNode in="SourceGraphic"/>
+        <feMergeNode in="roughBorder"/>
+      </feMerge>
+    </filter>
+  </svg>
   <header class="sticky-header" id="sticky-header">
     <h1 id="sticky-title">Paris Guide</h1>
     <a href="#home" class="back-to-top" aria-label="Back to top">
@@ -595,36 +723,39 @@
       </svg>
     </a>
   </header>
-
   <div class="spine"></div>
-
   <main id="home" class="hero" data-title="The London-Paris Guide">
-    <h1>Paris Guide</h1>
-    <div class="byline">by Zach</div>
-
-    <nav class="toc">
-      <ul>
-        <li><a href="#eat" data-nav="eat">eat</a> <span class="count">2 places</span></li>
-        <li><a href="#drink" data-nav="drink">drink</a> <span class="count">5 bars</span></li>
-        <li><a href="#walk" data-nav="walk">walk</a> <span class="count">5 areas</span></li>
-        <li><a href="#events" data-nav="events">events</a> <span class="count">8 events</span></li>
-        <li><a href="#other" data-nav="other">other</a> <span class="count">4 notes</span></li>
-      </ul>
-    </nav>
+    <div class="hero-cluster">
+      <div class="note note-title-hero">
+        <h1>Paris Guide</h1>
+      </div>
+      <div class="note note-byline">by Zach</div>
+      <div class="note note-toc">
+        <p class="toc-eyebrow">table of contents</p>
+        <nav class="toc">
+          <ul>
+            <li><a href="#eat" data-nav="eat">eat</a> <span class="count">2 places</span></li>
+            <li><a href="#drink" data-nav="drink">drink</a> <span class="count">5 bars</span></li>
+            <li><a href="#walk" data-nav="walk">walk</a> <span class="count">5 areas</span></li>
+            <li><a href="#events" data-nav="events">events</a> <span class="count">8 events</span></li>
+            <li><a href="#other" data-nav="other">other</a> <span class="count">4 notes</span></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
   </main>
-
   <section id="eat" class="content-section" data-title="Eat">
-    <h2>My favourite Restaurants</h2>
+   
+<h2>My favourite Restaurants</h2>
     <p>A mix of classic french cuisine, cool & fun restaurants i enjoyed, cheap kebab places and some simply with a nice atmospheres.</p>
 
     <article class="restaurant-entry">
-     <div class="restaurant-collage">
+<div class="restaurant-collage">
   <img
     src="https://github.com/Stepzach/pdesport/blob/main/IMG_4268.jpg?raw=true"
     alt="Côte de bœuf sharing platter at Le Phalsbourg"
     loading="lazy"
   />
-
   <img
     src="https://github.com/Stepzach/pdesport/blob/main/IMG_4266.jpg?raw=true"
     alt="Table set with starters and wine at Le Phalsbourg"
@@ -636,21 +767,20 @@
     loading="lazy"
   />
 </div>
-
-      <h3>Le Phalsbourg</h3>
-
-      <div class="restaurant-meta">
+<div class="note note-info">
+<h3>Le Phalsbourg</h3>
+<div class="restaurant-meta">
         <span class="tag">français</span>
           <span class="tag">30-70€</span>
         <span class="tag">17eme Arr</span>
       </div>
-
-
-      <p class="restaurant-desc">
+<p class="restaurant-desc">
        Authentic and very high quality french cuisine, everything is sourced in france. Menu is set on a chalkboard every day based on what they have. We had a côte de bœuf sharing platter, with roasted potatoes and a side salad. We also had really nice starters and a red wine recommended by the server. <br><br>10/10 dinner but expect to spend at least 30€ pp without the wine
       </p>
-
-      <div class="restaurant-ratings">
+</div>
+<div class="note-row">
+<div class="note note-rating">
+<div class="restaurant-ratings">
   <div class="rating-row">
     <span>food</span>
     <span class="stars">★★★★★</span>
@@ -660,68 +790,58 @@
     <span class="stars">★★★★☆</span>
     <span class="rating-note">(we went too early)</span> </div>
 </div>
-  <div class="restaurant-actions">
+<div class="restaurant-actions">
         <a href="https://drive.google.com/file/d/1i2e3VNcESEGLqGIBfdd124fOnYPfsCuS/view?usp=sharing" class="link-website" target="_blank" rel="noopener noreferrer">
          <u>See Menu</u>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
-
-
         </a>
             <span class="rating-note" style="margin-top:-0.8rem; margin-left:0;">(Image just for reference bcos it changes all the time)</span>
       </div>
-      <p class="restaurant-address">
+</div>
+<div class="note note-address">
+<p class="restaurant-address">
       <span>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
           <circle cx="12" cy="10" r="3"></circle>
         </svg>
-
          3 Rue de Phalsbourg, 75017 Paris</span>
           <span class="metro"><b>Metro:</b>Monceau & Malesherbes</span>
         </p>
-
-
-         <iframe
-
+<iframe
         class="map-embed"
-
         src="https://maps.google.com/maps?q=3+Rue+de+Phalsbourg,+75017+Paris&z=12&output=embed"
-
         allowfullscreen=""
-
         loading="lazy"
-
         referrerpolicy="no-referrer-when-downgrade"
         title="Map showing Le Phalsbourg location">
-
       </iframe>
-
-
-
-    </article>
-
+</div>
+</div>
+</article>
     <article class="restaurant-entry">
-      <div class="restaurant-collage reverse">
+<div class="restaurant-collage reverse">
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for La Cantine Lourmel" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for La Cantine Lourmel" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for La Cantine Lourmel" loading="lazy" />
       </div>
-      <h3>La Cantine Lourmel</h3>
-
-      <div class="restaurant-meta">
+<div class="note note-info">
+<h3>La Cantine Lourmel</h3>
+<div class="restaurant-meta">
         <span class="tag">français / bouillon</span>
         <span class="tag">cheap</span>
         <span class="tag">15eme Arr</span>
       </div>
-
-      <p class="restaurant-desc">
+<p class="restaurant-desc">
         A "bouillon" style cantine — classic french bistro dishes (think croque, tartare, roast chicken) at old-school prices, in a big lively room. First-come-first-served, no reservations, so expect a short wait after 8pm.
       </p>
-
-      <div class="restaurant-ratings">
+</div>
+<div class="note-row">
+<div class="note note-rating">
+<div class="restaurant-ratings">
         <div class="rating-row">
           <span>food</span>
           <span class="stars">☆☆☆☆☆</span>
@@ -733,70 +853,60 @@
           <span class="rating-note">(add your rating)</span>
         </div>
       </div>
-
-      <p class="restaurant-address">
+</div>
+<div class="note note-address">
+<p class="restaurant-address">
       <span>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
           <circle cx="12" cy="10" r="3"></circle>
         </svg>
-
         7 Rue de Lourmel, 75015 Paris</span>
           <span class="metro"><b>Metro:</b>Dupleix</span>
         </p>
-
-         <iframe
-
+<iframe
         class="map-embed"
-
         src="https://maps.google.com/maps?q=7+Rue+de+Lourmel,+75015+Paris&z=12&output=embed"
-
         allowfullscreen=""
-
         loading="lazy"
-
         referrerpolicy="no-referrer-when-downgrade"
         title="Map showing La Cantine Lourmel location">
-
       </iframe>
-
-    </article>
+</div>
+</div>
+</article>
   </section>
-
   <section id="drink" class="content-section" data-title="Drink">
-    <h2>my favourite bars & terraces</h2>
+  
+<h2>my favourite bars & terraces</h2>
     <p>Mostly places with good Happy hour deals, but also some higher end "prime location" places that are worth it (in my opinion)</p>
 
      <article class="restaurant-entry">
-     <div class="restaurant-collage">
+<div class="restaurant-collage">
   <img
     src="https://github.com/Stepzach/pdesport/blob/main/IMG_6246.jpg?raw=true"
     alt="Pool table inside Rosie's smokehouse BBQ sports bar"
     loading="lazy"
   />
-
-
     <img
     src="https://github.com/Stepzach/pdesport/blob/main/IMG_6245.jpg?raw=true"
     alt="Bar area at Rosie's smokehouse BBQ sports bar"
     loading="lazy"
   />
 </div>
-
-      <h3>Rosie's smokehouse BBQ sports bar</h3>
-
-      <div class="restaurant-meta">
+<div class="note note-info">
+<h3>Rosie's smokehouse BBQ sports bar</h3>
+<div class="restaurant-meta">
         <span class="tag">closes at 2am</span>
-
         <span class="tag">5eme Arr</span>
       </div>
-
-
-      <p class="restaurant-desc">
+<p class="restaurant-desc">
       Not a typical parisian bar (and is kinda touristy) but i like it because its central, the pint is 5€ all night and they have a pool table (2€ per game). Staff is nice and they put the Arsenal game on the TV when i asked (don't try this if PSG is playing)
       </p>
-
-      <div class="restaurant-ratings">
+</div>
+<div class="note-row">
+<div class="note note-rating">
+<div class="restaurant-ratings">
   <div class="rating-row">
     <span>drinks</span>
     <span class="stars">★★★☆☆</span>
@@ -806,56 +916,47 @@
     <span class="stars">★★★★☆</span>
     <span class="rating-note">(touristy but friendly)</span> </div>
 </div>
-
-      <p class="restaurant-address">
+</div>
+<div class="note note-address">
+<p class="restaurant-address">
       <span>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
           <circle cx="12" cy="10" r="3"></circle>
         </svg>
-
         13 Rue de la Huchette, 75005 Paris</span>
           <span class="metro"><b>Metro:</b>Saint-Michel (& saint-michel Notre dame)</span>
         </p>
-
-
-         <iframe
-
+<iframe
         class="map-embed"
-
         src="https://maps.google.com/maps?q=13+Rue+de+la+Huchette,+75005+Paris&z=12&output=embed"
-
         allowfullscreen=""
-
         loading="lazy"
-
         referrerpolicy="no-referrer-when-downgrade"
         title="Map showing Rosie's smokehouse location">
-
       </iframe>
-
-
-
-    </article>
-
+</div>
+</div>
+</article>
     <article class="restaurant-entry">
-      <div class="restaurant-collage">
+<div class="restaurant-collage">
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Bonnotte Club" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Bonnotte Club" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Bonnotte Club" loading="lazy" />
       </div>
-      <h3>Bonnotte Club</h3>
-
-      <div class="restaurant-meta">
+<div class="note note-info">
+<h3>Bonnotte Club</h3>
+<div class="restaurant-meta">
         <span class="tag">summer guinguette</span>
         <span class="tag">7eme Arr</span>
       </div>
-
-      <p class="restaurant-desc">
+<p class="restaurant-desc">
         A barge + open-air terrace right on the Seine, foot of the Eiffel Tower. Cocktails, oysters, smash burgers, sunset views. Runs seasonally (spring–autumn) — check it's open before you go.
       </p>
-
-      <div class="restaurant-ratings">
+</div>
+<div class="note-row">
+<div class="note note-rating">
+<div class="restaurant-ratings">
         <div class="rating-row">
           <span>drinks</span>
           <span class="stars">☆☆☆☆☆</span>
@@ -867,19 +968,18 @@
           <span class="rating-note">(add your rating)</span>
         </div>
       </div>
-
-      <p class="restaurant-address">
+</div>
+<div class="note note-address">
+<p class="restaurant-address">
       <span>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
           <circle cx="12" cy="10" r="3"></circle>
         </svg>
-
         Port de Suffren, 75007 Paris</span>
           <span class="metro"><b>Metro:</b>Bir-Hakeim / Champ de Mars-Tour Eiffel (RER C)</span>
         </p>
-
-         <iframe
+<iframe
         class="map-embed"
         src="https://maps.google.com/maps?q=Port+de+Suffren,+75007+Paris&z=13&output=embed"
         allowfullscreen=""
@@ -887,25 +987,27 @@
         referrerpolicy="no-referrer-when-downgrade"
         title="Map showing Bonnotte Club location">
       </iframe>
-    </article>
-
+</div>
+</div>
+</article>
     <article class="restaurant-entry">
-      <div class="restaurant-collage">
+<div class="restaurant-collage">
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for L'atelier Suffren" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for L'atelier Suffren" loading="lazy" />
       </div>
-      <h3>L'atelier Suffren</h3>
-
-      <div class="restaurant-meta">
+<div class="note note-info">
+<h3>L'atelier Suffren</h3>
+<div class="restaurant-meta">
         <span class="tag">happy hour</span>
         <span class="tag">15eme Arr</span>
       </div>
-
-      <p class="restaurant-desc">
+<p class="restaurant-desc">
         No-frills neighbourhood bar facing UNESCO, a short walk from the Eiffel Tower. Big terrace, cheap pints during happy hour, screens for the football/rugby.
       </p>
-
-      <div class="restaurant-ratings">
+</div>
+<div class="note-row">
+<div class="note note-rating">
+<div class="restaurant-ratings">
         <div class="rating-row">
           <span>drinks</span>
           <span class="stars">☆☆☆☆☆</span>
@@ -917,19 +1019,18 @@
           <span class="rating-note">(add your rating)</span>
         </div>
       </div>
-
-      <p class="restaurant-address">
+</div>
+<div class="note note-address">
+<p class="restaurant-address">
       <span>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
           <circle cx="12" cy="10" r="3"></circle>
         </svg>
-
         110 Avenue de Suffren, 75015 Paris</span>
           <span class="metro"><b>Metro:</b>Ségur / Sèvres-Lecourbe</span>
         </p>
-
-         <iframe
+<iframe
         class="map-embed"
         src="https://maps.google.com/maps?q=110+Avenue+de+Suffren,+75015+Paris&z=13&output=embed"
         allowfullscreen=""
@@ -937,26 +1038,28 @@
         referrerpolicy="no-referrer-when-downgrade"
         title="Map showing L'atelier Suffren location">
       </iframe>
-    </article>
-
+</div>
+</div>
+</article>
     <article class="restaurant-entry">
-      <div class="restaurant-collage reverse">
+<div class="restaurant-collage reverse">
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Les Affranchis" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Les Affranchis" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Les Affranchis" loading="lazy" />
       </div>
-      <h3>Les Affranchis</h3>
-
-      <div class="restaurant-meta">
+<div class="note note-info">
+<h3>Les Affranchis</h3>
+<div class="restaurant-meta">
         <span class="tag">70s vintage decor</span>
         <span class="tag">13eme Arr</span>
       </div>
-
-      <p class="restaurant-desc">
+<p class="restaurant-desc">
         Bar-brasserie with a retro industrial look — wood, vintage furniture, an all-you-can-eat sweet & savoury brunch buffet on sundays. Also does happy hour and sports screenings.
       </p>
-
-      <div class="restaurant-ratings">
+</div>
+<div class="note-row">
+<div class="note note-rating">
+<div class="restaurant-ratings">
         <div class="rating-row">
           <span>drinks</span>
           <span class="stars">☆☆☆☆☆</span>
@@ -968,19 +1071,18 @@
           <span class="rating-note">(add your rating)</span>
         </div>
       </div>
-
-      <p class="restaurant-address">
+</div>
+<div class="note note-address">
+<p class="restaurant-address">
       <span>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
           <circle cx="12" cy="10" r="3"></circle>
         </svg>
-
         98 Rue de Tolbiac, 75013 Paris</span>
           <span class="metro"><b>Metro:</b>Olympiades</span>
         </p>
-
-         <iframe
+<iframe
         class="map-embed"
         src="https://maps.google.com/maps?q=98+Rue+de+Tolbiac,+75013+Paris&z=13&output=embed"
         allowfullscreen=""
@@ -988,25 +1090,27 @@
         referrerpolicy="no-referrer-when-downgrade"
         title="Map showing Les Affranchis location">
       </iframe>
-    </article>
-
+</div>
+</div>
+</article>
     <article class="restaurant-entry">
-      <div class="restaurant-collage">
+<div class="restaurant-collage">
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Loui's Corner" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Loui's Corner" loading="lazy" />
       </div>
-      <h3>Loui's Corner</h3>
-
-      <div class="restaurant-meta">
+<div class="note note-info">
+<h3>Loui's Corner</h3>
+<div class="restaurant-meta">
         <span class="tag">corner terrace</span>
         <span class="tag">10eme Arr</span>
       </div>
-
-      <p class="restaurant-desc">
+<p class="restaurant-desc">
         Right on the Canal Saint-Martin, a corner spot with a wraparound terrace — good for a coffee, brunch, or evening drinks watching the canal go by. Gets busy on sunny weekends.
       </p>
-
-      <div class="restaurant-ratings">
+</div>
+<div class="note-row">
+<div class="note note-rating">
+<div class="restaurant-ratings">
         <div class="rating-row">
           <span>drinks</span>
           <span class="stars">☆☆☆☆☆</span>
@@ -1018,19 +1122,18 @@
           <span class="rating-note">(add your rating)</span>
         </div>
       </div>
-
-      <p class="restaurant-address">
+</div>
+<div class="note note-address">
+<p class="restaurant-address">
       <span>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
           <circle cx="12" cy="10" r="3"></circle>
         </svg>
-
         49 Rue Bichat, 75010 Paris</span>
           <span class="metro"><b>Metro:</b>Goncourt / Jacques Bonsergent</span>
         </p>
-
-         <iframe
+<iframe
         class="map-embed"
         src="https://maps.google.com/maps?q=49+Rue+Bichat,+75010+Paris&z=13&output=embed"
         allowfullscreen=""
@@ -1038,21 +1141,22 @@
         referrerpolicy="no-referrer-when-downgrade"
         title="Map showing Loui's Corner location">
       </iframe>
-    </article>
+</div>
+</div>
+</article>
   </section>
-
   <section id="walk" class="content-section" data-title="Walk">
-    <h2>Best areas to walks</h2>
+
+<h2>Best areas to walks</h2>
     <p>Paris is the best city to wander in, because its not big and everything is beautiful, especially if the weather is nice. Here are my favourite walks and why:</p>
 
      <article class="restaurant-entry">
-     <div class="restaurant-collage">
+<div class="restaurant-collage">
   <img
     src="https://cloudfront-eu-central-1.images.arcpublishing.com/leparisien/4YKIDCARXBHYXL6S4RLTSYX2FM.jpg"
     alt="Canal Saint-Martin lined with people in the evening"
     loading="lazy"
   />
-
   <img
     src="https://cloudfront-eu-central-1.images.arcpublishing.com/leparisien/KX4T62NODZCUHOO54C5Q2PD3OQ.jpg"
     alt="People sitting along the canal edge with drinks"
@@ -1064,82 +1168,70 @@
     loading="lazy"
   />
 </div>
-
-      <h3>Along the Canal Saint-Martin</h3>
-
-      <div class="restaurant-meta">
+<div class="note note-info">
+<h3>Along the Canal Saint-Martin</h3>
+<div class="restaurant-meta">
         <span class="tag">Best time: Sunset / Early evening</span>
-
         <span class="tag">10eme Arr</span>
       </div>
-
-
-      <p class="restaurant-desc">
+<p class="restaurant-desc">
       Young and energetic area but has some peaceful side roads. After work, people sit and have drinks/apero on the canal (especially in the summer). If its very hot you can watch kids jump from the bridges.<br><br>Reminds me of camden / primrose area in london.
       </p>
-
-      <div class="restaurant-ratings">
-
+</div>
+<div class="note-row">
+<div class="note note-rating">
+<div class="restaurant-ratings">
   <div class="rating-row">
     <span>vibes</span>
     <span class="stars">★★★★★</span>
     <span class="rating-note">(5/5 in the summer)</span> </div>
 </div>
-
-      <p class="restaurant-address">
-
+</div>
+<div class="note note-address">
+<p class="restaurant-address">
           <span><b>Metro: </b>République, Jaures & others</span>
         </p>
-
-
-         <iframe
-
+<iframe
         class="map-embed"
-
         src="https://maps.google.com/maps?q=Canal+Saint+Martin+Paris&z=12&output=embed"
-
         allowfullscreen=""
-
         loading="lazy"
-
         referrerpolicy="no-referrer-when-downgrade"
         title="Map showing Canal Saint-Martin">
-
       </iframe>
-
-
-
-    </article>
-
+</div>
+</div>
+</article>
     <article class="restaurant-entry">
-      <div class="restaurant-collage reverse">
+<div class="restaurant-collage reverse">
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Les Quais de la Seine" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Les Quais de la Seine" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Les Quais de la Seine" loading="lazy" />
       </div>
-      <h3>Les Quais de la Seine</h3>
-
-      <div class="restaurant-meta">
+<div class="note note-info">
+<h3>Les Quais de la Seine</h3>
+<div class="restaurant-meta">
         <span class="tag">Best time: Anytime, golden hour is nicest</span>
       </div>
-
-      <p class="restaurant-desc">
+<p class="restaurant-desc">
         The riverside itself — the stretch through central Paris is UNESCO-listed, and much of it is closed to cars (Voie Georges Pompidou / Les Berges). Good for a straight-line walk between landmarks: Musée d'Orsay, Pont Neuf, Notre-Dame, Île Saint-Louis.
       </p>
-
-      <div class="restaurant-ratings">
+</div>
+<div class="note-row">
+<div class="note note-rating">
+<div class="restaurant-ratings">
         <div class="rating-row">
           <span>vibes</span>
           <span class="stars">☆☆☆☆☆</span>
           <span class="rating-note">(add your rating)</span>
         </div>
       </div>
-
-      <p class="restaurant-address">
+</div>
+<div class="note note-address">
+<p class="restaurant-address">
           <span><b>Metro: </b>anywhere along lines 1, 4, 7, 10, or the RER C</span>
         </p>
-
-         <iframe
+<iframe
         class="map-embed"
         src="https://maps.google.com/maps?q=Quais+de+Seine+Paris&z=13&output=embed"
         allowfullscreen=""
@@ -1147,37 +1239,39 @@
         referrerpolicy="no-referrer-when-downgrade"
         title="Map showing the Seine quays">
       </iframe>
-    </article>
-
+</div>
+</div>
+</article>
     <article class="restaurant-entry">
-      <div class="restaurant-collage">
+<div class="restaurant-collage">
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Jardin du Luxembourg" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Jardin du Luxembourg" loading="lazy" />
       </div>
-      <h3>Jardin du Luxembourg</h3>
-
-      <div class="restaurant-meta">
+<div class="note note-info">
+<h3>Jardin du Luxembourg</h3>
+<div class="restaurant-meta">
         <span class="tag">Best time: Morning, before it fills up</span>
         <span class="tag">6eme Arr</span>
       </div>
-
-      <p class="restaurant-desc">
+<p class="restaurant-desc">
         Paris's most "Parisian" park — formal gardens, the Medici fountain, tennis courts, and the Sénat building. Good for a slow lap with a coffee, or bring a book and grab one of the green metal chairs by the pond.
       </p>
-
-      <div class="restaurant-ratings">
+</div>
+<div class="note-row">
+<div class="note note-rating">
+<div class="restaurant-ratings">
         <div class="rating-row">
           <span>vibes</span>
           <span class="stars">☆☆☆☆☆</span>
           <span class="rating-note">(add your rating)</span>
         </div>
       </div>
-
-      <p class="restaurant-address">
+</div>
+<div class="note note-address">
+<p class="restaurant-address">
           <span><b>Metro: </b>Odéon, or RER B Luxembourg</span>
         </p>
-
-         <iframe
+<iframe
         class="map-embed"
         src="https://maps.google.com/maps?q=Jardin+du+Luxembourg+Paris&z=14&output=embed"
         allowfullscreen=""
@@ -1185,38 +1279,40 @@
         referrerpolicy="no-referrer-when-downgrade"
         title="Map showing Jardin du Luxembourg">
       </iframe>
-    </article>
-
+</div>
+</div>
+</article>
     <article class="restaurant-entry">
-      <div class="restaurant-collage">
+<div class="restaurant-collage">
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Parc Monceau" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Parc Monceau" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Parc Monceau" loading="lazy" />
       </div>
-      <h3>Parc Monceau</h3>
-
-      <div class="restaurant-meta">
+<div class="note note-info">
+<h3>Parc Monceau</h3>
+<div class="restaurant-meta">
         <span class="tag">Best time: Weekday mornings</span>
         <span class="tag">8eme Arr</span>
       </div>
-
-      <p class="restaurant-desc">
+<p class="restaurant-desc">
         Smaller and quieter than Luxembourg, with an English-garden layout — follies, a fake ruined colonnade, a pond. Surrounded by grand haussmannian buildings, so it doubles as a nice detour if you're near Monceau or the 17th.
       </p>
-
-      <div class="restaurant-ratings">
+</div>
+<div class="note-row">
+<div class="note note-rating">
+<div class="restaurant-ratings">
         <div class="rating-row">
           <span>vibes</span>
           <span class="stars">☆☆☆☆☆</span>
           <span class="rating-note">(add your rating)</span>
         </div>
       </div>
-
-      <p class="restaurant-address">
+</div>
+<div class="note note-address">
+<p class="restaurant-address">
           <span><b>Metro: </b>Monceau</span>
         </p>
-
-         <iframe
+<iframe
         class="map-embed"
         src="https://maps.google.com/maps?q=Parc+Monceau+Paris&z=14&output=embed"
         allowfullscreen=""
@@ -1224,37 +1320,39 @@
         referrerpolicy="no-referrer-when-downgrade"
         title="Map showing Parc Monceau">
       </iframe>
-    </article>
-
+</div>
+</div>
+</article>
     <article class="restaurant-entry">
-      <div class="restaurant-collage">
+<div class="restaurant-collage">
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Les Puces de Saint-Ouen" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Les Puces de Saint-Ouen" loading="lazy" />
       </div>
-      <h3>Les Puces de Saint-Ouen</h3>
-
-      <div class="restaurant-meta">
+<div class="note note-info">
+<h3>Les Puces de Saint-Ouen</h3>
+<div class="restaurant-meta">
         <span class="tag">Best time: Sat–Mon, mornings</span>
         <span class="tag">Saint-Ouen (just north of the 18eme)</span>
       </div>
-
-      <p class="restaurant-desc">
+<p class="restaurant-desc">
         The world's largest flea market — technically several markets stitched together, from serious antiques to vintage clothes and pure junk. Less a "walk" and more a maze; give it at least 2 hours and expect to haggle.
       </p>
-
-      <div class="restaurant-ratings">
+</div>
+<div class="note-row">
+<div class="note note-rating">
+<div class="restaurant-ratings">
         <div class="rating-row">
           <span>vibes</span>
           <span class="stars">☆☆☆☆☆</span>
           <span class="rating-note">(add your rating)</span>
         </div>
       </div>
-
-      <p class="restaurant-address">
+</div>
+<div class="note note-address">
+<p class="restaurant-address">
           <span><b>Metro: </b>Porte de Clignancourt</span>
         </p>
-
-         <iframe
+<iframe
         class="map-embed"
         src="https://maps.google.com/maps?q=Puces+de+Saint-Ouen+Paris&z=14&output=embed"
         allowfullscreen=""
@@ -1262,174 +1360,179 @@
         referrerpolicy="no-referrer-when-downgrade"
         title="Map showing Les Puces de Saint-Ouen">
       </iframe>
-    </article>
+</div>
+</div>
+</article>
   </section>
-
   <section id="events" class="content-section" data-title="Events">
-    <h2>Yearly Events in Paris / France</h2>
+
+<h2>Yearly Events in Paris / France</h2>
     <p>The best events you can't miss, and how to prepare. in chronological order</p>
 
        <article class="restaurant-entry">
-     <div class="restaurant-collage">
+<div class="restaurant-collage">
   <img
     src="https://cdn.sortiraparis.com/images/80/66131/1087018-fete-de-la-musique-2024-concert-de-rock-hard-rock-et-metal-sur-la-place-saint-michel-a-paris.jpg"
     alt="Rock concert on Place Saint-Michel during Fête de la musique"
     loading="lazy"
   />
-
-
     <img
     src="https://cdn.sortiraparis.com/images/80/98675/769371-visuel-concert-fete-de-la-musique-spectacle.jpg"
     alt="Street crowd watching a free concert"
     loading="lazy"
   />
 </div>
-
-      <h3>Fête de la musique</h3>
-
-      <div class="restaurant-meta">
+<div class="note note-info">
+<h3>Fête de la musique</h3>
+<div class="restaurant-meta">
         <span class="tag">21st of June</span>
           <span class="tag">Nationwide party</span>
         <span class="tag">All day & night</span>
       </div>
-
-
-      <p class="restaurant-desc">
+<p class="restaurant-desc">
       country wide festival where musicians of all levels perform <b>free</b> concerts in streets, parks and squares with special events organised all across paris. Expect large crowds in central areas from 4pm onwards. I recommend to check social media for specific artists, otherwise simply walking around you will find concerts on every street. <br><br>Around republique and bastille the party will go on until the morning hours. Its like notting hill carnival but bigger and for all types of music.
       </p>
-
-      <div class="restaurant-ratings">
+</div>
+<div class="note-row">
+<div class="note note-rating">
+<div class="restaurant-ratings">
         <div class="rating-row">
           <span>vibes</span>
           <span class="stars">☆☆☆☆☆</span>
           <span class="rating-note">(add your rating)</span>
         </div>
       </div>
-
-      <p class="restaurant-address">
+</div>
+<div class="note note-address">
+<p class="restaurant-address">
       <span>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
           <circle cx="12" cy="10" r="3"></circle>
         </svg>
-
         Everywhere</span>
-
         </p>
-
-
-
-    </article>
-
+</div>
+</div>
+</article>
     <article class="restaurant-entry">
-      <div class="restaurant-collage reverse">
+<div class="restaurant-collage reverse">
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Le Salon de l'Agriculture" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Le Salon de l'Agriculture" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Le Salon de l'Agriculture" loading="lazy" />
       </div>
-      <h3>Le Salon de l'Agriculture</h3>
-
-      <div class="restaurant-meta">
+<div class="note note-info">
+<h3>Le Salon de l'Agriculture</h3>
+<div class="restaurant-meta">
         <span class="tag">Late Feb – early March</span>
         <span class="tag">9 days</span>
         <span class="tag">Porte de Versailles</span>
       </div>
-
-      <p class="restaurant-desc">
+<p class="restaurant-desc">
         France's biggest farming show — hundreds of cows, sheep, horses and goats brought into the city, plus every region's food and drink under one roof. Sounds niche, is genuinely great: go hungry and taste your way around the regional pavilion.
       </p>
-
-      <div class="restaurant-ratings">
+</div>
+<div class="note-row">
+<div class="note note-rating">
+<div class="restaurant-ratings">
         <div class="rating-row">
           <span>vibes</span>
           <span class="stars">☆☆☆☆☆</span>
           <span class="rating-note">(add your rating)</span>
         </div>
       </div>
-
-      <p class="restaurant-address">
+</div>
+<div class="note note-address">
+<p class="restaurant-address">
           <span><b>Metro: </b>Porte de Versailles (line 12) or Balard (line 8)</span>
         </p>
-    </article>
-
+</div>
+</div>
+</article>
     <article class="restaurant-entry">
-      <div class="restaurant-collage">
+<div class="restaurant-collage">
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for La Nuit des Musées" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for La Nuit des Musées" loading="lazy" />
       </div>
-      <h3>La Nuit des Musées</h3>
-
-      <div class="restaurant-meta">
+<div class="note note-info">
+<h3>La Nuit des Musées</h3>
+<div class="restaurant-meta">
         <span class="tag">Mid May</span>
         <span class="tag">One night</span>
         <span class="tag">City-wide</span>
       </div>
-
-      <p class="restaurant-desc">
+<p class="restaurant-desc">
         Museums across Paris (and France) open late into the night, most for free. A good excuse to finally do the Louvre or Musée d'Orsay without the daytime crowds — smaller museums often put on talks, music or performances too. Popular spots still queue up, so pick 2-3 you actually want to see rather than trying to do everything.
       </p>
-
-      <div class="restaurant-ratings">
+</div>
+<div class="note-row">
+<div class="note note-rating solo">
+<div class="restaurant-ratings">
         <div class="rating-row">
           <span>vibes</span>
           <span class="stars">☆☆☆☆☆</span>
           <span class="rating-note">(add your rating)</span>
         </div>
       </div>
-    </article>
-
+</div>
+</div>
+</article>
     <article class="restaurant-entry">
-      <div class="restaurant-collage">
+<div class="restaurant-collage">
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Paris Marathon" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Paris Marathon" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Paris Marathon" loading="lazy" />
       </div>
-      <h3>Paris Marathon</h3>
-
-      <div class="restaurant-meta">
+<div class="note note-info">
+<h3>Paris Marathon</h3>
+<div class="restaurant-meta">
         <span class="tag">Early April</span>
         <span class="tag">One Sunday</span>
         <span class="tag">Champs-Élysées to Avenue Foch</span>
       </div>
-
-      <p class="restaurant-desc">
+<p class="restaurant-desc">
         Starts on the Champs-Élysées and winds through the city past most of the big landmarks before finishing near the Arc de Triomphe. Great free spectator sport even if you're not running — good vantage points along the Seine or near Bastille where the crowd noise is loudest.
       </p>
-
-      <div class="restaurant-ratings">
+</div>
+<div class="note-row">
+<div class="note note-rating solo">
+<div class="restaurant-ratings">
         <div class="rating-row">
           <span>vibes</span>
           <span class="stars">☆☆☆☆☆</span>
           <span class="rating-note">(add your rating)</span>
         </div>
       </div>
-    </article>
-
+</div>
+</div>
+</article>
     <article class="restaurant-entry">
-      <div class="restaurant-collage">
+<div class="restaurant-collage">
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for 14 Juillet / Bastille Day" loading="lazy" />
         <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for 14 Juillet / Bastille Day" loading="lazy" />
       </div>
-      <h3>14 Juillet (Bastille Day)</h3>
-
-      <div class="restaurant-meta">
+<div class="note note-info">
+<h3>14 Juillet (Bastille Day)</h3>
+<div class="restaurant-meta">
         <span class="tag">14th of July</span>
         <span class="tag">Morning parade + evening fireworks</span>
       </div>
-
-      <p class="restaurant-desc">
+<p class="restaurant-desc">
         The national holiday. A military parade goes down the Champs-Élysées in the morning (arrive early if you want a spot near the barriers), and in the evening there's a big fireworks display over the Eiffel Tower — the Champ de Mars and Trocadéro both fill up hours in advance, so a picnic further back along the Seine is a less stressful way to watch.
       </p>
-
-      <div class="restaurant-ratings">
+</div>
+<div class="note-row">
+<div class="note note-rating solo">
+<div class="restaurant-ratings">
         <div class="rating-row">
           <span>vibes</span>
           <span class="stars">☆☆☆☆☆</span>
           <span class="rating-note">(add your rating)</span>
         </div>
       </div>
-    </article>
-
+</div>
+</div>
+</article>
     <div class="note-block" style="width:100%; margin-top:1rem; text-align:left;">
       <h3>also worth knowing about</h3>
       <ul>
@@ -1438,15 +1541,14 @@
         <li><b>Roland Garros</b> — late May into early June. The French Open, held at Stade Roland Garros in the 16th — grounds passes (no show-court seat) are a cheaper way to soak up the atmosphere.</li>
       </ul>
     </div>
-
   </section>
-
   <section id="other" class="content-section" data-title="Other">
-    <h2>Practical notes</h2>
+
+<h2>Practical notes</h2>
     <p>The boring-but-useful stuff. Stuff I wish someone had told me before I got here.</p>
 
     <div class="notes-list">
-      <div class="note-block">
+      <div class="note-block note note-b" style="transform: rotate(0.6deg);">
         <h3>getting to paris cheap: eurostar snap</h3>
         <ul>
           <li>Eurostar Snap sells discounted last-minute seats (up to ~50% off) on trains that still have space — you pick a date and a morning/evening window, not an exact train</li>
@@ -1455,55 +1557,51 @@
           <li>tuesday/wednesday travel tends to have the cheapest fares — weekends are the most expensive and least likely to have Snap availability at all</li>
         </ul>
       </div>
-
-      <div class="note-block">
-        <h3>day trips out of paris</h3>
-
-        <div class="day-trip">
-          <div class="restaurant-collage">
-            <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Versailles" loading="lazy" />
-            <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Versailles" loading="lazy" />
-          </div>
+      <h3 class="notes-list-heading">day trips out of paris</h3>
+      <div class="day-trip">
+        <div class="restaurant-collage">
+          <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Versailles" loading="lazy" />
+          <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Versailles" loading="lazy" />
+        </div>
+        <div class="note note-a" style="transform: rotate(-0.7deg);">
           <h4>Versailles</h4>
           <p>The obvious one, and worth it: the palace and gardens are enormous. RER C direct from central Paris (~40 min). Go early or you'll spend half the day queuing; the gardens are free to wander without a ticket.</p>
         </div>
-
-        <div class="day-trip">
-          <div class="restaurant-collage">
-            <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Fontainebleau" loading="lazy" />
-            <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Fontainebleau" loading="lazy" />
-          </div>
+      </div>
+      <div class="day-trip">
+        <div class="restaurant-collage">
+          <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Fontainebleau" loading="lazy" />
+          <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Fontainebleau" loading="lazy" />
+        </div>
+        <div class="note note-c" style="transform: rotate(0.9deg);">
           <h4>Fontainebleau</h4>
           <p>A quieter, less crowded alternative to Versailles with its own huge château, plus a forest around the town that's great for a walk or a picnic if the weather's good. Train from Gare de Lyon (~40 min), then a short bus to the château.</p>
         </div>
-
-        <div class="day-trip">
-          <div class="restaurant-collage">
-            <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Rouen" loading="lazy" />
-            <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Rouen" loading="lazy" />
-          </div>
+      </div>
+      <div class="day-trip">
+        <div class="restaurant-collage">
+          <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Rouen" loading="lazy" />
+          <img src="https://placehold.co/600x400/e8e3d8/9a9488?text=add+a+photo" alt="Photo placeholder for Rouen" loading="lazy" />
+        </div>
+        <div class="note note-b" style="transform: rotate(-0.6deg);">
           <h4>Rouen</h4>
           <p>A proper day out rather than an afternoon: a well-preserved medieval old town, a Gothic cathedral (the one Monet painted repeatedly), and the site where Joan of Arc was executed. About 1h15 by train from Gare Saint-Lazare.</p>
         </div>
       </div>
     </div>
-
     <div class="scribble-note">more notes to add as i think of them...</div>
   </section>
-
   <footer>
     <p>a work-in-progress notebook, updated as I go — corrections & suggestions welcome.</p>
   </footer>
-
   <script>
     document.addEventListener("DOMContentLoaded", () => {
+      // --- INTERSECTION OBSERVERS ---
       const stickyHeader = document.getElementById("sticky-header");
       const stickyTitle = document.getElementById("sticky-title");
       const homeSection = document.getElementById("home");
       const allSections = document.querySelectorAll("main, section");
       const navLinks = document.querySelectorAll(".toc a");
-
-      // 1. Observer to show/hide the thin header when leaving the home screen
       const headerVisibilityObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (!entry.isIntersecting) {
@@ -1516,20 +1614,15 @@
         threshold: 0.1
       });
       headerVisibilityObserver.observe(homeSection);
-
-      // 2. Observer to change the text of the thin header + highlight the current
-      //    section in the table of contents
       const sectionObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             const newTitle = entry.target.getAttribute("data-title");
-
             stickyTitle.style.opacity = 0;
             setTimeout(() => {
               stickyTitle.textContent = newTitle;
               stickyTitle.style.opacity = 1;
             }, 200);
-
             navLinks.forEach(link => {
               link.style.opacity = (link.getAttribute("href") === "#" + entry.target.id) ? "0.5" : "1";
             });
@@ -1538,10 +1631,73 @@
       }, {
         rootMargin: "-40% 0px -40% 0px"
       });
-
       allSections.forEach(section => {
         sectionObserver.observe(section);
       });
+      // --- RANDOM HANDWRITING TEXT GENERATOR ---
+      const seed = 12;
+      let currentSeed = seed;
+      function seededRandom(s) {
+        let x = Math.sin(s) * 10000;
+        return x - Math.floor(x);
+      }
+      const fonts = [
+        'caveat', 'cedarville-cursive', 'indie-flower',
+        'nothing-you-could-do', 'oooh-baby', 'reenie-beanie',
+        'shadows-into-light'
+      ];
+      const blacklist = {
+        l: ['cedarville-cursive', 'oooh-baby', 'nothing-you-could-do']
+      };
+      const lastUsed = {};
+      function processTextNode(node) {
+        const text = node.nodeValue;
+        if (!text.trim()) return;
+        const fragment = document.createDocumentFragment();
+        for (const char of text) {
+          // Keep whitespace as normal text nodes
+          if (char === ' ' || char === '\n' || char === '\t') {
+            fragment.appendChild(document.createTextNode(char));
+            continue;
+          }
+          const lowerChar = char.toLowerCase();
+          let availableFonts = fonts;
+          if (blacklist[lowerChar]) {
+            availableFonts = fonts.filter(f => !blacklist[lowerChar].includes(f));
+          }
+          if (lastUsed[lowerChar]) {
+            availableFonts = availableFonts.filter(f => f !== lastUsed[lowerChar]);
+          }
+          const fontIndex = Math.floor(seededRandom(currentSeed) * availableFonts.length);
+          const font = availableFonts[fontIndex] || fonts[0];
+          lastUsed[lowerChar] = font;
+          const span = document.createElement('span');
+          span.className = font;
+          span.textContent = char;
+          fragment.appendChild(span);
+          currentSeed++;
+        }
+        node.parentNode.replaceChild(fragment, node);
+      }
+      function applyHandwriting() {
+        // Use a TreeWalker to safely find text nodes without destroying HTML structures
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+        const nodes = [];
+        let node;
+        while ((node = walker.nextNode())) {
+          const parent = node.parentNode;
+          const tag = parent.tagName.toLowerCase();
+          
+          // Skip applying the effect inside styles, scripts, or the header tags
+          if (['script', 'style', 'h1', 'h2', 'h3', 'h4'].includes(tag)) continue;
+          
+          // Skip the sticky UI navigation so it stays legible and functional
+          if (parent.closest('#sticky-header')) continue;
+          nodes.push(node);
+        }
+        nodes.forEach(processTextNode);
+      }
+      applyHandwriting();
     });
   </script>
 </body>
