@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en">  
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +7,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Google+Sans:ital,opsz,wght,GRAD@0,17..18,400..700,22;1,17..18,400..700,22&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Google+Sans:ital,opsz,wght,GRAD@0,17..18,400..700,22;1,17..18,400..700,22&family=Ranchers&display=swap" rel="stylesheet">
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Swanky+and+Moo+Moo&display=swap');
@@ -36,11 +35,12 @@
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
   }
+
   img{display:block; max-width:100%;}
   a{color:inherit; text-decoration:none;}
   ::selection{background:var(--ink); color:var(--paper);}
 
-  .wrap{max-width:var(--wrap); margin:0 auto; padding:0 clamp(20px,5vw,64px);}
+  .wrap{max-width:var(--wrap); margin:0 auto; padding:0;}
 
   /* ---------- NAV ---------- */
   header.nav{
@@ -62,34 +62,34 @@
     color:var(--ink-soft);
   }
   .nav-center .en{color:var(--ink); font-weight:500;}
-  .nav-center .fr{font-style:italic; text-transform:none; letter-spacing:0; font-family:var(--font); color:var(--ink-faint); margin-left:6px;}
   .nav-center .sep{margin:0 8px; color:var(--ink-faint);}
   .nav-index{font-variant-numeric:tabular-nums;}
 
-  .menu-toggle{
-    width:34px; height:34px; display:flex; flex-direction:column;
-    align-items:flex-end; justify-content:center; gap:6px;
-    background:none; border:none; cursor:pointer; z-index:210;
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:calc(var(--nav-h) + 72px) 0 64px;
+    border-bottom:1px solid var(--line);
+    text-align:center;
   }
-  .menu-toggle span{
-    display:block; height:1px; background:var(--ink);
-    transition:all .35s cubic-bezier(.65,0,.35,1);
+  .hero h1{
+    font-weight:700; font-style:normal;
+    font-size:clamp(65px, 6.4vw, 88px); line-height:1.04; 
+    font-family: "Emilys Candy", serif !important;
+    color: #c0cbff !important;
+    filter: url('#outline');
+    letter-spacing: 2px;
   }
-  .menu-toggle span:nth-child(1){width:22px;}
-  .menu-toggle span:nth-child(2){width:16px;}
-  body.menu-open .menu-toggle span:nth-child(1){width:22px; transform:translateY(3.5px) rotate(45deg);}
-  body.menu-open .menu-toggle span:nth-child(2){width:22px; transform:translateY(-3.5px) rotate(-45deg);}
+  .hero-sub{
+    display:grid; grid-template-columns:1fr; gap:24px;
+    margin-top:20px; max-width:640px; margin-left:auto; margin-right:auto;
+  }
+  .hero-sub p{font-size:33px; line-height:1.65; color:#231c52;}
+  .hero-meta{
+    margin-top:40px; max-width:280px; margin-left:auto; margin-right:auto;
+    display:flex; flex-wrap:wrap; justify-content:center; gap:22px 28px;
+  }
 
-  /* ---------- OVERLAY MENU ---------- */
-  .overlay{
-    position:fixed; inset:0; z-index:200;
-    background:var(--paper);
-    display:flex; flex-direction:column; justify-content:center;
-    padding:0 clamp(20px,5vw,64px);
-    opacity:0; visibility:hidden; transform:translateY(-8px);
-    transition:opacity .4s ease, transform .4s ease, visibility .4s;
-  }
-  body.menu-open .overlay{opacity:1; visibility:visible; transform:translateY(0);}
+  /* Overlay List in Hero */
   .overlay-list{max-width:var(--wrap); margin:0 auto; width:100%;}
   .overlay-list a{
     display:flex; align-items:baseline; gap:18px;
@@ -104,60 +104,20 @@
     font-family:var(--font); font-weight:400; font-size:13px; letter-spacing:0.1em;
     text-transform:uppercase; color:var(--ink-faint); font-style:normal;
   }
-  .overlay-foot{max-width:var(--wrap); margin:40px auto 0; width:100%; font-size:13px; color:var(--ink-faint);}
-
-  /* ---------- HERO ---------- */
-  .hero{
-    padding:calc(var(--nav-h) + 72px) 0 64px;
-    border-bottom:1px solid var(--line);
-    text-align:center;
-  }
-  .hero h1{
-    font-family:var(--font); font-weight:700; font-style:normal;
-    font-size:clamp(70px, 6.4vw, 88px); line-height:1.04; letter-spacing:-0.01em;
-    font-family: "Emilys Candy", serif !important;
-    color: #c0cbff !important;
-    filter: url('#outline');
-    letter-spacing: 2px;
-  }
-  .hero-sub{
-    display:grid; grid-template-columns:1fr; gap:24px;
-    margin-top:20px; max-width:640px; margin-left:auto; margin-right:auto;
-  }
-  .hero-sub p{font-size:37px; line-height:1.65; color:var(--ink-soft);}
-  .hero-meta{
-    margin-top:40px; max-width:280px; margin-left:auto; margin-right:auto;
-    display:flex; flex-wrap:wrap; justify-content:center; gap:22px 28px;
-  }
-  .hero-meta .item{font-size:23px; color:var(--ink-faint); letter-spacing:0.02em;}
-  .hero-meta .item b{display:block; font-family:var(--font); font-size:37px; color:var(--ink); font-weight:700; margin-bottom:2px;}
 
   /* ---------- SECTIONS ---------- */
   section.category{
-    padding:80px 0 42px;
-    border-bottom:1px solid var(--line);
+   
+   
     scroll-margin-top:var(--nav-h);
-  }
-  .cat-head{ margin-bottom:64px;}
-  .cat-head h2{
-   font-size:clamp(40px, 6.4vw, 68px); line-height:1.04; letter-spacing:-0.01em;
-    font-family: "Emilys Candy", serif !important;
-    color: #f8a4a3 !important;
-    filter: url('#outline');
-    letter-spacing: 2px;
-    text-align:center;
-  }
-  .cat-head .intro{
-    margin-top:20px; font-size:29px; line-height:0.8; color:var(--ink-soft); 
   }
 
   /* ---------- GRID / CARDS ---------- */
   .grid{
-    display:grid; grid-template-columns:repeat(12,1fr);
-    gap:var(--gap) var(--gap);
-    padding-bottom:56px;
+   
+   
   }
-  .card{position:relative; border-bottom:1px solid var(--line); padding-bottom:20px;}
+  .card{position:relative; padding:10px 20px; }
 
   /* 50/50 Top Split */
   .card-top {
@@ -192,25 +152,21 @@
 
   .card-meta{
    flex-wrap:wrap; gap:8px 10px;
-    font-size:23px; 
+    font-size:22px; 
     color:#73726f; font-weight:200; 
-     padding:0px 10px 0px; text-align:center;
-     
+     padding:0px 10px 0px; 
   }
 
   .card-title{
-    font-family:var(--font); font-weight:600; font-size:clamp(38px,2.2vw,28px);
+    filter: url('#outline');
+    letter-spacing: 2px;
+    font-weight:600; font-size:clamp(36px,2.2vw,28px);
     line-height:0.8;  padding:0px 10px 0px;
-    color: #323232;
-    margin-bottom:0px; text-align:center;
+    color: #1b163d;
+    margin-bottom:0px; 
   } 
-  .card-subtitle{
-  display:none;
-    font-family:var(--font); font-weight:500;
-    color:var(--ink); font-size:30.5px; line-height:1; margin-bottom:12px;
-    padding:1px 10px 15px;  text-align:center;
-  }
-  .card-desc{font-family: "Swanky and Moo Moo", cursive; font-size:27.5px; line-height:0.8; color: black; }
+  
+  .card-desc{font-family: "Swanky and Moo Moo", cursive; font-size:25.5px; line-height:0.8; color: #231c52; }
 
   .card-footer{
     margin-top:6px; padding-top:4px;
@@ -223,16 +179,33 @@
   }
   .footer-img img{
     object-fit:cover;
+    width: 100%; height: 100%;
   }
   
   .footer-text{
-   flex:1; font-family: "Swanky and Moo Moo", cursive; font-size:27.5px; line-height:0.8;  color: black;
+   flex:1; font-family: "Swanky and Moo Moo", cursive; font-size:25.5px; line-height:0.8;  color: #231c52;
   }
   .footer-address{
-    margin-top:18px; font-size:23.5px;
+    margin-top:18px; font-size:22.5px;
     line-height:0.8;
-    color: #323232;
-         font-family: "Swanky and Moo Moo", cursive; 
+    color: #231c52;
+    font-family: "Swanky and Moo Moo", cursive; 
+  }
+
+  /* SVG Line Separator Styles */
+  .line-container {
+    width: 100%;
+    height: 20px;
+    grid-column: span 12; /* Spans the entire grid width */
+  }
+  .line-container svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .line-container path {
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   /* column spans - editorial asymmetry */
@@ -263,7 +236,6 @@
 
   /* ---------- RESPONSIVE ---------- */
   @media (max-width:900px){
-    .nav-center .fr{display:none;}
     .span-7,.span-5,.span-4,.span-8,.span-6{grid-column:span 6;}
   }
   @media (max-width:640px){
@@ -271,7 +243,6 @@
     .nav-center{font-size:22px;}
     .hero{padding-top:calc(var(--nav-h) + 56px); padding-bottom:48px;}
     section.category{padding:56px 0 24px;}
-    .cat-head{margin-bottom:36px;}
     .grid{grid-template-columns:1fr; gap:20px;}
     .span-7,.span-5,.span-4,.span-8,.span-6,.span-12{grid-column:span 1;}
     .overlay-list a{font-size:clamp(28px,10vw,44px); padding:14px 0;}
@@ -287,544 +258,653 @@
 </style>
 </head>
 <body>
+
   <!-- Hidden SVG for the text outline filter -->
   <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
     <filter id="outline">
-      <!--   only get the outline   -->
       <feMorphology operator="dilate" radius="1.5" in="SourceAlpha" result="dilated"/>
       <feComposite in="dilated" in2="SourceAlpha" operator="out" result="border"/>
-      <!--   add color to the outline   -->
       <feFlood flood-color="darkblue" result="color"/>
       <feComposite in="color" in2="border" operator="in" result="coloredBorder"/>
-      <!--   create noise effect   -->
       <feTurbulence type="fractalNoise" baseFrequency="0.01" stitchTiles="stitch" result="noise"/>
       <feDisplacementMap in="coloredBorder" in2="noise" scale="16" result="roughBorder"/>
-      <!--   put the outline back on the text   -->
       <feMerge>
         <feMergeNode in="SourceGraphic"/>
         <feMergeNode in="roughBorder"/>
       </feMerge>
     </filter>
   </svg>
+  
 <header class="nav">
   <div class="nav-inner">
- 
     <div class="nav-center">
-      <span class="nav-index">01</span><span class="sep">·</span><span class="en" id="navLabel">Intro</span><span class="fr" id="navLabelFr"></span>
+      <span class="nav-index">01</span><span class="sep">·</span><span class="en" id="navLabel">Intro</span>
     </div>
-    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
-      <span></span><span></span>
-    </button>
   </div>
 </header>
-
-<div class="overlay" id="overlay">
-  <nav class="overlay-list">
-    <a href="#eat" data-close><span>Eat</span><span class="fr-sub">Restos & Cafes</span></a>
-    <a href="#drink" data-close><span>Drink</span><span class="fr-sub">Bars & Terraces</span></a>
-    <a href="#walk" data-close><span>Walk</span><span class="fr-sub">Neighborhoods & Parcs</span></a>
-    <a href="#events" data-close><span>Events</span><span class="fr-sub">In Paris & France</span></a>
-    <a href="#other" data-close><span>Other</span><span class="fr-sub">General Tips</span></a>
-  </nav>
- 
-</div>
 
 <main>
 
   <section class="hero wrap">
- 
     <h1>Paris<br> guide</h1>
     <div class="hero-sub">
       <p>by zach</p>
     </div>
     <div class="hero-meta" id="heroMeta">
-     <nav class="overlay-list">
-    <a href="#eat" data-close style=" justify-content: space-between; height:50px; line-height:0.5; font-size:40px;"><span >Eat</span><span class="fr-sub" style="font-size:19px; line-height: 0.9; text-align: right;position: relative; top:-12px; ">Restos<br> & Cafes</span></a>
-    <a href="#drink" data-close style="height:50px;justify-content: space-between; line-height:0.5; font-size:40px;"><span>Drink</span><span class="fr-sub" style="font-size:19px; line-height: 0.9; text-align: right;position: relative; top:-12px; ">Bars &<br> Terraces</span></a>
-    <a href="#walk" data-close style="height:50px;justify-content: space-between; line-height:0.5; font-size:40px;"><span>Walk</span><span class="fr-sub" style="font-size:19px; line-height:  0.9;text-align: right; position: relative; top:-12px; ">Areas<br> & Parcs</span></a>
-    <a href="#events" data-close style="height:50px; justify-content: space-between;line-height:0.5; font-size:40px;"><span>Events</span><span class="fr-sub" style="font-size:19px; text-align: right; line-height: 0.9; position: relative; top:-12px; ">In Paris<br> & France</span></a>
-    <a href="#other" data-close style="height:50px; justify-content: space-between;line-height:0.5; font-size:40px;"><span>Other</span><span class="fr-sub" style="text-align: right; font-size:19px; line-height: 0.9; position: relative; top:-12px; ">General <br>Tips</span></a>
-  </nav>
+      <nav class="overlay-list">
+        <a href="#eat" data-close style="border-top: solid 1px #0000001a; border-bottom: solid 1px #0000001a; justify-content: space-between; height:50px; line-height:0.7; font-size:33px;"><span>1 · Eat</span><span class="fr-sub" style="font-size:19px; line-height: 0.9; text-align: right;position: relative; top:-12px; ">Restos<br> & Cafes</span></a>
+        <a href="#drink" data-close style="border-bottom: solid 1px #0000001a; height:50px;justify-content: space-between; line-height:0.7; font-size:33px;"><span>2 · Drink</span><span class="fr-sub" style="font-size:19px; line-height: 0.9; text-align: right;position: relative; top:-12px; ">Bars &<br> Terraces</span></a>
+        <a href="#walk" data-close style="border-bottom: solid 1px #0000001a; height:50px;justify-content: space-between; line-height:0.7; font-size:33px;"><span>3 · Walk</span><span class="fr-sub" style="font-size:19px; line-height:  0.9;text-align: right; position: relative; top:-12px; ">Areas<br> & Parcs</span></a>
+        <a href="#events" data-close style=" border-bottom: solid 1px #0000001a; height:50px; justify-content: space-between;line-height:0.7; font-size:33px;"><span>4 · Events</span><span class="fr-sub" style="font-size:19px; text-align: right; line-height: 0.9; position: relative; top:-12px; ">In Paris<br> & France</span></a>
+        <a href="#other" data-close style="border-bottom: solid 1px #0000001a; height:50px; justify-content: space-between;line-height:0.7; font-size:33px;"><span>5 · Other</span><span class="fr-sub" style="text-align: right; font-size:19px; line-height: 0.9; position: relative; top:-12px; ">General <br>Tips</span></a>
+      </nav>
     </div>
   </section>
 
   <!-- ================= EAT ================= -->
-  <section class="category" id="eat" data-label="Eat" data-label-fr="Manger">
+  <section class="category" id="eat" data-label="Eat">
     <div class="wrap">
-      <div class="cat-head">
-       
-        <h2>My favourite Restaurants</h2>
-        <p class="intro">A mix of classic french cuisine, cool & fun restaurants i enjoyed, cheap kebab places and some simply with a nice atmospheres.</p>
-      </div>
-
       <div class="grid">
         <article class="card span-7">
           <div class="card-top">
             <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Français</span></div>
-              <h3 class="card-title">Chez Odette</h3>
+              <div class="card-meta"><span class="tag">Français, 30-70€</span></div>
+              <h3 class="card-title">Le Phalsbourg</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/chezodette/1000/1000" alt="Interior of Chez Odette, a small bistro">
+              <img src="https://picsum.photos/seed/lephalsbourg/1000/1000" alt="Le Phalsbourg restaurant">
             </div>
           </div>
-          <p class="card-subtitle">A Sunday roast, every day of the week.</p>
-          <p class="card-desc">A ten-table family bistro near the Canal that never changed its menu and never needed to. Quarter chicken, dauphinoise, a carafe of red — order it without looking.</p>
+          <p class="card-desc">Authentic and very high quality french cuisine, everything is sourced in france. Menu is set on a chalkboard every day based on what they have.</p>
           <div class="card-footer">
             <div class="footer-row">
               <div class="footer-img"><img src="https://gisgeography.com/wp-content/uploads/2023/02/Paris-Map-France.jpg" alt=""></div>
-              <p class="footer-text">Order the roast chicken and skip the rest of the menu entirely.</p>
+              <p class="footer-text">10/10 dinner. We had a côte de bœuf sharing platter. Expect to spend at least 30€ pp.</p>
             </div>
-            <p class="footer-address">14 Rue de Marseille, 75010<br>METRO: Colonel Fabien</p>
+            <p class="footer-address">3 Rue de Phalsbourg, 75017 Paris<br>METRO: Monceau & Malesherbes</p>
           </div>
         </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
 
         <article class="card span-5">
           <div class="card-top">
             <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Bistrot</span></div>
-              <h3 class="card-title">Le Comptoir Rouge</h3>
+              <div class="card-meta"><span class="tag">Bouillon, Cheap</span></div>
+              <h3 class="card-title">La Cantine Lourmel</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/comptoirrouge/1000/1000" alt="Zinc bar counter at Le Comptoir Rouge">
+              <img src="https://picsum.photos/seed/cantinelourmel/1000/1000" alt="Lively bouillon dining room">
             </div>
           </div>
-          <p class="card-subtitle">Steak frites and nowhere to be.</p>
-          <p class="card-desc">Standing room at a zinc counter, best onglet in the 11th, and a bill that still surprises you in a good way.</p>
+          <p class="card-desc">A "bouillon" style cantine — classic french bistro dishes (think croque, tartare, roast chicken) at old-school prices, in a big lively room.</p>
           <div class="card-footer">
             <div class="footer-row">
               <div class="footer-img"><img src="https://gisgeography.com/wp-content/uploads/2023/02/Paris-Map-France.jpg" alt=""></div>
-              <p class="footer-text">Ask for the onglet medium-rare, never anything more.</p>
+              <p class="footer-text">First-come-first-served, no reservations, so expect a short wait after 8pm.</p>
             </div>
-            <p class="footer-address">ADDRESS: 22 Rue Oberkampf, 75011<br>METRO: Parmentier</p>
+            <p class="footer-address">7 Rue de Lourmel, 75015 Paris<br>METRO: Dupleix</p>
           </div>
         </article>
-
-        <article class="card span-4">
-          <div class="card-top">
-            <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Français</span></div>
-              <h3 class="card-title">La Table d'Hiver</h3>
-            </div>
-            <div class="card-media">
-              <img src="https://picsum.photos/seed/tabledhiver/1000/1000" alt="Small winter dining room, La Table d'Hiver">
-            </div>
-          </div>
-          <p class="card-subtitle">Soup, bread, and a fire in the corner.</p>
-          <p class="card-desc">Twenty seats, a menu that changes with the cold, open November through March only. Book two weeks out.</p>
-          <div class="card-footer">
-            <div class="footer-row">
-              <div class="footer-img"><img src="https://gisgeography.com/wp-content/uploads/2023/02/Paris-Map-France.jpg" alt=""></div>
-              <p class="footer-text">Book by phone — they don't check email until dinner.</p>
-            </div>
-            <p class="footer-address">ADDRESS: 6 Rue des Quatre Vents, 75006<br>METRO: Odéon</p>
-          </div>
-        </article>
-
-        <article class="card span-8">
-          <div class="card-top">
-            <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Boulangerie, 2–6€, 1er arr.</span></div>
-              <h3 class="card-title">Boulangerie Sainte-Anne</h3>
-            </div>
-            <div class="card-media">
-              <img src="https://picsum.photos/seed/boulangeriesainteanne/1000/1000" alt="Boulangerie Sainte-Anne shopfront">
-            </div>
-          </div>
-          <p class="card-subtitle">The croissant that ruins all others.</p>
-          <p class="card-desc">Butter-laminated, first batch out at seven, gone by nine. Go early or go without — there is no third option.</p>
-          <div class="card-footer">
-            <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/boulangeriesainteanne-mini/300/300" alt=""></div>
-              <p class="footer-text">Arrive before 8am or settle for whatever's left.</p>
-            </div>
-            <p class="footer-address">ADDRESS: 41 Rue Sainte-Anne, 75001<br>METRO: Pyramides</p>
-          </div>
-        </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ================= DRINK ================= -->
-  <section class="category" id="drink" data-label="Drink" data-label-fr="Boire">
+  <section class="category" id="drink" data-label="Drink">
     <div class="wrap">
-      <div class="cat-head">
-        <h2>A short list of places to sit for a while.</h2>
-        <p class="intro">Wine bars, late counters, and one very good coffee window. Ordered by how long you'll want to stay.</p>
-      </div>
-
       <div class="grid">
         <article class="card span-4">
           <div class="card-top">
             <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Bar à vin, 8–14€, 11e arr.</span></div>
-              <h3 class="card-title">Bar Lucine</h3>
+              <div class="card-meta"><span class="tag">Sports Bar, 5e Arr.</span></div>
+              <h3 class="card-title">Rosie's Smokehouse BBQ</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/barlucine/1000/1000" alt="Bar Lucine window seat">
+              <img src="https://picsum.photos/seed/rosiesbbq/1000/1000" alt="Rosie's Smokehouse BBQ">
             </div>
           </div>
-          <p class="card-subtitle">A negroni, and a seat by the window.</p>
-          <p class="card-desc">Small natural wine list, six tables, standing room only after nine. Go at seven if you want to sit.</p>
+          <p class="card-desc">Not a typical parisian bar (and is kinda touristy) but I like it because it's central, the pint is 5€ all night and they have a pool table.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/barlucine-mini/300/300" alt=""></div>
-              <p class="footer-text">Sit at the window table if you get there before nine.</p>
+              <div class="footer-img"><img src="https://picsum.photos/seed/rosiesbbq-mini/300/300" alt=""></div>
+              <p class="footer-text">They put the Arsenal game on the TV when I asked (don't try this if PSG is playing).</p>
             </div>
-            <p class="footer-address">ADDRESS: 18 Rue de la Roquette, 75011<br>METRO: Bastille</p>
+            <p class="footer-address">13 Rue de la Huchette, 75005 Paris<br>METRO: Saint-Michel</p>
           </div>
         </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
 
         <article class="card span-8">
           <div class="card-top">
             <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Cave à vin, 7–15€, 2e arr.</span></div>
-              <h3 class="card-title">Cave à Vapeur</h3>
+              <div class="card-meta"><span class="tag">Guinguette, 7e Arr.</span></div>
+              <h3 class="card-title">Bonnotte Club</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/caveavapeur/1000/1000" alt="Vaulted wine cellar, Cave à Vapeur">
+              <img src="https://picsum.photos/seed/bonnotteclub/1000/1000" alt="Barge on the Seine">
             </div>
           </div>
-          <p class="card-subtitle">A cellar list longer than the menu.</p>
-          <p class="card-desc">An actual stone cellar under a produce street, natural and orange wines by the glass, a cheese board that counts as dinner.</p>
+          <p class="card-desc">A barge + open-air terrace right on the Seine, foot of the Eiffel Tower. Cocktails, oysters, smash burgers, sunset views.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/caveavapeur-mini/300/300" alt=""></div>
-              <p class="footer-text">Ask the cellar master for whatever he's just opened.</p>
+              <div class="footer-img"><img src="https://picsum.photos/seed/bonnotteclub-mini/300/300" alt=""></div>
+              <p class="footer-text">Runs seasonally (spring–autumn) — check it's open before you go.</p>
             </div>
-            <p class="footer-address">ADDRESS: 5 Rue du Nil, 75002<br>METRO: Sentier</p>
+            <p class="footer-address">Port de Suffren, 75007 Paris<br>METRO: Bir-Hakeim / RER C</p>
           </div>
         </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
 
         <article class="card span-5">
           <div class="card-top">
             <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Bar, 4–9€, 20e arr.</span></div>
-              <h3 class="card-title">Le Zinc de Nuit</h3>
+              <div class="card-meta"><span class="tag">Happy Hour, 15e Arr.</span></div>
+              <h3 class="card-title">L'atelier Suffren</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/zincdenuit/1000/1000" alt="Late night bar, Le Zinc de Nuit">
+              <img src="https://picsum.photos/seed/ateliersuffren/1000/1000" alt="Neighborhood bar terrace">
             </div>
           </div>
-          <p class="card-subtitle">Open till the métro starts again.</p>
-          <p class="card-desc">Regulars' bar, cheap house wine, loud arguments about football. Nobody's checking the time and neither should you.</p>
+          <p class="card-desc">No-frills neighbourhood bar facing UNESCO, a short walk from the Eiffel Tower. Big terrace, cheap pints during happy hour.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/zincdenuit-mini/300/300" alt=""></div>
-              <p class="footer-text">Cash only, and nobody's counting your rounds.</p>
+              <div class="footer-img"><img src="https://picsum.photos/seed/ateliersuffren-mini/300/300" alt=""></div>
+              <p class="footer-text">Screens for football and rugby.</p>
             </div>
-            <p class="footer-address">ADDRESS: 9 Rue des Panoyaux, 75020<br>METRO: Ménilmontant</p>
+            <p class="footer-address">110 Avenue de Suffren, 75015 Paris<br>METRO: Ségur / Sèvres-Lecourbe</p>
           </div>
         </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
 
         <article class="card span-7">
           <div class="card-top">
             <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Café, 3–8€, 11e arr.</span></div>
-              <h3 class="card-title">Café Marcelline</h3>
+              <div class="card-meta"><span class="tag">70s Vintage, 13e Arr.</span></div>
+              <h3 class="card-title">Les Affranchis</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/cafemarcelline/1000/1000" alt="Coffee counter, Café Marcelline">
+              <img src="https://picsum.photos/seed/lesaffranchis/1000/1000" alt="Vintage retro bar interior">
             </div>
           </div>
-          <p class="card-subtitle">Coffee first, then everything else.</p>
-          <p class="card-desc">A morning espresso counter that quietly turns into an aperitif spot by six, same three staff either way.</p>
+          <p class="card-desc">Bar-brasserie with a retro industrial look — wood, vintage furniture, an all-you-can-eat sweet & savoury brunch buffet on sundays.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/cafemarcelline-mini/300/300" alt=""></div>
-              <p class="footer-text">Order the same thing twice — morning coffee, evening wine.</p>
+              <div class="footer-img"><img src="https://picsum.photos/seed/lesaffranchis-mini/300/300" alt=""></div>
+              <p class="footer-text">Also does happy hour and sports screenings.</p>
             </div>
-            <p class="footer-address">ADDRESS: 63 Rue de Charonne, 75011<br>METRO: Charonne</p>
+            <p class="footer-address">98 Rue de Tolbiac, 75013 Paris<br>METRO: Olympiades</p>
           </div>
         </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
+
+        <article class="card span-12">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Terrace, 10e Arr.</span></div>
+              <h3 class="card-title">Loui's Corner</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/louiscorner/1000/1000" alt="Corner terrace by the canal">
+            </div>
+          </div>
+          <p class="card-desc">Right on the Canal Saint-Martin, a corner spot with a wraparound terrace — good for a coffee, brunch, or evening drinks watching the canal go by.</p>
+          <div class="card-footer">
+            <div class="footer-row">
+              <div class="footer-img"><img src="https://picsum.photos/seed/louiscorner-mini/300/300" alt=""></div>
+              <p class="footer-text">Gets busy on sunny weekends.</p>
+            </div>
+            <p class="footer-address">49 Rue Bichat, 75010 Paris<br>METRO: Goncourt / Jacques Bonsergent</p>
+          </div>
+        </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ================= WALK ================= -->
-  <section class="category" id="walk" data-label="Walk" data-label-fr="Marcher">
+  <section class="category" id="walk" data-label="Walk">
     <div class="wrap">
-      <div class="cat-head">
-        <h2>The routes I take when I need to think.</h2>
-        <p class="intro">No map needed, no headphones required. Best walked slowly, and ideally before the city wakes up.</p>
-      </div>
-
       <div class="grid">
         <article class="card span-6">
           <div class="card-top">
             <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Balade, 45 min, 12e arr.</span></div>
-              <h3 class="card-title">Promenade Plantée</h3>
+              <div class="card-meta"><span class="tag">Sunset, 10e Arr.</span></div>
+              <h3 class="card-title">Canal Saint-Martin</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/promenadeplantee/1000/1000" alt="Elevated garden walkway, Promenade Plantée">
+              <img src="https://picsum.photos/seed/canalsaintmartinwalk/1000/1000" alt="Canal Saint-Martin">
             </div>
           </div>
-          <p class="card-subtitle">Paris from the rooftops, on foot.</p>
-          <p class="card-desc">An elevated garden walkway above the 12th, built into an old railway viaduct. Quiet even in the middle of August.</p>
+          <p class="card-desc">Young and energetic area but has some peaceful side roads. After work, people sit and have drinks/apero on the canal.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/promenadeplantee-mini/300/300" alt=""></div>
-              <p class="footer-text">Enter from Avenue Daumesnil and walk north for the quiet stretch.</p>
+              <div class="footer-img"><img src="https://picsum.photos/seed/canalsaintmartinwalk-mini/300/300" alt=""></div>
+              <p class="footer-text">Reminds me of Camden. If it's hot you can watch kids jump from bridges.</p>
             </div>
-            <p class="footer-address">ADDRESS: From Avenue Daumesnil, 75012<br>METRO: Bastille</p>
+            <p class="footer-address">Canal Saint-Martin, 75010<br>METRO: République, Jaurès</p>
           </div>
         </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
 
         <article class="card span-6">
           <div class="card-top">
             <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Balade, 30 min, 7e arr.</span></div>
-              <h3 class="card-title">Les Berges de Seine</h3>
+              <div class="card-meta"><span class="tag">Golden Hour, Central</span></div>
+              <h3 class="card-title">Les Quais de la Seine</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/bergesdeseine/1000/1000" alt="Riverside walking path, Les Berges de Seine">
+              <img src="https://picsum.photos/seed/quaisdeseine/1000/1000" alt="Riverside walk in Paris">
             </div>
           </div>
-          <p class="card-subtitle">The river, without the cars.</p>
-          <p class="card-desc">A traffic-free stretch along the water from the Musée d'Orsay to Pont de l'Alma. Best at golden hour, obviously.</p>
+          <p class="card-desc">The riverside itself — much of it is closed to cars (Voie Georges Pompidou). Good for a straight-line walk between major landmarks.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/bergesdeseine-mini/300/300" alt=""></div>
-              <p class="footer-text">Time it for sunset, ideally with something to drink.</p>
+              <div class="footer-img"><img src="https://picsum.photos/seed/quaisdeseine-mini/300/300" alt=""></div>
+              <p class="footer-text">Musée d'Orsay, Pont Neuf, Notre-Dame, Île Saint-Louis.</p>
             </div>
-            <p class="footer-address">ADDRESS: Quai Anatole France, 75007<br>METRO: Assemblée Nationale</p>
+            <p class="footer-address">Along the Seine<br>METRO: Lines 1, 4, 7, 10, or RER C</p>
           </div>
         </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
 
         <article class="card span-7">
           <div class="card-top">
             <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Balade, 40 min, 13e arr.</span></div>
-              <h3 class="card-title">Butte-aux-Cailles Loop</h3>
+              <div class="card-meta"><span class="tag">Mornings, 6e Arr.</span></div>
+              <h3 class="card-title">Jardin du Luxembourg</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/buttecailles/1000/1000" alt="Cobbled backstreet, Butte-aux-Cailles">
+              <img src="https://picsum.photos/seed/luxembourg/1000/1000" alt="Jardin du Luxembourg">
             </div>
           </div>
-          <p class="card-subtitle">A village that forgot it's in Paris.</p>
-          <p class="card-desc">Cobbled backstreets, painted murals, and one very good ice cream stop halfway round. Forty minutes if you don't stop for the murals.</p>
+          <p class="card-desc">Paris's most "Parisian" park — formal gardens, the Medici fountain, tennis courts, and the Sénat building.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/buttecailles-mini/300/300" alt=""></div>
-              <p class="footer-text">Detour for the ice cream — it's worth the extra ten minutes.</p>
+              <div class="footer-img"><img src="https://picsum.photos/seed/luxembourg-mini/300/300" alt=""></div>
+              <p class="footer-text">Good for a slow lap with a coffee, or grab a green metal chair by the pond.</p>
             </div>
-            <p class="footer-address">ADDRESS: From Place Paul Verlaine, 75013<br>METRO: Corvisart</p>
+            <p class="footer-address">Jardin du Luxembourg, 75006<br>METRO: Odéon / RER B</p>
           </div>
         </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
 
         <article class="card span-5">
           <div class="card-top">
             <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Balade, 35 min, 19e arr.</span></div>
-              <h3 class="card-title">Canal Saint-Martin, Morning</h3>
+              <div class="card-meta"><span class="tag">Weekdays, 8e Arr.</span></div>
+              <h3 class="card-title">Parc Monceau</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/canalmorning/1000/1000" alt="Canal Saint-Martin footbridge at dawn">
+              <img src="https://picsum.photos/seed/parcmonceau/1000/1000" alt="Parc Monceau">
             </div>
           </div>
-          <p class="card-subtitle">Before the picnickers arrive.</p>
-          <p class="card-desc">Footbridges and lock gates, walked before nine while it still belongs to the joggers and the boulangerie queue.</p>
+          <p class="card-desc">Smaller and quieter, with an English-garden layout — follies, a fake ruined colonnade, a pond. Surrounded by grand haussmannian buildings.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/canalmorning-mini/300/300" alt=""></div>
-              <p class="footer-text">Walk it before nine, while it still belongs to the joggers.</p>
+              <div class="footer-img"><img src="https://picsum.photos/seed/parcmonceau-mini/300/300" alt=""></div>
+              <p class="footer-text">Doubles as a nice detour if you're near Monceau or the 17th.</p>
             </div>
-            <p class="footer-address">ADDRESS: From Bassin de la Villette, 75019<br>METRO: Jaurès</p>
+            <p class="footer-address">Boulevard de Courcelles, 75008<br>METRO: Monceau</p>
           </div>
         </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
+        
+        <article class="card span-12">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Sat-Mon, 18e Arr.</span></div>
+              <h3 class="card-title">Les Puces de Saint-Ouen</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/puces/1000/1000" alt="Antiques flea market">
+            </div>
+          </div>
+          <p class="card-desc">The world's largest flea market — technically several markets stitched together, from serious antiques to vintage clothes and pure junk.</p>
+          <div class="card-footer">
+            <div class="footer-row">
+              <div class="footer-img"><img src="https://picsum.photos/seed/puces-mini/300/300" alt=""></div>
+              <p class="footer-text">Less a 'walk' and more a maze; give it at least 2 hours and expect to haggle.</p>
+            </div>
+            <p class="footer-address">Saint-Ouen, just north of the 18e<br>METRO: Porte de Clignancourt</p>
+          </div>
+        </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ================= EVENTS ================= -->
-  <section class="category" id="events" data-label="Events" data-label-fr="Événements">
+  <section class="category" id="events" data-label="Events">
     <div class="wrap">
-      <div class="cat-head">
-        <h2>Worth clearing an evening, or a whole weekend.</h2>
-        <p class="intro">Recurring fixtures rather than one-offs — the kind you can plan a visit around.</p>
-      </div>
-
       <div class="grid">
         <article class="card span-5">
           <div class="card-top">
             <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Marché, Saturdays, 18e arr.</span></div>
-              <h3 class="card-title">Marché aux Puces</h3>
-            </div>
-            <div class="card-media">
-              <img src="https://picsum.photos/seed/marcheauxpuces/1000/1000" alt="Antiques flea market stalls">
-            </div>
-          </div>
-          <p class="card-subtitle">Antiques, junk, and everything between. Saturdays.</p>
-          <p class="card-desc">A weekend flea market sprawl on the edge of the city. Come early, haggle politely, bring cash and a spare bag.</p>
-          <div class="card-footer">
-            <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/marcheauxpuces-mini/300/300" alt=""></div>
-              <p class="footer-text">Bring cash, arrive by eight, and never take the first price.</p>
-            </div>
-            <p class="footer-address">ADDRESS: Porte de Clignancourt, 75018<br>METRO: Porte de Clignancourt</p>
-          </div>
-        </article>
-
-        <article class="card span-7">
-          <div class="card-top">
-            <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Festival, October, City-wide</span></div>
-              <h3 class="card-title">Nuit Blanche</h3>
-            </div>
-            <div class="card-media">
-              <img src="https://picsum.photos/seed/nuitblanche/1000/1000" alt="City lit up at night for an art event">
-            </div>
-          </div>
-          <p class="card-subtitle">The whole city, awake till dawn.</p>
-          <p class="card-desc">One night a year when museums, courtyards, and ordinary streets turn into an all-night art trail. Wear comfortable shoes.</p>
-          <div class="card-footer">
-            <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/nuitblanche-mini/300/300" alt=""></div>
-              <p class="footer-text">Pick one neighbourhood and stay in it — the whole city is too much.</p>
-            </div>
-            <p class="footer-address">ADDRESS: City-wide<br>METRO: Varies</p>
-          </div>
-        </article>
-
-        <article class="card span-7">
-          <div class="card-top">
-            <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Festival, June 21, City-wide</span></div>
+              <div class="card-meta"><span class="tag">June 21st, Nationwide</span></div>
               <h3 class="card-title">Fête de la Musique</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/fetedelamusique/1000/1000" alt="Street musicians playing at night">
+              <img src="https://picsum.photos/seed/fetedelamusique2/1000/1000" alt="Street party concert">
             </div>
           </div>
-          <p class="card-subtitle">Every street corner becomes a stage.</p>
-          <p class="card-desc">Free live music everywhere, from opera on a balcony to a garage band outside the métro. Just follow the noise.</p>
+          <p class="card-desc">Musicians of all levels perform free concerts in streets, parks and squares. Expect large crowds in central areas from 4pm onwards.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/fetedelamusique-mini/300/300" alt=""></div>
-              <p class="footer-text">Follow whichever street sounds loudest and keep walking.</p>
+              <div class="footer-img"><img src="https://picsum.photos/seed/fetedelamusique2-mini/300/300" alt=""></div>
+              <p class="footer-text">Around République and Bastille the party goes on until the morning hours.</p>
             </div>
-            <p class="footer-address">ADDRESS: City-wide<br>METRO: Varies</p>
+            <p class="footer-address">Everywhere<br>METRO: All lines</p>
           </div>
         </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
 
-        <article class="card span-5">
+        <article class="card span-7">
           <div class="card-top">
             <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Live music, Thursdays, 5e arr.</span></div>
-              <h3 class="card-title">Jazz at the Cellar Club</h3>
+              <div class="card-meta"><span class="tag">Late Feb, 9 Days</span></div>
+              <h3 class="card-title">Salon de l'Agriculture</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/cellarjazz/1000/1000" alt="Musician performing in a stone cellar jazz club">
+              <img src="https://picsum.photos/seed/salonagri/1000/1000" alt="Salon de l'Agriculture">
             </div>
           </div>
-          <p class="card-subtitle">A trumpet, a cellar, no seats left.</p>
-          <p class="card-desc">Weekly late-night sessions in a cramped stone basement that's barely changed since the fifties. Arrive by ten.</p>
+          <p class="card-desc">France's biggest farming show — hundreds of animals brought into the city, plus every region's food and drink under one roof.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/cellarjazz-mini/300/300" alt=""></div>
-              <p class="footer-text">Arrive by ten or you'll be standing on the stairs.</p>
+              <div class="footer-img"><img src="https://picsum.photos/seed/salonagri-mini/300/300" alt=""></div>
+              <p class="footer-text">Sounds niche, is genuinely great: go hungry and taste your way around.</p>
             </div>
-            <p class="footer-address">ADDRESS: 3 Rue de la Huchette, 75005<br>METRO: Saint-Michel</p>
+            <p class="footer-address">Porte de Versailles<br>METRO: Porte de Versailles or Balard</p>
           </div>
         </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
+
+        <article class="card span-4">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Mid May, City-wide</span></div>
+              <h3 class="card-title">La Nuit des Musées</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/nuitdesmusees2/1000/1000" alt="Museum at night">
+            </div>
+          </div>
+          <p class="card-desc">Museums across Paris open late into the night, most for free. A good excuse to finally do the Louvre without daytime crowds.</p>
+          <div class="card-footer">
+            <div class="footer-row">
+              <div class="footer-img"><img src="https://picsum.photos/seed/nuitdesmusees2-mini/300/300" alt=""></div>
+              <p class="footer-text">Pick 2-3 you actually want to see rather than trying to do everything.</p>
+            </div>
+            <p class="footer-address">City-wide<br>METRO: Varies</p>
+          </div>
+        </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
+        
+        <article class="card span-8">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Early April, Sunday</span></div>
+              <h3 class="card-title">Paris Marathon</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/parismarathon/1000/1000" alt="Marathon runners">
+            </div>
+          </div>
+          <p class="card-desc">Starts on the Champs-Élysées and winds through the city past most of the big landmarks before finishing near the Arc de Triomphe.</p>
+          <div class="card-footer">
+            <div class="footer-row">
+              <div class="footer-img"><img src="https://picsum.photos/seed/parismarathon-mini/300/300" alt=""></div>
+              <p class="footer-text">Great free spectator sport. Good vantage points along the Seine or near Bastille.</p>
+            </div>
+            <p class="footer-address">Champs-Élysées to Avenue Foch<br>METRO: Varies</p>
+          </div>
+        </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
+
+        <article class="card span-12">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">July 14th, National</span></div>
+              <h3 class="card-title">Bastille Day</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/bastilleday/1000/1000" alt="Fireworks over the Eiffel Tower">
+            </div>
+          </div>
+          <p class="card-desc">Morning military parade down the Champs-Élysées and evening fireworks display over the Eiffel Tower.</p>
+          <div class="card-footer">
+            <div class="footer-row">
+              <div class="footer-img"><img src="https://picsum.photos/seed/bastilleday-mini/300/300" alt=""></div>
+              <p class="footer-text">A picnic further back along the Seine is a less stressful way to watch the fireworks.</p>
+            </div>
+            <p class="footer-address">Champs-Élysées & Champ de Mars<br>METRO: Varies</p>
+          </div>
+        </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ================= OTHER ================= -->
-  <section class="category" id="other" data-label="Other" data-label-fr="Autre">
+  <section class="category" id="other" data-label="Other">
     <div class="wrap">
-      <div class="cat-head">
-        <h2>Everything that didn't fit a category, and shouldn't have to.</h2>
-        <p class="intro">Bookshops, pools, cemeteries, markets — the places that make a Tuesday feel like a good decision.</p>
-      </div>
-
       <div class="grid">
         <article class="card span-8">
           <div class="card-top">
             <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Librairie, Free entry, 5e arr.</span></div>
-              <h3 class="card-title">Shakespeare's Corner</h3>
+              <div class="card-meta"><span class="tag">Travel Tip, Flexible</span></div>
+              <h3 class="card-title">Eurostar Snap</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/shakespearescorner/1000/1000" alt="Interior of a crowded English-language bookshop">
+              <img src="https://picsum.photos/seed/eurostarsnap/1000/1000" alt="Eurostar Train">
             </div>
           </div>
-          <p class="card-subtitle">A bookshop that lets you sleep in it.</p>
-          <p class="card-desc">Wandering cats, narrow staircases, readings most Sunday evenings. Go for the books, stay for an hour longer than planned.</p>
+          <p class="card-desc">Discounted last-minute seats (~50% off) on trains that still have space. You pick a date/window, and the exact train is confirmed 48 hours before.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/shakespearescorner-mini/300/300" alt=""></div>
-              <p class="footer-text">Check the events board by the door for that week's reading.</p>
+              <div class="footer-img"><img src="https://picsum.photos/seed/eurostarsnap-mini/300/300" alt=""></div>
+              <p class="footer-text">Tuesday/Wednesday travel tends to have the cheapest fares.</p>
             </div>
-            <p class="footer-address">ADDRESS: 37 Rue de la Bûcherie, 75005<br>METRO: Saint-Michel</p>
+            <p class="footer-address">Book online<br>WEBSITE: Eurostar</p>
           </div>
         </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
 
         <article class="card span-4">
           <div class="card-top">
             <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Cimetière, Free entry, 20e arr.</span></div>
-              <h3 class="card-title">Cimetière du Père</h3>
+              <div class="card-meta"><span class="tag">Day Trip, 40 min</span></div>
+              <h3 class="card-title">Versailles</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/cimetieredurepos/1000/1000" alt="Quiet cobbled cemetery path">
+              <img src="https://picsum.photos/seed/versailles/1000/1000" alt="Palace of Versailles">
             </div>
           </div>
-          <p class="card-subtitle">The most peaceful walk in Paris.</p>
-          <p class="card-desc">Cobbled paths, resident cats, and quieter than any park in the city. Bring a map or get pleasantly lost.</p>
+          <p class="card-desc">The obvious one, and worth it: the palace and gardens are enormous. Go early or you'll spend half the day queuing.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/cimetieredurepos-mini/300/300" alt=""></div>
-              <p class="footer-text">Pick up a map at the gate — it's easy to lose your way.</p>
+              <div class="footer-img"><img src="https://picsum.photos/seed/versailles-mini/300/300" alt=""></div>
+              <p class="footer-text">The gardens are free to wander without a ticket.</p>
             </div>
-            <p class="footer-address">ADDRESS: 16 Rue du Repos, 75020<br>METRO: Père Lachaise</p>
+            <p class="footer-address">Versailles<br>METRO: RER C direct</p>
           </div>
         </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
 
         <article class="card span-4">
           <div class="card-top">
             <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Piscine, 3–5€, 13e arr.</span></div>
-              <h3 class="card-title">Piscine Joséphine</h3>
+              <div class="card-meta"><span class="tag">Day Trip, 40 min</span></div>
+              <h3 class="card-title">Fontainebleau</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/piscinejosephine/1000/1000" alt="Art deco municipal swimming pool">
+              <img src="https://picsum.photos/seed/fontainebleau/1000/1000" alt="Château de Fontainebleau">
             </div>
           </div>
-          <p class="card-subtitle">A 1930s pool, still doing laps.</p>
-          <p class="card-desc">Art deco municipal pool with wooden cabins overlooking the water. Mornings only, and only for people who actually swim.</p>
+          <p class="card-desc">A quieter, less crowded alternative to Versailles with its own huge château and forest great for a picnic.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/piscinejosephine-mini/300/300" alt=""></div>
-              <p class="footer-text">Go before nine; it's a different pool by lunchtime.</p>
+              <div class="footer-img"><img src="https://picsum.photos/seed/fontainebleau-mini/300/300" alt=""></div>
+              <p class="footer-text">Train from Gare de Lyon, then a short bus to the château.</p>
             </div>
-            <p class="footer-address">ADDRESS: 5 Place Paul Verlaine, 75013<br>METRO: Corvisart</p>
+            <p class="footer-address">Fontainebleau<br>METRO: Transilien Line R</p>
           </div>
         </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
 
         <article class="card span-8">
           <div class="card-top">
             <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Marché, 5–12€, 3e arr.</span></div>
-              <h3 class="card-title">Marché des Enfants</h3>
+              <div class="card-meta"><span class="tag">Day Trip, 1h15</span></div>
+              <h3 class="card-title">Rouen</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/marchedesenfants/1000/1000" alt="Covered market stalls with produce">
+              <img src="https://picsum.photos/seed/rouen/1000/1000" alt="Rouen Cathedral">
             </div>
           </div>
-          <p class="card-subtitle">The oldest covered market still standing.</p>
-          <p class="card-desc">Small stalls, long lunch queues, and a rule that you eat standing at the counter you bought from. Worth the wait.</p>
+          <p class="card-desc">A proper day out: a well-preserved medieval old town, a Gothic cathedral, and the site where Joan of Arc was executed.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/marchedesenfants-mini/300/300" alt=""></div>
-              <p class="footer-text">Eat standing at the counter you bought from, not on a bench.</p>
+              <div class="footer-img"><img src="https://picsum.photos/seed/rouen-mini/300/300" alt=""></div>
+              <p class="footer-text">About 1h15 by train from Gare Saint-Lazare.</p>
             </div>
-            <p class="footer-address">ADDRESS: 39 Rue de Bretagne, 75003<br>METRO: Filles du Calvaire</p>
+            <p class="footer-address">Rouen, Normandy<br>METRO: Gare Saint-Lazare</p>
           </div>
         </article>
+        
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
+
+        <article class="card span-12">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Good to know</span></div>
+              <h3 class="card-title">More Key Events</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/keyevents/1000/1000" alt="Tennis court and art">
+            </div>
+          </div>
+          <p class="card-desc">Journées du Patrimoine (Sept), Nuit Blanche (Oct), and Roland Garros (May/June). Grounds passes are a cheaper way to soak up the tennis atmosphere.</p>
+          <div class="card-footer">
+            <div class="footer-row">
+              <div class="footer-img"><img src="https://picsum.photos/seed/keyevents-mini/300/300" alt=""></div>
+              <p class="footer-text">Check dates before you go — lots of free openings and special vibes.</p>
+            </div>
+            <p class="footer-address">City-wide<br>METRO: Varies</p>
+          </div>
+        </article>
+
+        <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
+
       </div>
     </div>
   </section>
@@ -836,58 +916,28 @@
     </div>
     <div class="footer-bottom">
       <span>Paris, kept. — a personal guide, not a directory.</span>
-      <span>Replace the names, photos, and addresses above with your own picks.</span>
+      <span>A work-in-progress notebook, updated as I go — corrections & suggestions welcome.</span>
     </div>
   </footer>
 
 </main>
 
 <script>
-  // Hero item counts — always reflects the real number of cards per section
-  document.querySelectorAll('#heroMeta .item').forEach(item => {
-    const section = document.getElementById(item.dataset.section);
-    const count = section ? section.querySelectorAll('.card').length : 0;
-    item.querySelector('.count').textContent = count;
-  });
-
-  // Overlay menu toggle
-  const body = document.body;
-  const toggle = document.getElementById('menuToggle');
-  const overlay = document.getElementById('overlay');
-
-  function closeMenu(){
-    body.classList.remove('menu-open');
-    toggle.setAttribute('aria-expanded','false');
-  }
-  toggle.addEventListener('click', () => {
-    const open = body.classList.toggle('menu-open');
-    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  overlay.querySelectorAll('[data-close]').forEach(a=>{
-    a.addEventListener('click', closeMenu);
-  });
-  document.addEventListener('keydown', e=>{
-    if(e.key === 'Escape') closeMenu();
-  });
-
   // Scrollspy nav label
   const sections = document.querySelectorAll('section.category');
   const navLabel = document.getElementById('navLabel');
-  const navLabelFr = document.getElementById('navLabelFr');
   const navIndex = document.querySelector('.nav-index');
-  const total = sections.length + 1; // +1 for intro
 
-  function setLabel(en, fr, idx){
-    navLabel.textContent = en;
-    navLabelFr.textContent = fr ? '— ' + fr : '';
-    navIndex.textContent = String(idx).padStart(2,'0');
+  function setLabel(en, idx){
+    if(navLabel) navLabel.textContent = en;
+    if(navIndex) navIndex.textContent = String(idx).padStart(2,'0');
   }
 
   const io = new IntersectionObserver((entries)=>{
     entries.forEach(entry=>{
       if(entry.isIntersecting){
         const idx = Array.from(sections).indexOf(entry.target) + 2; // intro is 01
-        setLabel(entry.target.dataset.label, entry.target.dataset.labelFr, idx);
+        setLabel(entry.target.dataset.label, idx);
       }
     });
   }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
@@ -896,12 +946,14 @@
 
   // Reset to intro when at top
   const heroEl = document.querySelector('.hero');
-  const heroIo = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting) setLabel('Intro','', 1);
-    });
-  }, { rootMargin: '-10% 0px -80% 0px', threshold: 0 });
-  heroIo.observe(heroEl);
+  if(heroEl) {
+    const heroIo = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting) setLabel('Intro', 1);
+      });
+    }, { rootMargin: '-10% 0px -80% 0px', threshold: 0 });
+    heroIo.observe(heroEl);
+  }
 </script>
 
 </body>
