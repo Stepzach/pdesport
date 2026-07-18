@@ -194,7 +194,7 @@
     grid-template-columns: repeat(12, 1fr);
     gap: 16px; 
     position: relative;
-    padding: 20px 10px;
+
   }
 
   /* 12-Column Grid Mapping */
@@ -317,6 +317,12 @@
 
   /* ---------- DESKTOP SCRAPBOOK LAYOUT ---------- */
   @media (min-width: 901px) {
+  
+   .grid {
+   
+    padding: 20px 10px;
+  }
+  
     /* Base Desktop Card Container */
     .card {
       background: #ffffff;
@@ -336,11 +342,7 @@
     .card:nth-of-type(4n+3) { transform: rotate(2deg) translateY(6px); }
     .card:nth-of-type(4n+4) { transform: rotate(-1.8deg) translateY(-2px); }
 
-    .card:hover {
-      transform: rotate(0deg) scale(1.02) translateY(-2px);
-      box-shadow: 6px 14px 28px rgba(35, 28, 82, 0.09);
-      z-index: 10;
-    }
+   
 
     /* Standardized Footer Elements to Stop Extreme Stretching */
     .card-footer {
@@ -351,10 +353,9 @@
     .footer-row { align-items: center; }
     .footer-img {
       flex: 0 0 120px;
-      height: 90px;
-      border: 3px solid #fff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      border-radius: 2px;
+      height: 130px;
+      min-width:170px;
+    
     }
     
     /* Individual Photo Rotations */
@@ -368,11 +369,10 @@
     .card-top-left { flex: 1; }
     .card-media {
       flex: 0 0 120px;
-      height: 120px;
+      height: 135px;
+            min-width: 200px;
       max-height: none;
-      border: 4px solid #fff;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.08);
-      border-radius: 2px;
+     
     }
 
     /* WIDE CARDS (.span-6 to .span-12): Move images side-by-side using CSS Grid */
@@ -400,16 +400,16 @@
       margin-bottom: 0;
     }
     
-    /* Convert the main images into fixed-size Polaroid style squares on right side */
+
     .span-6 .card-media, .span-7 .card-media, .span-8 .card-media, .span-12 .card-media {
       grid-area: media;
-      width: 200px;
+      width: 270px;
       height: 200px;
-      border: 5px solid #fff;
+ 
     }
     
     .span-12 .card-media {
-      width: 300px;
+      width: 400px;
       height: 300px;
     }
 
@@ -426,7 +426,7 @@
     /* Make footer image slightly bigger on wide cards */
     .span-6 .footer-img, .span-7 .footer-img, .span-8 .footer-img, .span-12 .footer-img {
       flex: 0 0 160px;
-      height: 120px;
+      height: 140px;
     }
   }
 
@@ -596,7 +596,7 @@
   <section class="category" id="drink" data-label="Drink">
     <div class="wrap">
       <div class="grid">
-        <article class="card span-4">
+        <article class="card span-6">
           <div class="card-top">
             <div class="card-top-left">
               <div class="card-meta"><span class="tag">Sports Bar, 5e Arr.</span></div>
@@ -622,7 +622,7 @@
           </svg>
         </div>
 
-        <article class="card span-8">
+        <article class="card span-6">
           <div class="card-top">
             <div class="card-top-left">
               <div class="card-meta"><span class="tag">Guinguette, 7e Arr.</span></div>
@@ -874,7 +874,7 @@
           </svg>
         </div>
 
-        <article class="card span-4">
+        <article class="card span-6">
           <div class="card-top">
             <div class="card-top-left">
               <div class="card-meta"><span class="tag">Mid May, City-wide</span></div>
@@ -902,7 +902,7 @@
           </svg>
         </div>
 
-        <article class="card span-8">
+        <article class="card span-6">
           <div class="card-top">
             <div class="card-top-left">
               <div class="card-meta"><span class="tag">July 14th, National</span></div>
@@ -935,7 +935,7 @@
   <section class="category" id="other" data-label="Other">
     <div class="wrap">
       <div class="grid">
-        <article class="card span-8">
+        <article class="card span-7">
           <div class="card-top">
             <div class="card-top-left">
               <div class="card-meta"><span class="tag">Travel Tip, Flexible</span></div>
@@ -949,7 +949,7 @@
           <div class="card-footer">
             <div class="footer-row">
               <div class="footer-img"><img src="https://picsum.photos/seed/eurostarsnap-mini/300/300" alt=""></div>
-              <p class="footer-text">Tuesday/Wednesday travel tends to have the cheapest fares.</p>
+              <p class="footer-text">Tuesday or Wednesday travel tends to have the cheapest fares.</p>
             </div>
             <p class="footer-address">Book online<br>WEBSITE: Eurostar</p>
           </div>
@@ -961,7 +961,7 @@
           </svg>
         </div>
 
-        <article class="card span-4">
+        <article class="card span-5">
           <div class="card-top">
             <div class="card-top-left">
               <div class="card-meta"><span class="tag">Day Trip, 40 min</span></div>
@@ -987,11 +987,11 @@
           </svg>
         </div>
 
-        <article class="card span-4">
+        <article class="card span-5">
           <div class="card-top">
             <div class="card-top-left">
               <div class="card-meta"><span class="tag">Day Trip, 40 min</span></div>
-              <h3 class="card-title">Fontainebleau</h3>
+              <h3 class="card-title">Fontaine-<br>bleau</h3>
             </div>
             <div class="card-media">
               <img src="https://picsum.photos/seed/fontainebleau/1000/1000" alt="Château de Fontainebleau">
@@ -1013,7 +1013,7 @@
           </svg>
         </div>
 
-        <article class="card span-8">
+        <article class="card span-7">
           <div class="card-top">
             <div class="card-top-left">
               <div class="card-meta"><span class="tag">Day Trip, 1h15</span></div>
