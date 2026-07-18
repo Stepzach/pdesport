@@ -138,13 +138,17 @@
     border-bottom:1px solid var(--line);
     scroll-margin-top:var(--nav-h);
   }
-  .cat-head{max-width:760px; margin-bottom:64px;}
+  .cat-head{ margin-bottom:64px;}
   .cat-head h2{
-    font-family:var(--font); font-weight:400;
-    font-size:clamp(32px,4.6vw,54px); line-height:1.12; letter-spacing:-0.01em;
+   font-size:clamp(40px, 6.4vw, 68px); line-height:1.04; letter-spacing:-0.01em;
+    font-family: "Emilys Candy", serif !important;
+    color: #f8a4a3 !important;
+    filter: url('#outline');
+    letter-spacing: 2px;
+    text-align:center;
   }
   .cat-head .intro{
-    margin-top:20px; font-size:16px; line-height:1.7; color:var(--ink-soft); max-width:56ch;
+    margin-top:20px; font-size:29px; line-height:0.8; color:var(--ink-soft); 
   }
 
   /* ---------- GRID / CARDS ---------- */
@@ -334,11 +338,13 @@
       <p>by zach</p>
     </div>
     <div class="hero-meta" id="heroMeta">
-      <div class="item" data-section="eat"><b>Eat</b><span class="count">–</span> items</div>
-      <div class="item" data-section="drink"><b>Drink</b><span class="count">–</span> items</div>
-      <div class="item" data-section="walk"><b>Walk</b><span class="count">–</span> items</div>
-      <div class="item" data-section="events"><b>Events</b><span class="count">–</span> items</div>
-      <div class="item" data-section="other"><b>Other</b><span class="count">–</span> items</div>
+     <nav class="overlay-list">
+    <a href="#eat" data-close style=" justify-content: space-between; height:50px; line-height:0.5; font-size:40px;"><span >Eat</span><span class="fr-sub" style="font-size:19px; line-height: 0.9; text-align: right;position: relative; top:-12px; ">Restos<br> & Cafes</span></a>
+    <a href="#drink" data-close style="height:50px;justify-content: space-between; line-height:0.5; font-size:40px;"><span>Drink</span><span class="fr-sub" style="font-size:19px; line-height: 0.9; text-align: right;position: relative; top:-12px; ">Bars &<br> Terraces</span></a>
+    <a href="#walk" data-close style="height:50px;justify-content: space-between; line-height:0.5; font-size:40px;"><span>Walk</span><span class="fr-sub" style="font-size:19px; line-height:  0.9;text-align: right; position: relative; top:-12px; ">Areas<br> & Parcs</span></a>
+    <a href="#events" data-close style="height:50px; justify-content: space-between;line-height:0.5; font-size:40px;"><span>Events</span><span class="fr-sub" style="font-size:19px; text-align: right; line-height: 0.9; position: relative; top:-12px; ">In Paris<br> & France</span></a>
+    <a href="#other" data-close style="height:50px; justify-content: space-between;line-height:0.5; font-size:40px;"><span>Other</span><span class="fr-sub" style="text-align: right; font-size:19px; line-height: 0.9; position: relative; top:-12px; ">General <br>Tips</span></a>
+  </nav>
     </div>
   </section>
 
