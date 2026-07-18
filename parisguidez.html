@@ -40,22 +40,67 @@
   a{color:inherit; text-decoration:none;}
   ::selection{background:var(--ink); color:var(--paper);}
 
-  .wrap{max-width:var(--wrap); margin:0 auto; padding:0;}
+  .wrap{ margin:0 auto; padding:0; overflow: visible;}
 
-  /* ---------- NAV ---------- */
+ /* ---------- NAV ---------- */
   header.nav{
     position:fixed; top:0; left:0; right:0; z-index:300;
     height:var(--nav-h);
-    background:white;
+    background: #eef4f4;
     backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);
     display:flex; align-items:center;
+    
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.4s ease, opacity 0.4s ease;
   }
+
+  header.nav::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -10px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 20' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10' stroke='%23231c52' stroke-width='1' fill='none' /%3E%3C/svg%3E");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    pointer-events: none;
+  }
+  
+  header.nav.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   .nav-inner{
     width:100%; max-width:var(--wrap); margin:0 auto;
     padding:0 clamp(20px,5vw,64px);
     display:flex; align-items:center; justify-content:space-between;
   }
+  
+  .nav-arrow {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--ink-soft);
+    font-size: 20px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease, transform 0.2s ease;
+    flex: 0 0 auto;
+  }
+  
+  .nav-arrow:hover {
+    color: var(--accent-blue);
+    transform: scale(1.1);
+  }
+
   .nav-center{
     flex:1; display:flex; justify-content:center;
     font-size:22px; letter-spacing:0.14em; text-transform:uppercase;
@@ -65,12 +110,43 @@
   .nav-center .sep{margin:0 8px; color:var(--ink-faint);}
   .nav-index{font-variant-numeric:tabular-nums;}
 
-  /* ---------- HERO ---------- */
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-3px); }
+    40%, 80% { transform: translateX(3px); }
+  }
+  .shake {
+    animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+    display: inline-block;
+  }
+
+ /* ---------- HERO ---------- */
   .hero{
     padding:calc(var(--nav-h) + 72px) 0 64px;
-    border-bottom:1px solid var(--line);
+    background:#a0c3c32e;
     text-align:center;
+    margin-bottom:10px;
+    
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
   }
+  
+   .hero::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -10px; 
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 20' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10' stroke='%23231c52' stroke-width='1' fill='none' /%3E%3C/svg%3E");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    pointer-events: none; 
+  }
+  
   .hero h1{
     font-weight:700; font-style:normal;
     font-size:clamp(65px, 6.4vw, 88px); line-height:1.04; 
@@ -85,41 +161,53 @@
   }
   .hero-sub p{font-size:33px; line-height:1.65; color:#231c52;}
   .hero-meta{
-    margin-top:40px; max-width:280px; margin-left:auto; margin-right:auto;
+    margin-top:40px; width:350px; margin-left:auto; margin-right:auto;
     display:flex; flex-wrap:wrap; justify-content:center; gap:22px 28px;
   }
 
-  /* Overlay List in Hero */
-  .overlay-list{max-width:var(--wrap); margin:0 auto; width:100%;}
+  .overlay-list{ margin:0 auto; width:100%;}
   .overlay-list a{
-    display:flex; align-items:baseline; gap:18px;
+    display:flex; align-items:baseline; gap:40px;
     padding:18px 0; border-bottom:1px solid var(--line);
     font-family:var(--font); font-weight:400;
-    font-size:clamp(34px,7vw,64px);
+    font-size:clamp(30px,7vw,64px); color: #231c52; 
     transition:padding-left .35s ease, color .35s ease;
   }
   .overlay-list a:first-child{border-top:1px solid var(--line);}
-  .overlay-list a:hover{padding-left:14px; color:var(--accent-blue);}
-  .overlay-list a .fr-sub{
+  .overlay-list a:hover{padding-left:6px; color:var(--accent-blue);}
+  .overlay-list a .fr-sub{ 
     font-family:var(--font); font-weight:400; font-size:13px; letter-spacing:0.1em;
-    text-transform:uppercase; color:var(--ink-faint); font-style:normal;
+    text-transform:uppercase; color: #231c52;  font-style:normal;
   }
 
   /* ---------- SECTIONS ---------- */
   section.category{
-   
-   
     scroll-margin-top:var(--nav-h);
+    max-width:var(--wrap);
+    margin-left:auto;
+    margin-right:auto;
   }
 
   /* ---------- GRID / CARDS ---------- */
-  .grid{
-   
-   
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 16px; 
+    position: relative;
+    padding: 20px 10px;
   }
-  .card{position:relative; padding:10px 20px; }
 
-  /* 50/50 Top Split */
+  /* 12-Column Grid Mapping */
+  .span-4  { grid-column: span 4; }
+  .span-5  { grid-column: span 5; }
+  .span-6  { grid-column: span 6; }
+  .span-7  { grid-column: span 7; }
+  .span-8  { grid-column: span 8; }
+  .span-12 { grid-column: span 12; }
+
+  /* Base Mobile styling */
+  .card { position: relative; padding: 10px 20px; }
+
   .card-top {
     display: flex;
     align-items: center;
@@ -153,7 +241,7 @@
   .card-meta{
    flex-wrap:wrap; gap:8px 10px;
     font-size:22px; 
-    color:#73726f; font-weight:200; 
+    color:#4b65df; font-weight:200; 
      padding:0px 10px 0px; 
   }
 
@@ -185,18 +273,35 @@
   .footer-text{
    flex:1; font-family: "Swanky and Moo Moo", cursive; font-size:25.5px; line-height:0.8;  color: #231c52;
   }
+
   .footer-address{
     margin-top:18px; font-size:22.5px;
     line-height:0.8;
     color: #231c52;
     font-family: "Swanky and Moo Moo", cursive; 
+    position: relative;
+    padding-left: 32px; 
+  }
+  
+  .footer-address::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234b65df'%3E%3Cpath d='M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z'/%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   /* SVG Line Separator Styles */
   .line-container {
     width: 100%;
     height: 20px;
-    grid-column: span 12; /* Spans the entire grid width */
+    grid-column: span 12; 
   }
   .line-container svg {
     width: 100%;
@@ -207,45 +312,170 @@
     stroke-linecap: round;
     stroke-linejoin: round;
   }
+  .grid > div.line-container { display: none; }
+  .grid > div.line-container:last-child { display: block !important; }
 
-  /* column spans - editorial asymmetry */
-  .span-7{grid-column:span 7;}
-  .span-5{grid-column:span 5;}
-  .span-4{grid-column:span 4;}
-  .span-8{grid-column:span 8;}
-  .span-6{grid-column:span 6;}
-  .span-12{grid-column:span 12;}
+  /* ---------- DESKTOP SCRAPBOOK LAYOUT ---------- */
+  @media (min-width: 901px) {
+    /* Base Desktop Card Container */
+    .card {
+      background: #ffffff;
+      border: 1px solid rgba(0,0,0,0.04);
+      box-shadow: 2px 5px 15px rgba(0,0,0,0.05);
+      border-radius: 3px;
+      padding: 24px 28px;
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease;
+      z-index: 1;
+      display: flex;
+      flex-direction: column; 
+    }
+    
+    /* Alternating Rotation for Paper Scatter */
+    .card:nth-of-type(4n+1) { transform: rotate(-1.5deg) translateY(4px); }
+    .card:nth-of-type(4n+2) { transform: rotate(1.2deg) translateY(-4px); }
+    .card:nth-of-type(4n+3) { transform: rotate(2deg) translateY(6px); }
+    .card:nth-of-type(4n+4) { transform: rotate(-1.8deg) translateY(-2px); }
+
+    .card:hover {
+      transform: rotate(0deg) scale(1.02) translateY(-2px);
+      box-shadow: 6px 14px 28px rgba(35, 28, 82, 0.09);
+      z-index: 10;
+    }
+
+    /* Standardized Footer Elements to Stop Extreme Stretching */
+    .card-footer {
+       border-top: 1px dashed rgba(0,0,0,0.1);
+       margin-top: auto; 
+       padding-top: 16px;
+    }
+    .footer-row { align-items: center; }
+    .footer-img {
+      flex: 0 0 120px;
+      height: 90px;
+      border: 3px solid #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      border-radius: 2px;
+    }
+    
+    /* Individual Photo Rotations */
+    .card:nth-of-type(odd) .card-media { transform: rotate(2.5deg); }
+    .card:nth-of-type(even) .card-media { transform: rotate(-2deg); }
+    .card:nth-of-type(odd) .footer-img { transform: rotate(-2deg); }
+    .card:nth-of-type(even) .footer-img { transform: rotate(1.5deg); }
+
+    /* Narrow Cards (.span-4, .span-5) Prevent Image Blowup */
+    .card-top { align-items: flex-start; }
+    .card-top-left { flex: 1; }
+    .card-media {
+      flex: 0 0 120px;
+      height: 120px;
+      max-height: none;
+      border: 4px solid #fff;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+      border-radius: 2px;
+    }
+
+    /* WIDE CARDS (.span-6 to .span-12): Move images side-by-side using CSS Grid */
+    .span-6, .span-7, .span-8, .span-12 {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto 1fr auto;
+      grid-template-areas: 
+        "title media"
+        "desc media"
+        "footer footer";
+      column-gap: 32px;
+      row-gap: 12px;
+    }
+    
+    /* display: contents flattens the wrapper so its children join the grid */
+    .span-6 .card-top, .span-7 .card-top, .span-8 .card-top, .span-12 .card-top {
+      display: contents;
+    }
+    
+    .span-6 .card-top-left, .span-7 .card-top-left, .span-8 .card-top-left, .span-12 .card-top-left {
+      grid-area: title;
+      max-width: none;
+      padding-right: 0;
+      margin-bottom: 0;
+    }
+    
+    /* Convert the main images into fixed-size Polaroid style squares on right side */
+    .span-6 .card-media, .span-7 .card-media, .span-8 .card-media, .span-12 .card-media {
+      grid-area: media;
+      width: 200px;
+      height: 200px;
+      border: 5px solid #fff;
+    }
+    
+    .span-12 .card-media {
+      width: 300px;
+      height: 300px;
+    }
+
+    .span-6 .card-desc, .span-7 .card-desc, .span-8 .card-desc, .span-12 .card-desc {
+      grid-area: desc;
+      max-width: 650px;
+    }
+
+    .span-6 .card-footer, .span-7 .card-footer, .span-8 .card-footer, .span-12 .card-footer {
+      grid-area: footer;
+      margin-top: 12px;
+    }
+
+    /* Make footer image slightly bigger on wide cards */
+    .span-6 .footer-img, .span-7 .footer-img, .span-8 .footer-img, .span-12 .footer-img {
+      flex: 0 0 160px;
+      height: 120px;
+    }
+  }
 
   /* ---------- FOOTER ---------- */
-  footer{padding:72px 0 48px;}
+  footer{position: relative; padding:72px 0 48px;  background: #eef4f4;}
+  
+    footer::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -8px; 
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 1000 20' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10' stroke='%23231c52' stroke-width='1' fill='none' /%3E%3C/svg%3E");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    pointer-events: none; 
+  }
+  
   .footer-top{
     display:flex; justify-content:space-between; align-items:flex-end; gap:24px;
-    flex-wrap:wrap; padding-bottom:36px; margin-bottom:28px; border-bottom:1px solid var(--line);
+    flex-wrap:wrap; padding-bottom:36px; margin-bottom:28px; border-bottom:1px solid var(--line); 
   }
   footer h3{
     font-family:var(--font); font-weight:400; font-style:italic;
-    font-size:clamp(28px,4vw,44px); max-width:12ch; line-height:1.15;
+    font-size:clamp(28px,4vw,44px); line-height:1.15; 
   }
   .back-top{
     font-size:13px; letter-spacing:0.05em; border-bottom:1px solid var(--ink); padding-bottom:2px;
   }
   .footer-bottom{
     display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;
-    font-size:12.5px; color:var(--ink-faint); letter-spacing:0.02em;
+    font-size:25.5px; line-height: 0.8; color:var(--ink-faint);   padding:20px 20px 48px; 
   }
 
-  /* ---------- RESPONSIVE ---------- */
+  /* ---------- RESPONSIVE MOBILE ---------- */
   @media (max-width:900px){
-    .span-7,.span-5,.span-4,.span-8,.span-6{grid-column:span 6;}
+    .grid { grid-template-columns: 1fr; }
+    .span-4, .span-5, .span-6, .span-7, .span-8, .span-12 { grid-column: span 1; }
+    .line-container { grid-column: span 1; }
+    .grid > div.line-container { display: block; }
   }
+  
   @media (max-width:640px){
     :root{--nav-h:48px;}
     .nav-center{font-size:22px;}
     .hero{padding-top:calc(var(--nav-h) + 56px); padding-bottom:48px;}
-    section.category{padding:56px 0 24px;}
-    .grid{grid-template-columns:1fr; gap:20px;}
-    .span-7,.span-5,.span-4,.span-8,.span-6,.span-12{grid-column:span 1;}
-    .overlay-list a{font-size:clamp(28px,10vw,44px); padding:14px 0;}
+    .overlay-list a{font-size:clamp(26px,10vw,44px); padding:14px 0;}
+    .hero-meta{ width:290px; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -277,9 +507,11 @@
   
 <header class="nav">
   <div class="nav-inner">
+    <button class="nav-arrow prev" id="prevSection" aria-label="Previous Section">↑</button>
     <div class="nav-center">
-      <span class="nav-index">01</span><span class="sep">·</span><span class="en" id="navLabel">Intro</span>
+      <span class="nav-index">0</span><span class="sep">·</span><span class="en" id="navLabel">Intro</span>
     </div>
+    <button class="nav-arrow next" id="nextSection" aria-label="Next Section">↓</button>
   </div>
 </header>
 
@@ -292,11 +524,11 @@
     </div>
     <div class="hero-meta" id="heroMeta">
       <nav class="overlay-list">
-        <a href="#eat" data-close style="border-top: solid 1px #0000001a; border-bottom: solid 1px #0000001a; justify-content: space-between; height:50px; line-height:0.7; font-size:33px;"><span>1 · Eat</span><span class="fr-sub" style="font-size:19px; line-height: 0.9; text-align: right;position: relative; top:-12px; ">Restos<br> & Cafes</span></a>
-        <a href="#drink" data-close style="border-bottom: solid 1px #0000001a; height:50px;justify-content: space-between; line-height:0.7; font-size:33px;"><span>2 · Drink</span><span class="fr-sub" style="font-size:19px; line-height: 0.9; text-align: right;position: relative; top:-12px; ">Bars &<br> Terraces</span></a>
-        <a href="#walk" data-close style="border-bottom: solid 1px #0000001a; height:50px;justify-content: space-between; line-height:0.7; font-size:33px;"><span>3 · Walk</span><span class="fr-sub" style="font-size:19px; line-height:  0.9;text-align: right; position: relative; top:-12px; ">Areas<br> & Parcs</span></a>
-        <a href="#events" data-close style=" border-bottom: solid 1px #0000001a; height:50px; justify-content: space-between;line-height:0.7; font-size:33px;"><span>4 · Events</span><span class="fr-sub" style="font-size:19px; text-align: right; line-height: 0.9; position: relative; top:-12px; ">In Paris<br> & France</span></a>
-        <a href="#other" data-close style="border-bottom: solid 1px #0000001a; height:50px; justify-content: space-between;line-height:0.7; font-size:33px;"><span>5 · Other</span><span class="fr-sub" style="text-align: right; font-size:19px; line-height: 0.9; position: relative; top:-12px; ">General <br>Tips</span></a>
+        <a href="#eat" data-close style="border-top: solid 1px #0000001a; border-bottom: solid 1px #0000001a; justify-content: space-between; height:50px; line-height:0.7; font-size:33px;"><span>1 · Eat</span><span class="fr-sub" style="font-size:19px; line-height: 0.9; text-align: right;position: relative; top:-12px; ">Restos<br> Cafes</span></a>
+        <a href="#drink" data-close style="border-bottom: solid 1px #0000001a; height:50px;justify-content: space-between; line-height:0.7; font-size:33px;"><span>2 · Drink</span><span class="fr-sub" style="font-size:19px; line-height: 0.9; text-align: right;position: relative; top:-12px; ">Bars<br>Pubs</span></a>
+        <a href="#walk" data-close style="border-bottom: solid 1px #0000001a; height:50px;justify-content: space-between; line-height:0.7; font-size:33px;"><span>3 · Walk</span><span class="fr-sub" style="font-size:19px; line-height:  0.9;text-align: right; position: relative; top:-12px; ">Areas<br>Parcs</span></a>
+        <a href="#events" data-close style=" border-bottom: solid 1px #0000001a; height:50px; justify-content: space-between;line-height:0.7; font-size:33px;"><span>4 · Events</span><span class="fr-sub" style="font-size:19px; text-align: right; line-height: 0.9; position: relative; top:-12px; ">Music<br>Art</span></a>
+        <a href="#other" data-close style="border-bottom: solid 1px #0000001a; height:50px; justify-content: space-between;line-height:0.7; font-size:33px;"><span>5 · Other</span><span class="fr-sub" style="text-align: right; font-size:19px; line-height: 0.9; position: relative; top:-12px; ">Advice<br>Tips</span></a>
       </nav>
     </div>
   </section>
@@ -351,15 +583,15 @@
           </div>
         </article>
         
-        <div class="line-container">
+       
+      </div>
+    </div>
+  </section>
+ <div class="line-container">
           <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
             <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
           </svg>
         </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ================= DRINK ================= -->
   <section class="category" id="drink" data-label="Drink">
     <div class="wrap">
@@ -462,41 +694,17 @@
           </div>
         </article>
         
-        <div class="line-container">
-          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
-            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
-          </svg>
-        </div>
-
-        <article class="card span-12">
-          <div class="card-top">
-            <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Terrace, 10e Arr.</span></div>
-              <h3 class="card-title">Loui's Corner</h3>
-            </div>
-            <div class="card-media">
-              <img src="https://picsum.photos/seed/louiscorner/1000/1000" alt="Corner terrace by the canal">
-            </div>
-          </div>
-          <p class="card-desc">Right on the Canal Saint-Martin, a corner spot with a wraparound terrace — good for a coffee, brunch, or evening drinks watching the canal go by.</p>
-          <div class="card-footer">
-            <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/louiscorner-mini/300/300" alt=""></div>
-              <p class="footer-text">Gets busy on sunny weekends.</p>
-            </div>
-            <p class="footer-address">49 Rue Bichat, 75010 Paris<br>METRO: Goncourt / Jacques Bonsergent</p>
-          </div>
-        </article>
+      
         
-        <div class="line-container">
-          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
-            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
-          </svg>
-        </div>
+        
       </div>
     </div>
   </section>
-
+ <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
   <!-- ================= WALK ================= -->
   <section class="category" id="walk" data-label="Walk">
     <div class="wrap">
@@ -521,31 +729,33 @@
           </div>
         </article>
         
+      
         <div class="line-container">
           <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
             <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
           </svg>
         </div>
-
+        
         <article class="card span-6">
           <div class="card-top">
             <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Golden Hour, Central</span></div>
-              <h3 class="card-title">Les Quais de la Seine</h3>
+              <div class="card-meta"><span class="tag">Sat-Mon, 18e Arr.</span></div>
+              <h3 class="card-title">Les Puces de Saint-Ouen</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/quaisdeseine/1000/1000" alt="Riverside walk in Paris">
+              <img src="https://picsum.photos/seed/puces/1000/1000" alt="Antiques flea market">
             </div>
           </div>
-          <p class="card-desc">The riverside itself — much of it is closed to cars (Voie Georges Pompidou). Good for a straight-line walk between major landmarks.</p>
+          <p class="card-desc">The world's largest flea market — technically several markets stitched together, from serious antiques to vintage clothes and pure junk.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/quaisdeseine-mini/300/300" alt=""></div>
-              <p class="footer-text">Musée d'Orsay, Pont Neuf, Notre-Dame, Île Saint-Louis.</p>
+              <div class="footer-img"><img src="https://picsum.photos/seed/puces-mini/300/300" alt=""></div>
+              <p class="footer-text">Less a 'walk' and more a maze; give it at least 2 hours and expect to haggle.</p>
             </div>
-            <p class="footer-address">Along the Seine<br>METRO: Lines 1, 4, 7, 10, or RER C</p>
+            <p class="footer-address">Saint-Ouen, just north of the 18e<br>METRO: Porte de Clignancourt</p>
           </div>
         </article>
+        
         
         <div class="line-container">
           <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
@@ -598,42 +808,16 @@
             <p class="footer-address">Boulevard de Courcelles, 75008<br>METRO: Monceau</p>
           </div>
         </article>
+      
         
-        <div class="line-container">
-          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
-            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
-          </svg>
-        </div>
-        
-        <article class="card span-12">
-          <div class="card-top">
-            <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Sat-Mon, 18e Arr.</span></div>
-              <h3 class="card-title">Les Puces de Saint-Ouen</h3>
-            </div>
-            <div class="card-media">
-              <img src="https://picsum.photos/seed/puces/1000/1000" alt="Antiques flea market">
-            </div>
-          </div>
-          <p class="card-desc">The world's largest flea market — technically several markets stitched together, from serious antiques to vintage clothes and pure junk.</p>
-          <div class="card-footer">
-            <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/puces-mini/300/300" alt=""></div>
-              <p class="footer-text">Less a 'walk' and more a maze; give it at least 2 hours and expect to haggle.</p>
-            </div>
-            <p class="footer-address">Saint-Ouen, just north of the 18e<br>METRO: Porte de Clignancourt</p>
-          </div>
-        </article>
-        
-        <div class="line-container">
-          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
-            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
-          </svg>
-        </div>
       </div>
     </div>
   </section>
-
+ <div class="line-container">
+          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
+            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
+          </svg>
+        </div>
   <!-- ================= EVENTS ================= -->
   <section class="category" id="events" data-label="Events">
     <div class="wrap">
@@ -710,31 +894,7 @@
           </div>
         </article>
         
-        <div class="line-container">
-          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
-            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
-          </svg>
-        </div>
-        
-        <article class="card span-8">
-          <div class="card-top">
-            <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Early April, Sunday</span></div>
-              <h3 class="card-title">Paris Marathon</h3>
-            </div>
-            <div class="card-media">
-              <img src="https://picsum.photos/seed/parismarathon/1000/1000" alt="Marathon runners">
-            </div>
-          </div>
-          <p class="card-desc">Starts on the Champs-Élysées and winds through the city past most of the big landmarks before finishing near the Arc de Triomphe.</p>
-          <div class="card-footer">
-            <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/parismarathon-mini/300/300" alt=""></div>
-              <p class="footer-text">Great free spectator sport. Good vantage points along the Seine or near Bastille.</p>
-            </div>
-            <p class="footer-address">Champs-Élysées to Avenue Foch<br>METRO: Varies</p>
-          </div>
-        </article>
+       
         
         <div class="line-container">
           <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
@@ -742,7 +902,7 @@
           </svg>
         </div>
 
-        <article class="card span-12">
+        <article class="card span-8">
           <div class="card-top">
             <div class="card-top-left">
               <div class="card-meta"><span class="tag">July 14th, National</span></div>
@@ -762,15 +922,15 @@
           </div>
         </article>
         
-        <div class="line-container">
+      
+      </div>
+    </div>
+  </section>
+ <div class="line-container">
           <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
             <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
           </svg>
         </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ================= OTHER ================= -->
   <section class="category" id="other" data-label="Other">
     <div class="wrap">
@@ -873,88 +1033,108 @@
           </div>
         </article>
         
-        <div class="line-container">
-          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
-            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
-          </svg>
-        </div>
-
-        <article class="card span-12">
-          <div class="card-top">
-            <div class="card-top-left">
-              <div class="card-meta"><span class="tag">Good to know</span></div>
-              <h3 class="card-title">More Key Events</h3>
-            </div>
-            <div class="card-media">
-              <img src="https://picsum.photos/seed/keyevents/1000/1000" alt="Tennis court and art">
-            </div>
-          </div>
-          <p class="card-desc">Journées du Patrimoine (Sept), Nuit Blanche (Oct), and Roland Garros (May/June). Grounds passes are a cheaper way to soak up the tennis atmosphere.</p>
-          <div class="card-footer">
-            <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/keyevents-mini/300/300" alt=""></div>
-              <p class="footer-text">Check dates before you go — lots of free openings and special vibes.</p>
-            </div>
-            <p class="footer-address">City-wide<br>METRO: Varies</p>
-          </div>
-        </article>
-
-        <div class="line-container">
-          <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
-            <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
-          </svg>
-        </div>
-
+       
       </div>
     </div>
   </section>
 
   <footer class="wrap">
-    <div class="footer-top">
-      <h3>That's the list, for now.</h3>
-      <a href="#" class="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Back to top ↑</a>
-    </div>
+  
     <div class="footer-bottom">
-      <span>Paris, kept. — a personal guide, not a directory.</span>
+      <span>Last updated 18/07/26.</span>
       <span>A work-in-progress notebook, updated as I go — corrections & suggestions welcome.</span>
     </div>
   </footer>
+  
+  <!-- Trigger point for the end of the page -->
+  <div id="end-trigger" style="height: 1px; width: 100%;"></div>
 
 </main>
-
 <script>
-  // Scrollspy nav label
-  const sections = document.querySelectorAll('section.category');
+  // Scrollspy nav label and arrows
+  const sections = Array.from(document.querySelectorAll('section.category'));
   const navLabel = document.getElementById('navLabel');
   const navIndex = document.querySelector('.nav-index');
+  const navSep   = document.querySelector('.sep');
+  const navHeader = document.querySelector('header.nav');
 
-  function setLabel(en, idx){
+  function setLabel(en, idx) {
     if(navLabel) navLabel.textContent = en;
-    if(navIndex) navIndex.textContent = String(idx).padStart(2,'0');
+    
+    if (idx === null) {
+      if(navIndex) navIndex.style.display = 'none';
+      if(navSep) navSep.style.display = 'none';
+    } else {
+      if(navIndex) {
+        navIndex.style.display = '';
+        navIndex.textContent = String(idx);
+      }
+      if(navSep) navSep.style.display = '';
+    }
   }
 
-  const io = new IntersectionObserver((entries)=>{
-    entries.forEach(entry=>{
-      if(entry.isIntersecting){
-        const idx = Array.from(sections).indexOf(entry.target) + 2; // intro is 01
-        setLabel(entry.target.dataset.label, idx);
+  function getActiveSectionIndex() {
+    let activeIndex = 0;
+    const offset = 60; 
+    
+    if (Math.ceil(window.innerHeight + window.scrollY) >= document.body.offsetHeight - 10) {
+      return sections.length + 1; 
+    }
+
+    sections.forEach((sec, i) => {
+      if (window.scrollY >= sec.offsetTop - offset) {
+        activeIndex = i + 1;
       }
     });
-  }, { rootMargin: '-45% 0px -50% 0px', threshold: 0 });
-
-  sections.forEach(s => io.observe(s));
-
-  // Reset to intro when at top
-  const heroEl = document.querySelector('.hero');
-  if(heroEl) {
-    const heroIo = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting) setLabel('Intro', 1);
-      });
-    }, { rootMargin: '-10% 0px -80% 0px', threshold: 0 });
-    heroIo.observe(heroEl);
+    return activeIndex;
   }
-</script>
 
+  function handleScrollState() {
+    const currentIdx = getActiveSectionIndex();
+
+    if (currentIdx > 0) {
+      navHeader.classList.add('is-visible');
+    } else {
+      navHeader.classList.remove('is-visible');
+    }
+
+    if (currentIdx === 0) {
+      setLabel('Intro', 0);
+    } else if (currentIdx > sections.length) {
+      setLabel('The end', null);
+    } else {
+      setLabel(sections[currentIdx - 1].dataset.label, currentIdx);
+    }
+  }
+
+  window.addEventListener('scroll', handleScrollState, { passive: true });
+  handleScrollState(); 
+
+  document.getElementById('prevSection').addEventListener('click', () => {
+    const current = getActiveSectionIndex();
+    if (current > 1) {
+      if (current === sections.length + 1) {
+        sections[sections.length - 1].scrollIntoView({ behavior: 'smooth' });
+      } else {
+        sections[current - 2].scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+
+  document.getElementById('nextSection').addEventListener('click', () => {
+    const current = getActiveSectionIndex();
+    if (current < sections.length) {
+      sections[current].scrollIntoView({ behavior: 'smooth' });
+    } else if (current === sections.length) {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    } else if (current > sections.length) {
+      navLabel.classList.remove('shake');
+      void navLabel.offsetWidth; 
+      navLabel.classList.add('shake');
+    }
+  });
+</script>
 </body>
 </html>
