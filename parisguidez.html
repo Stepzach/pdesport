@@ -132,7 +132,7 @@
     
    height:calc(100vh - 30px);
   
-  /* Modern browsers will use this */
+ /* Modern browsers will use this */
  
     display: flex;
     flex-direction: column;
@@ -284,7 +284,7 @@
 
   .footer-address{
     margin-top:18px; font-size:22.5px;
-    line-height:0.8;
+    line-height:1;
     color: #231c52;
     font-family: "Swanky and Moo Moo", cursive; 
     position: relative;
@@ -303,6 +303,30 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+  }
+
+  /* Structural Classes for Address and Arrondissement layout */
+  .street-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .metro-row {
+    display: block;
+  }
+  .arr-badge {
+    color: #4b65df;
+    white-space: nowrap;
+    text-align: right;
+  }
+  .arr-long { display: inline; }
+  .arr-short { display: none; }
+  
+  @media (max-width: 768px) {
+    .arr-long { display: none; }
+    .arr-short { display: inline; }
   }
 
   /* SVG Line Separator Styles */
@@ -350,7 +374,7 @@
     .card:nth-of-type(4n+3) { transform: rotate(2deg) translateY(6px); }
     .card:nth-of-type(4n+4) { transform: rotate(-1.8deg) translateY(-2px); }
 
-   
+    
 
     /* Standardized Footer Elements to Stop Extreme Stretching */
     .card-footer {
@@ -380,7 +404,7 @@
       height: 135px;
             min-width: 200px;
       max-height: none;
-     
+      
     }
 
     /* WIDE CARDS (.span-6 to .span-12): Move images side-by-side using CSS Grid */
@@ -561,7 +585,13 @@
               <div class="footer-img"><img src="https://github.com/Stepzach/pdesport/blob/main/IMG_4268.jpg?raw=true" alt=""></div>
               <p class="footer-text">10/10 dinner. We had a côte de bœuf sharing platter. Expect to spend at least 30€ pp.</p>
             </div>
-            <p class="footer-address">3 Rue de Phalsbourg, 75017<br>METRO: Monceau & Malesherbes</p>
+            <div class="footer-address">
+              <div class="street-row">
+                <span>3 Rue de Phalsbourg</span>
+                <span class="arr-badge">17<sup>ème</sup> <span class="arr-long">Arrondissement</span><span class="arr-short">Arr</span></span>
+              </div>
+              <div class="metro-row">METRO: Monceau & Malesherbes</div>
+            </div>
           </div>
         </article>
         
@@ -587,7 +617,13 @@
               <div class="footer-img"><img src="https://ik.imagekit.io/53bnrahwc/IMG_6330.jpg" alt=""></div>
               <p class="footer-text">First-come-first-served, no reservations, so expect a short wait after 8pm.</p>
             </div>
-            <p class="footer-address">7 Rue de Lourmel, 75015<br>METRO: Dupleix</p>
+            <div class="footer-address">
+              <div class="street-row">
+                <span>7 Rue de Lourmel</span>
+                <span class="arr-badge">15<sup>ème</sup> <span class="arr-long">Arrondissement</span><span class="arr-short">Arr</span></span>
+              </div>
+              <div class="metro-row">METRO: Dupleix</div>
+            </div>
           </div>
         </article>
         
@@ -620,7 +656,13 @@
               <div class="footer-img"><img src="https://github.com/Stepzach/pdesport/blob/main/IMG_6245.jpg?raw=true" alt=""></div>
               <p class="footer-text">They put the Arsenal game on the TV when I asked (don't try this if PSG is playing)</p>
             </div>
-            <p class="footer-address">13 Rue de la Huchette, 75005<br>METRO: Saint-Michel</p>
+            <div class="footer-address">
+              <div class="street-row">
+                <span>13 Rue de la Huchette</span>
+                <span class="arr-badge">5<sup>ème</sup> <span class="arr-long">Arrondissement</span><span class="arr-short">Arr</span></span>
+              </div>
+              <div class="metro-row">METRO: Saint-Michel</div>
+            </div>
           </div>
         </article>
         
@@ -646,7 +688,13 @@
               <div class="footer-img"><img src="https://images.squarespace-cdn.com/content/v1/690c8305ebc0be3e6bc1c565/26788d3e-009c-40f6-916c-18c899d71f5c/DSC_0105.jpg" alt=""></div>
               <p class="footer-text">Runs seasonally (spring–autumn) — check it's open before you go.</p>
             </div>
-            <p class="footer-address">Port de Suffren, 75007<br>METRO: Bir-Hakeim / RER C</p>
+            <div class="footer-address">
+              <div class="street-row">
+                <span>Port de Suffren</span>
+                <span class="arr-badge">7<sup>ème</sup> <span class="arr-long">Arrondissement</span><span class="arr-short">Arr</span></span>
+              </div>
+              <div class="metro-row">METRO: Bir-Hakeim / RER C</div>
+            </div>
           </div>
         </article>
         
@@ -672,7 +720,13 @@
               <div class="footer-img"><img src="https://picsum.photos/seed/ateliersuffren-mini/300/300" alt=""></div>
               <p class="footer-text">Screens for football and rugby.</p>
             </div>
-            <p class="footer-address">110 Avenue de Suffren, 75015<br>METRO: Ségur / Sèvres-Lecourbe</p>
+            <div class="footer-address">
+              <div class="street-row">
+                <span>110 Avenue de Suffren</span>
+                <span class="arr-badge">15<sup>ème</sup> <span class="arr-long">Arrondissement</span><span class="arr-short">Arr</span></span>
+              </div>
+              <div class="metro-row">METRO: Ségur / Sèvres-Lecourbe</div>
+            </div>
           </div>
         </article>
         
@@ -698,11 +752,17 @@
               <div class="footer-img"><img src="https://picsum.photos/seed/lesaffranchis-mini/300/300" alt=""></div>
               <p class="footer-text">Also does happy hour and sports screenings.</p>
             </div>
-            <p class="footer-address">98 Rue de Tolbiac, 75013<br>METRO: Olympiades</p>
+            <div class="footer-address">
+              <div class="street-row">
+                <span>98 Rue de Tolbiac</span>
+                <span class="arr-badge">13<sup>ème</sup> <span class="arr-long">Arrondissement</span><span class="arr-short">Arr</span></span>
+              </div>
+              <div class="metro-row">METRO: Olympiades</div>
+            </div>
           </div>
         </article>
         
-      
+       
         
         
       </div>
@@ -733,11 +793,17 @@
               <div class="footer-img"><img src="https://picsum.photos/seed/canalsaintmartinwalk-mini/300/300" alt=""></div>
               <p class="footer-text">Reminds me of Camden. If it's hot you can watch kids jump from bridges.</p>
             </div>
-            <p class="footer-address">Canal Saint-Martin, 75010<br>METRO: République, Jaurès</p>
+            <div class="footer-address">
+              <div class="street-row">
+                <span>Canal Saint-Martin</span>
+                <span class="arr-badge">10<sup>ème</sup> <span class="arr-long">Arrondissement</span><span class="arr-short">Arr</span></span>
+              </div>
+              <div class="metro-row">METRO: République, Jaurès</div>
+            </div>
           </div>
         </article>
         
-      
+       
         <div class="line-container">
           <svg viewBox="0 0 1000 20" preserveAspectRatio="none">
             <path d="M0,10 L150,9 L300,11 L450,8 L600,12 L750,9 L900,11 L1000,10" stroke="#231c52" stroke-width="1" fill="none" />
@@ -760,7 +826,13 @@
               <div class="footer-img"><img src="https://picsum.photos/seed/puces-mini/300/300" alt=""></div>
               <p class="footer-text">Less a 'walk' and more a maze; give it at least 2 hours and expect to haggle.</p>
             </div>
-            <p class="footer-address">Saint-Ouen, just north of the 18e<br>METRO: Porte de Clignancourt</p>
+            <div class="footer-address">
+              <div class="street-row">
+                <span>Saint-Ouen (just north)</span>
+                <span class="arr-badge">18<sup>ème</sup> <span class="arr-long">Arrondissement</span><span class="arr-short">Arr</span></span>
+              </div>
+              <div class="metro-row">METRO: Porte de Clignancourt</div>
+            </div>
           </div>
         </article>
         
@@ -787,7 +859,13 @@
               <div class="footer-img"><img src="https://picsum.photos/seed/luxembourg-mini/300/300" alt=""></div>
               <p class="footer-text">Good for a slow lap with a coffee, or grab a green metal chair by the pond.</p>
             </div>
-            <p class="footer-address">Jardin du Luxembourg, 75006<br>METRO: Odéon / RER B</p>
+            <div class="footer-address">
+              <div class="street-row">
+                <span>Jardin du Luxembourg</span>
+                <span class="arr-badge">6<sup>ème</sup> <span class="arr-long">Arrondissement</span><span class="arr-short">Arr</span></span>
+              </div>
+              <div class="metro-row">METRO: Odéon / RER B</div>
+            </div>
           </div>
         </article>
         
@@ -813,7 +891,13 @@
               <div class="footer-img"><img src="https://picsum.photos/seed/parcmonceau-mini/300/300" alt=""></div>
               <p class="footer-text">Doubles as a nice detour if you're near Monceau or the 17th.</p>
             </div>
-            <p class="footer-address">Boulevard de Courcelles, 75008<br>METRO: Monceau</p>
+            <div class="footer-address">
+              <div class="street-row">
+                <span>Boulevard de Courcelles</span>
+                <span class="arr-badge">8<sup>ème</sup> <span class="arr-long">Arrondissement</span><span class="arr-short">Arr</span></span>
+              </div>
+              <div class="metro-row">METRO: Monceau</div>
+            </div>
           </div>
         </article>
       
@@ -846,7 +930,12 @@
               <div class="footer-img"><img src="https://picsum.photos/seed/fetedelamusique2-mini/300/300" alt=""></div>
               <p class="footer-text">Around République and Bastille the party goes on until the morning hours.</p>
             </div>
-            <p class="footer-address">Everywhere<br>METRO: All lines</p>
+            <div class="footer-address">
+              <div class="street-row">
+                <span>Everywhere</span>
+              </div>
+              <div class="metro-row">METRO: All lines</div>
+            </div>
           </div>
         </article>
         
@@ -872,7 +961,13 @@
               <div class="footer-img"><img src="https://picsum.photos/seed/salonagri-mini/300/300" alt=""></div>
               <p class="footer-text">Sounds niche, is genuinely great: go hungry and taste your way around.</p>
             </div>
-            <p class="footer-address">Porte de Versailles<br>METRO: Porte de Versailles or Balard</p>
+            <div class="footer-address">
+              <div class="street-row">
+                <span>Porte de Versailles</span>
+                <span class="arr-badge">15<sup>ème</sup> <span class="arr-long">Arrondissement</span><span class="arr-short">Arr</span></span>
+              </div>
+              <div class="metro-row">METRO: Porte de Versailles or Balard</div>
+            </div>
           </div>
         </article>
         
@@ -898,7 +993,12 @@
               <div class="footer-img"><img src="https://picsum.photos/seed/nuitdesmusees2-mini/300/300" alt=""></div>
               <p class="footer-text">Pick 2-3 you actually want to see rather than trying to do everything.</p>
             </div>
-            <p class="footer-address">City-wide<br>METRO: Varies</p>
+            <div class="footer-address">
+              <div class="street-row">
+                <span>City-wide</span>
+              </div>
+              <div class="metro-row">METRO: Varies</div>
+            </div>
           </div>
         </article>
         
@@ -926,11 +1026,16 @@
               <div class="footer-img"><img src="https://picsum.photos/seed/bastilleday-mini/300/300" alt=""></div>
               <p class="footer-text">A picnic further back along the Seine is a less stressful way to watch the fireworks.</p>
             </div>
-            <p class="footer-address">Champs-Élysées & Champ de Mars<br>METRO: Varies</p>
+            <div class="footer-address">
+              <div class="street-row">
+                <span>Champs-Élysées & Champ de Mars</span>
+              </div>
+              <div class="metro-row">METRO: Varies</div>
+            </div>
           </div>
         </article>
         
-      
+       
       </div>
     </div>
   </section>
@@ -950,16 +1055,21 @@
               <h3 class="card-title">Eurostar Snap</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/eurostarsnap/1000/1000" alt="Eurostar Train">
+              <img src="https://res.klook.com/image/upload/fl_lossy.progressive,q_60/v1755071506/destination/f8u2ktjkdlnbyrif6yls.jpg" alt="Eurostar Train">
             </div>
           </div>
           <p class="card-desc">Discounted last-minute seats (~50% off) on trains that still have space. You pick a date/window, and the exact train is confirmed 48 hours before.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/eurostarsnap-mini/300/300" alt=""></div>
+              <div class="footer-img"><img src="https://images.seeklogo.com/logo-png/61/1/eurostar-logo-png_seeklogo-617259.png" alt=""></div>
               <p class="footer-text">Tuesday or Wednesday travel tends to have the cheapest fares.</p>
             </div>
-            <p class="footer-address">Book online<br>WEBSITE: Eurostar</p>
+            <div class="footer-address">
+              <div class="street-row">
+                <span>Book online</span>
+              </div>
+              <div class="metro-row">WEBSITE: Eurostar</div>
+            </div>
           </div>
         </article>
         
@@ -976,16 +1086,21 @@
               <h3 class="card-title">Versailles</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/versailles/1000/1000" alt="Palace of Versailles">
+              <img src="https://www.weekenda.fr/images/paris/versailles-35.jpg" alt="Palace of Versailles">
             </div>
           </div>
-          <p class="card-desc">The obvious one, and worth it: the palace and gardens are enormous. Go early or you'll spend half the day queuing.</p>
+          <p class="card-desc">For the Chateau obviously. Tbh it wasn't absolutely incredible, but still definetly worth it for its historical significance (buy tickets online beforehand).</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/versailles-mini/300/300" alt=""></div>
-              <p class="footer-text">The gardens are free to wander without a ticket.</p>
+              <div class="footer-img"><img src="https://static.nationalgeographic.fr/files/styles/image_3200/public/93247.jpg?w=1900&h=1425" alt=""></div>
+              <p class="footer-text">The gardens are free to enter without a ticket. Versailles itself is nice too for a quieter day out.</p>
             </div>
-            <p class="footer-address">Versailles<br>METRO: RER C direct</p>
+            <div class="footer-address">
+              <div class="street-row">
+                <span>Versailles</span>
+              </div>
+              <div class="metro-row">METRO: RER C direct</div>
+            </div>
           </div>
         </article>
         
@@ -1002,16 +1117,21 @@
               <h3 class="card-title">Fontaine-<br>bleau</h3>
             </div>
             <div class="card-media">
-              <img src="https://picsum.photos/seed/fontainebleau/1000/1000" alt="Château de Fontainebleau">
+              <img src="https://ik.imagekit.io/53bnrahwc/IMG_5813.jpg" alt="Château de Fontainebleau">
             </div>
           </div>
-          <p class="card-desc">A quieter, less crowded alternative to Versailles with its own huge château and forest great for a picnic.</p>
+          <p class="card-desc">We only visited the forest which is amazing and has many different trails. Allegedly there is also a huge palace but can't comment :(</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/fontainebleau-mini/300/300" alt=""></div>
-              <p class="footer-text">Train from Gare de Lyon, then a short bus to the château.</p>
+              <div class="footer-img"><img src="https://ik.imagekit.io/53bnrahwc/IMG_6734.jpg" alt=""></div>
+              <p class="footer-text">We took the train from Gare de Lyon, where sone of the train stops are in complete wilderness!</p>
             </div>
-            <p class="footer-address">Fontainebleau<br>METRO: Transilien Line R</p>
+            <div class="footer-address">
+              <div class="street-row">
+                <span>Fontainebleau</span>
+              </div>
+              <div class="metro-row">METRO: Transilien Line R</div>
+            </div>
           </div>
         </article>
         
@@ -1037,7 +1157,12 @@
               <div class="footer-img"><img src="https://picsum.photos/seed/rouen-mini/300/300" alt=""></div>
               <p class="footer-text">About 1h15 by train from Gare Saint-Lazare.</p>
             </div>
-            <p class="footer-address">Rouen, Normandy<br>METRO: Gare Saint-Lazare</p>
+            <div class="footer-address">
+              <div class="street-row">
+                <span>Rouen, Normandy</span>
+              </div>
+              <div class="metro-row">METRO: Gare Saint-Lazare</div>
+            </div>
           </div>
         </article>
         
