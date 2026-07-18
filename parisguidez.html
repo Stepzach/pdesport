@@ -9,9 +9,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Google+Sans:ital,opsz,wght,GRAD@0,17..18,400..700,22;1,17..18,400..700,22&family=Ranchers&display=swap" rel="stylesheet">
 
+<meta name="theme-color" content="#eef4f4">
+
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Swanky+and+Moo+Moo&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Emilys+Candy&display=swap');
+
 
   :root{
     --paper:#ffffff;
@@ -127,7 +130,10 @@
     text-align:center;
     margin-bottom:10px;
     
-    min-height: 100vh;
+   height: 100vh; 
+  
+  /* Modern browsers will use this */
+  height: 100dvh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -154,6 +160,7 @@
     color: #c0cbff !important;
     filter: url('#outline');
     letter-spacing: 2px;
+    margin-top:-40px;
   }
   .hero-sub{
     display:grid; grid-template-columns:1fr; gap:24px;
@@ -541,7 +548,7 @@
           <div class="card-top">
             <div class="card-top-left">
               <div class="card-meta"><span class="tag">Français, 30-70€</span></div>
-              <h3 class="card-title">Le Phalsbourg</h3>
+              <h3 class="card-title">Le Phals-<br>bourg</h3>
             </div>
             <div class="card-media">
               <img src="https://picsum.photos/seed/lephalsbourg/1000/1000" alt="Le Phalsbourg restaurant">
@@ -600,7 +607,7 @@
           <div class="card-top">
             <div class="card-top-left">
               <div class="card-meta"><span class="tag">Sports Bar, 5e Arr.</span></div>
-              <h3 class="card-title">Rosie's Smokehouse BBQ</h3>
+              <h3 class="card-title">Rosie's Smoke<br>house</h3>
             </div>
             <div class="card-media">
               <img src="https://picsum.photos/seed/rosiesbbq/1000/1000" alt="Rosie's Smokehouse BBQ">
@@ -852,7 +859,7 @@
           <div class="card-top">
             <div class="card-top-left">
               <div class="card-meta"><span class="tag">Late Feb, 9 Days</span></div>
-              <h3 class="card-title">Salon de l'Agriculture</h3>
+              <h3 class="card-title">Salon de l' Agriculture</h3>
             </div>
             <div class="card-media">
               <img src="https://picsum.photos/seed/salonagri/1000/1000" alt="Salon de l'Agriculture">
