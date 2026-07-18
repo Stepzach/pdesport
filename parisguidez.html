@@ -44,7 +44,7 @@
 
   /* ---------- NAV ---------- */
   header.nav{
-    position:fixed; top:0; left:0; right:0; z-index:100;
+    position:fixed; top:0; left:0; right:0; z-index:300;
     height:var(--nav-h);
     background:white;
     backdrop-filter:blur(10px);
@@ -58,7 +58,7 @@
   }
   .nav-center{
     flex:1; display:flex; justify-content:center;
-    font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    font-size:22px; letter-spacing:0.14em; text-transform:uppercase;
     color:var(--ink-soft);
   }
   .nav-center .en{color:var(--ink); font-weight:500;}
@@ -114,7 +114,7 @@
   }
   .hero h1{
     font-family:var(--font); font-weight:700; font-style:normal;
-    font-size:clamp(40px, 6.4vw, 88px); line-height:1.04; letter-spacing:-0.01em;
+    font-size:clamp(70px, 6.4vw, 88px); line-height:1.04; letter-spacing:-0.01em;
     font-family: "Emilys Candy", serif !important;
     color: #c0cbff !important;
     filter: url('#outline');
@@ -124,13 +124,13 @@
     display:grid; grid-template-columns:1fr; gap:24px;
     margin-top:20px; max-width:640px; margin-left:auto; margin-right:auto;
   }
-  .hero-sub p{font-size:17px; line-height:1.65; color:var(--ink-soft);}
+  .hero-sub p{font-size:37px; line-height:1.65; color:var(--ink-soft);}
   .hero-meta{
     margin-top:40px; max-width:280px; margin-left:auto; margin-right:auto;
     display:flex; flex-wrap:wrap; justify-content:center; gap:22px 28px;
   }
-  .hero-meta .item{font-size:13px; color:var(--ink-faint); letter-spacing:0.02em;}
-  .hero-meta .item b{display:block; font-family:var(--font); font-size:17px; color:var(--ink); font-weight:700; margin-bottom:2px;}
+  .hero-meta .item{font-size:23px; color:var(--ink-faint); letter-spacing:0.02em;}
+  .hero-meta .item b{display:block; font-family:var(--font); font-size:37px; color:var(--ink); font-weight:700; margin-bottom:2px;}
 
   /* ---------- SECTIONS ---------- */
   section.category{
@@ -154,43 +154,59 @@
     padding-bottom:56px;
   }
   .card{position:relative; border-bottom:1px solid var(--line); padding-bottom:20px;}
+
+  /* 50/50 Top Split */
+  .card-top {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  .card-top-left {
+    width: auto;
+    max-width:220px;
+    padding-right: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+  }
   
   .card-media{ 
     position:relative; overflow:hidden; background:white;
-    margin-bottom:20px;
-    width:100%; max-height:140px;
+    width: 100%;
+    max-height:140px;
     aspect-ratio:1/1;
-    display: flex; /* Added flex to align images side by side */
+    display: block; 
   }
   .card-media img{
-    width:50%; /* Adjusted from 100% to 50% */
+    width:100%; 
     height:100%; object-fit:cover;
-    margin:5px;
+    margin:0;
     transform:scale(1.001);
     transition:filter .6s ease, transform .8s cubic-bezier(.2,.7,.2,1);
   }
 
   .card-meta{
    flex-wrap:wrap; gap:8px 10px;
-    font-size:25px; 
-    color:var(--ink-soft); font-weight:200; 
-    background:whitesmoke; border-radius: 5px;  padding:5px 10px 0px;
-     text-align:center !important;
+    font-size:23px; 
+    color:#73726f; font-weight:200; 
+     padding:0px 10px 0px; text-align:center;
+     
   }
 
   .card-title{
-    font-family:var(--font); font-weight:800; font-size:clamp(50px,2.2vw,28px);
-    line-height:1; background:whitesmoke; border-radius: 5px; padding:0px 10px 7px;
-    text-align:center;
-    margin-bottom:10px;
+    font-family:var(--font); font-weight:600; font-size:clamp(38px,2.2vw,28px);
+    line-height:0.8;  padding:0px 10px 0px;
+    color: #323232;
+    margin-bottom:0px; text-align:center;
   } 
   .card-subtitle{
   display:none;
     font-family:var(--font); font-weight:500;
     color:var(--ink); font-size:30.5px; line-height:1; margin-bottom:12px;
-     background:whitesmoke; border-radius: 5px; padding:1px 10px 15px;  text-align:center;
+    padding:1px 10px 15px;  text-align:center;
   }
-  .card-desc{font-family: "Swanky and Moo Moo", cursive; font-size:30.5px; line-height:0.9; color:var(--ink-soft); }
+  .card-desc{font-family: "Swanky and Moo Moo", cursive; font-size:27.5px; line-height:0.8; color: black; }
 
   .card-footer{
     margin-top:6px; padding-top:4px;
@@ -199,19 +215,20 @@
     display:flex; align-items:flex-start; gap:14px;
   }
   .footer-img{
-    height:130px;  width:50%; flex-shrink:0; overflow:hidden; background:#000;
+    height:110px;  width:50%; flex-shrink:0; overflow:hidden; background:#000;
   }
   .footer-img img{
     object-fit:cover;
   }
   
   .footer-text{
-   flex:1; font-family: "Swanky and Moo Moo", cursive; font-size:30.5px; line-height:0.9;  color:var(--ink);
+   flex:1; font-family: "Swanky and Moo Moo", cursive; font-size:27.5px; line-height:0.8;  color: black;
   }
   .footer-address{
-    margin-top:12px; font-size:20.5px;
-    color:var(--ink-soft);
-         font-family: "Gochi Hand", cursive;
+    margin-top:18px; font-size:23.5px;
+    line-height:0.8;
+    color: #323232;
+         font-family: "Swanky and Moo Moo", cursive; 
   }
 
   /* column spans - editorial asymmetry */
@@ -247,7 +264,7 @@
   }
   @media (max-width:640px){
     :root{--nav-h:48px;}
-    .nav-center{font-size:11px;}
+    .nav-center{font-size:22px;}
     .hero{padding-top:calc(var(--nav-h) + 56px); padding-bottom:48px;}
     section.category{padding:56px 0 24px;}
     .cat-head{margin-bottom:36px;}
@@ -299,20 +316,20 @@
 
 <div class="overlay" id="overlay">
   <nav class="overlay-list">
-    <a href="#eat" data-close><span>Eat</span><span class="fr-sub">Manger</span></a>
-    <a href="#drink" data-close><span>Drink</span><span class="fr-sub">Boire</span></a>
-    <a href="#walk" data-close><span>Walk</span><span class="fr-sub">Marcher</span></a>
-    <a href="#events" data-close><span>Events</span><span class="fr-sub">Événements</span></a>
-    <a href="#other" data-close><span>Other</span><span class="fr-sub">Autre</span></a>
+    <a href="#eat" data-close><span>Eat</span><span class="fr-sub">Restos & Cafes</span></a>
+    <a href="#drink" data-close><span>Drink</span><span class="fr-sub">Bars & Terraces</span></a>
+    <a href="#walk" data-close><span>Walk</span><span class="fr-sub">Neighborhoods & Parcs</span></a>
+    <a href="#events" data-close><span>Events</span><span class="fr-sub">In Paris & France</span></a>
+    <a href="#other" data-close><span>Other</span><span class="fr-sub">General Tips</span></a>
   </nav>
-  <div class="overlay-foot">A running list, kept for whoever needs it. Updated when something's worth the walk.</div>
+ 
 </div>
 
 <main>
 
   <section class="hero wrap">
  
-    <h1>Paris guide</h1>
+    <h1>Paris<br> guide</h1>
     <div class="hero-sub">
       <p>by zach</p>
     </div>
@@ -329,42 +346,48 @@
   <section class="category" id="eat" data-label="Eat" data-label-fr="Manger">
     <div class="wrap">
       <div class="cat-head">
-      
+       
         <h2>My favourite Restaurants</h2>
         <p class="intro">A mix of classic french cuisine, cool & fun restaurants i enjoyed, cheap kebab places and some simply with a nice atmospheres.</p>
       </div>
 
       <div class="grid">
         <article class="card span-7">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/chezodette/1000/1000" alt="Interior of Chez Odette, a small bistro">
-            <img src="https://picsum.photos/seed/chezodette2/1000/1000" alt="Dish at Chez Odette">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Français</span></div>
+              <h3 class="card-title">Chez Odette</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/chezodette/1000/1000" alt="Interior of Chez Odette, a small bistro">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Français, 20–30€, 10e arr.</span></div>
-          <h3 class="card-title">Chez Odette</h3>
           <p class="card-subtitle">A Sunday roast, every day of the week.</p>
           <p class="card-desc">A ten-table family bistro near the Canal that never changed its menu and never needed to. Quarter chicken, dauphinoise, a carafe of red — order it without looking.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/chezodette-mini/300/300" alt=""></div>
+              <div class="footer-img"><img src="https://gisgeography.com/wp-content/uploads/2023/02/Paris-Map-France.jpg" alt=""></div>
               <p class="footer-text">Order the roast chicken and skip the rest of the menu entirely.</p>
             </div>
-            <p class="footer-address">ADDRESS: 14 Rue de Marseille, 75010<br>METRO: Colonel Fabien</p>
+            <p class="footer-address">14 Rue de Marseille, 75010<br>METRO: Colonel Fabien</p>
           </div>
         </article>
 
         <article class="card span-5">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/comptoirrouge/1000/1000" alt="Zinc bar counter at Le Comptoir Rouge">
-            <img src="https://picsum.photos/seed/comptoirrouge2/1000/1000" alt="Steak frites at Le Comptoir Rouge">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Bistrot</span></div>
+              <h3 class="card-title">Le Comptoir Rouge</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/comptoirrouge/1000/1000" alt="Zinc bar counter at Le Comptoir Rouge">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Bistrot, 25–35€, 11e arr.</span></div>
-          <h3 class="card-title">Le Comptoir Rouge</h3>
           <p class="card-subtitle">Steak frites and nowhere to be.</p>
           <p class="card-desc">Standing room at a zinc counter, best onglet in the 11th, and a bill that still surprises you in a good way.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/comptoirrouge-mini/300/300" alt=""></div>
+              <div class="footer-img"><img src="https://gisgeography.com/wp-content/uploads/2023/02/Paris-Map-France.jpg" alt=""></div>
               <p class="footer-text">Ask for the onglet medium-rare, never anything more.</p>
             </div>
             <p class="footer-address">ADDRESS: 22 Rue Oberkampf, 75011<br>METRO: Parmentier</p>
@@ -372,17 +395,20 @@
         </article>
 
         <article class="card span-4">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/tabledhiver/1000/1000" alt="Small winter dining room, La Table d'Hiver">
-            <img src="https://picsum.photos/seed/tabledhiver2/1000/1000" alt="Fireplace, La Table d'Hiver">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Français</span></div>
+              <h3 class="card-title">La Table d'Hiver</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/tabledhiver/1000/1000" alt="Small winter dining room, La Table d'Hiver">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Français, 40–55€, 6e arr.</span></div>
-          <h3 class="card-title">La Table d'Hiver</h3>
           <p class="card-subtitle">Soup, bread, and a fire in the corner.</p>
           <p class="card-desc">Twenty seats, a menu that changes with the cold, open November through March only. Book two weeks out.</p>
           <div class="card-footer">
             <div class="footer-row">
-              <div class="footer-img"><img src="https://picsum.photos/seed/tabledhiver-mini/300/300" alt=""></div>
+              <div class="footer-img"><img src="https://gisgeography.com/wp-content/uploads/2023/02/Paris-Map-France.jpg" alt=""></div>
               <p class="footer-text">Book by phone — they don't check email until dinner.</p>
             </div>
             <p class="footer-address">ADDRESS: 6 Rue des Quatre Vents, 75006<br>METRO: Odéon</p>
@@ -390,12 +416,15 @@
         </article>
 
         <article class="card span-8">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/boulangeriesainteanne/1000/1000" alt="Boulangerie Sainte-Anne shopfront">
-            <img src="https://picsum.photos/seed/boulangeriesainteanne2/1000/1000" alt="Croissants at Boulangerie Sainte-Anne">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Boulangerie, 2–6€, 1er arr.</span></div>
+              <h3 class="card-title">Boulangerie Sainte-Anne</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/boulangeriesainteanne/1000/1000" alt="Boulangerie Sainte-Anne shopfront">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Boulangerie, 2–6€, 1er arr.</span></div>
-          <h3 class="card-title">Boulangerie Sainte-Anne</h3>
           <p class="card-subtitle">The croissant that ruins all others.</p>
           <p class="card-desc">Butter-laminated, first batch out at seven, gone by nine. Go early or go without — there is no third option.</p>
           <div class="card-footer">
@@ -420,12 +449,15 @@
 
       <div class="grid">
         <article class="card span-4">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/barlucine/1000/1000" alt="Bar Lucine window seat">
-            <img src="https://picsum.photos/seed/barlucine2/1000/1000" alt="Negroni at Bar Lucine">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Bar à vin, 8–14€, 11e arr.</span></div>
+              <h3 class="card-title">Bar Lucine</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/barlucine/1000/1000" alt="Bar Lucine window seat">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Bar à vin, 8–14€, 11e arr.</span></div>
-          <h3 class="card-title">Bar Lucine</h3>
           <p class="card-subtitle">A negroni, and a seat by the window.</p>
           <p class="card-desc">Small natural wine list, six tables, standing room only after nine. Go at seven if you want to sit.</p>
           <div class="card-footer">
@@ -438,12 +470,15 @@
         </article>
 
         <article class="card span-8">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/caveavapeur/1000/1000" alt="Vaulted wine cellar, Cave à Vapeur">
-            <img src="https://picsum.photos/seed/caveavapeur2/1000/1000" alt="Cheese board at Cave à Vapeur">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Cave à vin, 7–15€, 2e arr.</span></div>
+              <h3 class="card-title">Cave à Vapeur</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/caveavapeur/1000/1000" alt="Vaulted wine cellar, Cave à Vapeur">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Cave à vin, 7–15€, 2e arr.</span></div>
-          <h3 class="card-title">Cave à Vapeur</h3>
           <p class="card-subtitle">A cellar list longer than the menu.</p>
           <p class="card-desc">An actual stone cellar under a produce street, natural and orange wines by the glass, a cheese board that counts as dinner.</p>
           <div class="card-footer">
@@ -456,12 +491,15 @@
         </article>
 
         <article class="card span-5">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/zincdenuit/1000/1000" alt="Late night bar, Le Zinc de Nuit">
-            <img src="https://picsum.photos/seed/zincdenuit2/1000/1000" alt="Pints at Le Zinc de Nuit">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Bar, 4–9€, 20e arr.</span></div>
+              <h3 class="card-title">Le Zinc de Nuit</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/zincdenuit/1000/1000" alt="Late night bar, Le Zinc de Nuit">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Bar, 4–9€, 20e arr.</span></div>
-          <h3 class="card-title">Le Zinc de Nuit</h3>
           <p class="card-subtitle">Open till the métro starts again.</p>
           <p class="card-desc">Regulars' bar, cheap house wine, loud arguments about football. Nobody's checking the time and neither should you.</p>
           <div class="card-footer">
@@ -474,12 +512,15 @@
         </article>
 
         <article class="card span-7">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/cafemarcelline/1000/1000" alt="Coffee counter, Café Marcelline">
-            <img src="https://picsum.photos/seed/cafemarcelline2/1000/1000" alt="Espresso at Café Marcelline">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Café, 3–8€, 11e arr.</span></div>
+              <h3 class="card-title">Café Marcelline</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/cafemarcelline/1000/1000" alt="Coffee counter, Café Marcelline">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Café, 3–8€, 11e arr.</span></div>
-          <h3 class="card-title">Café Marcelline</h3>
           <p class="card-subtitle">Coffee first, then everything else.</p>
           <p class="card-desc">A morning espresso counter that quietly turns into an aperitif spot by six, same three staff either way.</p>
           <div class="card-footer">
@@ -504,12 +545,15 @@
 
       <div class="grid">
         <article class="card span-6">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/promenadeplantee/1000/1000" alt="Elevated garden walkway, Promenade Plantée">
-            <img src="https://picsum.photos/seed/promenadeplantee2/1000/1000" alt="Trees along Promenade Plantée">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Balade, 45 min, 12e arr.</span></div>
+              <h3 class="card-title">Promenade Plantée</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/promenadeplantee/1000/1000" alt="Elevated garden walkway, Promenade Plantée">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Balade, 45 min, 12e arr.</span></div>
-          <h3 class="card-title">Promenade Plantée</h3>
           <p class="card-subtitle">Paris from the rooftops, on foot.</p>
           <p class="card-desc">An elevated garden walkway above the 12th, built into an old railway viaduct. Quiet even in the middle of August.</p>
           <div class="card-footer">
@@ -522,12 +566,15 @@
         </article>
 
         <article class="card span-6">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/bergesdeseine/1000/1000" alt="Riverside walking path, Les Berges de Seine">
-            <img src="https://picsum.photos/seed/bergesdeseine2/1000/1000" alt="Sunset over the Seine">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Balade, 30 min, 7e arr.</span></div>
+              <h3 class="card-title">Les Berges de Seine</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/bergesdeseine/1000/1000" alt="Riverside walking path, Les Berges de Seine">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Balade, 30 min, 7e arr.</span></div>
-          <h3 class="card-title">Les Berges de Seine</h3>
           <p class="card-subtitle">The river, without the cars.</p>
           <p class="card-desc">A traffic-free stretch along the water from the Musée d'Orsay to Pont de l'Alma. Best at golden hour, obviously.</p>
           <div class="card-footer">
@@ -540,12 +587,15 @@
         </article>
 
         <article class="card span-7">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/buttecailles/1000/1000" alt="Cobbled backstreet, Butte-aux-Cailles">
-            <img src="https://picsum.photos/seed/buttecailles2/1000/1000" alt="Street art, Butte-aux-Cailles">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Balade, 40 min, 13e arr.</span></div>
+              <h3 class="card-title">Butte-aux-Cailles Loop</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/buttecailles/1000/1000" alt="Cobbled backstreet, Butte-aux-Cailles">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Balade, 40 min, 13e arr.</span></div>
-          <h3 class="card-title">Butte-aux-Cailles Loop</h3>
           <p class="card-subtitle">A village that forgot it's in Paris.</p>
           <p class="card-desc">Cobbled backstreets, painted murals, and one very good ice cream stop halfway round. Forty minutes if you don't stop for the murals.</p>
           <div class="card-footer">
@@ -558,12 +608,15 @@
         </article>
 
         <article class="card span-5">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/canalmorning/1000/1000" alt="Canal Saint-Martin footbridge at dawn">
-            <img src="https://picsum.photos/seed/canalmorning2/1000/1000" alt="Lock gates on Canal Saint-Martin">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Balade, 35 min, 19e arr.</span></div>
+              <h3 class="card-title">Canal Saint-Martin, Morning</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/canalmorning/1000/1000" alt="Canal Saint-Martin footbridge at dawn">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Balade, 35 min, 19e arr.</span></div>
-          <h3 class="card-title">Canal Saint-Martin, Morning</h3>
           <p class="card-subtitle">Before the picnickers arrive.</p>
           <p class="card-desc">Footbridges and lock gates, walked before nine while it still belongs to the joggers and the boulangerie queue.</p>
           <div class="card-footer">
@@ -588,12 +641,15 @@
 
       <div class="grid">
         <article class="card span-5">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/marcheauxpuces/1000/1000" alt="Antiques flea market stalls">
-            <img src="https://picsum.photos/seed/marcheauxpuces2/1000/1000" alt="Vintage finds at the market">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Marché, Saturdays, 18e arr.</span></div>
+              <h3 class="card-title">Marché aux Puces</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/marcheauxpuces/1000/1000" alt="Antiques flea market stalls">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Marché, Saturdays, 18e arr.</span></div>
-          <h3 class="card-title">Marché aux Puces</h3>
           <p class="card-subtitle">Antiques, junk, and everything between. Saturdays.</p>
           <p class="card-desc">A weekend flea market sprawl on the edge of the city. Come early, haggle politely, bring cash and a spare bag.</p>
           <div class="card-footer">
@@ -606,12 +662,15 @@
         </article>
 
         <article class="card span-7">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/nuitblanche/1000/1000" alt="City lit up at night for an art event">
-            <img src="https://picsum.photos/seed/nuitblanche2/1000/1000" alt="Light installations during Nuit Blanche">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Festival, October, City-wide</span></div>
+              <h3 class="card-title">Nuit Blanche</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/nuitblanche/1000/1000" alt="City lit up at night for an art event">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Festival, October, City-wide</span></div>
-          <h3 class="card-title">Nuit Blanche</h3>
           <p class="card-subtitle">The whole city, awake till dawn.</p>
           <p class="card-desc">One night a year when museums, courtyards, and ordinary streets turn into an all-night art trail. Wear comfortable shoes.</p>
           <div class="card-footer">
@@ -624,12 +683,15 @@
         </article>
 
         <article class="card span-7">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/fetedelamusique/1000/1000" alt="Street musicians playing at night">
-            <img src="https://picsum.photos/seed/fetedelamusique2/1000/1000" alt="Crowd gathered for music">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Festival, June 21, City-wide</span></div>
+              <h3 class="card-title">Fête de la Musique</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/fetedelamusique/1000/1000" alt="Street musicians playing at night">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Festival, June 21, City-wide</span></div>
-          <h3 class="card-title">Fête de la Musique</h3>
           <p class="card-subtitle">Every street corner becomes a stage.</p>
           <p class="card-desc">Free live music everywhere, from opera on a balcony to a garage band outside the métro. Just follow the noise.</p>
           <div class="card-footer">
@@ -642,12 +704,15 @@
         </article>
 
         <article class="card span-5">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/cellarjazz/1000/1000" alt="Musician performing in a stone cellar jazz club">
-            <img src="https://picsum.photos/seed/cellarjazz2/1000/1000" alt="Double bass at Cellar Club">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Live music, Thursdays, 5e arr.</span></div>
+              <h3 class="card-title">Jazz at the Cellar Club</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/cellarjazz/1000/1000" alt="Musician performing in a stone cellar jazz club">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Live music, Thursdays, 5e arr.</span></div>
-          <h3 class="card-title">Jazz at the Cellar Club</h3>
           <p class="card-subtitle">A trumpet, a cellar, no seats left.</p>
           <p class="card-desc">Weekly late-night sessions in a cramped stone basement that's barely changed since the fifties. Arrive by ten.</p>
           <div class="card-footer">
@@ -672,12 +737,15 @@
 
       <div class="grid">
         <article class="card span-8">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/shakespearescorner/1000/1000" alt="Interior of a crowded English-language bookshop">
-            <img src="https://picsum.photos/seed/shakespearescorner2/1000/1000" alt="Books stacked on shelves">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Librairie, Free entry, 5e arr.</span></div>
+              <h3 class="card-title">Shakespeare's Corner</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/shakespearescorner/1000/1000" alt="Interior of a crowded English-language bookshop">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Librairie, Free entry, 5e arr.</span></div>
-          <h3 class="card-title">Shakespeare's Corner</h3>
           <p class="card-subtitle">A bookshop that lets you sleep in it.</p>
           <p class="card-desc">Wandering cats, narrow staircases, readings most Sunday evenings. Go for the books, stay for an hour longer than planned.</p>
           <div class="card-footer">
@@ -690,12 +758,15 @@
         </article>
 
         <article class="card span-4">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/cimetieredurepos/1000/1000" alt="Quiet cobbled cemetery path">
-            <img src="https://picsum.photos/seed/cimetieredurepos2/1000/1000" alt="Old tombstones among trees">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Cimetière, Free entry, 20e arr.</span></div>
+              <h3 class="card-title">Cimetière du Père</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/cimetieredurepos/1000/1000" alt="Quiet cobbled cemetery path">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Cimetière, Free entry, 20e arr.</span></div>
-          <h3 class="card-title">Cimetière du Père</h3>
           <p class="card-subtitle">The most peaceful walk in Paris.</p>
           <p class="card-desc">Cobbled paths, resident cats, and quieter than any park in the city. Bring a map or get pleasantly lost.</p>
           <div class="card-footer">
@@ -708,12 +779,15 @@
         </article>
 
         <article class="card span-4">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/piscinejosephine/1000/1000" alt="Art deco municipal swimming pool">
-            <img src="https://picsum.photos/seed/piscinejosephine2/1000/1000" alt="Wooden cabins by the pool">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Piscine, 3–5€, 13e arr.</span></div>
+              <h3 class="card-title">Piscine Joséphine</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/piscinejosephine/1000/1000" alt="Art deco municipal swimming pool">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Piscine, 3–5€, 13e arr.</span></div>
-          <h3 class="card-title">Piscine Joséphine</h3>
           <p class="card-subtitle">A 1930s pool, still doing laps.</p>
           <p class="card-desc">Art deco municipal pool with wooden cabins overlooking the water. Mornings only, and only for people who actually swim.</p>
           <div class="card-footer">
@@ -726,12 +800,15 @@
         </article>
 
         <article class="card span-8">
-          <div class="card-media">
-            <img src="https://picsum.photos/seed/marchedesenfants/1000/1000" alt="Covered market stalls with produce">
-            <img src="https://picsum.photos/seed/marchedesenfants2/1000/1000" alt="Fresh food stall in the market">
+          <div class="card-top">
+            <div class="card-top-left">
+              <div class="card-meta"><span class="tag">Marché, 5–12€, 3e arr.</span></div>
+              <h3 class="card-title">Marché des Enfants</h3>
+            </div>
+            <div class="card-media">
+              <img src="https://picsum.photos/seed/marchedesenfants/1000/1000" alt="Covered market stalls with produce">
+            </div>
           </div>
-          <div class="card-meta"><span class="tag">Marché, 5–12€, 3e arr.</span></div>
-          <h3 class="card-title">Marché des Enfants</h3>
           <p class="card-subtitle">The oldest covered market still standing.</p>
           <p class="card-desc">Small stalls, long lunch queues, and a rule that you eat standing at the counter you bought from. Worth the wait.</p>
           <div class="card-footer">
